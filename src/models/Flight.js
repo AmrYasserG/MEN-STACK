@@ -16,11 +16,11 @@ const FlightSchema = new Schema({
   },
   ArrivalTime: {
     type: Date,
-    required: true
+    required: false
   },
   DepartureTime: {
     type: Date,
-    required: true
+    required: false
   },
   Economyseatsno: {
     type: Number,
@@ -44,7 +44,7 @@ const FlightSchema = new Schema({
   },
   Date: {
     type: Date,
-    required: true
+    required: false
   },
 }, { timestamps: true });
 mongoose.models = {}

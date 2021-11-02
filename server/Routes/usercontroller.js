@@ -8,6 +8,7 @@ const routes = (app)=>{
     });
 
     app.post("/addUser", cruds.addUser);  
+    app.post("/createNewFlight", cruds.createNewFlight); 
 };
 
 module.exports = {routes};
