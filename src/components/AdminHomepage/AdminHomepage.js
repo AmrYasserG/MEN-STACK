@@ -70,7 +70,7 @@ const AdminHomepage = () => {
   function SearchForFlights() {}
 
   function EditRow(values) {
-    //console.log(values);
+    console.log(values);
   }
 
   function DeleteRow(values) {
