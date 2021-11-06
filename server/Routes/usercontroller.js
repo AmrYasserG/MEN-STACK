@@ -8,6 +8,7 @@ const routes = (app)=>{
     app.get("/getAllFlights",cruds.getAllFlights)
     app.post("/addUser", cruds.addUser);  
     app.post("/createNewFlight", cruds.createNewFlight); 
+    app.delete("/deleteFlight/:id",cruds.deleteFlight);
 };
 
 module.exports = {routes};

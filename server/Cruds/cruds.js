@@ -43,7 +43,7 @@ exports.createNewFlight = (req, res) => {
       res.send(result);
     })
     .catch((err) => {
-      console.log(err);
+      console.log(err); 
     });
 };
 
@@ -51,6 +51,14 @@ exports.getAllFlights = (req,res)=>{
   Flight.find().then((result)=>{
     res.send(result);
   }).catch((err)=>{
+    console.log(err);
+  })
+}
+
+exports.deleteFlight = (req,res)=>{
+  Flight.findByIdAndRemove(req.params.id).then(result=>{
+    res.send("Flight deleted successfully");
+  }).catch(err=>{
     console.log(err);
   })
 }
