@@ -5,8 +5,9 @@ flightRouter.use(express.json());
 flightRouter.use(express.urlencoded({ extended: false }));
 
 flightRouter.get("/getAllFlights", flightController.getAllFlights);
-flightRouter.post("/createNewFlight", flightController.createNewFlight); 
+flightRouter.get("/searchFlights", flightController.searchFlights);
+flightRouter.post("/createNewFlight", flightController.createNewFlight);
 flightRouter.delete("/deleteFlight/:id", flightController.deleteFlight);
-flightRouter.put("/editFlight", flightController.updateFlightdetails);
+flightRouter.put("/editFlight/:id", flightController.updateFlightdetails);
 
 module.exports = flightRouter;
