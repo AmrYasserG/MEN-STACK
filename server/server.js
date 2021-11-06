@@ -15,7 +15,7 @@ app.use(cors({ origin: "*" }));
 connectDB();
 routes(app);
 
-app.use("/users", flightsRouter);
+app.use("/flights", flightsRouter);
 
 app.listen(Port, () => {
   console.log(`Server running on port ${Port}`);

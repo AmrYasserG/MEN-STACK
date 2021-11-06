@@ -1,4 +1,4 @@
-const Flight = require("../model/Flight");
+const Flight = require("../models/Flight");
 
 const updateFlightdetails = (req, res) => {
   let id = req.params.id;
