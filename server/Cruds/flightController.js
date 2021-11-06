@@ -42,9 +42,9 @@ const deleteFlight = (req,res)=>{
 
 const updateFlightdetails = (req, res) => {
   let id = req.params.id;
-  console.log(req.params);
+  console.log(req.params.id);
   Flight.findByIdAndUpdate({ _id: id }, req.body).then((result) => {
-    res.send("DONE");
+    res.send("Updated Successfully");
   });
 };
 
