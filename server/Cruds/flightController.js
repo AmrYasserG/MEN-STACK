@@ -64,12 +64,8 @@ const updateFlightdetails = (req, res) => {
 
 module.exports = {
   createNewFlight,
+  searchFlights,
   getAllFlights,
   deleteFlight,
-<<<<<<< HEAD
   updateFlightdetails,
 };
-=======
-  updateFlightdetails
-};
->>>>>>> 2bcd338489f13aefddf1beb3a144123a45c80d5b
