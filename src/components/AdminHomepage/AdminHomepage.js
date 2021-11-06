@@ -1,5 +1,5 @@
 // import * as React from 'react';
-import {useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -12,7 +12,7 @@ import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
-import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
+import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 import Popup from "../Popup/Popup";
 import "./AdminHomepage.css";
 
@@ -28,8 +28,8 @@ const AdminHomepage = () => {
     { id: "Date", label: "Flight Date", Width: 100 },
     { id: "DepartureTime", label: "Departure Time", Width: 100 },
     { id: "ArrivalTime", label: "Arrival Time", Width: 100 },
-    { id: "AirportDepartureTerminal", label: "Airport Departure Terminal", Width: 100 },
-    { id: "AirportArrivalTerminal", label: "Airport Arrival Terminal", Width: 100 },
+    { id: "AirportDeparture", label: "Airport Departure", Width: 100 },
+    { id: "AirportArrival", label: "Airport Arrival", Width: 100 },
     {
       id: "BusinessSeatsNo",
       label: "Number Of Business Class Seats",
@@ -50,11 +50,11 @@ const AdminHomepage = () => {
 
   useEffect(() => {
     GetAllFlights();
-  },[]);
+  });
 
   function GetAllFlights() {
     axios
-      .get("http://localhost:3005/flights/getAllFlights")
+      .get("http://localhost:3005/getAllFlights")
       .then((res) => {
         setRows(res.data);
       })
@@ -64,36 +64,35 @@ const AdminHomepage = () => {
   }
 
   //function SearchForFlights() {}
-  
+
   function CreateNewFlight() {}
 
-  //function SearchForFlights() {}
+  function SearchForFlights() {}
 
-  function EditRow(values) {}
+  function EditRow(values) {
+    console.log(values);
+  }
 
   function DeleteRow(values) {
-    axios
-      .delete("http://localhost:3005/flights/deleteFlight/" + values)
-      .then((res) => {
-        setRows(rows.filter( rows => {
-          return rows._id !== values}));
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-      // setToBeDeletedFlight("");
+    //console.log(values);
   }
 
   return (
     <div>
-      <Popup trigger = {deletePopupButton} setTrigger={setDeletePopupButton}>
-        <CancelOutlinedIcon color="error" style={{ width:"25%", height: "30%"}} />
+      <Popup trigger={deletePopupButton} setTrigger={setDeletePopupButton}>
+        <CancelOutlinedIcon
+          color="error"
+          style={{ width: "25%", height: "30%" }}
+        />
         <h2>Are you sure?</h2>
-        <p style={{fontSize:"small"}}>Do you really want to delete this flight with all its details? This action cannot be undone</p>
+        <p style={{ fontSize: "small" }}>
+          Do you really want to delete this flight with all its details? This
+          action cannot be undone
+        </p>
         <Button
           variant="contained"
           color="error"
-          style={{right:"16%",top:"3%"}}
+          style={{ right: "16%", top: "3%" }}
           onClick={() => {
             setDeletePopupButton(false);
             DeleteRow(toBeDeletedFlight);
@@ -117,7 +116,7 @@ const AdminHomepage = () => {
       </Button>
       <Paper sx={{ width: "100%", overflow: "hidden", marginTop: "1%" }}>
         <TableContainer sx={{ maxHeight: 440 }}>
-          <Table aria-label="sticky table">
+          <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>
                 {columns.map((column) => (
@@ -133,12 +132,12 @@ const AdminHomepage = () => {
             <TableBody>
               {rows.map((row) => {
                 return (
-                  <TableRow hover key={row._id}>
+                  <TableRow hover key={row.code}>
                     {columns.map((column) => {
                       const value = row[column.id];
                       if (column.id === "action") {
                         return (
-                          <TableCell sx={{ textAlign: "center" }} key={row._id}>
+                          <TableCell sx={{ textAlign: "center" }}>
                             <Button
                               variant="contained"
                               startIcon={<EditIcon />}
@@ -157,8 +156,8 @@ const AdminHomepage = () => {
                               color="error"
                               startIcon={<DeleteIcon />}
                               onClick={() => {
-                                setDeletePopupButton(true);
-                                setToBeDeletedFlight(row._id);
+                                alert("Clicked Delete");
+                                DeleteRow(row);
                               }}
                             >
                               Delete
