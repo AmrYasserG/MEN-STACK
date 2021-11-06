@@ -28,40 +28,33 @@ const AdminHomepage = () => {
     { id: "Date", label: "Flight Date", Width: 100 },
     { id: "DepartureTime", label: "Departure Time", Width: 100 },
     { id: "ArrivalTime", label: "Arrival Time", Width: 100 },
-    { id: "AirportDeparture", label: "Airport Departure", Width: 100 },
-    { id: "AirportArrival", label: "Airport Arrival", Width: 100 },
-    // {
-    //   id: "BusinessSeatsNo",
-    //   label: "Number Of Business Class Seats",
-    //   Width: 100,
-    // },
-    // {
-    //   id: "EconomySeatsNo",
-    //   label: "Number Of Economy Class Seats",
-    //   Width: 100,
-    // },
-    // {
-    //   id: "FirstSeatsNo",
-    //   label: "Number Of First Class Seats",
-    //   Width: 100,
-    // },
+    { id: "AirportDepartureTerminal", label: "Airport Departure Terminal", Width: 100 },
+    { id: "AirportArrivalTerminal", label: "Airport Arrival Terminal", Width: 100 },
+    {
+      id: "BusinessSeatsNo",
+      label: "Number Of Business Class Seats",
+      Width: 100,
+    },
+    {
+      id: "EconomySeatsNo",
+      label: "Number Of Economy Class Seats",
+      Width: 100,
+    },
+    {
+      id: "FirstSeatsNo",
+      label: "Number Of First Class Seats",
+      Width: 100,
+    },
     { id: "action", label: "Action", Width: 100 },
-    // {
-    //   id: 'density',
-    //   label: 'Density',
-    //   minWidth: 100,
-    //   align: 'right',
-    //   format: (value) => value.toFixed(2),
-    // },
   ];
 
   useEffect(() => {
     GetAllFlights();
-  });
+  },[]);
 
   function GetAllFlights() {
     axios
-      .get("http://localhost:3005/getAllFlights")
+      .get("http://localhost:3005/flights/getAllFlights")
       .then((res) => {
         setRows(res.data);
       })
@@ -69,15 +62,18 @@ const AdminHomepage = () => {
         console.log(err);
       });
   }
+
   //function SearchForFlights() {}
   
   function CreateNewFlight() {}
+
+  //function SearchForFlights() {}
 
   function EditRow(values) {}
 
   function DeleteRow(values) {
     axios
-      .delete("http://localhost:3005/deleteFlight/" + values)
+      .delete("http://localhost:3005/flights/deleteFlight/" + values)
       .then((res) => {
         setRows(rows.filter( rows => {
           return rows._id !== values}));
