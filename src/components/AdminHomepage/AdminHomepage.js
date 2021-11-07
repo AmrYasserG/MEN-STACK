@@ -66,7 +66,12 @@ const AdminHomepage = () => {
       });
   }
 
+<<<<<<< HEAD
+  //function SearchForFlights() {}
+  
+=======
   function CreateNewFlight() {}
+>>>>>>> 275ec7deae621124330dafd43ec5efc73293db8f
 
   //function SearchForFlights() {}
 
@@ -90,11 +95,17 @@ const AdminHomepage = () => {
 
   return (
     <div>
+<<<<<<< HEAD
+      
+      <Popup trigger = {deletePopupButton} setTrigger={setDeletePopupButton}>
+        <CancelOutlinedIcon color="error" style={{ width:"25%", height: "30%"}} />
+=======
       <Popup trigger={deletePopupButton} setTrigger={setDeletePopupButton}>
         <CancelOutlinedIcon
           color="error"
           style={{ width: "25%", height: "30%" }}
         />
+>>>>>>> 275ec7deae621124330dafd43ec5efc73293db8f
         <h2>Are you sure?</h2>
         <p style={{ fontSize: "small" }}>
           Do you really want to delete this flight with all its details? This
@@ -202,12 +213,12 @@ const AdminHomepage = () => {
         color="success"
         style={{ marginLeft: "91.5%", marginTop: "9%" }}
         onClick={() => {
-          alert("Clicked Create");
-          CreateNewFlight();
+          window.location.href="/createFlight"
         }}
       >
-        Create
+      {"Create"}
       </Button>
+
       <Paper sx={{ width: "100%", overflow: "hidden", marginTop: "1%" }}>
         <TableContainer sx={{ maxHeight: 440 }}>
           <Table>
