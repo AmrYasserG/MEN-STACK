@@ -1,5 +1,5 @@
 // import * as React from 'react';
-import {useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -12,7 +12,7 @@ import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
-import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
+import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 import Popup from "../Popup/Popup";
 import "./AdminHomepage.css";
 
@@ -50,7 +50,7 @@ const AdminHomepage = () => {
 
   useEffect(() => {
     GetAllFlights();
-  },[]);
+  });
 
   function GetAllFlights() {
     axios
@@ -63,12 +63,18 @@ const AdminHomepage = () => {
       });
   }
 
+<<<<<<< HEAD
   //function SearchForFlights() {}
   
+=======
+  function CreateNewFlight() {}
+>>>>>>> 275ec7deae621124330dafd43ec5efc73293db8f
 
   //function SearchForFlights() {}
 
-  function EditRow(values) {}
+  function EditRow(values) {
+    console.log(values);
+  }
 
   function DeleteRow(values) {
     axios
@@ -85,15 +91,26 @@ const AdminHomepage = () => {
 
   return (
     <div>
+<<<<<<< HEAD
       
       <Popup trigger = {deletePopupButton} setTrigger={setDeletePopupButton}>
         <CancelOutlinedIcon color="error" style={{ width:"25%", height: "30%"}} />
+=======
+      <Popup trigger={deletePopupButton} setTrigger={setDeletePopupButton}>
+        <CancelOutlinedIcon
+          color="error"
+          style={{ width: "25%", height: "30%" }}
+        />
+>>>>>>> 275ec7deae621124330dafd43ec5efc73293db8f
         <h2>Are you sure?</h2>
-        <p style={{fontSize:"small"}}>Do you really want to delete this flight with all its details? This action cannot be undone</p>
+        <p style={{ fontSize: "small" }}>
+          Do you really want to delete this flight with all its details? This
+          action cannot be undone
+        </p>
         <Button
           variant="contained"
           color="error"
-          style={{right:"16%",top:"3%"}}
+          style={{ right: "16%", top: "3%" }}
           onClick={() => {
             setDeletePopupButton(false);
             DeleteRow(toBeDeletedFlight);
@@ -117,7 +134,7 @@ const AdminHomepage = () => {
 
       <Paper sx={{ width: "100%", overflow: "hidden", marginTop: "1%" }}>
         <TableContainer sx={{ maxHeight: 440 }}>
-          <Table aria-label="sticky table">
+          <Table>
             <TableHead>
               <TableRow>
                 {columns.map((column) => (
@@ -138,7 +155,7 @@ const AdminHomepage = () => {
                       const value = row[column.id];
                       if (column.id === "action") {
                         return (
-                          <TableCell sx={{ textAlign: "center" }} key={row._id}>
+                          <TableCell sx={{ textAlign: "center" }} key={{key:row._id}}>
                             <Button
                               variant="contained"
                               startIcon={<EditIcon />}
