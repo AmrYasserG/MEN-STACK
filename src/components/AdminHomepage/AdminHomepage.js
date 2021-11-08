@@ -129,7 +129,7 @@ const AdminHomepage = () => {
     //console.log(flight);
     //console.log(flight.Flight);
     await axios
-      .get("http://localhost:3005/flights/searchFlights2", {
+      .post("http://localhost:3005/flights/searchFlights", {
         FlightNumber: flight.Flight,
         From: flight.From,
         To: flight.To,
