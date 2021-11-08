@@ -1,5 +1,5 @@
 // import * as React from 'react';
-import { useState, useEffect } from "react";
+import { useState, useEffect, forwardRef } from "react";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -12,10 +12,17 @@ import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
+import MuiAlert from "@mui/material/Alert";
+import Snackbar from "@mui/material/Snackbar";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 import Popup from "../Popup/Popup";
 import "./AdminHomepage.css";
 import UpdateOver from "../UpdateOver/UpdateOver";
+import SearchFlight from "../SearchFlight/SearchFlight.js";
+
+const Alert = forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const AdminHomepage = () => {
   const [rows, setRows] = useState([]);
@@ -23,6 +30,9 @@ const AdminHomepage = () => {
   const [deletePopupButton, setDeletePopupButton] = useState(false);
   const [toBeUpdFlight, setToBeUpdFlight] = useState("");
   const [updPopupButton, setUpdPopupButton] = useState(false);
+  const [deleteOpenResponse, setDeleteOpenResponse] = useState(false);
+  const [editOpenResponse, setEditOpenResponse] = useState(false);
+  const [showFlight, setShowFlight] = useState(false);
 
   const columns = [
     { id: "FlightNumber", label: "Flight Number", width: 60 },
@@ -59,15 +69,12 @@ const AdminHomepage = () => {
     { id: "action", label: "Action", Width: 100 },
   ];
 
-  useEffect(() => {
-    GetAllFlights();
-  });
-
   function GetAllFlights() {
     axios
       .get("http://localhost:3005/flights/getAllFlights")
       .then((res) => {
         setRows(res.data);
+        setShowFlight(true);
       })
       .catch((err) => {
         console.log(err);
@@ -77,10 +84,11 @@ const AdminHomepage = () => {
   //function SearchForFlights() {}
 
   function EditRow(values) {
-    axios.put(
-      "http://localhost:3005/flights/editFlight/" + values,
-      toBeUpdFlight
-    );
+    axios
+      .put("http://localhost:3005/flights/editFlight/" + values, toBeUpdFlight)
+      .then((res) => {
+        setEditOpenResponse(true);
+      });
     console.log(toBeUpdFlight);
   }
 
@@ -88,6 +96,7 @@ const AdminHomepage = () => {
     axios
       .delete("http://localhost:3005/flights/deleteFlight/" + values)
       .then((res) => {
+        setDeleteOpenResponse(true);
         setRows(
           rows.filter((rows) => {
             return rows._id !== values;
@@ -100,8 +109,73 @@ const AdminHomepage = () => {
     // setToBeDeletedFlight("");
   }
 
+  const deleteHandleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setDeleteOpenResponse(false);
+  };
+
+  const editHandleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setEditOpenResponse(false);
+  };
+
+  const searchFlight = async (flight) => {
+    //console.log(flight);
+    //console.log(flight.Flight);
+    await axios
+      .get("http://localhost:3005/flights/searchFlights2", {
+        FlightNumber: flight.Flight,
+        From: flight.From,
+        To: flight.To,
+        ArrivalTime: flight.ArrivalTime,
+        DepartureTime: flight.DepartureTime,
+        EconomySeatsNo: flight.EconomyClassSeats,
+        BusinessSeatsNo: flight.BusinessClassSeats,
+        FirstSeatsNo: flight.FirstClassSeats,
+        AirportDepartureTerminal: flight.DepartureTerminal,
+        AirportArrivalTerminal: flight.ArrivalTerminal,
+        Date: flight.Date,
+      })
+      .then((result) => setRows(result.data));
+  };
+  useEffect(() => {
+    if (showFlight == false) GetAllFlights();
+  });
+
   return (
     <div>
+      <Snackbar
+        open={deleteOpenResponse}
+        autoHideDuration={6000}
+        onClose={deleteHandleClose}
+      >
+        <Alert
+          onClose={deleteHandleClose}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
+          Deleted Successfully
+        </Alert>
+      </Snackbar>
+      <Snackbar
+        open={editOpenResponse}
+        autoHideDuration={6000}
+        onClose={editHandleClose}
+      >
+        <Alert
+          onClose={editHandleClose}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
+          Edited Successfully
+        </Alert>
+      </Snackbar>
       <Popup trigger={deletePopupButton} setTrigger={setDeletePopupButton}>
         <CancelOutlinedIcon
           color="error"
@@ -126,7 +200,7 @@ const AdminHomepage = () => {
         </Button>
         <Button
           variant="contained"
-          style={{left: "5%", top: "7%" }}
+          style={{ left: "5%", top: "7%" }}
           onClick={() => {
             setDeletePopupButton(false);
           }}
@@ -304,6 +378,11 @@ const AdminHomepage = () => {
       >
         {"Create"}
       </Button>
+
+      <div className="SearchFlight">
+        <SearchFlight onSearch={searchFlight} />
+        {/* <Link to="/signup" className="btn btn-primary">Sign up</Link> */}
+      </div>
 
       <Paper sx={{ width: "100%", overflow: "hidden", marginTop: "1%" }}>
         <TableContainer sx={{ maxHeight: 500 }}>
