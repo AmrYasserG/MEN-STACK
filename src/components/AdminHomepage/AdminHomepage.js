@@ -66,12 +66,7 @@ const AdminHomepage = () => {
       });
   }
 
-<<<<<<< HEAD
-  //function SearchForFlights() {}
   
-=======
-  function CreateNewFlight() {}
->>>>>>> 275ec7deae621124330dafd43ec5efc73293db8f
 
   //function SearchForFlights() {}
 
@@ -95,17 +90,11 @@ const AdminHomepage = () => {
 
   return (
     <div>
-<<<<<<< HEAD
-      
-      <Popup trigger = {deletePopupButton} setTrigger={setDeletePopupButton}>
-        <CancelOutlinedIcon color="error" style={{ width:"25%", height: "30%"}} />
-=======
       <Popup trigger={deletePopupButton} setTrigger={setDeletePopupButton}>
         <CancelOutlinedIcon
           color="error"
           style={{ width: "25%", height: "30%" }}
         />
->>>>>>> 275ec7deae621124330dafd43ec5efc73293db8f
         <h2>Are you sure?</h2>
         <p style={{ fontSize: "small" }}>
           Do you really want to delete this flight with all its details? This
@@ -125,11 +114,11 @@ const AdminHomepage = () => {
         </Button>
       </Popup>
       <UpdateOver trigger={updPopupButton}setTrigger={setUpdPopupButton}>
-        
+        <h1>Update Flight</h1>
         <label >FlightNumber:</label>
         <span>
         <input name="flno" id="flno" 
-               type="number" value={toBeUpdFlight.FlightNumber}onChange={(e) => {toBeUpdFlight.FlightNumber=Number(e.target.value)}}/>
+               type="text" value={toBeUpdFlight.FlightNumber}onChange={(e) => {toBeUpdFlight.FlightNumber=Number(e.target.value)}}/>
         </span>
         <br></br>
         <label >From:</label>
@@ -165,31 +154,31 @@ const AdminHomepage = () => {
         <label>Airport Departure Terminal:</label>
         <span>
         <input name="depTer" id="depTer" 
-               type="number" value={toBeUpdFlight.AirportDepartureTerminal}onChange={(e) => {toBeUpdFlight.AirportDepartureTerminal=e.target.value}}/>
+               type="text" value={toBeUpdFlight.AirportDepartureTerminal}onChange={(e) => {toBeUpdFlight.AirportDepartureTerminal=Number(e.target.value)}}/>
         </span>
         <br></br>
         <label>Airport Arrival Terminal:</label>
         <span>
         <input name="arrTer" id="arrTer" 
-               type="number" value={toBeUpdFlight.AirportArrivalTerminal}onChange={(e) => {toBeUpdFlight.AirportArrivalTerminal=e.target.value}}/>
+               type="text" value={toBeUpdFlight.AirportArrivalTerminal}onChange={(e) => {toBeUpdFlight.AirportArrivalTerminal=Number(e.target.value)}}/>
         </span>
         <br></br>
         <label>Number Of Business Class Seats:</label>
         <span>
         <input name="busNo" id="busNo" 
-               type="number" value={toBeUpdFlight.BusinessSeatsNo}onChange={(e) => {toBeUpdFlight.BusinessSeatsNo=e.target.value}}/>
+               type="text" value={toBeUpdFlight.BusinessSeatsNo}onChange={(e) => {toBeUpdFlight.BusinessSeatsNo=Number(e.target.value)}}/>
         </span>
         <br></br>
         <label>Number Of Economy Class Seats:</label>
         <span>
         <input name="ecoNo" id="ecoNo" 
-               type="number" value={toBeUpdFlight.EconomySeatsNo}onChange={(e) => {toBeUpdFlight.EconomySeatsNo=e.target.value}}/>
+               type="text" value={toBeUpdFlight.EconomySeatsNo}onChange={(e) => {toBeUpdFlight.EconomySeatsNo=Number(e.target.value)}}/>
         </span>
         <br></br>
         <label>Number Of First Class Seats:</label>
         <span>
         <input name="fstNo" id="fstNo" 
-               type="number" value={toBeUpdFlight.FirstSeatsNo}onChange={(e) => {toBeUpdFlight.FirstSeatsNo=e.target.value}}/>
+               type="text" value={toBeUpdFlight.FirstSeatsNo}onChange={(e) => {toBeUpdFlight.FirstSeatsNo=Number(e.target.value)}}/>
         </span>
         <br></br>
 
