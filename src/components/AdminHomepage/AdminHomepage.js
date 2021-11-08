@@ -15,11 +15,14 @@ import AddIcon from "@mui/icons-material/Add";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 import Popup from "../Popup/Popup";
 import "./AdminHomepage.css";
+import UpdateOver from "../UpdateOver/UpdateOver";
 
 const AdminHomepage = () => {
   const [rows, setRows] = useState([]);
   const [toBeDeletedFlight, setToBeDeletedFlight] = useState("");
   const [deletePopupButton, setDeletePopupButton] = useState(false);
+  const [toBeUpdFlight, setToBeUpdFlight] = useState("");
+  const [updPopupButton, setUpdPopupButton] = useState(false);
 
   const columns = [
     { id: "FlightNumber", label: "Flight Number", width: 60 },
@@ -67,7 +70,8 @@ const AdminHomepage = () => {
   //function SearchForFlights() {}
 
   function EditRow(values) {
-    console.log(values);
+    axios.put("http://localhost:3005/flights/editFlight/"+values,toBeUpdFlight);
+    console.log(toBeUpdFlight);
   }
 
   function DeleteRow(values) {
@@ -103,7 +107,90 @@ const AdminHomepage = () => {
           Delete
         </Button>
       </Popup>
-      <Button
+      <UpdateOver trigger={updPopupButton}setTrigger={setUpdPopupButton}>
+        <h1>Update Flight</h1>
+        <label >FlightNumber:</label>
+        <span>
+        <input name="flno" id="flno" 
+               type="text" value={toBeUpdFlight.FlightNumber}onChange={(e) => {toBeUpdFlight.FlightNumber=Number(e.target.value)}}/>
+        </span>
+        <br></br>
+        <label >From:</label>
+        <span>
+        <input name="from" id="from" 
+               type="text" value={toBeUpdFlight.From}onChange={(e) => {toBeUpdFlight.From=e.target.value}}/>
+        </span>
+        <br></br>
+        <label>To:</label>
+        <span>
+        <input name="to" id="to" 
+               type="text" value={toBeUpdFlight.To}onChange={(e) => {toBeUpdFlight.To=e.target.value}}/>
+        </span>
+        <br></br>
+        <label>Flight Date:</label>
+        <span>
+        <input name="date" id="date" 
+               type="date" value={toBeUpdFlight.Date}onChange={(e) => {toBeUpdFlight.Date=e.target.value}}/>
+        </span>
+        <br></br>
+        <label>Departure Time:</label>
+        <span>
+        <input name="dep" id="dep" 
+               type="time" value={toBeUpdFlight.DepartureTime}onChange={(e) => {toBeUpdFlight.DepartureTime=e.target.value}}/>
+        </span>
+        <br></br>
+        <label>Arrival Time:</label>
+        <span>
+        <input name="arrive" id="arrive" 
+               type="time" value={toBeUpdFlight.ArrivalTime}onChange={(e) => {toBeUpdFlight.ArrivalTime=e.target.value}}/>
+        </span>
+        <br></br>
+        <label>Airport Departure Terminal:</label>
+        <span>
+        <input name="depTer" id="depTer" 
+               type="text" value={toBeUpdFlight.AirportDepartureTerminal}onChange={(e) => {toBeUpdFlight.AirportDepartureTerminal=Number(e.target.value)}}/>
+        </span>
+        <br></br>
+        <label>Airport Arrival Terminal:</label>
+        <span>
+        <input name="arrTer" id="arrTer" 
+               type="text" value={toBeUpdFlight.AirportArrivalTerminal}onChange={(e) => {toBeUpdFlight.AirportArrivalTerminal=Number(e.target.value)}}/>
+        </span>
+        <br></br>
+        <label>Number Of Business Class Seats:</label>
+        <span>
+        <input name="busNo" id="busNo" 
+               type="text" value={toBeUpdFlight.BusinessSeatsNo}onChange={(e) => {toBeUpdFlight.BusinessSeatsNo=Number(e.target.value)}}/>
+        </span>
+        <br></br>
+        <label>Number Of Economy Class Seats:</label>
+        <span>
+        <input name="ecoNo" id="ecoNo" 
+               type="text" value={toBeUpdFlight.EconomySeatsNo}onChange={(e) => {toBeUpdFlight.EconomySeatsNo=Number(e.target.value)}}/>
+        </span>
+        <br></br>
+        <label>Number Of First Class Seats:</label>
+        <span>
+        <input name="fstNo" id="fstNo" 
+               type="text" value={toBeUpdFlight.FirstSeatsNo}onChange={(e) => {toBeUpdFlight.FirstSeatsNo=Number(e.target.value)}}/>
+        </span>
+        <br></br>
+
+        <Button
+          variant="contained"
+          color="error"
+          //style={{ right: "16%", top: "3%" }}
+          onClick={() => {
+            setUpdPopupButton(false);
+            EditRow(toBeUpdFlight._id);
+            // setToBeDeletedFlight("");
+          }}
+        >
+          Update
+        </Button>
+
+        </UpdateOver>
+      <Button 
         variant="contained"
         startIcon={<AddIcon />}
         color="success"
@@ -143,8 +230,8 @@ const AdminHomepage = () => {
                               variant="contained"
                               startIcon={<EditIcon />}
                               onClick={() => {
-                                alert("Clicked Edit");
-                                EditRow(row);
+                                setUpdPopupButton(true);
+                                setToBeUpdFlight(row);
                               }}
                             >
                               Edit
