@@ -28,11 +28,11 @@ const AdminHomepage = () => {
     { id: "FlightNumber", label: "Flight Number", width: 60 },
     { id: "From", label: "From", width: 60 },
     { id: "To", label: "To", width: 60 },
-    { id: "Date", label: "Flight Date", width: 120 },
+    { id: "Date", label: "Flight Date", width: 110 },
     { id: "DepartureTime", label: "Departure Time", width: 80 },
     { id: "ArrivalTime", label: "Arrival Time", width: 80 },
-    { id: "AirportDepartureTerminal", label: "Airport Departure Terminal", width: 100 },
-    { id: "AirportArrivalTerminal", label: "Airport Arrival Terminal", width: 100 },
+    { id: "AirportDepartureTerminal", label: "Airport Departure Terminal", width: 60 },
+    { id: "AirportArrivalTerminal", label: "Airport Arrival Terminal", width: 60 },
     {
       id: "BusinessSeatsNo",
       label: "Number Of Business Class Seats",
@@ -97,7 +97,7 @@ const AdminHomepage = () => {
         <Button
           variant="contained"
           color="error"
-          style={{ right: "16%", top: "19px" }}
+          style={{ right: "18%", top: "3%" }}
           onClick={() => {
             setDeletePopupButton(false);
             DeleteRow(toBeDeletedFlight);
