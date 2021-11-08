@@ -28,8 +28,16 @@ const AdminHomepage = () => {
     { id: "Date", label: "Flight Date", Width: 100 },
     { id: "DepartureTime", label: "Departure Time", Width: 100 },
     { id: "ArrivalTime", label: "Arrival Time", Width: 100 },
-    { id: "AirportDeparture", label: "Airport Departure", Width: 100 },
-    { id: "AirportArrival", label: "Airport Arrival", Width: 100 },
+    {
+      id: "AirportDepartureTerminal",
+      label: "Airport Departure Terminal",
+      Width: 100,
+    },
+    {
+      id: "AirportArrivalTerminal",
+      label: "Airport Arrival Terminal",
+      Width: 100,
+    },
     {
       id: "BusinessSeatsNo",
       label: "Number Of Business Class Seats",
@@ -54,7 +62,7 @@ const AdminHomepage = () => {
 
   function GetAllFlights() {
     axios
-      .get("http://localhost:3005/getAllFlights")
+      .get("http://localhost:3005/flights/getAllFlights")
       .then((res) => {
         setRows(res.data);
       })
@@ -63,18 +71,28 @@ const AdminHomepage = () => {
       });
   }
 
-  //function SearchForFlights() {}
-
   function CreateNewFlight() {}
 
-  function SearchForFlights() {}
+  //function SearchForFlights() {}
 
   function EditRow(values) {
     console.log(values);
   }
 
   function DeleteRow(values) {
-    //console.log(values);
+    axios
+      .delete("http://localhost:3005/flights/deleteFlight/" + values)
+      .then((res) => {
+        setRows(
+          rows.filter((rows) => {
+            return rows._id !== values;
+          })
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    // setToBeDeletedFlight("");
   }
 
   return (
@@ -116,7 +134,7 @@ const AdminHomepage = () => {
       </Button>
       <Paper sx={{ width: "100%", overflow: "hidden", marginTop: "1%" }}>
         <TableContainer sx={{ maxHeight: 440 }}>
-          <Table stickyHeader aria-label="sticky table">
+          <Table>
             <TableHead>
               <TableRow>
                 {columns.map((column) => (
@@ -132,12 +150,15 @@ const AdminHomepage = () => {
             <TableBody>
               {rows.map((row) => {
                 return (
-                  <TableRow hover key={row.code}>
+                  <TableRow hover key={row._id}>
                     {columns.map((column) => {
                       const value = row[column.id];
                       if (column.id === "action") {
                         return (
-                          <TableCell sx={{ textAlign: "center" }}>
+                          <TableCell
+                            sx={{ textAlign: "center" }}
+                            key={{ key: row._id }}
+                          >
                             <Button
                               variant="contained"
                               startIcon={<EditIcon />}
@@ -156,8 +177,8 @@ const AdminHomepage = () => {
                               color="error"
                               startIcon={<DeleteIcon />}
                               onClick={() => {
-                                alert("Clicked Delete");
-                                DeleteRow(row);
+                                setDeletePopupButton(true);
+                                setToBeDeletedFlight(row._id);
                               }}
                             >
                               Delete
