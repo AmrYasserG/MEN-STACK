@@ -22,14 +22,14 @@ const AdminHomepage = () => {
   const [deletePopupButton, setDeletePopupButton] = useState(false);
 
   const columns = [
-    { id: "FlightNumber", label: "Flight Number", Width: 100 },
-    { id: "From", label: "From", Width: 100 },
-    { id: "To", label: "To", Width: 100 },
-    { id: "Date", label: "Flight Date", Width: 100 },
-    { id: "DepartureTime", label: "Departure Time", Width: 100 },
-    { id: "ArrivalTime", label: "Arrival Time", Width: 100 },
-    { id: "AirportDepartureTerminal", label: "Airport Departure Terminal", Width: 100 },
-    { id: "AirportArrivalTerminal", label: "Airport Arrival Terminal", Width: 100 },
+    { id: "FlightNumber", label: "Flight Number", width: 60 },
+    { id: "From", label: "From", width: 60 },
+    { id: "To", label: "To", width: 60 },
+    { id: "Date", label: "Flight Date", width: 120 },
+    { id: "DepartureTime", label: "Departure Time", width: 80 },
+    { id: "ArrivalTime", label: "Arrival Time", width: 80 },
+    { id: "AirportDepartureTerminal", label: "Airport Departure Terminal", width: 100 },
+    { id: "AirportArrivalTerminal", label: "Airport Arrival Terminal", width: 100 },
     {
       id: "BusinessSeatsNo",
       label: "Number Of Business Class Seats",
@@ -63,7 +63,6 @@ const AdminHomepage = () => {
       });
   }
 
-  function CreateNewFlight() {}
 
   //function SearchForFlights() {}
 
@@ -86,20 +85,15 @@ const AdminHomepage = () => {
 
   return (
     <div>
-      <Popup trigger={deletePopupButton} setTrigger={setDeletePopupButton}>
-        <CancelOutlinedIcon
-          color="error"
-          style={{ width: "25%", height: "30%" }}
-        />
+      
+      <Popup trigger = {deletePopupButton} setTrigger={setDeletePopupButton}>
+        <CancelOutlinedIcon color="error" style={{ width:"25%", height: "30%"}} />
         <h2>Are you sure?</h2>
-        <p style={{ fontSize: "small" }}>
-          Do you really want to delete this flight with all its details? This
-          action cannot be undone
-        </p>
+        <p style={{ fontSize: "small" }}>Do you really want to delete this flight with all its details? This action cannot be undone</p>
         <Button
           variant="contained"
           color="error"
-          style={{ right: "16%", top: "3%" }}
+          style={{ right: "16%", top: "19px" }}
           onClick={() => {
             setDeletePopupButton(false);
             DeleteRow(toBeDeletedFlight);
@@ -113,23 +107,23 @@ const AdminHomepage = () => {
         variant="contained"
         startIcon={<AddIcon />}
         color="success"
-        style={{ marginLeft: "91.5%", marginTop: "9%" }}
+        style={{ marginLeft: "91.5%", marginTop: "5%" }}
         onClick={() => {
-          alert("Clicked Create");
-          CreateNewFlight();
+          window.location.href="/createFlight"
         }}
       >
-        Create
+      {"Create"}
       </Button>
+
       <Paper sx={{ width: "100%", overflow: "hidden", marginTop: "1%" }}>
-        <TableContainer sx={{ maxHeight: 440 }}>
+        <TableContainer sx={{ maxHeight: 500 }}>
           <Table>
             <TableHead>
               <TableRow>
                 {columns.map((column) => (
                   <TableCell
                     key={column.id}
-                    style={{ Width: column.Width, textAlign: "center" }}
+                    style={{ width: column.width, textAlign: "center" }}
                   >
                     {column.label}
                   </TableCell>
@@ -148,7 +142,6 @@ const AdminHomepage = () => {
                             <Button
                               variant="contained"
                               startIcon={<EditIcon />}
-                              style={{ width: "50px", height: "25px" }}
                               onClick={() => {
                                 alert("Clicked Edit");
                                 EditRow(row);

@@ -2,17 +2,17 @@ const Flight = require("../models/Flight");
 
 const createNewFlight = (req, res) => {
   const flight = new Flight({
-    FlightNumber: req.body.FlightNumber,
-    From: req.body.From,
-    To: req.body.To,
-    ArrivalTime: new Date(req.body.ArrivalTime),
-    DepartureTime: new Date(req.body.DepartureTime),
-    EconomySeatsNo: req.body.EconomySeatsNo,
-    BusinessSeatsNo: req.body.BusinessSeatsNo,
-    FirstSeatsNo: req.body.FirstSeatsNo,
-    AirportDepartureTerminal: req.body.AirportDepartureTerminal,
-    AirportArrivalTerminal: req.body.AirportArrivalTerminal,
-    Date: new Date(req.body.Date),
+    FlightNumber:req.body.FlightNumber,
+    From:req.body.From,
+    To:req.body.To,
+    ArrivalTime:req.body.ArrivalTime,
+    DepartureTime:req.body.DepartureTime,
+    EconomySeatsNo:req.body.EconomySeatsNo,
+    BusinessSeatsNo:req.body.BusinessSeatsNo,
+    FirstSeatsNo:req.body.FirstSeatsNo,
+    AirportDepartureTerminal:req.body.AirportDepartureTerminal,
+    AirportArrivalTerminal:req.body.AirportArrivalTerminal,
+    Date: req.body.Date
   });
   flight
     .save()
