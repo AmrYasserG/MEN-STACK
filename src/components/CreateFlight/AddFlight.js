@@ -8,12 +8,21 @@ const AddFlight = ({onAdd}) => {
     const [ArrivalTime,setArrivalTime]=useState('')
     const [DepartureTerminal,setDepartureTerminal]=useState(0)
     const [ArrivalTerminal,setArrivalTermina]=useState(0)
-    const [BusinessClassSeats,setBusinessClassSeats]=useState(0)
-    const [EconomyClassSeats,setEconomyClassSeats]=useState(0)
-    const [FirstClassSeats,setFirstClassSeats]=useState(0)
+    const [BusinessClassSeats,setBusinessClassSeats]=useState('')
+    const [EconomyClassSeats,setEconomyClassSeats]=useState('')
+    const [FirstClassSeats,setFirstClassSeats]=useState('')
 
     const onSubmit = (e) => {
         e.preventDefault()
+        if (!Flight) {
+            alert('Please add a Flight number')
+            return
+          }
+          if (!From||!To||!Date||!DepartureTime||!ArrivalTime||!DepartureTerminal||!ArrivalTerminal) {
+            alert('Please complete all inputs')
+            return
+          } 
+
         onAdd({Flight,From, To,Date,DepartureTime,ArrivalTime,DepartureTerminal,ArrivalTerminal,BusinessClassSeats,EconomyClassSeats,FirstClassSeats})
         
         setFlight('')
@@ -24,9 +33,10 @@ const AddFlight = ({onAdd}) => {
         setArrivalTime('')
         setDepartureTerminal(0)
         setArrivalTermina(0)
-        setBusinessClassSeats(0)
-        setEconomyClassSeats(0)
-        setFirstClassSeats(0)
+        setBusinessClassSeats('')
+        setEconomyClassSeats('')
+        setFirstClassSeats('')
+        alert('Flight added')
         }
 
     return (
@@ -65,15 +75,15 @@ const AddFlight = ({onAdd}) => {
             </div>
             <div className ='form-control'>
                 <label>Business Class Seats</label>
-                <input type='number' placeholder='Add Business Class Seats' value={BusinessClassSeats}onChange={(e) => setBusinessClassSeats(parseInt(e.target.value,10))}/> 
+                <input type='text' placeholder='Add Business Class Seats' value={BusinessClassSeats}onChange={(e) => setBusinessClassSeats(Number(e.target.value))}/> 
             </div>
             <div className ='form-control'>
                 <label>Economy Class Seats</label>
-                <input type='number' placeholder='Add Economy Class Seats' value={EconomyClassSeats}onChange={(e) => setEconomyClassSeats(parseInt(e.target.value,10))}/> 
+                <input type='text' placeholder='Add Economy Class Seats' value={EconomyClassSeats}onChange={(e) => setEconomyClassSeats(Number(e.target.value))}/> 
             </div>
             <div className ='form-control'>
                 <label>First Class Seats</label>
-                <input type='number' placeholder='Add First Class Seats' value={FirstClassSeats}onChange={(e) => setFirstClassSeats(parseInt(e.target.value,10))}/> 
+                <input type='text' placeholder='Add First Class Seats' value={FirstClassSeats}onChange={(e) => setFirstClassSeats(Number(e.target.value))}/> 
             </div>
 
             <input type='submit' value='Save Flight'className='btn btn-block'/>

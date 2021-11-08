@@ -66,7 +66,6 @@ const AdminHomepage = () => {
       });
   }
 
-  
 
   //function SearchForFlights() {}
 
@@ -90,11 +89,9 @@ const AdminHomepage = () => {
 
   return (
     <div>
-      <Popup trigger={deletePopupButton} setTrigger={setDeletePopupButton}>
-        <CancelOutlinedIcon
-          color="error"
-          style={{ width: "25%", height: "30%" }}
-        />
+      
+      <Popup trigger = {deletePopupButton} setTrigger={setDeletePopupButton}>
+        <CancelOutlinedIcon color="error" style={{ width:"25%", height: "30%"}} />
         <h2>Are you sure?</h2>
         <p style={{ fontSize: "small" }}>
           Do you really want to delete this flight with all its details? This
