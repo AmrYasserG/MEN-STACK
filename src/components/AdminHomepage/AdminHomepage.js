@@ -31,8 +31,16 @@ const AdminHomepage = () => {
     { id: "Date", label: "Flight Date", width: 110 },
     { id: "DepartureTime", label: "Departure Time", width: 80 },
     { id: "ArrivalTime", label: "Arrival Time", width: 80 },
-    { id: "AirportDepartureTerminal", label: "Airport Departure Terminal", width: 60 },
-    { id: "AirportArrivalTerminal", label: "Airport Arrival Terminal", width: 60 },
+    {
+      id: "AirportDepartureTerminal",
+      label: "Airport Departure Terminal",
+      width: 60,
+    },
+    {
+      id: "AirportArrivalTerminal",
+      label: "Airport Arrival Terminal",
+      width: 60,
+    },
     {
       id: "BusinessSeatsNo",
       label: "Number Of Business Class Seats",
@@ -66,11 +74,13 @@ const AdminHomepage = () => {
       });
   }
 
-
   //function SearchForFlights() {}
 
   function EditRow(values) {
-    axios.put("http://localhost:3005/flights/editFlight/"+values,toBeUpdFlight);
+    axios.put(
+      "http://localhost:3005/flights/editFlight/" + values,
+      toBeUpdFlight
+    );
     console.log(toBeUpdFlight);
   }
 
@@ -78,26 +88,34 @@ const AdminHomepage = () => {
     axios
       .delete("http://localhost:3005/flights/deleteFlight/" + values)
       .then((res) => {
-        setRows(rows.filter( rows => {
-          return rows._id !== values}));
+        setRows(
+          rows.filter((rows) => {
+            return rows._id !== values;
+          })
+        );
       })
       .catch((err) => {
         console.log(err);
       });
-      // setToBeDeletedFlight("");
+    // setToBeDeletedFlight("");
   }
 
   return (
     <div>
-      
-      <Popup trigger = {deletePopupButton} setTrigger={setDeletePopupButton}>
-        <CancelOutlinedIcon color="error" style={{ width:"25%", height: "30%"}} />
+      <Popup trigger={deletePopupButton} setTrigger={setDeletePopupButton}>
+        <CancelOutlinedIcon
+          color="error"
+          style={{ width: "25%", height: "30%" }}
+        />
         <h2>Are you sure?</h2>
-        <p style={{ fontSize: "small" }}>Do you really want to delete this flight with all its details? This action cannot be undone</p>
+        <p style={{ fontSize: "small" }}>
+          Do you really want to delete this flight with all its details? This
+          action cannot be undone
+        </p>
         <Button
           variant="contained"
           color="error"
-          style={{ right: "18%", top: "3%" }}
+          style={{ right: "5%", top: "7%" }}
           onClick={() => {
             setDeletePopupButton(false);
             DeleteRow(toBeDeletedFlight);
@@ -106,73 +124,159 @@ const AdminHomepage = () => {
         >
           Delete
         </Button>
+        <Button
+          variant="contained"
+          style={{left: "5%", top: "7%" }}
+          onClick={() => {
+            setDeletePopupButton(false);
+          }}
+        >
+          Cancel
+        </Button>
       </Popup>
-      <UpdateOver trigger={updPopupButton}setTrigger={setUpdPopupButton}>
+      <UpdateOver trigger={updPopupButton} setTrigger={setUpdPopupButton}>
         <h1>Update Flight</h1>
-        <label >FlightNumber:</label>
+        <label>FlightNumber:</label>
         <span>
-        <input name="flno" id="flno" 
-               type="text" value={toBeUpdFlight.FlightNumber}onChange={(e) => {toBeUpdFlight.FlightNumber=Number(e.target.value)}}/>
+          <input
+            name="flno"
+            id="flno"
+            type="text"
+            value={toBeUpdFlight.FlightNumber}
+            onChange={(e) => {
+              toBeUpdFlight.FlightNumber = Number(e.target.value);
+            }}
+          />
         </span>
         <br></br>
-        <label >From:</label>
+        <label>From:</label>
         <span>
-        <input name="from" id="from" 
-               type="text" value={toBeUpdFlight.From}onChange={(e) => {toBeUpdFlight.From=e.target.value}}/>
+          <input
+            name="from"
+            id="from"
+            type="text"
+            value={toBeUpdFlight.From}
+            onChange={(e) => {
+              toBeUpdFlight.From = e.target.value;
+            }}
+          />
         </span>
         <br></br>
         <label>To:</label>
         <span>
-        <input name="to" id="to" 
-               type="text" value={toBeUpdFlight.To}onChange={(e) => {toBeUpdFlight.To=e.target.value}}/>
+          <input
+            name="to"
+            id="to"
+            type="text"
+            value={toBeUpdFlight.To}
+            onChange={(e) => {
+              toBeUpdFlight.To = e.target.value;
+            }}
+          />
         </span>
         <br></br>
         <label>Flight Date:</label>
         <span>
-        <input name="date" id="date" 
-               type="date" value={toBeUpdFlight.Date}onChange={(e) => {toBeUpdFlight.Date=e.target.value}}/>
+          <input
+            name="date"
+            id="date"
+            type="date"
+            value={toBeUpdFlight.Date}
+            onChange={(e) => {
+              toBeUpdFlight.Date = e.target.value;
+            }}
+          />
         </span>
         <br></br>
         <label>Departure Time:</label>
         <span>
-        <input name="dep" id="dep" 
-               type="time" value={toBeUpdFlight.DepartureTime}onChange={(e) => {toBeUpdFlight.DepartureTime=e.target.value}}/>
+          <input
+            name="dep"
+            id="dep"
+            type="time"
+            value={toBeUpdFlight.DepartureTime}
+            onChange={(e) => {
+              toBeUpdFlight.DepartureTime = e.target.value;
+            }}
+          />
         </span>
         <br></br>
         <label>Arrival Time:</label>
         <span>
-        <input name="arrive" id="arrive" 
-               type="time" value={toBeUpdFlight.ArrivalTime}onChange={(e) => {toBeUpdFlight.ArrivalTime=e.target.value}}/>
+          <input
+            name="arrive"
+            id="arrive"
+            type="time"
+            value={toBeUpdFlight.ArrivalTime}
+            onChange={(e) => {
+              toBeUpdFlight.ArrivalTime = e.target.value;
+            }}
+          />
         </span>
         <br></br>
         <label>Airport Departure Terminal:</label>
         <span>
-        <input name="depTer" id="depTer" 
-               type="text" value={toBeUpdFlight.AirportDepartureTerminal}onChange={(e) => {toBeUpdFlight.AirportDepartureTerminal=Number(e.target.value)}}/>
+          <input
+            name="depTer"
+            id="depTer"
+            type="text"
+            value={toBeUpdFlight.AirportDepartureTerminal}
+            onChange={(e) => {
+              toBeUpdFlight.AirportDepartureTerminal = Number(e.target.value);
+            }}
+          />
         </span>
         <br></br>
         <label>Airport Arrival Terminal:</label>
         <span>
-        <input name="arrTer" id="arrTer" 
-               type="text" value={toBeUpdFlight.AirportArrivalTerminal}onChange={(e) => {toBeUpdFlight.AirportArrivalTerminal=Number(e.target.value)}}/>
+          <input
+            name="arrTer"
+            id="arrTer"
+            type="text"
+            value={toBeUpdFlight.AirportArrivalTerminal}
+            onChange={(e) => {
+              toBeUpdFlight.AirportArrivalTerminal = Number(e.target.value);
+            }}
+          />
         </span>
         <br></br>
         <label>Number Of Business Class Seats:</label>
         <span>
-        <input name="busNo" id="busNo" 
-               type="text" value={toBeUpdFlight.BusinessSeatsNo}onChange={(e) => {toBeUpdFlight.BusinessSeatsNo=Number(e.target.value)}}/>
+          <input
+            name="busNo"
+            id="busNo"
+            type="text"
+            value={toBeUpdFlight.BusinessSeatsNo}
+            onChange={(e) => {
+              toBeUpdFlight.BusinessSeatsNo = Number(e.target.value);
+            }}
+          />
         </span>
         <br></br>
         <label>Number Of Economy Class Seats:</label>
         <span>
-        <input name="ecoNo" id="ecoNo" 
-               type="text" value={toBeUpdFlight.EconomySeatsNo}onChange={(e) => {toBeUpdFlight.EconomySeatsNo=Number(e.target.value)}}/>
+          <input
+            name="ecoNo"
+            id="ecoNo"
+            type="text"
+            value={toBeUpdFlight.EconomySeatsNo}
+            onChange={(e) => {
+              toBeUpdFlight.EconomySeatsNo = Number(e.target.value);
+            }}
+          />
         </span>
         <br></br>
         <label>Number Of First Class Seats:</label>
         <span>
-        <input name="fstNo" id="fstNo" 
-               type="text" value={toBeUpdFlight.FirstSeatsNo}onChange={(e) => {toBeUpdFlight.FirstSeatsNo=Number(e.target.value)}}/>
+          <input
+            name="fstNo"
+            id="fstNo"
+            type="text"
+            value={toBeUpdFlight.FirstSeatsNo}
+            onChange={(e) => {
+              toBeUpdFlight.FirstSeatsNo = Number(e.target.value);
+            }}
+          />
         </span>
         <br></br>
 
@@ -188,18 +292,17 @@ const AdminHomepage = () => {
         >
           Update
         </Button>
-
-        </UpdateOver>
-      <Button 
+      </UpdateOver>
+      <Button
         variant="contained"
         startIcon={<AddIcon />}
         color="success"
         style={{ marginLeft: "91.5%", marginTop: "5%" }}
         onClick={() => {
-          window.location.href="/createFlight"
+          window.location.href = "/createFlight";
         }}
       >
-      {"Create"}
+        {"Create"}
       </Button>
 
       <Paper sx={{ width: "100%", overflow: "hidden", marginTop: "1%" }}>
@@ -225,7 +328,10 @@ const AdminHomepage = () => {
                       const value = row[column.id];
                       if (column.id === "action") {
                         return (
-                          <TableCell sx={{ textAlign: "center" }} key={{key:row._id}}>
+                          <TableCell
+                            sx={{ textAlign: "center" }}
+                            key={{ key: row._id }}
+                          >
                             <Button
                               variant="contained"
                               startIcon={<EditIcon />}
