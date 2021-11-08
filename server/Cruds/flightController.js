@@ -5,14 +5,14 @@ const createNewFlight = (req, res) => {
     FlightNumber: req.body.FlightNumber,
     From: req.body.From,
     To: req.body.To,
-    ArrivalTime: new Date(req.body.ArrivalTime),
-    DepartureTime: new Date(req.body.DepartureTime),
+    ArrivalTime: req.body.ArrivalTime,
+    DepartureTime: req.body.DepartureTime,
     EconomySeatsNo: req.body.EconomySeatsNo,
     BusinessSeatsNo: req.body.BusinessSeatsNo,
     FirstSeatsNo: req.body.FirstSeatsNo,
     AirportDepartureTerminal: req.body.AirportDepartureTerminal,
     AirportArrivalTerminal: req.body.AirportArrivalTerminal,
-    Date: new Date(req.body.Date),
+    Date: req.body.Date,
   });
   flight
     .save()
@@ -25,8 +25,65 @@ const createNewFlight = (req, res) => {
 };
 
 const searchFlights = (req, res) => {
-  Flight.find()
+  let arr = [];
+
+  if (req.body.FlightNumber != "")
+    arr.push({ FlightNumber: JSON.parse(req.body.FlightNumber) });
+  if (req.body.From != "") arr.push({ From: req.body.From });
+  if (req.body.To != "") arr.push({ To: req.body.To });
+  if (req.body.ArrivalTime != "")
+    arr.push({ ArrivalTime: req.body.ArrivalTime });
+  if (req.body.DepartureTime != "")
+    arr.push({ DepartureTime: req.body.DepartureTime });
+  if (req.body.EconomySeatsNo != "")
+    arr.push({ EconomySeatsNo: req.body.EconomySeatsNo });
+  if (req.body.BusinessSeatsNo != "")
+    arr.push({ BusinessSeatsNo: req.body.BusinessSeatsNo });
+  if (req.body.FirstSeatsNo != "")
+    arr.push({ FirstSeatsNo: req.body.FirstSeatsNo });
+  if (req.body.AirportDepartureTerminal != "")
+    arr.push({ AirportDepartureTerminal: req.body.AirportDepartureTerminal });
+  if (req.body.AirportArrivalTerminal != "")
+    arr.push({ AirportArrivalTerminal: req.body.AirportArrivalTerminal });
+  if (req.body.Date != "") arr.push({ Date: req.body.Date });
+  Flight.find({ $and: arr })
     .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+const searchFlights2 = (req, res) => {
+  let arr = {};
+  console.log(req.body);
+  if (req.body.FlightNumber)
+    arr = { ...arr, FlightNumber: req.body.FlightNumber };
+  if (req.body.From) arr = { ...arr, From: req.body.From };
+  if (req.body.To) arr = { ...arr, To: req.body.To };
+  if (req.body.ArrivalTime) arr = { ...arr, ArrivalTime: req.body.ArrivalTime };
+  if (req.body.DepartureTime)
+    arr = { ...arr, DepartureTime: req.body.DepartureTime };
+  if (req.body.EconomySeatsNo)
+    arr = { ...arr, EconomySeatsNo: req.body.EconomySeatsNo };
+  if (req.body.BusinessSeatsNo)
+    arr = { ...arr, BusinessSeatsNo: req.body.BusinessSeatsNo };
+  if (req.body.FirstSeatsNo)
+    arr = { ...arr, FirstSeatsNo: req.body.FirstSeatsNo };
+  if (req.body.AirportDepartureTerminal)
+    arr = {
+      ...arr,
+      AirportDepartureTerminal: req.body.AirportDepartureTerminal,
+    };
+  if (req.body.AirportArrivalTerminal)
+    arr = { ...arr, AirportArrivalTerminal: req.body.AirportArrivalTerminal };
+  if (req.body.Date) arr = { ...arr, Date: req.body.Date };
+
+  console.log(arr);
+
+  Flight.find(arr)
+    .then((result) => {
+      console.log(result);
       res.send(result);
     })
     .catch((err) => {
@@ -56,15 +113,16 @@ const deleteFlight = (req, res) => {
 
 const updateFlightdetails = (req, res) => {
   let id = req.params.id;
-  console.log(req.params);
+  console.log(req.params.id);
   Flight.findByIdAndUpdate({ _id: id }, req.body).then((result) => {
-    res.send("DONE");
+    res.send("Updated Successfully");
   });
 };
 
 module.exports = {
   createNewFlight,
   searchFlights,
+  searchFlights2,
   getAllFlights,
   deleteFlight,
   updateFlightdetails,

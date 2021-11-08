@@ -1,5 +1,5 @@
 // import * as React from 'react';
-import { useState, useEffect } from "react";
+import { useState, useEffect, forwardRef } from "react";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -12,31 +12,44 @@ import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
+import MuiAlert from "@mui/material/Alert";
+import Snackbar from "@mui/material/Snackbar";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 import Popup from "../Popup/Popup";
 import "./AdminHomepage.css";
+import UpdateOver from "../UpdateOver/UpdateOver";
+import SearchFlight from "../SearchFlight/SearchFlight.js";
+
+const Alert = forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const AdminHomepage = () => {
   const [rows, setRows] = useState([]);
   const [toBeDeletedFlight, setToBeDeletedFlight] = useState("");
   const [deletePopupButton, setDeletePopupButton] = useState(false);
+  const [toBeUpdFlight, setToBeUpdFlight] = useState("");
+  const [updPopupButton, setUpdPopupButton] = useState(false);
+  const [deleteOpenResponse, setDeleteOpenResponse] = useState(false);
+  const [editOpenResponse, setEditOpenResponse] = useState(false);
+  const [showFlight, setShowFlight] = useState(false);
 
   const columns = [
-    { id: "FlightNumber", label: "Flight Number", Width: 100 },
-    { id: "From", label: "From", Width: 100 },
-    { id: "To", label: "To", Width: 100 },
-    { id: "Date", label: "Flight Date", Width: 100 },
-    { id: "DepartureTime", label: "Departure Time", Width: 100 },
-    { id: "ArrivalTime", label: "Arrival Time", Width: 100 },
+    { id: "FlightNumber", label: "Flight Number", width: 60 },
+    { id: "From", label: "From", width: 60 },
+    { id: "To", label: "To", width: 60 },
+    { id: "Date", label: "Flight Date", width: 110 },
+    { id: "DepartureTime", label: "Departure Time", width: 80 },
+    { id: "ArrivalTime", label: "Arrival Time", width: 80 },
     {
       id: "AirportDepartureTerminal",
       label: "Airport Departure Terminal",
-      Width: 100,
+      width: 60,
     },
     {
       id: "AirportArrivalTerminal",
       label: "Airport Arrival Terminal",
-      Width: 100,
+      width: 60,
     },
     {
       id: "BusinessSeatsNo",
@@ -56,33 +69,34 @@ const AdminHomepage = () => {
     { id: "action", label: "Action", Width: 100 },
   ];
 
-  useEffect(() => {
-    GetAllFlights();
-  });
-
   function GetAllFlights() {
     axios
       .get("http://localhost:3005/flights/getAllFlights")
       .then((res) => {
         setRows(res.data);
+        setShowFlight(true);
       })
       .catch((err) => {
         console.log(err);
       });
   }
 
-  function CreateNewFlight() {}
-
   //function SearchForFlights() {}
 
   function EditRow(values) {
-    console.log(values);
+    axios
+      .put("http://localhost:3005/flights/editFlight/" + values, toBeUpdFlight)
+      .then((res) => {
+        setEditOpenResponse(true);
+      });
+    console.log(toBeUpdFlight);
   }
 
   function DeleteRow(values) {
     axios
       .delete("http://localhost:3005/flights/deleteFlight/" + values)
       .then((res) => {
+        setDeleteOpenResponse(true);
         setRows(
           rows.filter((rows) => {
             return rows._id !== values;
@@ -91,12 +105,77 @@ const AdminHomepage = () => {
       })
       .catch((err) => {
         console.log(err);
-      });
+      }, []);
     // setToBeDeletedFlight("");
   }
 
+  const deleteHandleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setDeleteOpenResponse(false);
+  };
+
+  const editHandleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setEditOpenResponse(false);
+  };
+
+  const searchFlight = async (flight) => {
+    //console.log(flight);
+    //console.log(flight.Flight);
+    await axios
+      .get("http://localhost:3005/flights/searchFlights2", {
+        FlightNumber: flight.Flight,
+        From: flight.From,
+        To: flight.To,
+        ArrivalTime: flight.ArrivalTime,
+        DepartureTime: flight.DepartureTime,
+        EconomySeatsNo: flight.EconomyClassSeats,
+        BusinessSeatsNo: flight.BusinessClassSeats,
+        FirstSeatsNo: flight.FirstClassSeats,
+        AirportDepartureTerminal: flight.DepartureTerminal,
+        AirportArrivalTerminal: flight.ArrivalTerminal,
+        Date: flight.Date,
+      })
+      .then((result) => setRows(result.data));
+  };
+  useEffect(() => {
+    if (showFlight == false) GetAllFlights();
+  });
+
   return (
     <div>
+      <Snackbar
+        open={deleteOpenResponse}
+        autoHideDuration={6000}
+        onClose={deleteHandleClose}
+      >
+        <Alert
+          onClose={deleteHandleClose}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
+          Deleted Successfully
+        </Alert>
+      </Snackbar>
+      <Snackbar
+        open={editOpenResponse}
+        autoHideDuration={6000}
+        onClose={editHandleClose}
+      >
+        <Alert
+          onClose={editHandleClose}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
+          Edited Successfully
+        </Alert>
+      </Snackbar>
       <Popup trigger={deletePopupButton} setTrigger={setDeletePopupButton}>
         <CancelOutlinedIcon
           color="error"
@@ -110,7 +189,7 @@ const AdminHomepage = () => {
         <Button
           variant="contained"
           color="error"
-          style={{ right: "16%", top: "3%" }}
+          style={{ right: "5%", top: "7%" }}
           onClick={() => {
             setDeletePopupButton(false);
             DeleteRow(toBeDeletedFlight);
@@ -119,28 +198,201 @@ const AdminHomepage = () => {
         >
           Delete
         </Button>
+        <Button
+          variant="contained"
+          style={{ left: "5%", top: "7%" }}
+          onClick={() => {
+            setDeletePopupButton(false);
+          }}
+        >
+          Cancel
+        </Button>
       </Popup>
+      <UpdateOver trigger={updPopupButton} setTrigger={setUpdPopupButton}>
+        <h1>Update Flight</h1>
+        <label>FlightNumber:</label>
+        <span>
+          <input
+            name="flno"
+            id="flno"
+            type="text"
+            value={toBeUpdFlight.FlightNumber}
+            onChange={(e) => {
+              toBeUpdFlight.FlightNumber = Number(e.target.value);
+            }}
+          />
+        </span>
+        <br></br>
+        <label>From:</label>
+        <span>
+          <input
+            name="from"
+            id="from"
+            type="text"
+            value={toBeUpdFlight.From}
+            onChange={(e) => {
+              toBeUpdFlight.From = e.target.value;
+            }}
+          />
+        </span>
+        <br></br>
+        <label>To:</label>
+        <span>
+          <input
+            name="to"
+            id="to"
+            type="text"
+            value={toBeUpdFlight.To}
+            onChange={(e) => {
+              toBeUpdFlight.To = e.target.value;
+            }}
+          />
+        </span>
+        <br></br>
+        <label>Flight Date:</label>
+        <span>
+          <input
+            name="date"
+            id="date"
+            type="date"
+            value={toBeUpdFlight.Date}
+            onChange={(e) => {
+              toBeUpdFlight.Date = e.target.value;
+            }}
+          />
+        </span>
+        <br></br>
+        <label>Departure Time:</label>
+        <span>
+          <input
+            name="dep"
+            id="dep"
+            type="time"
+            value={toBeUpdFlight.DepartureTime}
+            onChange={(e) => {
+              toBeUpdFlight.DepartureTime = e.target.value;
+            }}
+          />
+        </span>
+        <br></br>
+        <label>Arrival Time:</label>
+        <span>
+          <input
+            name="arrive"
+            id="arrive"
+            type="time"
+            value={toBeUpdFlight.ArrivalTime}
+            onChange={(e) => {
+              toBeUpdFlight.ArrivalTime = e.target.value;
+            }}
+          />
+        </span>
+        <br></br>
+        <label>Airport Departure Terminal:</label>
+        <span>
+          <input
+            name="depTer"
+            id="depTer"
+            type="text"
+            value={toBeUpdFlight.AirportDepartureTerminal}
+            onChange={(e) => {
+              toBeUpdFlight.AirportDepartureTerminal = Number(e.target.value);
+            }}
+          />
+        </span>
+        <br></br>
+        <label>Airport Arrival Terminal:</label>
+        <span>
+          <input
+            name="arrTer"
+            id="arrTer"
+            type="text"
+            value={toBeUpdFlight.AirportArrivalTerminal}
+            onChange={(e) => {
+              toBeUpdFlight.AirportArrivalTerminal = Number(e.target.value);
+            }}
+          />
+        </span>
+        <br></br>
+        <label>Number Of Business Class Seats:</label>
+        <span>
+          <input
+            name="busNo"
+            id="busNo"
+            type="text"
+            value={toBeUpdFlight.BusinessSeatsNo}
+            onChange={(e) => {
+              toBeUpdFlight.BusinessSeatsNo = Number(e.target.value);
+            }}
+          />
+        </span>
+        <br></br>
+        <label>Number Of Economy Class Seats:</label>
+        <span>
+          <input
+            name="ecoNo"
+            id="ecoNo"
+            type="text"
+            value={toBeUpdFlight.EconomySeatsNo}
+            onChange={(e) => {
+              toBeUpdFlight.EconomySeatsNo = Number(e.target.value);
+            }}
+          />
+        </span>
+        <br></br>
+        <label>Number Of First Class Seats:</label>
+        <span>
+          <input
+            name="fstNo"
+            id="fstNo"
+            type="text"
+            value={toBeUpdFlight.FirstSeatsNo}
+            onChange={(e) => {
+              toBeUpdFlight.FirstSeatsNo = Number(e.target.value);
+            }}
+          />
+        </span>
+        <br></br>
+
+        <Button
+          variant="contained"
+          color="error"
+          //style={{ right: "16%", top: "3%" }}
+          onClick={() => {
+            setUpdPopupButton(false);
+            EditRow(toBeUpdFlight._id);
+            // setToBeDeletedFlight("");
+          }}
+        >
+          Update
+        </Button>
+      </UpdateOver>
       <Button
         variant="contained"
         startIcon={<AddIcon />}
         color="success"
-        style={{ marginLeft: "91.5%", marginTop: "9%" }}
+        style={{ marginLeft: "91.5%", marginTop: "5%" }}
         onClick={() => {
-          alert("Clicked Create");
-          CreateNewFlight();
+          window.location.href = "/createFlight";
         }}
       >
-        Create
+        {"Create"}
       </Button>
+
+      <div className="SearchFlight">
+        <SearchFlight onSearch={searchFlight} />
+        {/* <Link to="/signup" className="btn btn-primary">Sign up</Link> */}
+      </div>
+
       <Paper sx={{ width: "100%", overflow: "hidden", marginTop: "1%" }}>
-        <TableContainer sx={{ maxHeight: 440 }}>
+        <TableContainer sx={{ maxHeight: 500 }}>
           <Table>
             <TableHead>
               <TableRow>
                 {columns.map((column) => (
                   <TableCell
                     key={column.id}
-                    style={{ Width: column.Width, textAlign: "center" }}
+                    style={{ width: column.width, textAlign: "center" }}
                   >
                     {column.label}
                   </TableCell>
@@ -162,10 +414,9 @@ const AdminHomepage = () => {
                             <Button
                               variant="contained"
                               startIcon={<EditIcon />}
-                              style={{ width: "50px", height: "25px" }}
                               onClick={() => {
-                                alert("Clicked Edit");
-                                EditRow(row);
+                                setUpdPopupButton(true);
+                                setToBeUpdFlight(row);
                               }}
                             >
                               Edit
