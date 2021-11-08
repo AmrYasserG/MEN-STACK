@@ -1,4 +1,4 @@
-const User = require("../../src/Models/User");
+const User = require("../models/User");
 
 exports.addUser = (req, res) => {
   const user = new User({
@@ -21,3 +21,5 @@ exports.addUser = (req, res) => {
       console.log(err);
     });
 };
+
+
