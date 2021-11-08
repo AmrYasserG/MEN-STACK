@@ -1,4 +1,3 @@
-// import * as React from 'react';
 import { useState, useEffect, forwardRef } from "react";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
@@ -129,7 +128,7 @@ const AdminHomepage = () => {
     //console.log(flight);
     //console.log(flight.Flight);
     await axios
-      .post("http://localhost:3005/flights/searchFlights", {
+      .post("http://localhost:3005/flights/searchFlights2", {
         FlightNumber: flight.Flight,
         From: flight.From,
         To: flight.To,
@@ -146,7 +145,7 @@ const AdminHomepage = () => {
   };
   useEffect(() => {
     if (showFlight == false) GetAllFlights();
-  });
+  }, []);
 
   return (
     <div>
