@@ -27,7 +27,19 @@ const AdminHomepage = () => {
   const [rows, setRows] = useState([]);
   const [toBeDeletedFlight, setToBeDeletedFlight] = useState("");
   const [deletePopupButton, setDeletePopupButton] = useState(false);
-  const [toBeUpdFlight, setToBeUpdFlight] = useState("");
+  const [editFlight, setEditFlight] = useState("");
+  const [editFrom, setEditFrom] = useState("");
+  const [editTo, setEditTo] = useState("");
+  const [editDate, setEditDate] = useState("");
+  const [editDepartureTime, setEditDepartureTime] = useState("");
+  const [editArrivalTime, setEditArrivalTime] = useState("");
+  const [editDepartureTerminal, setEditDepartureTerminal] = useState("");
+  const [editArrivalTerminal, setEditArrivalTermina] = useState("");
+  const [editBusinessClassSeats, setEditBusinessClassSeats] = useState("");
+  const [editEconomyClassSeats, setEditEconomyClassSeats] = useState("");
+  const [editFirstClassSeats, setEditFirstClassSeats] = useState("");
+  const [edit_id, setEdit_id] = useState("");
+
   const [updPopupButton, setUpdPopupButton] = useState(false);
   const [deleteOpenResponse, setDeleteOpenResponse] = useState(false);
   const [editOpenResponse, setEditOpenResponse] = useState(false);
@@ -73,7 +85,6 @@ const AdminHomepage = () => {
       .get("http://localhost:3005/flights/getAllFlights")
       .then((res) => {
         setRows(res.data);
-        setShowFlight(true);
       })
       .catch((err) => {
         console.log(err);
@@ -84,11 +95,22 @@ const AdminHomepage = () => {
 
   function EditRow(values) {
     axios
-      .put("http://localhost:3005/flights/editFlight/" + values, toBeUpdFlight)
+      .put("http://localhost:3005/flights/editFlight/" + values, {
+        FlightNumber: editFlight,
+        From: editFrom,
+        To: editTo,
+        ArrivalTime: editArrivalTime,
+        DepartureTime: editDepartureTime,
+        EconomySeatsNo: editEconomyClassSeats,
+        BusinessSeatsNo: editBusinessClassSeats,
+        FirstSeatsNo: editFirstClassSeats,
+        AirportDepartureTerminal: editDepartureTerminal,
+        AirportArrivalTerminal: editArrivalTerminal,
+        Date: editDate,
+      })
       .then((res) => {
         setEditOpenResponse(true);
       });
-    console.log(toBeUpdFlight);
   }
 
   function DeleteRow(values) {
@@ -144,9 +166,14 @@ const AdminHomepage = () => {
       .then((result) => setRows(result.data));
   };
   useEffect(() => {
-    if (showFlight == false) GetAllFlights();
+    GetAllFlights();
   }, []);
 
+  const onSubmit = (e) => {
+    e.preventDefault();
+    setUpdPopupButton(false);
+    EditRow(edit_id);
+  };
   return (
     <div>
       <Snackbar
@@ -209,162 +236,152 @@ const AdminHomepage = () => {
       </Popup>
       <UpdateOver trigger={updPopupButton} setTrigger={setUpdPopupButton}>
         <h1>Update Flight</h1>
-        <label>FlightNumber:</label>
-        <span>
-          <input
-            name="flno"
-            id="flno"
-            type="text"
-            value={toBeUpdFlight.FlightNumber}
-            onChange={(e) => {
-              toBeUpdFlight.FlightNumber = Number(e.target.value);
-            }}
-          />
-        </span>
-        <br></br>
-        <label>From:</label>
-        <span>
-          <input
-            name="from"
-            id="from"
-            type="text"
-            value={toBeUpdFlight.From}
-            onChange={(e) => {
-              toBeUpdFlight.From = e.target.value;
-            }}
-          />
-        </span>
-        <br></br>
-        <label>To:</label>
-        <span>
-          <input
-            name="to"
-            id="to"
-            type="text"
-            value={toBeUpdFlight.To}
-            onChange={(e) => {
-              toBeUpdFlight.To = e.target.value;
-            }}
-          />
-        </span>
-        <br></br>
-        <label>Flight Date:</label>
-        <span>
-          <input
-            name="date"
-            id="date"
-            type="date"
-            value={toBeUpdFlight.Date}
-            onChange={(e) => {
-              toBeUpdFlight.Date = e.target.value;
-            }}
-          />
-        </span>
-        <br></br>
-        <label>Departure Time:</label>
-        <span>
-          <input
-            name="dep"
-            id="dep"
-            type="time"
-            value={toBeUpdFlight.DepartureTime}
-            onChange={(e) => {
-              toBeUpdFlight.DepartureTime = e.target.value;
-            }}
-          />
-        </span>
-        <br></br>
-        <label>Arrival Time:</label>
-        <span>
-          <input
-            name="arrive"
-            id="arrive"
-            type="time"
-            value={toBeUpdFlight.ArrivalTime}
-            onChange={(e) => {
-              toBeUpdFlight.ArrivalTime = e.target.value;
-            }}
-          />
-        </span>
-        <br></br>
-        <label>Airport Departure Terminal:</label>
-        <span>
-          <input
-            name="depTer"
-            id="depTer"
-            type="text"
-            value={toBeUpdFlight.AirportDepartureTerminal}
-            onChange={(e) => {
-              toBeUpdFlight.AirportDepartureTerminal = Number(e.target.value);
-            }}
-          />
-        </span>
-        <br></br>
-        <label>Airport Arrival Terminal:</label>
-        <span>
-          <input
-            name="arrTer"
-            id="arrTer"
-            type="text"
-            value={toBeUpdFlight.AirportArrivalTerminal}
-            onChange={(e) => {
-              toBeUpdFlight.AirportArrivalTerminal = Number(e.target.value);
-            }}
-          />
-        </span>
-        <br></br>
-        <label>Number Of Business Class Seats:</label>
-        <span>
-          <input
-            name="busNo"
-            id="busNo"
-            type="text"
-            value={toBeUpdFlight.BusinessSeatsNo}
-            onChange={(e) => {
-              toBeUpdFlight.BusinessSeatsNo = Number(e.target.value);
-            }}
-          />
-        </span>
-        <br></br>
-        <label>Number Of Economy Class Seats:</label>
-        <span>
-          <input
-            name="ecoNo"
-            id="ecoNo"
-            type="text"
-            value={toBeUpdFlight.EconomySeatsNo}
-            onChange={(e) => {
-              toBeUpdFlight.EconomySeatsNo = Number(e.target.value);
-            }}
-          />
-        </span>
-        <br></br>
-        <label>Number Of First Class Seats:</label>
-        <span>
-          <input
-            name="fstNo"
-            id="fstNo"
-            type="text"
-            value={toBeUpdFlight.FirstSeatsNo}
-            onChange={(e) => {
-              toBeUpdFlight.FirstSeatsNo = Number(e.target.value);
-            }}
-          />
-        </span>
-        <br></br>
-
-        <Button
-          variant="contained"
-          color="error"
-          //style={{ right: "16%", top: "3%" }}
-          onClick={() => {
-            setUpdPopupButton(false);
-            EditRow(toBeUpdFlight._id);
-            // setToBeDeletedFlight("");
-          }}
-        >
-          Update
-        </Button>
+        <form className="" onSubmit={onSubmit}>
+          <label>FlightNumber:</label>
+          <span>
+            <input
+              name="flno"
+              id="flno"
+              type="text"
+              value={editFlight}
+              onChange={(e) => {
+                setEditFlight(e.target.value);
+              }}
+            />
+          </span>
+          <br></br>
+          <label>From:</label>
+          <span>
+            <input
+              name="from"
+              id="from"
+              type="text"
+              value={editFrom}
+              onChange={(e) => {
+                setEditDate(e.target.value);
+              }}
+            />
+          </span>
+          <br></br>
+          <label>To:</label>
+          <span>
+            <input
+              name="to"
+              id="to"
+              type="text"
+              value={editTo}
+              onChange={(e) => {
+                setEditTo(e.target.value);
+              }}
+            />
+          </span>
+          <br></br>
+          <label>Flight Date:</label>
+          <span>
+            <input
+              name="date"
+              id="date"
+              type="date"
+              value={editDate}
+              onChange={(e) => {
+                setEditDate(e.target.value);
+              }}
+            />
+          </span>
+          <br></br>
+          <label>Departure Time:</label>
+          <span>
+            <input
+              name="dep"
+              id="dep"
+              type="time"
+              value={editDepartureTime}
+              onChange={(e) => {
+                setEditDepartureTime(e.target.value);
+              }}
+            />
+          </span>
+          <br></br>
+          <label>Arrival Time:</label>
+          <span>
+            <input
+              name="arrive"
+              id="arrive"
+              type="time"
+              value={editArrivalTime}
+              onChange={(e) => {
+                setEditDepartureTime(e.target.value);
+              }}
+            />
+          </span>
+          <br></br>
+          <label>Airport Departure Terminal:</label>
+          <span>
+            <input
+              name="depTer"
+              id="depTer"
+              type="text"
+              value={editDepartureTerminal}
+              onChange={(e) => {
+                setEditDepartureTerminal(Number(e.target.value));
+              }}
+            />
+          </span>
+          <br></br>
+          <label>Airport Arrival Terminal:</label>
+          <span>
+            <input
+              name="arrTer"
+              id="arrTer"
+              type="text"
+              value={editArrivalTerminal}
+              onChange={(e) => {
+                setEditArrivalTermina(Number(e.target.value));
+              }}
+            />
+          </span>
+          <br></br>
+          <label>Number Of Business Class Seats:</label>
+          <span>
+            <input
+              name="busNo"
+              id="busNo"
+              type="text"
+              value={editBusinessClassSeats}
+              onChange={(e) => {
+                setEditBusinessClassSeats(Number(e.target.value));
+              }}
+            />
+          </span>
+          <br></br>
+          <label>Number Of Economy Class Seats:</label>
+          <span>
+            <input
+              name="ecoNo"
+              id="ecoNo"
+              type="text"
+              value={editEconomyClassSeats}
+              onChange={(e) => {
+                setEditEconomyClassSeats(Number(e.target.value));
+              }}
+            />
+          </span>
+          <br></br>
+          <label>Number Of First Class Seats:</label>
+          <span>
+            <input
+              name="fstNo"
+              id="fstNo"
+              type="text"
+              value={editFirstClassSeats}
+              onChange={(e) => {
+                setEditFirstClassSeats(Number(e.target.value));
+              }}
+            />
+          </span>
+          <br></br>
+          <input type="submit" value="Update" className="btn btn-block" />
+        </form>
       </UpdateOver>
       <Button
         variant="contained"
@@ -414,8 +431,23 @@ const AdminHomepage = () => {
                               variant="contained"
                               startIcon={<EditIcon />}
                               onClick={() => {
+                                setEdit_id(row._id);
                                 setUpdPopupButton(true);
-                                setToBeUpdFlight(row);
+                                setEditDepartureTime(row.DepartureTime);
+                                setEditDepartureTerminal(
+                                  row.AirportDepartureTerminal
+                                );
+                                setEditArrivalTime(row.ArrivalTime);
+                                setEditArrivalTermina(
+                                  row.AirportArrivalTerminal
+                                );
+                                setEditDate(row.Date);
+                                setEditEconomyClassSeats(row.EconomySeatsNo);
+                                setEditFirstClassSeats(row.FirstSeatsNo);
+                                setEditFlight(row.FlightNumber);
+                                setEditFrom(row.From);
+                                setEditTo(row.To);
+                                setEditBusinessClassSeats(row.BusinessSeatsNo);
                               }}
                             >
                               Edit
