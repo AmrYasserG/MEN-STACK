@@ -36,6 +36,18 @@ const FlightSchema = new Schema(
       type: Number,
       required: true,
     },
+    EconomyAvailableSeatsNo: {
+      type: Number,
+      required: true,
+    },
+    BusinessAvaiableSeatsNo: {
+      type: Number,
+      required: true,
+    },
+    FirstAvailableSeatsNo: {
+      type: Number,
+      required: true,
+    },
     EconomySeats: {
       type: Map,
       of: Boolean,
