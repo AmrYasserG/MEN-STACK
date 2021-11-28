@@ -10,9 +10,16 @@ const createNewFlight = (req, res) => {
     EconomySeatsNo: req.body.EconomySeatsNo,
     BusinessSeatsNo: req.body.BusinessSeatsNo,
     FirstSeatsNo: req.body.FirstSeatsNo,
+    EconomySeats: new Map(req.body.EconomySeats),
+    BusinessSeats: new Map(req.body.BusinessSeats),
+    FirstSeats: new Map(req.body.FirstSeats),
     AirportDepartureTerminal: req.body.AirportDepartureTerminal,
     AirportArrivalTerminal: req.body.AirportArrivalTerminal,
     Date: req.body.Date,
+    BaggageAllowance: req.body.BaggageAllowance,
+    FirstClassPrice: req.body.FirstClassPrice,
+    BusinessClassPrice: req.body.BusinessClassPrice,
+    EconomyClassPrice: req.body.EconomyClassPrice,
   });
   flight
     .save()
