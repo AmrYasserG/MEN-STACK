@@ -54,7 +54,7 @@ const SearchToReserve = ({ onSearch }) => {
     setReturnDate(new Date());
     setvalidSeatNo(true);
     setvalidDate(true);
-    onSearch(null);
+
   };
 
   const search = (e) => {
@@ -179,7 +179,7 @@ const SearchToReserve = ({ onSearch }) => {
             variant="outlined"
             value={DepartureDate}
             onChange={handleDdate}
-            helperText={
+           h elperText={
               validDate
                 ? ""
                 : "Return Date shoud be earlier than Departure Date"

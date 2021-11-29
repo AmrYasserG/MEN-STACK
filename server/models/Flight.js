@@ -18,11 +18,11 @@ const FlightSchema = new Schema(
     },
     ArrivalTime: {
       type: String,
-      required: false,
+      required: true,
     },
     DepartureTime: {
       type: String,
-      required: false,
+      required: true,
     },
     EconomySeatsNo: {
       type: Number,
@@ -51,17 +51,17 @@ const FlightSchema = new Schema(
     EconomySeats: {
       type: Map,
       of: Boolean,
-      required: true,
+      required: false,
     },
     BusinessSeats: {
       type: Map,
       of: Boolean,
-      required: true,
+      required: false,
     },
     FirstSeats: {
       type: Map,
       of: Boolean,
-      required: true,
+      required: false,
     },
     FirstClassPrice: {
       type: Number,
@@ -77,15 +77,15 @@ const FlightSchema = new Schema(
     },
     AirportDepartureTerminal: {
       type: Number,
-      required: true,
+      required: false,
     },
     AirportArrivalTerminal: {
       type: Number,
-      required: true,
+      required: false,
     },
     Date: {
       type: String,
-      required: false,
+      required: true,
     },
     BaggageAllowance: {
       type: Number,

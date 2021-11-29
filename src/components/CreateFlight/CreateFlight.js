@@ -20,7 +20,14 @@ const CreateFlight = () => {
     FirstSeatsNo:flight.FirstClassSeats,
     AirportDepartureTerminal:flight.DepartureTerminal,
     AirportArrivalTerminal:flight.ArrivalTerminal,
-    Date: flight.Date
+    Date: flight.Date,
+    FirstClassPrice: flight.FirstClassPrice,
+    BusinessClassPrice:flight.BusinessClassPrice,
+    EconomyClassPrice:flight.EconomyClassPrice,
+    EconomyAvailableSeatsNo:flight.EconomyClassSeats,
+    BusinessAvaiableSeatsNo:flight.BusinessClassSeats,
+    FirstAvailableSeatsNo:flight.FirstClassSeats
+
    }
   // {
   //   FlightNumber:22,
