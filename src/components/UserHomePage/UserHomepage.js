@@ -17,56 +17,51 @@ import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 import Popup from "../Popup/Popup";
 import SearchToReserve from "../SearchToReserve/SearchToReserve.js";
 
-const searchToReserve = async (flight) => {
-  console.log(`Search Result: ${JSON.stringify(flight)}`);
-};
-
-
-
-
-
 const UserHomepage = () => {
   const [arrivalRows, setArrivalRows] = useState([]);
-const [departureRows, setDepartureRows] = useState([]);
-const searchDepatureReserve = async (SearchCriteria) => {
-  await axios.post("http://localhost:3005/flights/searchFlights2", {
-    From: SearchCriteria.From,
-    To: SearchCriteria.To,
-    EconomySeatsNo: SearchCriteria.EconomyClassSeats,
-    BusinessSeatsNo: SearchCriteria.BusinessClassSeats,
-    FirstSeatsNo: SearchCriteria.FirstClassSeats,
-    departureDate: SearchCriteria.arriveDate
-  }).then((result) => (setDepartureRows(result.data)));
-};
+  const [departureRows, setDepartureRows] = useState([]);
+  const searchDepatureReserve = async (SearchCriteria) => {
+    await axios
+      .post("http://localhost:3005/flights/searchFlights2", {
+        From: SearchCriteria.From,
+        To: SearchCriteria.To,
+        EconomySeatsNo: SearchCriteria.EconomyClassSeats,
+        BusinessSeatsNo: SearchCriteria.BusinessClassSeats,
+        FirstSeatsNo: SearchCriteria.FirstClassSeats,
+        departureDate: SearchCriteria.departureDate,
+      })
+      .then((result) => setDepartureRows(result.data));
+  };
 
-const searchArrivalReserve = async (SearchCriteria) => {
-  await axios.post("http://localhost:3005/flights/searchFlights2", {
-    From: SearchCriteria.To,
-    To: SearchCriteria.From,
-    EconomySeatsNo: SearchCriteria.EconomyClassSeats,
-    BusinessSeatsNo: SearchCriteria.BusinessClassSeats,
-    FirstSeatsNo: SearchCriteria.FirstClassSeats,
-    arrivalDate: SearchCriteria.arriveDate
-  }).then((result) => (setArrivalRows(result.data)));
-};
+  const searchArrivalReserve = async (SearchCriteria) => {
+    await axios
+      .post("http://localhost:3005/flights/searchFlights2", {
+        From: SearchCriteria.To,
+        To: SearchCriteria.From,
+        EconomySeatsNo: SearchCriteria.EconomyClassSeats,
+        BusinessSeatsNo: SearchCriteria.BusinessClassSeats,
+        FirstSeatsNo: SearchCriteria.FirstClassSeats,
+        arrivalDate: SearchCriteria.arriveDate,
+      })
+      .then((result) => setArrivalRows(result.data));
+  };
 
-
-const departureColumns= [
-  { id: "FlightNumber", label: "Flight Number", width: 60 },
-  { id: "From", label: "From", width: 60 },
-  { id: "To", label: "To", width: 60 },
-  { id: "Date", label: "Flight Date", width: 110 },
-  {id:"Class",label:"Class ",width: 60},
-  {id:"baggage",label:"Baggage Allowance",width: 60}
-];
-const arrivalColumns= [
-  { id: "FlightNumber", label: "Flight Number", width: 60 },
-  { id: "From", label: "From", width: 60 },
-  { id: "To", label: "To", width: 60 },
-  { id: "Date", label: "Flight Date", width: 110 },
-  {id:"Class",label:"Class ",width: 60},
-  {id:"baggage",label:"Baggage Allowance",width: 60}
-];
+  const departureColumns = [
+    { id: "FlightNumber", label: "Flight Number", width: 60 },
+    { id: "From", label: "From", width: 60 },
+    { id: "To", label: "To", width: 60 },
+    { id: "Date", label: "Flight Date", width: 110 },
+    { id: "Class", label: "Class ", width: 60 },
+    { id: "baggage", label: "Baggage Allowance", width: 60 },
+  ];
+  const arrivalColumns = [
+    { id: "FlightNumber", label: "Flight Number", width: 60 },
+    { id: "From", label: "From", width: 60 },
+    { id: "To", label: "To", width: 60 },
+    { id: "Date", label: "Flight Date", width: 110 },
+    { id: "Class", label: "Class ", width: 60 },
+    { id: "baggage", label: "Baggage Allowance", width: 60 },
+  ];
 
   return (
     <div>
@@ -95,7 +90,7 @@ const arrivalColumns= [
                   <TableRow hover key={row._id}>
                     {departureColumns.map((column) => {
                       const value = row[column.id];
-                       {
+                      {
                         return (
                           <TableCell
                             key={column.id}
@@ -112,12 +107,12 @@ const arrivalColumns= [
                 );
               })}
             </TableBody>
-      </Table>
-    </TableContainer>
-  </Paper>
-  <br></br>
-  <h2>Arrival Flights</h2> 
-  <Paper sx={{ width: "100%", overflow: "hidden", marginTop: "1%" }}>
+          </Table>
+        </TableContainer>
+      </Paper>
+      <br></br>
+      <h2>Arrival Flights</h2>
+      <Paper sx={{ width: "100%", overflow: "hidden", marginTop: "1%" }}>
         <TableContainer sx={{ maxHeight: 500 }}>
           <Table>
             <TableHead>
@@ -138,7 +133,7 @@ const arrivalColumns= [
                   <TableRow hover key={row._id}>
                     {arrivalColumns.map((column) => {
                       const value = row[column.id];
-                       {
+                      {
                         return (
                           <TableCell
                             key={column.id}
@@ -155,11 +150,10 @@ const arrivalColumns= [
                 );
               })}
             </TableBody>
-      </Table>
-    </TableContainer>
-  </Paper>        
-      </div>
-    
+          </Table>
+        </TableContainer>
+      </Paper>
+    </div>
   );
 };
 export default UserHomepage;
