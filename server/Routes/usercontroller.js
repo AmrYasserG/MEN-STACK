@@ -6,6 +6,7 @@ const routes = (app)=>{
         res.send("Hello from home");
     });
     app.post("/addUser", cruds.addUser);  
+    app.get("/userInfo/:id",cruds.getInfo);
 };
 
 module.exports = {routes};

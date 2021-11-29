@@ -23,3 +23,12 @@ exports.addUser = (req, res) => {
 };
 
 
+exports.getInfo = (req, res) => {
+  let id = req.params.id;
+  console.log(req.params.id);
+  User.findById(id).then((result) => {
+    res.send(result);
+  });
+};
+
+
