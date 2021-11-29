@@ -5,7 +5,6 @@ import FlightTakeoffRoundedIcon from "@mui/icons-material/FlightTakeoffRounded";
 import FlightLandRoundedIcon from "@mui/icons-material/FlightLandRounded";
 import Box from "@mui/material/Box";
 import MenuItem from "@mui/material/MenuItem";
-import Input from "@mui/material/Input";
 import AirlineSeatReclineNormalIcon from "@mui/icons-material/AirlineSeatReclineNormal";
 import Button from "@mui/material/Button";
 import AvTimerOutlinedIcon from "@mui/icons-material/AvTimerOutlined";
@@ -88,7 +87,10 @@ const SearchToReserve = ({ onSearch }) => {
         <Typography>Search Criteriea</Typography>
       </AccordionSummary>
       <AccordionDetails>
-        <Box p={5} sx={{ "& > :not(style)": { mt: 2, mx: 5 } }}>
+        <Box
+          p={5}
+          sx={{ "& > :not(style)": { mt: 1, mx: 5 }, "text-align": "center" }}
+        >
           <TextField
             id="outlined-basic"
             required
@@ -210,11 +212,11 @@ const SearchToReserve = ({ onSearch }) => {
             disabled={
               !validDate ||
               !validSeatNo ||
-              From == "" ||
-              To == "" ||
-              SeatClass == "" ||
-              DepartureDate == "" ||
-              ReturnDate == ""
+              From === "" ||
+              To === "" ||
+              SeatClass === "" ||
+              DepartureDate === "" ||
+              ReturnDate === ""
             }
             onClick={search}
           >

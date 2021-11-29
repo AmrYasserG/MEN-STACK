@@ -1,4 +1,4 @@
-import { useState, useEffect, forwardRef } from "react";
+import { useState } from "react";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -7,43 +7,47 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import axios from "axios";
-import Button from "@mui/material/Button";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
-import AddIcon from "@mui/icons-material/Add";
-import MuiAlert from "@mui/material/Alert";
-import Snackbar from "@mui/material/Snackbar";
-import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
-import Popup from "../Popup/Popup";
+// import Button from "@mui/material/Button";
+// import DeleteIcon from "@mui/icons-material/Delete";
+// import EditIcon from "@mui/icons-material/Edit";
+// import AddIcon from "@mui/icons-material/Add";
+// import MuiAlert from "@mui/material/Alert";
+// import Snackbar from "@mui/material/Snackbar";
+// import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
+// import Popup from "../Popup/Popup";
 import SearchToReserve from "../SearchToReserve/SearchToReserve.js";
 
 const UserHomepage = () => {
-  const [arrivalRows, setArrivalRows] = useState([]);
-  const [departureRows, setDepartureRows] = useState([]);
+  const [ReturnRows, setReturnRows] = useState([]);
+  const [DepartureRows, setDepartureRows] = useState([]);
+
+  const searchToReserve = (SearchCriteria) => {
+    searchDepatureReserve(SearchCriteria);
+    searchArrivalReserve(SearchCriteria);
+  };
+
   const searchDepatureReserve = async (SearchCriteria) => {
     await axios
-      .post("http://localhost:3005/flights/searchFlights2", {
+      .post("http://localhost:3005/flights/searchFlightsToReserve", {
         From: SearchCriteria.From,
         To: SearchCriteria.To,
-        EconomySeatsNo: SearchCriteria.EconomyClassSeats,
-        BusinessSeatsNo: SearchCriteria.BusinessClassSeats,
-        FirstSeatsNo: SearchCriteria.FirstClassSeats,
-        departureDate: SearchCriteria.departureDate,
+        Class: SearchCriteria.SeatClass,
+        SeatNo: SearchCriteria.SeatsNo,
+        Date: SearchCriteria.DepartureDate,
       })
       .then((result) => setDepartureRows(result.data));
   };
 
   const searchArrivalReserve = async (SearchCriteria) => {
     await axios
-      .post("http://localhost:3005/flights/searchFlights2", {
+      .post("http://localhost:3005/flights/searchFlightsToReserve", {
         From: SearchCriteria.To,
         To: SearchCriteria.From,
-        EconomySeatsNo: SearchCriteria.EconomyClassSeats,
-        BusinessSeatsNo: SearchCriteria.BusinessClassSeats,
-        FirstSeatsNo: SearchCriteria.FirstClassSeats,
-        arrivalDate: SearchCriteria.arriveDate,
+        Class: SearchCriteria.SeatClass,
+        SeatNo: SearchCriteria.SeatsNo,
+        Date: SearchCriteria.ReturnDate,
       })
-      .then((result) => setArrivalRows(result.data));
+      .then((result) => setReturnRows(result.data));
   };
 
   const departureColumns = [
@@ -85,7 +89,7 @@ const UserHomepage = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {departureRows.map((row) => {
+              {DepartureRows.map((row) => {
                 return (
                   <TableRow hover key={row._id}>
                     {departureColumns.map((column) => {
@@ -128,7 +132,7 @@ const UserHomepage = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {arrivalRows.map((row) => {
+              {ReturnRows.map((row) => {
                 return (
                   <TableRow hover key={row._id}>
                     {arrivalColumns.map((column) => {

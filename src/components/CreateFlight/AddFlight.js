@@ -1,4 +1,8 @@
 import { useState } from "react";
+import Input from "@mui/material/Input";
+import InputAdornment from "@mui/material/InputAdornment";
+import OutlinedInput from "@mui/material/OutlinedInput";
+
 const AddFlight = ({ onAdd }) => {
   const [Flight, setFlight] = useState("");
   const [From, setFrom] = useState("");
@@ -125,11 +129,21 @@ const AddFlight = ({ onAdd }) => {
           onChange={(e) => setArrivalTermina(Number(e.target.value))}
         />
       </div>
-      <div className="form-control">
+      <div className="form-control1">
         <label>Business Class Seats</label>
-        <input
-          type="text"
-          placeholder="Add Business Class Seats"
+        <OutlinedInput
+          sx={{ width: "10%", height: "40px", mx: "5px" }}
+          type="number"
+          placeholder="No. Seats"
+          value={BusinessClassSeats}
+          required
+          onChange={(e) => setBusinessClassSeats(Number(e.target.value))}
+        />
+        <OutlinedInput
+          sx={{ width: "10%", height: "40px", mx: "5px" }}
+          endAdornment={<InputAdornment position="end">$</InputAdornment>}
+          type="number"
+          placeholder="Price"
           value={BusinessClassSeats}
           required
           onChange={(e) => setBusinessClassSeats(Number(e.target.value))}
@@ -156,7 +170,7 @@ const AddFlight = ({ onAdd }) => {
         />
       </div>
 
-      <input type="submit" value="Create Flight" className="btn btn-block" />
+      <Input type="submit" value="Create Flight" className="btn btn-block" />
     </form>
   );
 };

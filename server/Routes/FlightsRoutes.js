@@ -6,6 +6,10 @@ flightRouter.use(express.urlencoded({ extended: false }));
 
 flightRouter.get("/getAllFlights", flightController.getAllFlights);
 flightRouter.post("/searchFlights", flightController.searchFlights);
+flightRouter.post(
+  "/searchFlightsToReserve",
+  flightController.searchFlightsToReserve
+);
 flightRouter.post("/searchFlights2", flightController.searchFlights2);
 flightRouter.post("/createNewFlight", flightController.createNewFlight);
 flightRouter.delete("/deleteFlight/:id", flightController.deleteFlight);

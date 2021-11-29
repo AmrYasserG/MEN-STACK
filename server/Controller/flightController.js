@@ -34,6 +34,36 @@ const createNewFlight = (req, res) => {
     });
 };
 
+const searchFlightsToReserve = (req, res) => {
+  let arr = [];
+  arr.push({ From: req.body.From });
+  arr.push({ To: req.body.To });
+  arr.push({ Date: req.body.Date });
+  switch (req.body.Class) {
+    case "Business Class": {
+      arr.push({ BusinessAvailableSeatsNo: { $gte: req.body.SeatNo } });
+      break;
+    }
+    case "First Class": {
+      arr.push({ FirstAvailableSeatsNo: { $gte: req.body.SeatNo } });
+      break;
+    }
+    case "Economy Class": {
+      arr.push({ EconomyAvailableSeatsNo: { $lte: req.body.SeatNo } });
+      break;
+    }
+    default:
+      break;
+  }
+  Flight.find({ $and: arr })
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
 const searchFlights = (req, res) => {
   let arr = [];
 
@@ -132,6 +162,7 @@ const updateFlightdetails = (req, res) => {
 module.exports = {
   createNewFlight,
   searchFlights,
+  searchFlightsToReserve,
   searchFlights2,
   getAllFlights,
   deleteFlight,
