@@ -179,7 +179,7 @@ const SearchToReserve = ({ onSearch }) => {
             variant="outlined"
             value={DepartureDate}
             onChange={handleDdate}
-           h elperText={
+           helperText={
               validDate
                 ? ""
                 : "Return Date shoud be earlier than Departure Date"
