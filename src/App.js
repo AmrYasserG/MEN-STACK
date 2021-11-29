@@ -18,7 +18,7 @@ class App extends Component {
             <Route path="/AdminHomepage" element={<AdminHomepage />} />
             <Route path="/scratch" element={<scratch />} />
             <Route path="/HomePage" element={<UserHomepage />} />
-            <Route path="/userprofile" element={<UserProfile />} />
+            <Route path="/UserProfile" element={<UserProfile />} />
           </Routes>
         </div>
       </Router>
