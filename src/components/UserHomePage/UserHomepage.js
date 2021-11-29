@@ -32,10 +32,10 @@ const searchDepatureReserve = async (SearchCriteria) => {
   await axios.post("http://localhost:3005/flights/searchFlights2", {
     From: SearchCriteria.From,
     To: SearchCriteria.To,
-    EconomySeatsNo: SearchCriteria.EconomyClassSeats,
-    BusinessSeatsNo: SearchCriteria.BusinessClassSeats,
-    FirstSeatsNo: SearchCriteria.FirstClassSeats,
-    departureDate: SearchCriteria.arriveDate
+    Class:SearchCriteria.SeatClass,
+    SeatNo=SearchCriteria.SeatsNo,
+    departureDate: SearchCriteria.DepartureDate
+    
   }).then((result) => (setDepartureRows(result.data)));
 };
 
@@ -43,10 +43,9 @@ const searchArrivalReserve = async (SearchCriteria) => {
   await axios.post("http://localhost:3005/flights/searchFlights2", {
     From: SearchCriteria.To,
     To: SearchCriteria.From,
-    EconomySeatsNo: SearchCriteria.EconomyClassSeats,
-    BusinessSeatsNo: SearchCriteria.BusinessClassSeats,
-    FirstSeatsNo: SearchCriteria.FirstClassSeats,
-    arrivalDate: SearchCriteria.arriveDate
+    Class:SearchCriteria.SeatClass,
+    SeatNo:SearchCriteria.SeatsNo,
+    arrivalDate: SearchCriteria.ReturnDate
   }).then((result) => (setArrivalRows(result.data)));
 };
 
