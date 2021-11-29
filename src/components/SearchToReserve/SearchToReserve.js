@@ -1,109 +1,228 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import TextField from "@mui/material/TextField";
+import InputAdornment from "@mui/material/InputAdornment";
+import FlightTakeoffRoundedIcon from "@mui/icons-material/FlightTakeoffRounded";
+import FlightLandRoundedIcon from "@mui/icons-material/FlightLandRounded";
+import Box from "@mui/material/Box";
+import MenuItem from "@mui/material/MenuItem";
+import Input from "@mui/material/Input";
+import AirlineSeatReclineNormalIcon from "@mui/icons-material/AirlineSeatReclineNormal";
+import Button from "@mui/material/Button";
+import AvTimerOutlinedIcon from "@mui/icons-material/AvTimerOutlined";
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import Typography from "@mui/material/Typography";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+
 const SearchToReserve = ({ onSearch }) => {
   const [From, setFrom] = useState("");
   const [To, setTo] = useState("");
-  const [Date, setDate] = useState("");
-  const [DepartureTime, setDepartureTime] = useState("");
-  // const [ArrivalTime, setArrivalTime] = useState("");
-  const [BusinessClassSeats, setBusinessClassSeats] = useState("");
-  const [EconomyClassSeats, setEconomyClassSeats] = useState("");
-  const [FirstClassSeats, setFirstClassSeats] = useState("");
+  const [DepartureDate, setDepartureDate] = useState("");
+  const [ReturnDate, setReturnDate] = useState("");
+  const [SeatClass, setSeatClass] = useState("");
+  const [SeatsNo, setSeatsNo] = useState(1);
+  const [validSeatNo, setvalidSeatNo] = useState(true);
+  const [validDate, setvalidDate] = useState(true);
+  const seatClasses = [
+    {
+      value: "Business Class",
+      label: "Business Class",
+    },
+    {
+      value: "First Class",
+      label: "First Class",
+    },
+    {
+      value: "Economy Class",
+      label: "Economy Class",
+    },
+  ];
+  useEffect(() => {
+    setvalidSeatNo(Number(SeatsNo) >= 1);
+  }, [SeatsNo]);
 
-  const onSubmit = (e) => {
-    //e.preventDefault()
-    // if (!Flight) {
-    //     alert('Please add a Flight number')
-    //     return
-    //   }
-    //   if (!From||!To||!Date||!DepartureTime||!ArrivalTime||!DepartureTerminal||!ArrivalTerminal) {
-    //     alert('Please complete all inputs')
-    //     return
-    //   }
-    if (e.value === "Search Flight") {
-      onSearch({
-        From,
-        To,
-        Date,
-        DepartureTime,
-        BusinessClassSeats,
-        EconomyClassSeats,
-        FirstClassSeats,
-      });
-    } else {
-      onSearch(null);
-    }
+  useEffect(() => {
+    setvalidDate(new Date(DepartureDate) < new Date(ReturnDate));
+  }, [DepartureDate, ReturnDate]);
+
+  const reset = (e) => {
+    setFrom("");
+    setTo("");
+    setSeatClass("");
+    setSeatsNo(1);
+    setDepartureDate(new Date());
+    setReturnDate(new Date());
+    setvalidSeatNo(true);
+    setvalidDate(true);
+    onSearch(null);
   };
 
+  const search = (e) => {
+    console.log("Clicked");
+    onSearch({
+      From,
+      To,
+      DepartureDate,
+      ReturnDate,
+      SeatClass,
+      SeatsNo,
+    });
+  };
+  const handlSeatChange = (e) => {
+    setSeatsNo(e.target.value);
+  };
+  const handleDdate = (e) => {
+    setDepartureDate(e.target.value);
+  };
+  const handleRdate = (e) => {
+    setReturnDate(e.target.value);
+  };
   return (
-    <form className="" onSubmit={onSubmit}>
-      <div className="form-control.">
-        <label>From</label>
-        <input
-          type="text"
-          placeholder="From"
-          value={From}
-          onChange={(e) => setFrom(e.target.value)}
-        />
-      </div>
-      <div className="form-control.">
-        <label>To</label>
-        <input
-          type="text"
-          placeholder="To"
-          value={To}
-          onChange={(e) => setTo(e.target.value)}
-        />
-      </div>
-      <div className="form-control.">
-        <label>Flight Date</label>
-        <input
-          type="date"
-          placeholder="Fight Date"
-          value={Date}
-          onChange={(e) => setDate(e.target.value)}
-        />
-      </div>
-      <div className="form-control.">
-        <label>Departure Time</label>
-        <input
-          type="time"
-          placeholder="Departure Time"
-          value={DepartureTime}
-          onChange={(e) => setDepartureTime(e.target.value)}
-        />
-      </div>
+    <Accordion>
+      <AccordionSummary
+        expandIcon={<ExpandMoreIcon />}
+        aria-controls="panel1a-content"
+        id="panel1a-header"
+      >
+        <Typography>Search Criteriea</Typography>
+      </AccordionSummary>
+      <AccordionDetails>
+        <Box p={5} sx={{ "& > :not(style)": { mt: 2, mx: 5 } }}>
+          <TextField
+            id="outlined-basic"
+            required
+            label="Origin"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <FlightTakeoffRoundedIcon />
+                </InputAdornment>
+              ),
+            }}
+            variant="outlined"
+            onChange={(e) => {
+              setFrom(e.target.value);
+            }}
+            value={From}
+          />
+          <TextField
+            id="outlined-basic"
+            required
+            label="Destination"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <FlightLandRoundedIcon />
+                </InputAdornment>
+              ),
+            }}
+            variant="outlined"
+            onChange={(e) => {
+              setTo(e.target.value);
+            }}
+            value={To}
+          />
+          <br />
+          <TextField
+            id="Class"
+            required
+            select
+            label="Class"
+            value={SeatClass}
+            onChange={(e) => {
+              setSeatClass(e.target.value);
+            }}
+            helperText="Please select your Prefered Class"
+          >
+            {seatClasses.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </TextField>
+          <TextField
+            required
+            label="Number Of Seats"
+            id="NoOfSeats"
+            error={!validSeatNo}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <AirlineSeatReclineNormalIcon />
+                </InputAdornment>
+              ),
+              type: "number",
+            }}
+            variant="outlined"
+            onChange={handlSeatChange}
+            value={SeatsNo}
+            helperText={validSeatNo ? "" : "Number should be greater than 0"}
+          />
 
-      <div className="form-control.">
-        <label>Business Class Seats</label>
-        <input
-          type="text"
-          placeholder="Business Class Seats"
-          value={BusinessClassSeats}
-          onChange={(e) => setBusinessClassSeats(Number(e.target.value))}
-        />
-      </div>
-      <div className="form-control.">
-        <label>Economy Class Seats</label>
-        <input
-          type="text"
-          placeholder="Economy Class Seats"
-          value={EconomyClassSeats}
-          onChange={(e) => setEconomyClassSeats(Number(e.target.value))}
-        />
-      </div>
-      <div className="form-control.">
-        <label>First Class Seats</label>
-        <input
-          type="text"
-          placeholder="First Class Seats"
-          value={FirstClassSeats}
-          onChange={(e) => setFirstClassSeats(Number(e.target.value))}
-        />
-      </div>
-
-      <input type="submit" value="Search Flight" className="btn btn-block" />
-      <input type="submit" value="Reset Search" className="btn btn-block" />
-    </form>
+          <br />
+          <TextField
+            error={!validDate}
+            required
+            label="Departure Date"
+            id="dDate"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <AvTimerOutlinedIcon />
+                </InputAdornment>
+              ),
+              type: "date",
+            }}
+            variant="outlined"
+            value={DepartureDate}
+            onChange={handleDdate}
+            helperText={
+              validDate
+                ? ""
+                : "Return Date shoud be earlier than Departure Date"
+            }
+          />
+          <TextField
+            required
+            error={!validDate}
+            label="Return Date"
+            id="rDate"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <AvTimerOutlinedIcon />
+                </InputAdornment>
+              ),
+              type: "date",
+            }}
+            variant="outlined"
+            value={ReturnDate}
+            onChange={handleRdate}
+          />
+          <br />
+          <Button variant="contained" color="secondary" onClick={reset}>
+            Reset
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            disabled={
+              !validDate ||
+              !validSeatNo ||
+              From == "" ||
+              To == "" ||
+              SeatClass == "" ||
+              DepartureDate == "" ||
+              ReturnDate == ""
+            }
+            onClick={search}
+          >
+            Search
+          </Button>
+        </Box>
+      </AccordionDetails>
+    </Accordion>
   );
 };
 

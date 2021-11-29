@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import AdminHomepage from "./components/AdminHomepage/AdminHomepage";
-import UserHomepage from "./components/UserHomepage/UserHomepage";
+import UserHomepage from "./components/UserHomePage/UserHomepage";
 import scratch from "./components/scratch/scratch";
 import CreateFlight from "./components/CreateFlight/CreateFlight";
 

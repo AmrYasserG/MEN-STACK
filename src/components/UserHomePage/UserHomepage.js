@@ -18,7 +18,7 @@ import Popup from "../Popup/Popup";
 import SearchToReserve from "../SearchToReserve/SearchToReserve.js";
 
 const searchToReserve = async (flight) => {
-  await axios.post("Link").then((result) => console.log("Balabizo"));
+  console.log(`Search Result: ${JSON.stringify(flight)}`);
 };
 
 const UserHomepage = () => {
