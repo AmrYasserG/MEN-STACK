@@ -43,7 +43,7 @@ const AdminHomepage = () => {
   const [updPopupButton, setUpdPopupButton] = useState(false);
   const [deleteOpenResponse, setDeleteOpenResponse] = useState(false);
   const [editOpenResponse, setEditOpenResponse] = useState(false);
-  const [showFlight, setShowFlight] = useState(false);
+  //const [showFlight, setShowFlight] = useState(false);
 
   const columns = [
     { id: "FlightNumber", label: "Flight Number", width: 60 },

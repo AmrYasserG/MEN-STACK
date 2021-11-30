@@ -3,8 +3,9 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
+//import DeleteIcon from "@mui/icons-material/Delete";
+//import EditIcon from "@mui/icons-material/Edit";
+import { Link } from 'react-router-dom';
 
 function scratch() {
   return (
@@ -17,6 +18,12 @@ function scratch() {
         marginTop: "10%",
       }}
     >
+      <Link to={{
+      pathname: '/ReservedFlights',
+      state: [{id: "123"}],
+      }}
+      style= {{backgroundColor: "#111"}}> Your Page </Link>
+
       <Grid container spacing={2}>
         <Grid item xs={12} sm container>
           <Grid item container spacing={2}>

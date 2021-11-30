@@ -6,19 +6,19 @@ const BookingFlightsSchema = new Schema({
         type: String,
         required: true,
     },
-    FLight_id:{
+    FlightNumber:{
         type: String,
         required: true,
     },
-    EconomySeatsReserved: {
-        type: Number,
+    ChosenCabin: {
+        type: String,
         required: true,
     },
-    BusinessSeatsReserved: {
-        type: Number,
-        required: true
+    SeatsReserved: {
+        type: [String],
+        required: true,
     },
-    FirstSeatsReserved: {
+    TotalReservationPrice:{
         type: Number,
         required: true
     },
