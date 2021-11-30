@@ -64,6 +64,7 @@ function ReservedFlights() {
   const [toBeCanceled, setToBeCanceled] = useState(0);
   const [CancelReservationPopupButton, setCancelReservationPopupButton] = useState(false);
   const [deleteOpenResponse, setDeleteOpenResponse] = useState(false);
+  const [User_Email, setUserEmail] = useState("");
 
   useEffect(() => {
     GetAllReservedFlights();
@@ -72,6 +73,7 @@ function ReservedFlights() {
   function GetAllReservedFlights() {
     if (state !== undefined) {
       const User_id = state[0].id;
+      GetUserInfo(User_id);
       axios
         .get(
           "http://localhost:3005/bookingFlights/getAllReservations/" + User_id
@@ -90,6 +92,20 @@ function ReservedFlights() {
           console.log(err);
         });
     }
+  }
+
+  function GetUserInfo(User_id){
+    console.log(User_id);
+    axios
+        .get(
+          "http://localhost:3005/users/userInfo/" + User_id
+        )
+        .then((res) => {
+          setUserEmail(res.data.Email);
+        })
+        .catch((err)=>{
+          console.log(err);
+        })
   }
 
   function GetAllFlights(flight_Details, flight_User_Details) {
@@ -162,10 +178,11 @@ function ReservedFlights() {
 
   function DeleteRow() {
     console.log(toBeCanceled);
+    console.log(User_Email);
     const FlightReservedId = FlightsUserDetails[toBeCanceled]._id;
     axios
       .delete(
-        "http://localhost:3005/bookingFlights/cancelReservation/" + FlightReservedId
+        "http://localhost:3005/bookingFlights/cancelReservation/" + FlightReservedId + "/" + User_Email
       )
       .then((res) => {
         updateFlightAvailableSeats(FlightsReserved,FlightsUserDetails);

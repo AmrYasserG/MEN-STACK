@@ -1,7 +1,7 @@
 const BookingFlights = require("../models/BookingFlights");
 const nodemailer = require("nodemailer");
 require("dotenv").config({ path: __dirname + "/./../../.env" });
-//delete this before final merge
+
 const createReservation = (req, res) => {
     const bookingFlights = new BookingFlights({
         User_id: req.body.User_id,
@@ -42,10 +42,9 @@ const cancelReservation = (req, res) => {
         });
         let info = transporter.sendMail({
           from: '"MenStack" MenStack46@gmail.com',
-          to: "muostafa12@gmail.com", // list of receivers
-          subject: "Flight Reservation Cancelled", // Subject line
-          text: "Mustafa", // plain text body
-          html: `<p>${result.TotalReservationPrice}</p>`, // html body
+          to: req.params.UserEmail,
+          subject: "Cancelled Flight Reservation", 
+          html: `<p>Total amount refunded: ${result.TotalReservationPrice}</p>`,
         });
       })
       .catch((err) => {

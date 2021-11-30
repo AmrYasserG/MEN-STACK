@@ -20,7 +20,7 @@ function scratch() {
     >
       <Link to={{
       pathname: '/ReservedFlights',
-      state: [{id: "123"}],
+      state: [{id: "618ba4fffe6644777d199219"}],
       }}
       style= {{backgroundColor: "#111"}}> Your Page </Link>
 
