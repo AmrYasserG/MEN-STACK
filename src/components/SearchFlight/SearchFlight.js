@@ -11,8 +11,11 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import BackspaceRoundedIcon from "@mui/icons-material/BackspaceRounded";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import InputAdornment from "@mui/material/InputAdornment";
+import AirlineSeatReclineNormalIcon from "@mui/icons-material/AirlineSeatReclineNormal";
+import FlightTakeoffRoundedIcon from "@mui/icons-material/FlightTakeoffRounded";
+import FlightLandRoundedIcon from "@mui/icons-material/FlightLandRounded";
 
-const SearchFlight = ({ onSearch }) => {
+const SearchFlight = ({ onSearch, d }) => {
   const [FlightNo, setFlightNo] = useState("");
   const [From, setFrom] = useState("");
   const [To, setTo] = useState("");
@@ -84,127 +87,26 @@ const SearchFlight = ({ onSearch }) => {
   };
 
   return (
-    <form className="" onSubmit={onSubmit}>
-      <div className="form-control.">
-        <label>Flight Number</label>
-        <input
-          type="text"
-          placeholder="Fight Number"
-          value={FlightNo}
-          onChange={(e) => setFlightNo(e.target.value)}
-        />
-      </div>
-      <div className="form-control.">
-        <label>From</label>
-        <input
-          type="text"
-          placeholder="From"
-          value={From}
-          onChange={(e) => setFrom(e.target.value)}
-        />
-      </div>
-      <div className="form-control.">
-        <label>To</label>
-        <input
-          type="text"
-          placeholder="To"
-          value={To}
-          onChange={(e) => setTo(e.target.value)}
-        />
-      </div>
-      <div className="form-control.">
-        <label>Flight Date</label>
-        <input
-          type="date"
-          placeholder="Fight Date"
-          value={Date}
-          onChange={(e) => setDate(e.target.value)}
-        />
-      </div>
-      <div className="form-control.">
-        <label>Departure Time</label>
-        <input
-          type="time"
-          placeholder="Departure Time"
-          value={DepartureTime}
-          onChange={(e) => setDepartureTime(e.target.value)}
-        />
-      </div>
-      <div className="form-control.">
-        <label>Arrival Time</label>
-        <input
-          type="time"
-          placeholder="Arrival Time"
-          value={ArrivalTime}
-          onChange={(e) => setArrivalTime(e.target.value)}
-        />
-      </div>
-      <div className="form-control.">
-        <label>Departure Terminal</label>
-        <input
-          type="text"
-          placeholder="Departure Terminal"
-          value={DepartureTerminal}
-          onChange={(e) => setDepartureTerminal(Number(e.target.value))}
-        />
-      </div>
-      <div className="form-control.">
-        <label>Arrival Terminal</label>
-        <input
-          type="text"
-          placeholder="Arrival Terminal"
-          value={ArrivalTerminal}
-          onChange={(e) => setArrivalTerminal(Number(e.target.value))}
-        />
-      </div>
-      <div className="form-control.">
-        <label>Business Class Seats</label>
-        <input
-          type="text"
-          placeholder="Business Class Seats"
-          value={BusinessClassSeatsNo}
-          onChange={(e) => setBusinessClassSeatsNo(Number(e.target.value))}
-        />
-      </div>
-      <div className="form-control.">
-        <label>Economy Class Seats</label>
-        <input
-          type="text"
-          placeholder="Economy Class Seats"
-          value={EconomyClassSeatsNo}
-          onChange={(e) => setEconomyClassSeatsNo(Number(e.target.value))}
-        />
-      </div>
-      <div className="form-control.">
-        <label>First Class Seats</label>
-        <input
-          type="text"
-          placeholder="First Class Seats"
-          value={FirstClassSeatsNo}
-          onChange={(e) => setFirstClassSeatsNo(Number(e.target.value))}
-        />
-      </div>
-
-      <input type="submit" value="Search Flight" className="btn btn-block" />
-
-      <Box
-        component="form"
-        sx={{
-          p: 2,
-          margin: "auto",
-          maxWidth: "80%",
-          my: 10,
-        }}
-      >
+    <Box
+      sx={{
+        p: 2,
+        margin: "auto",
+        maxWidth: "80%",
+        my: 1,
+      }}
+    >
+      {d ? (
+        ""
+      ) : (
         <Accordion>
           <AccordionSummary
-            sx={{ "text-align": "center" }}
+            sx={{ backgroundColor: "#f7f7f7", "text-align": "center" }}
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1a-content"
             id="panel1a-header"
           >
             <Typography sx={{ mx: "40%", width: 800 }} variant="h5">
-              Search Criteriea &nbsp;
+              Search Criteria &nbsp;
               <SearchRoundedIcon />
             </Typography>
           </AccordionSummary>
@@ -300,6 +202,13 @@ const SearchFlight = ({ onSearch }) => {
                     required
                     value={From}
                     onChange={(e) => setFrom(e.target.value)}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <FlightTakeoffRoundedIcon />
+                        </InputAdornment>
+                      ),
+                    }}
                   />
                 </Grid>
                 <Grid
@@ -333,6 +242,13 @@ const SearchFlight = ({ onSearch }) => {
                     required
                     value={To}
                     onChange={(e) => setTo(e.target.value)}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <FlightLandRoundedIcon />
+                        </InputAdornment>
+                      ),
+                    }}
                   />
                 </Grid>
                 <Grid item xs={1}></Grid>
@@ -473,6 +389,13 @@ const SearchFlight = ({ onSearch }) => {
                     required
                     value={FirstClassSeatsNo}
                     onChange={(e) => setFirstClassSeatsNo(e.target.value)}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <AirlineSeatReclineNormalIcon />
+                        </InputAdornment>
+                      ),
+                    }}
                   />
                 </Grid>
                 <Grid item xs={2}>
@@ -530,6 +453,13 @@ const SearchFlight = ({ onSearch }) => {
                     required
                     value={BusinessClassSeatsNo}
                     onChange={(e) => setBusinessClassSeatsNo(e.target.value)}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <AirlineSeatReclineNormalIcon />
+                        </InputAdornment>
+                      ),
+                    }}
                   />
                 </Grid>
                 <Grid item xs={2}>
@@ -591,6 +521,13 @@ const SearchFlight = ({ onSearch }) => {
                     required
                     value={EconomyClassSeatsNo}
                     onChange={(e) => setEconomyClassSeatsNo(e.target.value)}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <AirlineSeatReclineNormalIcon />
+                        </InputAdornment>
+                      ),
+                    }}
                   />
                 </Grid>
                 <Grid item xs={2}>
@@ -643,8 +580,8 @@ const SearchFlight = ({ onSearch }) => {
             </Box>
           </AccordionDetails>
         </Accordion>
-      </Box>
-    </form>
+      )}
+    </Box>
   );
 };
 
