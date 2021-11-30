@@ -34,6 +34,19 @@ const UserProfile = ({ onEdit }) => {
     return age;
 }
 
+const fillMap = (map,n) => {
+  const c = ["A", "B", "C", "D", "E", "F"];
+  let total = n;
+  for (let i = 1; i <= total / 6; i++) {
+    for (let j = 0; j < 6; j++) {
+      map.set(c[j] + i, true);
+    }
+  }
+  for (let i = 1; i <= total % 6; i++) {
+    map.set(c[i] + total / 6+1, true);
+  }
+};
+
   const onSubmit = (e) => {
     e.preventDefault();
 
