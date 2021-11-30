@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import AdminHomepage from "./components/AdminHomepage/AdminHomepage";
 import UserHomepage from "./components/UserHomePage/UserHomepage";
-import scratch from "./components/scratch/scratch";
+import Scratch from "./components/scratch/scratch";
 import CreateFlight from "./components/CreateFlight/CreateFlight";
 
 class App extends Component {
@@ -15,7 +15,7 @@ class App extends Component {
             <Route path="/" element={<AdminHomepage />} />
             <Route path="/CreateFlight" element={<CreateFlight />} />
             <Route path="/AdminHomepage" element={<AdminHomepage />} />
-            <Route path="/scratch" element={<scratch />} />
+            <Route path="/scratch" element={<Scratch />} />
             <Route path="/HomePage" element={<UserHomepage />} />
           </Routes>
         </div>

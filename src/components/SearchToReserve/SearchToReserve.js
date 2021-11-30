@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useLayoutEffect } from "react";
 import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
 import FlightTakeoffRoundedIcon from "@mui/icons-material/FlightTakeoffRounded";
@@ -13,6 +13,8 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import BackspaceRoundedIcon from "@mui/icons-material/BackspaceRounded";
+import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 
 const SearchToReserve = ({ onSearch }) => {
   const [From, setFrom] = useState("");
@@ -37,11 +39,11 @@ const SearchToReserve = ({ onSearch }) => {
       label: "Economy Class",
     },
   ];
-  useEffect(() => {
+  useLayoutEffect(() => {
     setvalidSeatNo(Number(SeatsNo) >= 1);
   }, [SeatsNo]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     setvalidDate(new Date(DepartureDate) < new Date(ReturnDate));
   }, [DepartureDate, ReturnDate]);
 
@@ -80,18 +82,19 @@ const SearchToReserve = ({ onSearch }) => {
   return (
     <Accordion>
       <AccordionSummary
+        sx={{ "text-align": "center" }}
         expandIcon={<ExpandMoreIcon />}
         aria-controls="panel1a-content"
         id="panel1a-header"
       >
-        <Typography>Search Criteriea</Typography>
+        <Typography sx={{ mx: "40%", width: 800 }} variant="h5">
+          Search Criteriea
+        </Typography>
       </AccordionSummary>
       <AccordionDetails>
-        <Box
-          p={5}
-          sx={{ "& > :not(style)": { mt: 1, mx: 5 }, "text-align": "center" }}
-        >
+        <Box sx={{ mx: 5, "text-align": "center" }}>
           <TextField
+            sx={{ width: "20%", height: "40px", mx: 7, my: 3 }}
             id="outlined-basic"
             required
             label="Origin"
@@ -109,6 +112,7 @@ const SearchToReserve = ({ onSearch }) => {
             value={From}
           />
           <TextField
+            sx={{ width: "20%", height: "40px", mx: 7, my: 3 }}
             id="outlined-basic"
             required
             label="Destination"
@@ -127,6 +131,7 @@ const SearchToReserve = ({ onSearch }) => {
           />
           <br />
           <TextField
+            sx={{ width: "20%", height: "40px", mx: 7, my: 3 }}
             id="Class"
             required
             select
@@ -144,6 +149,7 @@ const SearchToReserve = ({ onSearch }) => {
             ))}
           </TextField>
           <TextField
+            sx={{ width: "20%", height: "40px", mx: 7, my: 3 }}
             required
             label="Number Of Seats"
             id="NoOfSeats"
@@ -164,6 +170,7 @@ const SearchToReserve = ({ onSearch }) => {
 
           <br />
           <TextField
+            sx={{ width: "20%", height: "40px", mx: 7, my: 3 }}
             error={!validDate}
             required
             label="Departure Date"
@@ -186,6 +193,7 @@ const SearchToReserve = ({ onSearch }) => {
             }
           />
           <TextField
+            sx={{ width: "20%", height: "40px", mx: 7, my: 3 }}
             required
             error={!validDate}
             label="Return Date"
@@ -203,10 +211,18 @@ const SearchToReserve = ({ onSearch }) => {
             onChange={handleRdate}
           />
           <br />
-          <Button variant="contained" color="secondary" onClick={reset}>
+          <Button
+            startIcon={<BackspaceRoundedIcon />}
+            variant="contained"
+            color="secondary"
+            onClick={reset}
+            sx={{ width: "7%", height: "40px", mx: 7, my: 2 }}
+          >
             Reset
           </Button>
           <Button
+            sx={{ width: "7%", height: "40px", mx: 7, my: 2 }}
+            endIcon={<SearchRoundedIcon />}
             variant="contained"
             color="primary"
             disabled={
