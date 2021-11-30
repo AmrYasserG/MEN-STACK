@@ -151,14 +151,18 @@ const AdminHomepage = () => {
     //console.log(flight.Flight);
     await axios
       .post("http://localhost:3005/flights/searchFlights2", {
-        FlightNumber: flight.Flight,
+        FlightNumber: flight.FlightNo,
         From: flight.From,
         To: flight.To,
+        BaggageAllowance: flight.BaggageAllowance,
         ArrivalTime: flight.ArrivalTime,
         DepartureTime: flight.DepartureTime,
-        EconomySeatsNo: flight.EconomyClassSeats,
-        BusinessSeatsNo: flight.BusinessClassSeats,
-        FirstSeatsNo: flight.FirstClassSeats,
+        EconomySeatsNo: flight.EconomyClassSeatsNo,
+        BusinessSeatsNo: flight.BusinessClassSeatsNo,
+        FirstSeatsNo: flight.FirstClassSeatsNo,
+        EconomyClassPrice: flight.EconomyClassSeatsPrice,
+        BusinessClassPrice: flight.BusinessClassSeatsPrice,
+        FirstClassPrice: flight.FirstClassSeatsPrice,
         AirportDepartureTerminal: flight.DepartureTerminal,
         AirportArrivalTerminal: flight.ArrivalTerminal,
         Date: flight.Date,
