@@ -110,6 +110,7 @@ const AdminHomepage = () => {
       })
       .then((res) => {
         setEditOpenResponse(true);
+        GetAllFlights();
       });
   }
 
@@ -169,11 +170,7 @@ const AdminHomepage = () => {
     GetAllFlights();
   }, []);
 
-  const onSubmit = (e) => {
-    e.preventDefault();
-    setUpdPopupButton(false);
-    EditRow(edit_id);
-  };
+  
   return (
     <div>
       <Snackbar
@@ -236,7 +233,7 @@ const AdminHomepage = () => {
       </Popup>
       <UpdateOver trigger={updPopupButton} setTrigger={setUpdPopupButton}>
         <h1>Update Flight</h1>
-        <form className="" onSubmit={onSubmit}>
+       
           <label>FlightNumber:</label>
           <span>
             <input
@@ -258,7 +255,7 @@ const AdminHomepage = () => {
               type="text"
               value={editFrom}
               onChange={(e) => {
-                setEditDate(e.target.value);
+                setEditFrom(e.target.value);
               }}
             />
           </span>
@@ -380,8 +377,27 @@ const AdminHomepage = () => {
             />
           </span>
           <br></br>
-          <input type="submit" value="Update" className="btn btn-block" />
-        </form>
+          <Button
+          variant="contained"
+          color="error"
+          style={{ right: "5%", top: "7%" }}
+          onClick={() => {
+            setUpdPopupButton(false);
+            EditRow(edit_id);
+          }}
+        >
+          Update
+        </Button>
+        <Button
+          variant="contained"
+          style={{ left: "5%", top: "7%" }}
+          onClick={() => {
+            setDeletePopupButton(false);
+          }}
+        >
+          Cancel
+        </Button>
+        
       </UpdateOver>
       <Button
         variant="contained"
