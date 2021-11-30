@@ -95,7 +95,6 @@ function ReservedFlights() {
   }
 
   function GetUserInfo(User_id){
-    console.log(User_id);
     axios
         .get(
           "http://localhost:3005/users/userInfo/" + User_id
@@ -169,7 +168,7 @@ function ReservedFlights() {
         updatedAvailableSeats
       )
       .then((res) => {
-        console.log("Available Seats Updated successfully");
+        // console.log("Available Seats Updated successfully");
       })
       .catch((err) => {
         console.log(err);
@@ -177,8 +176,6 @@ function ReservedFlights() {
   }
 
   function DeleteRow() {
-    console.log(toBeCanceled);
-    console.log(User_Email);
     const FlightReservedId = FlightsUserDetails[toBeCanceled]._id;
     axios
       .delete(
