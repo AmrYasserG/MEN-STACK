@@ -1,6 +1,6 @@
 .btn {
   display: inline-block;
-  background: #000;
+  background: rgb(199, 195, 255);
   color: #fff;
   border: none;
   padding: 10px 20px;
@@ -63,7 +63,7 @@
 }
 .form-control input {
   /* text-align: center;  */
-  width: 20%;
+  width: 10%;
   height: 40px;
   margin: 5px;
   padding: 3px 7px;
