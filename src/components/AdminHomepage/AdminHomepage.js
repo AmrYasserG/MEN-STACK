@@ -392,7 +392,7 @@ const AdminHomepage = () => {
           variant="contained"
           style={{ left: "5%", top: "7%" }}
           onClick={() => {
-            setDeletePopupButton(false);
+            setUpdPopupButton(false);
           }}
         >
           Cancel
