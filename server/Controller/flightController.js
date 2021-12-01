@@ -111,13 +111,19 @@ const searchFlights2 = (req, res) => {
   if (req.body.FirstSeatsNo)
     arr = { ...arr, FirstSeatsNo: req.body.FirstSeatsNo };
   if (req.body.AirportDepartureTerminal)
-    arr = {
-      ...arr,
-      AirportDepartureTerminal: req.body.AirportDepartureTerminal,
-    };
+    arr = { ...arr, AirportDepartureTerminal: req.body.AirportDepartureTerminal };
   if (req.body.AirportArrivalTerminal)
     arr = { ...arr, AirportArrivalTerminal: req.body.AirportArrivalTerminal };
-  if (req.body.Date) arr = { ...arr, Date: req.body.Date };
+  if (req.body.Date)
+    arr = { ...arr, Date: req.body.Date };
+  if (req.body.FirstClassPrice)
+    arr = { ...arr, FirstClassPrice: req.body.FirstClassPrice };
+  if (req.body.BusinessClassPrice)
+    arr = { ...arr, BusinessClassPrice: req.body.BusinessClassPrice };
+  if (req.body.EconomyClassPrice)
+    arr = { ...arr, EconomyClassPrice: req.body.EconomyClassPrice };
+  if (req.body.BaggageAllowance)
+    arr = { ...arr, BaggageAllowance: req.body.BaggageAllowance };
 
   console.log(arr);
 

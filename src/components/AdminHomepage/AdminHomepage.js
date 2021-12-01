@@ -1,23 +1,15 @@
 import { useState, useEffect, forwardRef } from "react";
-import Paper from "@mui/material/Paper";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
 import axios from "axios";
 import Button from "@mui/material/Button";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
 import MuiAlert from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
-import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
-import Popup from "../Popup/Popup";
 import "./AdminHomepage.css";
 import UpdateOver from "../UpdateOver/UpdateOver";
 import SearchFlight from "../SearchFlight/SearchFlight.js";
+import ResponsiveAppBar from "../ResponsiveAppBar/ResponsiveAppBar";
+import CollapsibleTable from "../CollapsibleTable/CollapsibleTable";
+import setDeleteOpenResponse from '../DeleteButton/DeleteButton'
 
 const Alert = forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -25,8 +17,8 @@ const Alert = forwardRef(function Alert(props, ref) {
 
 const AdminHomepage = () => {
   const [rows, setRows] = useState([]);
-  const [toBeDeletedFlight, setToBeDeletedFlight] = useState("");
-  const [deletePopupButton, setDeletePopupButton] = useState(false);
+  // const [toBeDeletedFlight, setToBeDeletedFlight] = useState("");
+  // const [deletePopupButton, setDeletePopupButton] = useState(false);
   const [editFlight, setEditFlight] = useState("");
   const [editFrom, setEditFrom] = useState("");
   const [editTo, setEditTo] = useState("");
@@ -41,44 +33,44 @@ const AdminHomepage = () => {
   const [edit_id, setEdit_id] = useState("");
 
   const [updPopupButton, setUpdPopupButton] = useState(false);
-  const [deleteOpenResponse, setDeleteOpenResponse] = useState(false);
+  // const [deleteOpenResponse, setDeleteOpenResponse] = useState(false);
   const [editOpenResponse, setEditOpenResponse] = useState(false);
   const [showFlight, setShowFlight] = useState(false);
 
-  const columns = [
-    { id: "FlightNumber", label: "Flight Number", width: 60 },
-    { id: "From", label: "From", width: 60 },
-    { id: "To", label: "To", width: 60 },
-    { id: "Date", label: "Flight Date", width: 110 },
-    { id: "DepartureTime", label: "Departure Time", width: 80 },
-    { id: "ArrivalTime", label: "Arrival Time", width: 80 },
-    {
-      id: "AirportDepartureTerminal",
-      label: "Airport Departure Terminal",
-      width: 60,
-    },
-    {
-      id: "AirportArrivalTerminal",
-      label: "Airport Arrival Terminal",
-      width: 60,
-    },
-    {
-      id: "BusinessSeatsNo",
-      label: "Number Of Business Class Seats",
-      Width: 100,
-    },
-    {
-      id: "EconomySeatsNo",
-      label: "Number Of Economy Class Seats",
-      Width: 100,
-    },
-    {
-      id: "FirstSeatsNo",
-      label: "Number Of First Class Seats",
-      Width: 100,
-    },
-    { id: "action", label: "Action", Width: 100 },
-  ];
+  // const columns = [
+  //   { id: "FlightNumber", label: "Flight Number", width: 60 },
+  //   { id: "From", label: "From", width: 60 },
+  //   { id: "To", label: "To", width: 60 },
+  //   { id: "Date", label: "Flight Date", width: 110 },
+  //   { id: "DepartureTime", label: "Departure Time", width: 80 },
+  //   { id: "ArrivalTime", label: "Arrival Time", width: 80 },
+  //   {
+  //     id: "AirportDepartureTerminal",
+  //     label: "Airport Departure Terminal",
+  //     width: 60,
+  //   },
+  //   {
+  //     id: "AirportArrivalTerminal",
+  //     label: "Airport Arrival Terminal",
+  //     width: 60,
+  //   },
+  //   {
+  //     id: "BusinessSeatsNo",
+  //     label: "Number Of Business Class Seats",
+  //     Width: 100,
+  //   },
+  //   {
+  //     id: "EconomySeatsNo",
+  //     label: "Number Of Economy Class Seats",
+  //     Width: 100,
+  //   },
+  //   {
+  //     id: "FirstSeatsNo",
+  //     label: "Number Of First Class Seats",
+  //     Width: 100,
+  //   },
+  //   { id: "action", label: "Action", Width: 100 },
+  // ];
 
   function GetAllFlights() {
     axios
@@ -113,22 +105,22 @@ const AdminHomepage = () => {
       });
   }
 
-  function DeleteRow(values) {
-    axios
-      .delete("http://localhost:3005/flights/deleteFlight/" + values)
-      .then((res) => {
-        setDeleteOpenResponse(true);
-        setRows(
-          rows.filter((rows) => {
-            return rows._id !== values;
-          })
-        );
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    // setToBeDeletedFlight("");
-  }
+  // function DeleteRow(values) {
+  //   axios
+  //     .delete("http://localhost:3005/flights/deleteFlight/" + values)
+  //     .then((res) => {
+  //       setDeleteOpenResponse(true);
+  //       setRows(
+  //         rows.filter((rows) => {
+  //           return rows._id !== values;
+  //         })
+  //       );
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  //   // setToBeDeletedFlight("");
+  // }
 
   const deleteHandleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -174,9 +166,11 @@ const AdminHomepage = () => {
     setUpdPopupButton(false);
     EditRow(edit_id);
   };
+
   return (
     <div>
-      <Snackbar
+      <ResponsiveAppBar pages={['Create Flight']} />
+      {/* <Snackbar
         open={deleteOpenResponse}
         autoHideDuration={6000}
         onClose={deleteHandleClose}
@@ -188,7 +182,7 @@ const AdminHomepage = () => {
         >
           Deleted Successfully
         </Alert>
-      </Snackbar>
+      </Snackbar> */}
       <Snackbar
         open={editOpenResponse}
         autoHideDuration={6000}
@@ -202,7 +196,7 @@ const AdminHomepage = () => {
           Edited Successfully
         </Alert>
       </Snackbar>
-      <Popup trigger={deletePopupButton} setTrigger={setDeletePopupButton}>
+      {/* <Popup trigger={deletePopupButton} setTrigger={setDeletePopupButton}>
         <CancelOutlinedIcon
           color="error"
           style={{ width: "25%", height: "30%" }}
@@ -233,7 +227,7 @@ const AdminHomepage = () => {
         >
           Cancel
         </Button>
-      </Popup>
+      </Popup> */}
       <UpdateOver trigger={updPopupButton} setTrigger={setUpdPopupButton}>
         <h1>Update Flight</h1>
         <form className="" onSubmit={onSubmit}>
@@ -400,7 +394,10 @@ const AdminHomepage = () => {
         {/* <Link to="/signup" className="btn btn-primary">Sign up</Link> */}
       </div>
 
-      <Paper sx={{ width: "100%", overflow: "hidden", marginTop: "1%" }}>
+      <CollapsibleTable rows={rows} isAdmin = {true}  />
+
+
+      {/* <Paper sx={{ width: "100%", overflow: "hidden", marginTop: "1%" }}>
         <TableContainer sx={{ maxHeight: 500 }}>
           <Table>
             <TableHead>
@@ -486,7 +483,7 @@ const AdminHomepage = () => {
             </TableBody>
           </Table>
         </TableContainer>
-      </Paper>
+      </Paper> */}
     </div>
   );
 };

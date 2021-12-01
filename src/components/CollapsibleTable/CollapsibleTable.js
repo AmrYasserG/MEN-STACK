@@ -14,93 +14,11 @@ import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import Button from "@mui/material/Button";
+import DeleteButton from '../DeleteButton/DeleteButton';
 
-const rows = [
-  {
-    FlightNumber: 'XY1',
-    From: 'LAX',
-    To: 'CAI',
-    ArrivalTime: '30/12/2021',
-    DepartureTime: '29/12/2021',
-    EconomySeatsNo: 1,
-    BusinessSeatsNo: 1,
-    FirstSeatsNo: 1,
-    EconomyAvailableSeatsNo: 1,
-    BusinessAvailableSeatsNo: 1,
-    FirstAvailableSeatsNo: 2,
-    FirstClassPrice: 750,
-    BusinessClassPrice: 1900,
-    EconomyClassPrice: 200000,
-    AirportDepartureTerminal: 1,
-    AirportArrivalTerminal: 2,
-    Date: '5/11/2021',
-    BaggageAllowance: 2,
-  },
-  {
-    FlightNumber: 'AB1',
-    From: 'LAX',
-    To: 'CAI',
-    ArrivalTime: '30/12/2021',
-    DepartureTime: '29/12/2021',
-    EconomySeatsNo: 1,
-    BusinessSeatsNo: 1,
-    FirstSeatsNo: 1,
-    EconomyAvailableSeatsNo: 3,
-    BusinessAvailableSeatsNo: 23,
-    FirstAvailableSeatsNo: 1,
-    FirstClassPrice: 750,
-    BusinessClassPrice: 1900,
-    EconomyClassPrice: 200000,
-    AirportDepartureTerminal: 1,
-    AirportArrivalTerminal: 2,
-    Date: '5/11/2021',
-    BaggageAllowance: 2,
-  },
-  {
-    FlightNumber: 'AC1',
-    From: 'LAX',
-    To: 'CAI',
-    ArrivalTime: '30/12/2021',
-    DepartureTime: '29/12/2021',
-    EconomySeatsNo: 1,
-    BusinessSeatsNo: 1,
-    FirstSeatsNo: 1,
-    EconomyAvailableSeatsNo: 1,
-    BusinessAvailableSeatsNo: 1,
-    FirstAvailableSeatsNo: 1,
-    FirstClassPrice: 750,
-    BusinessClassPrice: 1900,
-    EconomyClassPrice: 200000,
-    AirportDepartureTerminal: 1,
-    AirportArrivalTerminal: 2,
-    Date: '5/11/2021',
-    BaggageAllowance: 2,
-  },
-  {
-    FlightNumber: 'AD1',
-    From: 'LAX',
-    To: 'CAI',
-    ArrivalTime: '30/12/2021',
-    DepartureTime: '29/12/2021',
-    EconomySeatsNo: 1,
-    BusinessSeatsNo: 1,
-    FirstSeatsNo: 1,
-    EconomyAvailableSeatsNo: 1,
-    BusinessAvailableSeatsNo: 1,
-    FirstAvailableSeatsNo: 1,
-    FirstClassPrice: 750,
-    BusinessClassPrice: 1900,
-    EconomyClassPrice: 200000,
-    AirportDepartureTerminal: 1,
-    AirportArrivalTerminal: 2,
-    Date: '5/11/2021',
-    BaggageAllowance: 2,
-  }
-];
 
-function Row(props) {
-  //const [row, setrow] = useState(props)
-  const { row } = props;
+function Row({row ,isAdmin}) {
+//   const { row } = props;
   const [open, setOpen] = React.useState(false);
 
   //style={{backgroundColor : '#D3D3D3'}}
@@ -126,7 +44,7 @@ function Row(props) {
         <TableCell>{row.Date}</TableCell>
       </TableRow>
       <TableRow >
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={8}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
               <Typography variant="h6" gutterBottom component="div">
@@ -149,7 +67,7 @@ function Row(props) {
                 <TableBody>
                   <TableRow >
                     <TableCell><div id='bloc1' style={{ color: 'blue' }}>{row.EconomyAvailableSeatsNo}</div> <div id='bloc2'>{'/' + row.EconomySeatsNo}</div> </TableCell>
-                    <TableCell >{row.EconomyClassPrice}</TableCell>
+                    <TableCell>{row.EconomyClassPrice}</TableCell>
                     <TableCell>{row.BusinessAvailableSeatsNo + '/' + row.BusinessSeatsNo}</TableCell>
                     <TableCell>{row.BusinessClassPrice}</TableCell>
                     <TableCell>{row.FirstAvailableSeatsNo + '/' + row.FirstSeatsNo}</TableCell>
@@ -157,14 +75,7 @@ function Row(props) {
                     <TableCell>{row.AirportDepartureTerminal}</TableCell>
                     <TableCell>{row.AirportArrivalTerminal}</TableCell>
                     <TableCell>{row.BaggageAllowance}</TableCell>
-                    <TableCell>
-                      <Button
-                        variant="contained"
-                        color="error"
-                        style={{ right: "5%", top: "7%" }}
-                      >
-                        Delete
-                      </Button></TableCell>
+                    {isAdmin === true ? <TableCell><DeleteButton row = {row}/></TableCell>:<></>}
                     <TableCell><Button
                       variant="contained"
                     >
@@ -200,7 +111,7 @@ function Row(props) {
 //   }).isRequired,
 // };
 
-export default function CollapsibleTable() {
+export default function CollapsibleTable({rows , isAdmin}) {
   return (
     <TableContainer component={Paper}>
       <Table aria-label="collapsible table">
@@ -217,7 +128,7 @@ export default function CollapsibleTable() {
         </TableHead>
         <TableBody>
           {rows.map((row) => (
-            <Row key={row} row={row} />
+            <Row key={row} row={row} isAdmin = {isAdmin} />
           ))}
         </TableBody>
       </Table>
