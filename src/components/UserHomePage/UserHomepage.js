@@ -30,10 +30,14 @@ const UserHomepage = () => {
   const[depSelectedRow,updateDepSelectedRow]=useState("");
   const[depChoosenRow,updateDepChoosenRow]=useState("");
 
+  const[arrSelectedRow,updateArrSelectedRow]=useState("");
+  const[arrChoosenRow,updateArrChoosenRow]=useState("");
+
   const [depclassType,depsetClassType]=useState("");
   const [arrclassType,arrsetClassType]=useState("");
 
   const [selectPopupButton, setSelectPopupButton] = useState(false);
+  const [selectArPopupButton, setSelectArPopupButton] = useState(false);
 
 
   const searchToReserve = (SearchCriteria) => {
@@ -94,6 +98,8 @@ const UserHomepage = () => {
   return (
     <div>
       <UpdateOver trigger={selectPopupButton} setTrigger={setSelectPopupButton}>
+      <h1>Flight Details:</h1>  
+      <br></br>
       <label>FlightNumber:</label>
       <label>{depSelectedRow.FlightNumber}</label>
       <br></br>
@@ -144,6 +150,66 @@ const UserHomepage = () => {
           style={{ left: "5%", top: "7%" }}
           onClick={() => {
             setSelectPopupButton(false);
+          }}
+        >
+          Cancel
+        </Button>
+
+      </UpdateOver>
+
+      <UpdateOver trigger={selectArPopupButton} setTrigger={setSelectArPopupButton}>
+      <h1>Flight Details:</h1>  
+      <br></br>
+      <label>FlightNumber:</label>
+      <label>{arrSelectedRow.FlightNumber}</label>
+      <br></br>
+      <label>From:</label>
+      <label>{arrSelectedRow.From}</label>
+      <br></br>
+      <label>To:</label>
+      <label>{arrSelectedRow.To}</label>
+      <br></br>
+      <label>Flight Date:</label>
+      <label>{arrSelectedRow.Date}</label>
+      <br></br>
+      <label>Departure Time:</label>
+      <label>{arrSelectedRow.DepTime}</label>
+      <br></br>
+      <label>Arrival Time:</label>
+      <label>{arrSelectedRow.ArrTime}</label>
+      <br></br>
+      <label>Airport Departure Terminal:</label>
+      <label>{arrSelectedRow.DepTerminal}</label>
+      <br></br>
+      <label>Airport Arrival Terminal:</label>
+      <label>{arrSelectedRow.ArrTerminal}</label>
+      <br></br>
+      <label>Class:</label>
+      <label>{arrclassType}</label>
+      <br></br>
+      <label>Price:</label>
+      <label>{arrSelectedRow.Price}</label>
+      <br></br>
+      <Button
+          variant="contained"
+          color="error"
+          style={{ right: "5%", top: "7%" }}
+          onClick={() => {
+           
+            setSelectArPopupButton(false);
+            updateArrChoosenRow(arrSelectedRow);
+            //console.log(arrSelectedRow._id);
+            
+            
+          }}
+        >
+          Select
+        </Button>
+        <Button
+          variant="contained"
+          style={{ left: "5%", top: "7%" }}
+          onClick={() => {
+            setSelectArPopupButton(false);
           }}
         >
           Cancel
@@ -241,9 +307,35 @@ const UserHomepage = () => {
             <TableBody>
               {ReturnRows.map((row) => {
                 return (
-                  <TableRow hover key={row._id}>
+                  <TableRow onClick={()=>{updateArrSelectedRow(
+                    {
+                      FlightNumber:row.FlightNumber,
+                      From:row.From,
+                      To:row.To,
+                      Date:row.Date,
+                      DepTime:row.DepartureTime,
+                      ArrTime:row.ArrivalTime,
+                      DepTerminal:row.AirportDepartureTerminal,
+                      ArrTerminal:row.AirportArrivalTerminal,
+                      Price:(arrclassType==="First Class")?row.FirstClassPrice:(arrclassType==="Economy Class")?row.EconomyClassPrice:row.BusinessClassPrice
+                      
+                    }
+                    
+                  );setSelectArPopupButton(true);}} hover key={row._id} className={arrChoosenRow.FlightNumber === row.FlightNumber ? "tableSelected" : "" }>
                     {arrivalColumns.map((column) => {
                       const value = row[column.id];
+                      if(column.id === "Class")
+                      {
+                        return (
+                          <TableCell
+                            key={column.id}
+                            sx={{ textAlign: "center" }}
+                          >
+                            {arrclassType}
+                          </TableCell>
+                        );
+                      }
+                      else
                       {
                         return (
                           <TableCell

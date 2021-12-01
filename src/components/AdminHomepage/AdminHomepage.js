@@ -400,10 +400,7 @@ const AdminHomepage = () => {
           style={{ left: "5%", top: "7%" }}
           onClick={() => {
             setUpdPopupButton(false);
-<<<<<<< HEAD
-=======
             setX(false);
->>>>>>> 74a6d5954addc9471cee69a6b0f3a1780cb0ac2b
           }}
         >
           Cancel
