@@ -199,11 +199,7 @@ const SearchToReserve = ({ onSearch }) => {
             label="Return Date"
             id="rDate"
             InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <AvTimerOutlinedIcon />
-                </InputAdornment>
-              ),
+             
               type: "date",
             }}
             variant="outlined"
