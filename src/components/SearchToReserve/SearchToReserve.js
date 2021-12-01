@@ -7,7 +7,6 @@ import Box from "@mui/material/Box";
 import MenuItem from "@mui/material/MenuItem";
 import AirlineSeatReclineNormalIcon from "@mui/icons-material/AirlineSeatReclineNormal";
 import Button from "@mui/material/Button";
-import AvTimerOutlinedIcon from "@mui/icons-material/AvTimerOutlined";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
@@ -154,6 +153,7 @@ const SearchToReserve = ({ onSearch }) => {
             label="Number Of Seats"
             id="NoOfSeats"
             error={!validSeatNo}
+            type="number"
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">

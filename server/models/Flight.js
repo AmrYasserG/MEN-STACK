@@ -40,7 +40,7 @@ const FlightSchema = new Schema(
       type: Number,
       required: true,
     },
-    BusinessAvaiableSeatsNo: {
+    BusinessAvailableSeatsNo: {
       type: Number,
       required: true,
     },

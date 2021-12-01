@@ -39,17 +39,18 @@ const searchFlightsToReserve = (req, res) => {
   arr.push({ From: req.body.From });
   arr.push({ To: req.body.To });
   arr.push({ Date: req.body.Date });
+  console.log(req.body.SeatNo);
   switch (req.body.Class) {
     case "Business Class": {
-      arr.push({ BusinessAvailableSeatsNo: { $gte: req.body.SeatNo } });
+      arr.push({ BusinessAvailableSeatsNo: { $lte: Number(req.body.SeatNo) } });
       break;
     }
     case "First Class": {
-      arr.push({ FirstAvailableSeatsNo: { $gte: req.body.SeatNo } });
+      arr.push({ FirstAvailableSeatsNo: { $lte: Number(req.body.SeatNo) } });
       break;
     }
     case "Economy Class": {
-      arr.push({ EconomyAvailableSeatsNo: { $lte: req.body.SeatNo } });
+      arr.push({ EconomyAvailableSeatsNo: { $lte: Number(req.body.SeatNo) } });
       break;
     }
     default:
