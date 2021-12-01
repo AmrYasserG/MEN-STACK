@@ -177,9 +177,7 @@ const SearchToReserve = ({ onSearch }) => {
             id="dDate"
             InputProps={{
               startAdornment: (
-                <InputAdornment position="start">
-                  <AvTimerOutlinedIcon />
-                </InputAdornment>
+                <InputAdornment position="start"></InputAdornment>
               ),
               type: "date",
             }}
@@ -199,7 +197,9 @@ const SearchToReserve = ({ onSearch }) => {
             label="Return Date"
             id="rDate"
             InputProps={{
-             
+              startAdornment: (
+                <InputAdornment position="start"></InputAdornment>
+              ),
               type: "date",
             }}
             variant="outlined"
