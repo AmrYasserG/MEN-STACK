@@ -44,7 +44,7 @@ const cancelReservation = (req, res) => {
           from: '"MenStack" MenStack46@gmail.com',
           to: req.params.UserEmail,
           subject: "Cancelled Flight Reservation", 
-          html: `<p>Total amount refunded: ${result.TotalReservationPrice}</p>`,
+          html: `<p>Flight Number: ${result.FlightNumber}</p><p>Chosen Cabin: ${result.ChosenCabin}</p><p>Total amount refunded: ${result.TotalReservationPrice}</p>`,
         });
       })
       .catch((err) => {
