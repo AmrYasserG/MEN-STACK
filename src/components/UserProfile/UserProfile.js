@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import Input from "@mui/material/Input";
 import  Button  from "@mui/material/Button";
 import InputAdornment from "@mui/material/InputAdornment";
@@ -7,6 +7,7 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import TextField from "@mui/material/TextField";
 import AvTimerOutlinedIcon from "@mui/icons-material/AvTimerOutlined";
 import Box from "@mui/material/Box";
+import axios from "axios";
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
 
@@ -22,7 +23,9 @@ const UserProfile = ({ onEdit }) => {
   const [MartialStatus, setMartialStatus] = useState("");
   const [PhoneNumber, setPhoneNumber] = useState("");
   const [Job, setJob] = useState("");
-
+  const [User, setUser] = useState([]);
+  
+  
   function getAge(dateString) {
     var today = new Date();
     var birthDate = new Date(dateString);
@@ -46,39 +49,65 @@ const fillMap = (map,n) => {
     map.set(c[i] + total / 6+1, true);
   }
 };
-
+function EditUser(id) {
+  axios
+    .put("http://localhost:3005/users/editUser/" + id, {
+      Name:User.Name,
+      Email:User.Email,
+      Age:User.Age,
+      BornIn:User.BornIn,
+      LivesIn:User.LivesIn,
+      MartialStatus:User.MartialStatus,
+      PhoneNumber:User.PhoneNumber,
+      Job:User.Job
+    })
+  
+    
+}
   const onSubmit = (e) => {
     e.preventDefault();
-
-    onEdit({
-      Name,
-      Email,
-      Age,
-      BornIn,
-      LivesIn,
-      MartialStatus,
-      PhoneNumber,
-      Job,
-    });
-    
-    alert("editted");
+    EditUser("617e93641ff94cd5d2055174");
+    alert(User.BornIn);
   };
 
+  useEffect(() => {
+      setName(User.Name);
+      setEmail(User.Email);
+      setBornIn(User.BornIn);
+      setMartialStatus(User.MartialStatus);
+      setPhoneNumber(User.PhoneNumber);
+      setLivesIn(User.LivesIn);
+      setJob(User.Job)
+  }, [User]);
 
+  useEffect(() => {
+    axios
+      .get("http://localhost:3005/users/userInfo/617e93641ff94cd5d2055174")
+      .then((res) => {
+        setUser(res.data);
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  
   return (
     <form   >
       <Box
           p={2}
           sx={{ "& > :not(style)": { mt: 4, mx: 3 }, "text-align": "center" }}
         >
+        
       <div >
         <TextField
           type="text"
           id="outlined-basic"
           label="Name" 
           required
-          onChange={(e) => setName(e.target.value)}
           value={Name}
+          onChange={(e) => setName(e.target.value)}
           error={Name===""}
           helperText={
             Name===""?"This is required":""
@@ -104,7 +133,7 @@ const fillMap = (map,n) => {
             required
             type="date"
             label="BornIn"
-            id="dDate"
+            id="dDate"  
             InputProps={{
               startAdornment: (
                 <InputAdornment >
@@ -134,10 +163,11 @@ const fillMap = (map,n) => {
         <TextField
           type="text"
           label="Age"
-          error={Age<=0}
+        
           value={getAge(new Date(BornIn))}
           required
           onChange={(e) => setAge(Number(e.target.value))}
+          error={Age<=0}
           helperText={
             Age<=0===""?"This is required":""
           }
@@ -149,8 +179,8 @@ const fillMap = (map,n) => {
           id="outlined-basic"
           label="MartialStatus" 
           required
-          onChange={(e) => setMartialStatus(e.target.value)}
           value={MartialStatus}
+          onChange={(e) => setMartialStatus(e.target.value)}     
           error={MartialStatus===""}
           helperText={
             MartialStatus===""?"This is required":""
@@ -176,9 +206,10 @@ const fillMap = (map,n) => {
           type="text"
           id="outlined-basic"
           label="LivesIn" 
+          value={LivesIn}
           required
           onChange={(e) => setLivesIn(e.target.value)}
-          value={LivesIn}
+          
           error={LivesIn===""}
           helperText={
             LivesIn===""?"This is required":""
@@ -191,8 +222,9 @@ const fillMap = (map,n) => {
           id="outlined-basic"
           label="Job" 
           required
-          onChange={(e) => setJob(e.target.value)}
           value={Job}
+          onChange={(e) => setJob(e.target.value)}
+          
           error={Job===""}
           helperText={
             Job===""?"This is required":""
