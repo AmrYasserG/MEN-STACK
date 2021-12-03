@@ -10,9 +10,19 @@ const createNewFlight = (req, res) => {
     EconomySeatsNo: req.body.EconomySeatsNo,
     BusinessSeatsNo: req.body.BusinessSeatsNo,
     FirstSeatsNo: req.body.FirstSeatsNo,
+    EconomyAvailableSeatsNo: req.body.EconomySeatsNo,
+    BusinessAvailableSeatsNo: req.body.BusinessSeatsNo,
+    FirstAvailableSeatsNo: req.body.FirstSeatsNo,
+    EconomySeats: new Map(req.body.EconomySeats),
+    BusinessSeats: new Map(req.body.BusinessSeats),
+    FirstSeats: new Map(req.body.FirstSeats),
     AirportDepartureTerminal: req.body.AirportDepartureTerminal,
     AirportArrivalTerminal: req.body.AirportArrivalTerminal,
     Date: req.body.Date,
+    BaggageAllowance: req.body.BaggageAllowance,
+    FirstClassPrice: req.body.FirstClassPrice,
+    BusinessClassPrice: req.body.BusinessClassPrice,
+    EconomyClassPrice: req.body.EconomyClassPrice,
   });
   flight
     .save()
@@ -101,6 +111,16 @@ const getAllFlights = (req, res) => {
     });
 };
 
+const getAllFlightsWithId = (req, res) => {
+  Flight.find({ $or: req.body })
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
 const deleteFlight = (req, res) => {
   Flight.findByIdAndRemove(req.params.id)
     .then((result) => {
@@ -114,9 +134,23 @@ const deleteFlight = (req, res) => {
 const updateFlightdetails = (req, res) => {
   let id = req.params.id;
   console.log(req.params.id);
-  Flight.findByIdAndUpdate({ _id: id }, req.body).then((result) => {
-    res.send("Updated Successfully");
-  });
+  Flight.findByIdAndUpdate({ _id: id }, req.body)
+    .then((result) => {
+      res.send("Updated Successfully");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+const updateFlightAvailableSeats = (req, res) => {
+  Flight.findByIdAndUpdate({ _id: req.params.id }, {$set:req.body})
+    .then((result) => {
+      res.send("Updated Successfully");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
 
 module.exports = {
@@ -124,6 +158,8 @@ module.exports = {
   searchFlights,
   searchFlights2,
   getAllFlights,
+  getAllFlightsWithId,
   deleteFlight,
   updateFlightdetails,
+  updateFlightAvailableSeats,
 };
