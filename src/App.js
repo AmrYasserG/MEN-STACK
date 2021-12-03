@@ -5,6 +5,8 @@ import AdminHomepage from './components/AdminHomepage/AdminHomepage';
 import scratch from './components/scratch/scratch';
 import CreateFlight from './components/CreateFlight/CreateFlight';
 import ReservedFlights from './components/ReservedFlights/ReservedFlights';
+import UserProfile from './components/UserProfile/UserProfile';
+
 
 class App extends Component {
   render() {
@@ -16,6 +18,7 @@ class App extends Component {
         <Route path='/AdminHomepage' component={AdminHomepage} />
         <Route path='/ReservedFlights' component={ReservedFlights} />
         <Route path='/scratch' component={scratch} />
+        <Route path="/UserProfile" component={UserProfile} />
         </div>
       </Router>
     );

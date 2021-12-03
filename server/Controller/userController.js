@@ -29,6 +29,17 @@ const getInfo = (req, res) => {
   });
 };
 
+const editUser = (req, res) => {
+  let id = req.params.id;
+  console.log(req.params.id);
+  User.findByIdAndUpdate({ _id: id }, req.body)
+    .then((result) => {
+      res.send(req.body);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
 const getAllUsers = (req, res) => {
   User.find().then((result) => {
     res.send(result);
@@ -39,6 +50,7 @@ const getAllUsers = (req, res) => {
 module.exports = {
   addUser,
   getInfo,
-  getAllUsers
+  getAllUsers,
+  editUser
 };
 

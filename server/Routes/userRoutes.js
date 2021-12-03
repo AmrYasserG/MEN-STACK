@@ -7,5 +7,5 @@ usersRouter.use(express.urlencoded({ extended: false }));
 usersRouter.post("/addUser", userController.addUser);  
 usersRouter.get("/userInfo/:id",userController.getInfo);
 usersRouter.get("/usersInfo",userController.getAllUsers);
-
+usersRouter.put("/editUser/:id", userController.editUser);
 module.exports = usersRouter;
