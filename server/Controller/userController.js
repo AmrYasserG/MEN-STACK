@@ -34,7 +34,7 @@ const editUser = (req, res) => {
   console.log(req.params.id);
   User.findByIdAndUpdate({ _id: id }, req.body)
     .then((result) => {
-      res.send("Updated Successfully");
+      res.send(req.body);
     })
     .catch((err) => {
       console.log(err);

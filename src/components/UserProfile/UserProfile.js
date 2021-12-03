@@ -74,6 +74,7 @@ function EditUser(id) {
     })
     .then((res) => {
       setEditOpenResponse(true);
+      setUser(res.data);
     });   
 }
   const onSubmit = (e) => {
@@ -104,7 +105,7 @@ function EditUser(id) {
       .catch((err) => {
         console.log(err);
       });
-  }, );
+  },[]);
 
   
   return (
