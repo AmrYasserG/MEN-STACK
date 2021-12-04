@@ -1,29 +1,32 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const BookingFlightsSchema = new Schema({
-    User_id:{
-        type: String,
-        required: true,
+const BookingFlightsSchema = new Schema(
+  {
+    User_id: {
+      type: String,
+      required: true,
     },
-    FLight_id:{
-        type: String,
-        required: true,
+    FlightNumber: {
+      type: String,
+      required: true,
     },
-    EconomySeatsReserved: {
-        type: Number,
-        required: true,
+    ChosenCabin: {
+      type: String,
+      required: true,
     },
-    BusinessSeatsReserved: {
-        type: Number,
-        required: true
+    SeatsReserved: {
+      type: [String],
+      required: true,
     },
-    FirstSeatsReserved: {
-        type: Number,
-        required: true
+    TotalReservationPrice: {
+      type: Number,
+      required: true,
     },
-},{ timestamps: true });
+  },
+  { timestamps: true }
+);
 
-mongoose.models = {}
-const BookingFlights = mongoose.model('BookingFlights', BookingFlightsSchema);
+mongoose.models = {};
+const BookingFlights = mongoose.model("BookingFlights", BookingFlightsSchema);
 module.exports = BookingFlights;
