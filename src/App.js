@@ -8,6 +8,7 @@ import Scratch from "./components/scratch/scratch";
 import CreateFlight from "./components/CreateFlight/CreateFlight";
 import UserProfile from "./components/UserProfile/UserProfile";
 import Login from "./components/Login/Login";
+import ReservedFlights from "./components/ReservedFlights/ReservedFlights";
 
 class App extends Component {
   render() {
@@ -22,6 +23,8 @@ class App extends Component {
             <Route path="/HomePage" element={<UserHomepage />} />
             <Route path="/UserProfile" element={<UserProfile />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/ReservedFlights" element={<ReservedFlights />} />
+
             <Route path="/*" element={<None />} />
           </Routes>
         </div>

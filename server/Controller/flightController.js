@@ -304,6 +304,16 @@ const getAllFlights = (req, res) => {
     });
 };
 
+const getAllFlightsWithId = (req, res) => {
+  Flight.find({ $or: req.body })
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
 const deleteFlight = (req, res) => {
   Flight.findByIdAndRemove(req.params.id)
     .then((result) => {
@@ -317,9 +327,23 @@ const deleteFlight = (req, res) => {
 const updateFlightdetails = (req, res) => {
   let id = req.params.id;
   console.log(req.params.id);
-  Flight.findByIdAndUpdate({ _id: id }, req.body).then((result) => {
-    res.send("Updated Successfully");
-  });
+  Flight.findByIdAndUpdate({ _id: id }, req.body)
+    .then((result) => {
+      res.send("Updated Successfully");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+const updateFlightAvailableSeats = (req, res) => {
+  Flight.findByIdAndUpdate({ _id: req.params.id }, { $set: req.body })
+    .then((result) => {
+      res.send("Updated Successfully");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
 
 module.exports = {
@@ -327,6 +351,8 @@ module.exports = {
   searchFlights,
   searchFlightsToReserve,
   getAllFlights,
+  getAllFlightsWithId,
   deleteFlight,
   updateFlightdetails,
+  updateFlightAvailableSeats,
 };
