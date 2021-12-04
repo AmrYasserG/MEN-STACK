@@ -94,16 +94,11 @@ const UserHomepage = () => {
 
   return (
     <div>
-      <Link
-        to={{
-          pathname: "/ReservedFlights",
-          state: [{ id: "618ba4fffe6644777d199219" }],
-        }}
-        style={{ backgroundColor: "#111" }}
-      >
-        {" "}
-        Your Page{" "}
-      </Link>
+      <Link to={{
+      pathname: '/ReservedFlights',
+      state: [{id: "617e93641ff94cd5d2055174"}],
+      }}
+      style= {{backgroundColor: "#111"}}> Your Page </Link>
       <UpdateOver trigger={selectPopupButton} setTrigger={setSelectPopupButton}>
         <h1>Flight Details:</h1>
         <br></br>

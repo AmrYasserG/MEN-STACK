@@ -72,7 +72,9 @@ function ReservedFlights() {
 
   function GetAllReservedFlights() {
     if (state !== undefined) {
-      const User_id = state[0].id;
+      // const User_id = state[0].id;
+      // console.log(state);
+      const User_id = "617e93641ff94cd5d2055174";     
       GetUserInfo(User_id);
       axios
         .get(
