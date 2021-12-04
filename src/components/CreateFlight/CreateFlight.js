@@ -190,7 +190,6 @@ const CreateFlight = () => {
           setReturnEconomyClassPrice(0);
           setReturnFirstClassPrice(0);
           setReturnBaggageAllowance(0);
-          setTwoWay(false);
           setValidFlightNumber(true);
           setValidDate(true);
           setCreateResponse(true);
