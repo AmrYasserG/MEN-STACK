@@ -6,13 +6,7 @@ function UpdateOver(props) {
   return props.trigger ? (
     <div className="upd">
       <div className="upd-inner">{props.children}</div>
-      <Button
-        variant="contained"
-        className="close-btn"
-        onClick={() => props.setTrigger(false)}
-      >
-        Cancel
-      </Button>
+     
     </div>
   ) : (
     ""

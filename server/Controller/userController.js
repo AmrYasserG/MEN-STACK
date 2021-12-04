@@ -1,6 +1,6 @@
 const User = require("../models/User");
 
-exports.addUser = (req, res) => {
+const addUser = (req, res) => {
   const user = new User({
     Name:'Omar Ashraf Wahbi',
     Email:'Omar.wahbi@gmail.com',
@@ -22,4 +22,35 @@ exports.addUser = (req, res) => {
     });
 };
 
+
+const getInfo = (req, res) => {
+  User.findById(req.params.id).then((result) => {
+    res.send(result);
+  });
+};
+
+const editUser = (req, res) => {
+  let id = req.params.id;
+  console.log(req.params.id);
+  User.findByIdAndUpdate({ _id: id }, req.body)
+    .then((result) => {
+      res.send(req.body);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+const getAllUsers = (req, res) => {
+  User.find().then((result) => {
+    res.send(result);
+    console.log(result);
+  });
+};
+
+module.exports = {
+  addUser,
+  getInfo,
+  getAllUsers,
+  editUser
+};
 

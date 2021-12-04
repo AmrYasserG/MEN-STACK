@@ -16,10 +16,8 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import Button from "@mui/material/Button";
 import DeleteButton from "../DeleteButton/DeleteButton";
 import Tooltip from "@mui/material/Tooltip";
-import UpdateButton from "../UpdateButton/UpdateButton";
 
 function Row({
-  row,
   isAdmin,
   setX,
   setDeletePopupButton,
@@ -38,6 +36,7 @@ function Row({
   setEditTo,
   setEditBusinessClassSeats,
 }) {
+    
   //   const { row } = props;
   const [open, setOpen] = React.useState(false);
 
