@@ -1,28 +1,16 @@
-import { useState, useEffect, forwardRef } from "react";
 import axios from "axios";
 import Button from "@mui/material/Button";
 import "./AdminHomepage.css";
-import UpdateOver from "../UpdateOver/UpdateOver";
-import SearchFlight from "../SearchFlight/SearchFlight.js";
 import ResponsiveAppBar from "../ResponsiveAppBar/ResponsiveAppBar";
 import CollapsibleTable from "../CollapsibleTable/CollapsibleTable";
-import setDeleteOpenResponse from "../DeleteButton/DeleteButton";
-import DeleteIcon from "@mui/icons-material/Delete";
-import Paper from "@mui/material/Paper";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import EditIcon from "@mui/icons-material/Edit";
-import AddIcon from "@mui/icons-material/Add";
+import { useState, useEffect, forwardRef, Fragment } from "react";
 import MuiAlert from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 import Popup from "../Popup/Popup";
-import { Link } from "react-router-dom";
-import DeleteButton from "../DeleteButton/DeleteButton";
+import "./AdminHomepage.css";
+import UpdateOver from "../UpdateOver/UpdateOver";
+import SearchFlight from "../SearchFlight/SearchFlight.js";
 
 const Alert = forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -47,7 +35,6 @@ const AdminHomepage = () => {
   const [updPopupButton, setUpdPopupButton] = useState(false);
   const [deleteOpenResponse, setDeleteOpenResponse] = useState(false);
   const [editOpenResponse, setEditOpenResponse] = useState(false);
-  const [showFlight, setShowFlight] = useState(false);
   const [x, setX] = useState(false);
 
   const columns = [
@@ -181,7 +168,7 @@ const AdminHomepage = () => {
 
   return (
     <div>
-      <ResponsiveAppBar pages={['Create Flight']} />
+      <ResponsiveAppBar pages={["Create Flight"]} />
       <Snackbar
         open={deleteOpenResponse}
         autoHideDuration={6000}
@@ -411,14 +398,8 @@ const AdminHomepage = () => {
           Cancel
         </Button>
       </UpdateOver>
-    
 
-      <div>
-        <SearchFlight d={x} onSearch={searchFlight} />
-        {/* <Link to="/signup" className="btn btn-primary">
-          Sign up
-        </Link> */}
-      </div>
+      <SearchFlight d={x} onSearch={searchFlight} />
 
       <CollapsibleTable
         rows={rows}

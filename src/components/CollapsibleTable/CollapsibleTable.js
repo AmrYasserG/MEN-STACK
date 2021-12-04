@@ -223,11 +223,12 @@ export default function CollapsibleTable({
 }) {
   return (
     <TableContainer sx={{ maxHeight: 500 }} component={Paper}>
-      <Table aria-label="collapsible table" stickyHeader={true}>
+      <Table aria-label="collapsible table"  classname = 'header'>
         <TableHead>
+
           <TableRow>
             {" "}
-            {/*style={{ backgroundColor: "#F0F0F0" }} */}
+           
             <TableCell />
             <TableCell style={{ fontWeight: "bold" }}>Flight Number</TableCell>
             <TableCell style={{ fontWeight: "bold" }}>From</TableCell>
