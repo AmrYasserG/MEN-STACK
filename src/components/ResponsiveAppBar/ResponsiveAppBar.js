@@ -13,6 +13,7 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import logo from './logo.png'
 import userAvatar from './userAvatar.png'
+import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 
 
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -38,7 +39,7 @@ const ResponsiveAppBar = ({ pages }) => {
     };
 
     return (
-        <AppBar position="static" >
+        <AppBar position="static"  >
             <Container maxWidth="xl" >
                 <Toolbar disableGutters >
                     <Typography
@@ -114,11 +115,11 @@ const ResponsiveAppBar = ({ pages }) => {
                     </Box>
 
                     <Box sx={{ flexGrow: 0 }}>
-                        <Tooltip title="Open settings">
+                        {/* <Tooltip title="Open settings"> */}
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <Avatar src={userAvatar} />
+                                <Avatar src={AccountCircleOutlinedIcon} />
                             </IconButton>
-                        </Tooltip>
+                        {/* </Tooltip>
                         <Menu
                             sx={{ mt: '45px' }}
                             id="menu-appbar"
@@ -140,7 +141,7 @@ const ResponsiveAppBar = ({ pages }) => {
                                     <Typography textAlign="center">{setting}</Typography>
                                 </MenuItem>
                             ))}
-                        </Menu>
+                        </Menu> */}
                     </Box>
                 </Toolbar>
             </Container>
