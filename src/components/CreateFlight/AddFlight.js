@@ -136,6 +136,8 @@ const AddFlight = ({ onAdd }) => {
   };
 
   return (
+    <>
+    <ResponsiveAppBar pages={["Create Flight"]} />
     <Box
       p={1}
       sx={{
@@ -686,6 +688,7 @@ const AddFlight = ({ onAdd }) => {
         {/* <Input type="submit" value="Create Flight" className="btn btn-block"/> */}
       </form>
     </Box>
+    </>
   );
 };
 

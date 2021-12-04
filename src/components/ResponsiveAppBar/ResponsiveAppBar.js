@@ -18,7 +18,7 @@ import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined
 
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
-const ResponsiveAppBar = ({ pages }) => {
+const ResponsiveAppBar = ({ pages  , isUser , isAdmin}) => {
 
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -48,9 +48,10 @@ const ResponsiveAppBar = ({ pages }) => {
                         component="div"
                         sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
                     > <Tooltip title=" Home Page" placement= 'right'>
-                        <img src={logo} width="150" height="150" style={{ cursor: 'pointer' }} onClick={() => {
-                            window.location.href = "../"
-                        }} />
+                        <img src={logo} width="150" height="150" style={{ cursor: 'pointer' }} onClick={ isAdmin === true ? () => {
+                            window.location.href = "/AdminHomepage" }: isUser === true ?  () => {
+                                window.location.href = '../HomePage' }:<></>
+                        } />
                         </Tooltip>
                     </Typography>
 
@@ -106,6 +107,8 @@ const ResponsiveAppBar = ({ pages }) => {
                                 key={page}
                                 onClick={page === 'Create Flight' ? () => {
                                     window.location.href = "../createFlight"
+                                } : page === 'Reserved Flights' && isUser === true? () => {
+                                    window.location.href = "../ReservedFlights"
                                 } : handleCloseNavMenu}
                                 sx={{ my: 2, color: 'white', display: 'block' }}
                             >

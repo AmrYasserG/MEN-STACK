@@ -17,7 +17,7 @@ import Button from "@mui/material/Button";
 import DeleteButton from "../DeleteButton/DeleteButton";
 import Tooltip from "@mui/material/Tooltip";
 import UpdateButton from '../UpdateButton/UpdateButton' ;
-
+import './CollapsibleTable.css'
 function Row({
   row ,
   isAdmin,
