@@ -221,18 +221,18 @@ const searchFlightsToReserve = (req, res) => {
   arr.push({ From: req.body.From });
   arr.push({ To: req.body.To });
   arr.push({ Date: req.body.Date });
-  console.log(req.body.SeatNo);
+  console.log(req.body.Date);
   switch (req.body.Class) {
     case "Business Class": {
-      arr.push({ BusinessAvailableSeatsNo: { $lte: Number(req.body.SeatNo) } });
+      arr.push({ BusinessAvailableSeatsNo: { $gte: Number(req.body.SeatNo) } });
       break;
     }
     case "First Class": {
-      arr.push({ FirstAvailableSeatsNo: { $lte: Number(req.body.SeatNo) } });
+      arr.push({ FirstAvailableSeatsNo: { $gte: Number(req.body.SeatNo) } });
       break;
     }
     case "Economy Class": {
-      arr.push({ EconomyAvailableSeatsNo: { $lte: Number(req.body.SeatNo) } });
+      arr.push({ EconomyAvailableSeatsNo: { $ggte: Number(req.body.SeatNo) } });
       break;
     }
     default:
@@ -240,6 +240,8 @@ const searchFlightsToReserve = (req, res) => {
   }
   Flight.find({ $and: arr })
     .then((result) => {
+      console.log("result");
+
       res.send(result);
     })
     .catch((err) => {
