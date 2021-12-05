@@ -174,46 +174,6 @@ const createNewFlight = (req, res) => {
     .catch((err) => {
       res.send(err);
     });
-
-  // let fmap = new Map();
-  // fillMap(fmap, req.body.FirstSeatsNo, ["X", "Y"]);
-  // let bmap = new Map();
-  // fillMap(bmap, req.body.BusinessSeatsNo, ["O", "P", "Q", "R"]);
-  // let emap = new Map();
-  // fillMap(emap, req.body.EconomySeatsNo, ["A", "B", "C", "D", "E", "F"]);
-
-  // const flight = new Flight({
-  //   FlightNumber: req.body.FlightNumber,
-  //   From: req.body.From,
-  //   To: req.body.To,
-  //   ArrivalTime: req.body.ArrivalTime,
-  //   DepartureTime: req.body.DepartureTime,
-  //   EconomySeatsNo: req.body.EconomySeatsNo,
-  //   BusinessSeatsNo: req.body.BusinessSeatsNo,
-  //   FirstSeatsNo: req.body.FirstSeatsNo,
-  //   EconomyAvailableSeatsNo: req.body.EconomySeatsNo,
-  //   BusinessAvailableSeatsNo: req.body.BusinessSeatsNo,
-  //   FirstAvailableSeatsNo: req.body.FirstSeatsNo,
-  //   EconomySeats: emap,
-  //   BusinessSeats: bmap,
-  //   FirstSeats: fmap,
-  //   AirportDepartureTerminal: req.body.AirportDepartureTerminal,
-  //   AirportArrivalTerminal: req.body.AirportArrivalTerminal,
-  //   Date: req.body.Date,
-  //   BaggageAllowance: req.body.BaggageAllowance,
-  //   FirstClassPrice: req.body.FirstClassPrice,
-  //   BusinessClassPrice: req.body.BusinessClassPrice,
-  //   EconomyClassPrice: req.body.EconomyClassPrice,
-  // });
-  // flight
-  //   .save()
-  //   .then((result) => {
-  //     res.send(result);
-  //   })
-  //   .catch((err) => {
-  //     console.log(err);
-  //     res.send("Balabizo");
-  //   });
 };
 
 const searchFlightsToReserve = (req, res) => {

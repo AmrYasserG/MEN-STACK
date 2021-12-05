@@ -37,10 +37,16 @@ const AdminHomepage = () => {
   const [editDepartureTime, setEditDepartureTime] = useState("");
   const [editArrivalTime, setEditArrivalTime] = useState("");
   const [editDepartureTerminal, setEditDepartureTerminal] = useState("");
-  const [editArrivalTerminal, setEditArrivalTermina] = useState("");
+  const [editArrivalTerminal, setEditArrivalTerminal] = useState("");
   const [editBusinessClassSeats, setEditBusinessClassSeats] = useState("");
   const [editEconomyClassSeats, setEditEconomyClassSeats] = useState("");
   const [editFirstClassSeats, setEditFirstClassSeats] = useState("");
+  const [editBusinessClassSeatsPrice, setEditBusinessClassSeatsPrice] =
+    useState("");
+  const [editEconomyClassSeatsPrice, setEditEconomyClassSeatsPrice] =
+    useState("");
+  const [editFirstClassSeatsPrice, setEditFirstClassSeatsPrice] = useState("");
+  const [editBaggageAllowance, setEditBaggageAllowance] = useState("");
   const [edit_id, setEdit_id] = useState("");
 
   const [updPopupButton, setUpdPopupButton] = useState(false);
@@ -110,6 +116,10 @@ const AdminHomepage = () => {
         AirportDepartureTerminal: editDepartureTerminal,
         AirportArrivalTerminal: editArrivalTerminal,
         Date: editDate,
+        BaggageAllowance: editBaggageAllowance,
+        FirstClassPrice: editFirstClassSeatsPrice,
+        BusinessClassPrice: editBusinessClassSeatsPrice,
+        EconomyClassPrice: editEconomyClassSeatsPrice,
       })
       .then((res) => {
         setEditOpenResponse(true);
@@ -243,7 +253,7 @@ const AdminHomepage = () => {
       <UpdateOver trigger={updPopupButton} setTrigger={setUpdPopupButton}>
         <h1>Update Flight</h1>
 
-        <label>FlightNumber:</label>
+        <label style={{ marginRight: "4%" }}>FlightNumber:</label>
         <span>
           <input
             name="flno"
@@ -256,7 +266,7 @@ const AdminHomepage = () => {
           />
         </span>
         <br></br>
-        <label>From:</label>
+        <label style={{ marginRight: "4%" }}>From:</label>
         <span>
           <input
             name="from"
@@ -269,7 +279,7 @@ const AdminHomepage = () => {
           />
         </span>
         <br></br>
-        <label>To:</label>
+        <label style={{ marginRight: "4%" }}>To:</label>
         <span>
           <input
             name="to"
@@ -282,7 +292,7 @@ const AdminHomepage = () => {
           />
         </span>
         <br></br>
-        <label>Flight Date:</label>
+        <label style={{ marginRight: "4%" }}>Flight Date:</label>
         <span>
           <input
             name="date"
@@ -295,7 +305,7 @@ const AdminHomepage = () => {
           />
         </span>
         <br></br>
-        <label>Departure Time:</label>
+        <label style={{ marginRight: "4%" }}>Departure Time:</label>
         <span>
           <input
             name="dep"
@@ -308,7 +318,7 @@ const AdminHomepage = () => {
           />
         </span>
         <br></br>
-        <label>Arrival Time:</label>
+        <label style={{ marginRight: "4%" }}>Arrival Time:</label>
         <span>
           <input
             name="arrive"
@@ -321,12 +331,12 @@ const AdminHomepage = () => {
           />
         </span>
         <br></br>
-        <label>Airport Departure Terminal:</label>
+        <label style={{ marginRight: "4%" }}>Airport Departure Terminal:</label>
         <span>
           <input
             name="depTer"
             id="depTer"
-            type="text"
+            type="number"
             value={editDepartureTerminal}
             onChange={(e) => {
               setEditDepartureTerminal(Number(e.target.value));
@@ -334,25 +344,27 @@ const AdminHomepage = () => {
           />
         </span>
         <br></br>
-        <label>Airport Arrival Terminal:</label>
+        <label style={{ marginRight: "4%" }}>Airport Arrival Terminal:</label>
         <span>
           <input
             name="arrTer"
             id="arrTer"
-            type="text"
+            type="number"
             value={editArrivalTerminal}
             onChange={(e) => {
-              setEditArrivalTermina(Number(e.target.value));
+              setEditArrivalTerminal(Number(e.target.value));
             }}
           />
         </span>
         <br></br>
-        <label>Number Of Business Class Seats:</label>
+        <label style={{ marginRight: "4%" }}>
+          Number Of Business Class Seats:
+        </label>
         <span>
           <input
             name="busNo"
             id="busNo"
-            type="text"
+            type="number"
             value={editBusinessClassSeats}
             onChange={(e) => {
               setEditBusinessClassSeats(Number(e.target.value));
@@ -360,12 +372,14 @@ const AdminHomepage = () => {
           />
         </span>
         <br></br>
-        <label>Number Of Economy Class Seats:</label>
+        <label style={{ marginRight: "4%" }}>
+          Number Of Economy Class Seats:
+        </label>
         <span>
           <input
             name="ecoNo"
             id="ecoNo"
-            type="text"
+            type="number"
             value={editEconomyClassSeats}
             onChange={(e) => {
               setEditEconomyClassSeats(Number(e.target.value));
@@ -373,15 +387,72 @@ const AdminHomepage = () => {
           />
         </span>
         <br></br>
-        <label>Number Of First Class Seats:</label>
+        <label style={{ marginRight: "4%" }}>
+          Number Of First Class Seats:
+        </label>
         <span>
           <input
             name="fstNo"
             id="fstNo"
-            type="text"
+            type="number"
             value={editFirstClassSeats}
             onChange={(e) => {
               setEditFirstClassSeats(Number(e.target.value));
+            }}
+          />
+        </span>
+        <br></br>
+        <label style={{ marginRight: "4%" }}>Economy Class Seats Prices:</label>
+        <span>
+          <input
+            name="econop"
+            id="econop"
+            type="number"
+            value={editEconomyClassSeatsPrice}
+            onChange={(e) => {
+              setEditEconomyClassSeatsPrice(Number(e.target.value));
+            }}
+          />
+        </span>
+        <br></br>
+        <label style={{ marginRight: "4%" }}>
+          Business Class Seats Prices:
+        </label>
+        <span>
+          <input
+            name="buisnop"
+            id="buisnop"
+            type="number"
+            value={editBusinessClassSeatsPrice}
+            onChange={(e) => {
+              setEditBusinessClassSeatsPrice(Number(e.target.value));
+            }}
+          />
+        </span>
+        <br></br>
+
+        <label style={{ marginRight: "4%" }}>First Class Seats Prices:</label>
+        <span>
+          <input
+            name="fstNop"
+            id="fstNop"
+            type="number"
+            value={editFirstClassSeatsPrice}
+            onChange={(e) => {
+              setEditFirstClassSeatsPrice(Number(e.target.value));
+            }}
+          />
+        </span>
+        <br></br>
+        <label style={{ marginRight: "4%" }}>Baggage Allowance:</label>
+        <span>
+          <input
+            name="fstNop"
+            id="fstNop"
+            type="number"
+            value={editBaggageAllowance}
+            onChange={(e) => {
+              setEditBaggageAllowance(Number(e.target.value));
             }}
           />
         </span>
@@ -580,7 +651,7 @@ const AdminHomepage = () => {
                       setEditDepartureTime(row.DepartureTime);
                       setEditDepartureTerminal(row.AirportDepartureTerminal);
                       setEditArrivalTime(row.ArrivalTime);
-                      setEditArrivalTermina(row.AirportArrivalTerminal);
+                      setEditArrivalTerminal(row.AirportArrivalTerminal);
                       setEditDate(row.Date);
                       setEditEconomyClassSeats(row.EconomySeatsNo);
                       setEditFirstClassSeats(row.FirstSeatsNo);
@@ -588,6 +659,10 @@ const AdminHomepage = () => {
                       setEditFrom(row.From);
                       setEditTo(row.To);
                       setEditBusinessClassSeats(row.BusinessSeatsNo);
+                      setEditBaggageAllowance(row.BaggageAllowance);
+                      setEditEconomyClassSeatsPrice(row.EconomyClassPrice);
+                      setEditBusinessClassSeatsPrice(row.BusinessClassPrice);
+                      setEditFirstClassSeatsPrice(row.FirstClassPrice);
                       setX(true);
                     }}
                   >
