@@ -9,6 +9,8 @@ import CreateFlight from "./components/CreateFlight/CreateFlight";
 import UserProfile from "./components/UserProfile/UserProfile";
 import Login from "./components/Login/Login";
 import ReservedFlights from "./components/ReservedFlights/ReservedFlights";
+import SummaryConfirm from "./components/SummaryConfirm/SummaryConfirm";
+import ConfirmedFlight from "./components/ConfirmedFlight/ConfirmedFlight";
 
 class App extends Component {
   render() {
@@ -25,6 +27,8 @@ class App extends Component {
             <Route path="/login" element={<Login />} />
             <Route path="/ReservedFlights" element={<ReservedFlights />} />            
             <Route path="/*" element={<None />} />
+            <Route path="/SummaryConfirm" element={<SummaryConfirm />} />
+            <Route path="/ConfirmedFlight" element={<ConfirmedFlight />} />
           </Routes>
         </div>
       </Router>

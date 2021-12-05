@@ -35,6 +35,7 @@ const UserHomepage = () => {
 
   const [depclassType, depsetClassType] = useState("");
   const [arrclassType, arrsetClassType] = useState("");
+  const[numberSeats,setNumberSeats]=useState(0);
 
   const [selectPopupButton, setSelectPopupButton] = useState(false);
   const [selectArPopupButton, setSelectArPopupButton] = useState(false);
@@ -45,6 +46,7 @@ const UserHomepage = () => {
       searchArrivalReserve(SearchCriteria);
       depsetClassType(SearchCriteria.SeatClass);
       arrsetClassType(SearchCriteria.SeatClass);
+      setNumberSeats(SearchCriteria.SeatsNo);
     } else {
       setReturnRows([]);
       setDepartureRows([]);
@@ -74,6 +76,8 @@ const UserHomepage = () => {
       })
       .then((result) => setReturnRows(result.data));
   };
+
+  
 
   const departureColumns = [
     { id: "FlightNumber", label: "Flight Number", width: 60 },
@@ -374,6 +378,9 @@ const UserHomepage = () => {
           </Table>
         </TableContainer>
       </Paper>
+      <Button variant="contained"><Link underline="none" to = '/SummaryConfirm'
+      state = {{depFlight: depChoosenRow, arrFlight: arrChoosenRow,cabin: depclassType, noSeats: numberSeats,depSeatsReserved:["A1","A2","A3"],arrSeatsReserved:["A1","A2","A3"]}} 
+      > Proceed to Seat Selection </Link></Button>
     </div>
   );
 };
