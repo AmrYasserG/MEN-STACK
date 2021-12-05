@@ -103,17 +103,9 @@ const UserHomepage = () => {
     <div>
       <ResponsiveAppBar pages={["Reserved Flights"]} isUser={true} />
 
-      <Button variant="contained" color="success">
-        <Link
-          to="/ReservedFlights"
-          underline
-          state={{ id: "617e93641ff94cd5d2055174" }}
-        >
-          {" "}
-          View Reservation{" "}
-        </Link>
-      </Button>
-
+      <Button variant="contained" color="success" style={{marginLeft:"87%", marginTop:"1%"}}><Link to = '/ReservedFlights'
+      state = {{id : "617e93641ff94cd5d2055174"}}> View Reservation </Link></Button>
+      
       <UpdateOver trigger={selectPopupButton} setTrigger={setSelectPopupButton}>
         <h1>Flight Details:</h1>
         <br></br>
@@ -173,7 +165,6 @@ const UserHomepage = () => {
           Cancel
         </Button>
       </UpdateOver>
-
       <UpdateOver
         trigger={selectArPopupButton}
         setTrigger={setSelectArPopupButton}
@@ -271,14 +262,17 @@ const UserHomepage = () => {
                         DepTerminal: row.AirportDepartureTerminal,
                         ArrTerminal: row.AirportArrivalTerminal,
                         Price:
-                          depclassType === "First Class"
+                          depclassType === "First"
                             ? row.FirstClassPrice
-                            : depclassType === "Economy Class"
+                            : depclassType === "Economy"
                             ? row.EconomyClassPrice
                             : row.BusinessClassPrice,
                         EconomySeats: row.EconomySeats,
                         FirstSeats: row.FirstSeats,
                         BusinessSeats: row.BusinessSeats,
+                        EconomyAvailableSeatsNo : row.EconomyAvailableSeatsNo,
+                        BusinessAvailableSeatsNo : row.BusinessAvailableSeatsNo,
+                        FirstAvailableSeatsNo : row.FirstAvailableSeatsNo
                       });
                       setSelectPopupButton(true);
                     }}
@@ -355,14 +349,17 @@ const UserHomepage = () => {
                         DepTerminal: row.AirportDepartureTerminal,
                         ArrTerminal: row.AirportArrivalTerminal,
                         Price:
-                          arrclassType === "First Class"
+                          arrclassType === "First"
                             ? row.FirstClassPrice
-                            : arrclassType === "Economy Class"
+                            : arrclassType === "Economy"
                             ? row.EconomyClassPrice
                             : row.BusinessClassPrice,
                         EconomySeats: row.EconomySeats,
                         FirstSeats: row.FirstSeats,
                         BusinessSeats: row.BusinessSeats,
+                        EconomyAvailableSeatsNo : row.EconomyAvailableSeatsNo,
+                        BusinessAvailableSeatsNo : row.BusinessAvailableSeatsNo,
+                        FirstAvailableSeatsNo : row.FirstAvailableSeatsNo
                       });
                       setSelectArPopupButton(true);
                     }}
@@ -408,6 +405,7 @@ const UserHomepage = () => {
       <Button
         disabled={depChoosenRow === "" || arrChoosenRow === ""}
         variant="contained"
+        style ={{marginLeft:"40%", marginTop:"1%"}}
       >
         <Link
           underline="none"
@@ -416,7 +414,7 @@ const UserHomepage = () => {
             depFlight: depChoosenRow,
             arrFlight: arrChoosenRow,
             cabin: depclassType,
-            noSeats: numberSeats,
+            noSeats: parseInt(numberSeats),
             id: "617e93641ff94cd5d2055174",
           }}
         >

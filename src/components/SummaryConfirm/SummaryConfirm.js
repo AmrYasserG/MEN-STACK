@@ -19,44 +19,163 @@ const SummaryConfirm = () => {
   const state = useLocation().state;
   const [depChoosen, setDepChoosen] = useState("");
   const [arrChoosen, setArrChoosen] = useState("");
+
   useEffect(() => {
-    console.log(state);
+    console.log(state.arrSeatsReserved.length);
   }, []);
-  function createReservation() {
-    axios.post("http://localhost:3005/bookingFlights/CreateReservation", {
-      User_id: state.id,
-      ReservationNumber: "1234",
-      FlightNumber: state.depFlight.FlightNumber,
-      ChosenCabin: state.cabin,
-      SeatsReserved: state.depSeatsReserved,
-      TotalReservationPrice: state.depFlight.Price * state.noSeats
-    }).then((res) => {
-      axios.post("http://localhost:3005/bookingFlights/CreateReservation", {
+
+  const createReservation = () => {
+    axios
+      .post("http://localhost:3005/bookingFlights/CreateReservation", {
         User_id: state.id,
         ReservationNumber: "1234",
-        FlightNumber: state.arrFlight.FlightNumber,
+        FlightNumber: state.depFlight.FlightNumber,
         ChosenCabin: state.cabin,
-        SeatsReserved: state.arrSeatsReserved,
-        TotalReservationPrice: state.arrFlight.Price * state.noSeats
+        SeatsReserved: state.depSeatsReserved,
+        TotalReservationPrice: state.depFlight.Price * state.noSeats,
+      })
+      .then((res) => {
+        console.log("created dep flight");
+        const toBeUpdatedFlight = state.depFlight;
+        const toBeUpdatedFlightSeats = state.depSeatsReserved;
+        const ChosenCabin = state.cabin + "AvailableSeatsNo";
+        let updatedAvailableSeats = {};
+        switch (ChosenCabin) {
+          case "EconomyAvailableSeatsNo":
+            const EconomySeats = new Map(
+              Object.entries(toBeUpdatedFlight.EconomySeats)
+            );
+            for (let i = 0; i < toBeUpdatedFlightSeats.length; i++) {
+              EconomySeats.set(toBeUpdatedFlightSeats[i], false);
+            }
+            updatedAvailableSeats = {
+              EconomyAvailableSeatsNo:
+                toBeUpdatedFlight.EconomyAvailableSeatsNo -
+                toBeUpdatedFlightSeats.length,
+              EconomySeats: Object.fromEntries(EconomySeats),
+            };
+            break;
+          case "BusinessAvailableSeatsNo":
+            const BusinessSeats = new Map(
+              Object.entries(toBeUpdatedFlight.BusinessSeats)
+            );
+            for (let i = 0; i < toBeUpdatedFlightSeats.length; i++) {
+              BusinessSeats.set(toBeUpdatedFlightSeats[i], false);
+            }
+            updatedAvailableSeats = {
+              BusinessAvailableSeatsNo:
+                toBeUpdatedFlight.BusinessAvailableSeatsNo -
+                toBeUpdatedFlightSeats.length,
+              BusinessSeats: Object.fromEntries(BusinessSeats),
+            };
+            break;
+          case "FirstAvailableSeatsNo":
+            const FirstSeats = new Map(
+              Object.entries(toBeUpdatedFlight.FirstSeats)
+            );
+            for (let i = 0; i < toBeUpdatedFlightSeats.length; i++) {
+              FirstSeats.set(toBeUpdatedFlightSeats[i], false);
+            }
+            updatedAvailableSeats = {
+              FirstAvailableSeatsNo:
+                toBeUpdatedFlight.FirstAvailableSeatsNo -
+                toBeUpdatedFlightSeats.length,
+              FirstSeats: Object.fromEntries(FirstSeats),
+            };
+            break;
+          default:
+        }
+        axios
+          .put(
+            "http://localhost:3005/flights/updateFlightAvailableSeats/" +
+              state.depFlight.id,
+            updatedAvailableSeats
+          )
+          .then((res) => {
+            console.log("updated dep flight");
+            axios.post(
+              "http://localhost:3005/bookingFlights/CreateReservation",
+              {
+                User_id: state.id,
+                ReservationNumber: "1234",
+                FlightNumber: state.arrFlight.FlightNumber,
+                ChosenCabin: state.cabin,
+                SeatsReserved: state.arrSeatsReserved,
+                TotalReservationPrice: state.arrFlight.Price * state.noSeats,
+              }
+            );
+          })
+          .then((res) => {
+            console.log("created ret flight");
+            const toBeUpdatedFlight = state.arrFlight;
+            const toBeUpdatedFlightSeats = state.arrSeatsReserved;
+            const ChosenCabin = state.cabin + "AvailableSeatsNo";
+            let updatedAvailableSeats = {};
+            switch (ChosenCabin) {
+              case "EconomyAvailableSeatsNo":
+                const EconomySeats = new Map(
+                  Object.entries(toBeUpdatedFlight.EconomySeats)
+                );
+                for (let i = 0; i < toBeUpdatedFlightSeats.length; i++) {
+                  EconomySeats.set(toBeUpdatedFlightSeats[i], false);
+                }
+                updatedAvailableSeats = {
+                  EconomyAvailableSeatsNo:
+                    toBeUpdatedFlight.EconomyAvailableSeatsNo -
+                    toBeUpdatedFlightSeats.length,
+                  EconomySeats: Object.fromEntries(EconomySeats),
+                };
+                break;
+              case "BusinessAvailableSeatsNo":
+                const BusinessSeats = new Map(
+                  Object.entries(toBeUpdatedFlight.BusinessSeats)
+                );
+                for (let i = 0; i < toBeUpdatedFlightSeats.length; i++) {
+                  BusinessSeats.set(toBeUpdatedFlightSeats[i], false);
+                }
+                updatedAvailableSeats = {
+                  BusinessAvailableSeatsNo:
+                    toBeUpdatedFlight.BusinessAvailableSeatsNo -
+                    toBeUpdatedFlightSeats.length,
+                  BusinessSeats: Object.fromEntries(BusinessSeats),
+                };
+                break;
+              case "FirstAvailableSeatsNo":
+                const FirstSeats = new Map(
+                  Object.entries(toBeUpdatedFlight.FirstSeats)
+                );
+                for (let i = 0; i < toBeUpdatedFlightSeats.length; i++) {
+                  FirstSeats.set(toBeUpdatedFlightSeats[i], false);
+                }
+                updatedAvailableSeats = {
+                  FirstAvailableSeatsNo:
+                    toBeUpdatedFlight.FirstAvailableSeatsNo -
+                    toBeUpdatedFlightSeats.length,
+                  FirstSeats: Object.fromEntries(FirstSeats),
+                };
+                break;
+              default:
+            }
+            axios
+              .put(
+                "http://localhost:3005/flights/updateFlightAvailableSeats/" +
+                  state.arrFlight.id,
+                updatedAvailableSeats
+              )
+              .then((res) => {
+                console.log("updated ret flight");
+              });
+          });
       });
-    })
-
-
-  }
+  };
   return (
-
-
     <div>
-      <ResponsiveAppBar pages={[]} isUser={true} />
       <h1>Choosen Flights Summary</h1>
       <br></br>
-
-
 
       <Box
         p={1}
         sx={{
-
           marginLeft: "5%",
           marginRight: "5%",
           marginTop: "0",
@@ -65,22 +184,39 @@ const SummaryConfirm = () => {
           border: "5px solid #eeeeee",
           backgroundColor: "#fbfbfb",
           "box-shadow": "7px 7px 7px#cccccc",
-          float: "Right"
+          float: "Right",
         }}
       >
-
         <label>Total Price: </label>
-        <h3>${state.depFlight.Price * state.noSeats + state.arrFlight.Price * state.noSeats}</h3>
+        <h3>
+          $
+          {state.depFlight.Price * state.noSeats +
+            state.arrFlight.Price * state.noSeats}
+        </h3>
         <br></br>
-        <Button variant="contained" onClick={createReservation()}><Link underline="none" to='/ConfirmedFlight'
-          state={{ depFlight: state.depFlight, arrFlight: state.arrFlight, cabin: state.cabin, noSeats: state.noSeats, depSeatsReserved: state.depSeatsReserved, arrSeatsReserved: state.arrSeatsReserved, ConfirmId: "1234" }}
-        > Proceed to Payment </Link></Button>
+        <Button variant="contained" onClick={createReservation}>
+          <Link
+            underline="none"
+            to="/ConfirmedFlight"
+            state={{
+              depFlight: state.depFlight,
+              arrFlight: state.arrFlight,
+              cabin: state.cabin,
+              noSeats: state.noSeats,
+              depSeatsReserved: state.depSeatsReserved,
+              arrSeatsReserved: state.arrSeatsReserved,
+              ConfirmId: "1234",
+            }}
+          >
+            {" "}
+            Proceed to Payment{" "}
+          </Link>
+        </Button>
       </Box>
 
       <Box
         p={1}
         sx={{
-
           marginLeft: "5%",
           my: "2%",
           "text-align": "center",
@@ -90,8 +226,6 @@ const SummaryConfirm = () => {
           "box-shadow": "7px 7px 7px#cccccc",
         }}
       >
-
-
         <h2>Departure Flight</h2>
 
         <label>Flight Date:</label>
@@ -110,18 +244,16 @@ const SummaryConfirm = () => {
         <label>{state.cabin}</label>
         <br></br>
         <label>Choosen Seats :</label>
-        <label>{state.depSeatsReserved.map(
-          (SeatNumber) => {
+        <label>
+          {state.depSeatsReserved.map((SeatNumber) => {
             return <span key={SeatNumber}>{SeatNumber} </span>;
-          }
-        )}</label>
-
+          })}
+        </label>
       </Box>
 
       <Box
         p={1}
         sx={{
-
           marginLeft: "5%",
           my: "2%",
           "text-align": "center",
@@ -148,14 +280,13 @@ const SummaryConfirm = () => {
         <label>{state.cabin}</label>
         <br></br>
         <label>Choosen Seats :</label>
-        <label>{state.arrSeatsReserved.map(
-          (SeatNumber) => {
+        <label>
+          {state.arrSeatsReserved.map((SeatNumber) => {
             return <span key={SeatNumber}>{SeatNumber} </span>;
-          }
-        )}</label>
+          })}
+        </label>
         <br></br>
       </Box>
-
     </div>
   );
 };

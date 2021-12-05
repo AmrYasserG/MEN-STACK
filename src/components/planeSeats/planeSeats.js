@@ -28,15 +28,15 @@ export default function PlaneSeats() {
 
   let retBlockedSeats = [];
   let depBlockedSeats = [];
-  if (state.cabin === "Business Class") {
+  if (state.cabin === "Business") {
     depBlockedSeats = getBlockedSeats(state.depFlight.BusinessSeats);
     retBlockedSeats = getBlockedSeats(state.arrFlight.BusinessSeats);
   }
-  if (state.cabin === "First Class") {
+  if (state.cabin === "First") {
     depBlockedSeats = getBlockedSeats(state.depFlight.FirstSeats);
     retBlockedSeats = getBlockedSeats(state.arrFlight.FirstSeats);
   }
-  if (state.cabin === "Economy Class") {
+  if (state.cabin === "Economy") {
     depBlockedSeats = getBlockedSeats(state.depFlight.EconomySeats);
     retBlockedSeats = getBlockedSeats(state.arrFlight.EconomySeats);
     console.log(depBlockedSeats);
@@ -133,7 +133,7 @@ export default function PlaneSeats() {
           <Grid container spacing={1} columns={2}>
             {depSeats.splice(0, depNumOfSeats[0]).map((seat) => (
               <Grid item key={seat}>
-                {state.cabin !== "First Class" ||
+                {state.cabin !== "First" ||
                 depBlockedSeats.includes(seat) ? (
                   <button
                     disabled
@@ -173,7 +173,7 @@ export default function PlaneSeats() {
         <Grid container spacing={1} columns={{ xs: 12, sm: 12 }}>
           {depSeats.splice(0, depNumOfSeats[1]).map((seat) => (
             <Grid item key={seat}>
-              {state.cabin !== "Business Class" ||
+              {state.cabin !== "Business" ||
               depBlockedSeats.includes(seat) ? (
                 <button
                   disabled
@@ -213,7 +213,7 @@ export default function PlaneSeats() {
           <br />
           {depSeats.splice(0, depNumOfSeats[2]).map((seat) => (
             <Grid item key={seat}>
-              {state.cabin !== "Economy Class" ||
+              {state.cabin !== "Economy" ||
               depBlockedSeats.includes(seat) ? (
                 <button
                   disabled
@@ -256,7 +256,7 @@ export default function PlaneSeats() {
           <Grid container spacing={1} columns={2}>
             {retSeats.splice(0, retNumOfSeats[0]).map((seat) => (
               <Grid item key={seat}>
-                {state.cabin !== "First Class" ||
+                {state.cabin !== "First" ||
                 retBlockedSeats.includes(seat) ? (
                   <button
                     disabled
@@ -296,7 +296,7 @@ export default function PlaneSeats() {
         <Grid container spacing={1} columns={{ xs: 12, sm: 12 }}>
           {retSeats.splice(0, retNumOfSeats[1]).map((seat) => (
             <Grid item key={seat}>
-              {state.cabin !== "Business Class" ||
+              {state.cabin !== "Business" ||
               retBlockedSeats.includes(seat) ? (
                 <button
                   disabled
@@ -336,7 +336,7 @@ export default function PlaneSeats() {
           <br />
           {retSeats.splice(0, retNumOfSeats[2]).map((seat) => (
             <Grid item key={seat}>
-              {state.cabin !== "Economy Class" ||
+              {state.cabin !== "Economy" ||
               retBlockedSeats.includes(seat) ? (
                 <button
                   disabled
