@@ -1,11 +1,7 @@
-import * as React from "react";
-import { experimentalStyled as styled } from "@mui/material/styles";
-import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
-import '../planeSeats/planeSeats.css'
 
-export default function ResponsiveGrid() {
+
+export default function planeSeats() {
   const seats = [
     "A01",
     "B01",
@@ -106,7 +102,7 @@ export default function ResponsiveGrid() {
   }
   return (
     <div className="container">
-        {NumOfSeats[0] >0 ? <h3 textAlign="center">First Class Seats</h3> : <></>}
+        {NumOfSeats[0] >0 ? <h3 >First Class Seats</h3> : <></>}
       <div className="container1">
         <Grid container spacing={1} columns={2}>
           {seats.splice(0, NumOfSeats[0]).map((seat) => (
@@ -146,7 +142,7 @@ export default function ResponsiveGrid() {
         </Grid>
       </div>
 
-      {NumOfSeats[1] >0 ? <h3 textAlign="center">Business Class Seats</h3> : <></>}
+      {NumOfSeats[1] >0 ? <h3 >Business Class Seats</h3> : <></>}
       <Grid container spacing={1} columns={{ xs: 12, sm: 12 }}>
         {seats.splice(0, NumOfSeats[1]).map((seat) => (
           <Grid item key={seat}>
@@ -184,7 +180,7 @@ export default function ResponsiveGrid() {
         ))}
       </Grid>
 
-      {NumOfSeats[2] >0 ? <h3 textAlign="center">Economy Class Seats</h3> : <></>}
+      {NumOfSeats[2] >0 ? <h3 >Economy Class Seats</h3> : <></>}
       <Grid container spacing={1} columns={{ xs: 12, sm: 12 }}>
         <br />
         {seats.splice(0, NumOfSeats[2]).map((seat) => (

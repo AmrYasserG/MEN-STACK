@@ -179,7 +179,7 @@ const AdminHomepage = () => {
 
   return (
     <div>
-      <ResponsiveAppBar pages={["Create Flight"]} />
+      <ResponsiveAppBar pages={["Create Flight"]} isAdmin = {true} />
       <Snackbar
         open={deleteOpenResponse}
         autoHideDuration={6000}

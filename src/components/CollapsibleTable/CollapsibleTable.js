@@ -153,6 +153,7 @@ function Row({
                     ) : (
                       <></>
                     )}
+                    {isAdmin === true ? (
                     <TableCell>
                       <UpdateButton
                         row={row}
@@ -172,6 +173,9 @@ function Row({
                         setX={setX}
                       />
                     </TableCell>
+                    ) : (
+                      <></>
+                    )}
                   </TableRow>
                 </TableBody>
               </Table>

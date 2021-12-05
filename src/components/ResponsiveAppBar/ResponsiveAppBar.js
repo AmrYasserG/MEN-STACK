@@ -12,9 +12,7 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import logo from './logo.png'
-import userAvatar from './userAvatar.png'
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
-
 
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
@@ -48,7 +46,7 @@ const ResponsiveAppBar = ({ pages  , isUser , isAdmin}) => {
                         component="div"
                         sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
                     > <Tooltip title=" Home Page" placement= 'right'>
-                        <img src={logo} width="150" height="150" style={{ cursor: 'pointer' }} onClick={ isAdmin === true ? () => {
+                        <img src={logo} width="198" height="82" style={{ cursor: 'pointer' }} onClick={ isAdmin === true ? () => {
                             window.location.href = "/AdminHomepage" }: isUser === true ?  () => {
                                 window.location.href = '../HomePage' }:<></>
                         } />
@@ -97,9 +95,13 @@ const ResponsiveAppBar = ({ pages  , isUser , isAdmin}) => {
                         component="div"
                         sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
                     >
-                        <img src={logo} width="150" height="150" style={{ cursor: 'pointer' }} onClick={() => {
-                            window.location.href = "../";
-                        }} />
+                        <Tooltip title=" Home Page" placement= 'right'>
+                        <img src={logo} width="198" height="82" style={{ cursor: 'pointer' }} onClick={ isAdmin === true ? () => {
+                            window.location.href = "/AdminHomepage" }: isUser === true ?  () => {
+                                window.location.href = '../HomePage' }:<></>
+                        } />
+                        </Tooltip> 
+
                     </Typography>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                         {pages.map((page) => (
@@ -120,7 +122,7 @@ const ResponsiveAppBar = ({ pages  , isUser , isAdmin}) => {
                     <Box sx={{ flexGrow: 0 }}>
                         {/* <Tooltip title="Open settings"> */}
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <Avatar src={AccountCircleOutlinedIcon} />
+                                <Avatar src={'AccountCircleOutlinedIcon'} />
                             </IconButton>
                         {/* </Tooltip>
                         <Menu

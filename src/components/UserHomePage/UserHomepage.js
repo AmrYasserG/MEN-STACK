@@ -36,6 +36,7 @@ const UserHomepage = () => {
 
   const [depclassType, depsetClassType] = useState("");
   const [arrclassType, arrsetClassType] = useState("");
+  const [numberSeats, setNumberSeats] = useState(0);
 
   const [selectPopupButton, setSelectPopupButton] = useState(false);
   const [selectArPopupButton, setSelectArPopupButton] = useState(false);
@@ -46,6 +47,7 @@ const UserHomepage = () => {
       searchArrivalReserve(SearchCriteria);
       depsetClassType(SearchCriteria.SeatClass);
       arrsetClassType(SearchCriteria.SeatClass);
+      setNumberSeats(SearchCriteria.SeatsNo);
     } else {
       setReturnRows([]);
       setDepartureRows([]);
@@ -61,7 +63,10 @@ const UserHomepage = () => {
         SeatNo: SearchCriteria.SeatsNo,
         Date: SearchCriteria.DepartureDate,
       })
-      .then((result) => setDepartureRows(result.data));
+      .then((result) => {
+        console.log(result.data);
+        setDepartureRows(result.data);
+      });
   };
 
   const searchArrivalReserve = async (SearchCriteria) => {
@@ -95,12 +100,19 @@ const UserHomepage = () => {
 
   return (
     <div>
-      <ResponsiveAppBar pages={["Reserved Flights"]} isUser ={true} />
-      <Link to={{
-      pathname: '/ReservedFlights',
-      state: [{id: "617e93641ff94cd5d2055174"}],
-      }}
-      style= {{backgroundColor: "#111"}}> Your Page </Link>
+      <ResponsiveAppBar pages={["Reserved Flights"]} isUser={true} />
+
+      <Button variant="contained" color="success">
+        <Link
+          to="/ReservedFlights"
+          underline
+          state={{ id: "617e93641ff94cd5d2055174" }}
+        >
+          {" "}
+          View Reservation{" "}
+        </Link>
+      </Button>
+
       <UpdateOver trigger={selectPopupButton} setTrigger={setSelectPopupButton}>
         <h1>Flight Details:</h1>
         <br></br>
@@ -241,6 +253,7 @@ const UserHomepage = () => {
                   <TableRow
                     onClick={() => {
                       updateDepSelectedRow({
+                        id:row._id,
                         FlightNumber: row.FlightNumber,
                         From: row.From,
                         To: row.To,
@@ -255,6 +268,9 @@ const UserHomepage = () => {
                             : depclassType === "Economy Class"
                             ? row.EconomyClassPrice
                             : row.BusinessClassPrice,
+                        EconomySeats: row.EconomySeats,
+                        FirstSeats: row.FirstSeats,
+                        BusinessSeats: row.BusinessSeats,
                       });
                       setSelectPopupButton(true);
                     }}
@@ -320,6 +336,7 @@ const UserHomepage = () => {
                   <TableRow
                     onClick={() => {
                       updateArrSelectedRow({
+                        id:row._id,
                         FlightNumber: row.FlightNumber,
                         From: row.From,
                         To: row.To,
@@ -334,6 +351,9 @@ const UserHomepage = () => {
                             : arrclassType === "Economy Class"
                             ? row.EconomyClassPrice
                             : row.BusinessClassPrice,
+                        EconomySeats: row.EconomySeats,
+                        FirstSeats: row.FirstSeats,
+                        BusinessSeats: row.BusinessSeats,
                       });
                       setSelectArPopupButton(true);
                     }}
@@ -376,6 +396,25 @@ const UserHomepage = () => {
           </Table>
         </TableContainer>
       </Paper>
+      <Button
+        disabled={depChoosenRow === "" || arrChoosenRow === ""}
+        variant="contained"
+      >
+        <Link
+          underline="none"
+          to="/PlaneSeats"
+          state={{
+            depFlight: depChoosenRow,
+            arrFlight: arrChoosenRow,
+            cabin: depclassType,
+            noSeats: numberSeats,
+            id: "617e93641ff94cd5d2055174",
+          }}
+        >
+          {" "}
+          Proceed to Seat Selection{" "}
+        </Link>
+      </Button>
     </div>
   );
 };
