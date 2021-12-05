@@ -22,7 +22,6 @@ import UpdateOver from "../UpdateOver/UpdateOver";
 import "./UserHomepage.css";
 
 import SearchToReserve from "../SearchToReserve/SearchToReserve.js";
-import { Select } from "@mui/material";
 
 const UserHomepage = () => {
   const [ReturnRows, setReturnRows] = useState([]);
@@ -36,10 +35,12 @@ const UserHomepage = () => {
 
   const [depclassType, depsetClassType] = useState("");
   const [arrclassType, arrsetClassType] = useState("");
-  const[numberSeats,setNumberSeats]=useState(0);
+  const [numberSeats, setNumberSeats] = useState(0);
 
   const [selectPopupButton, setSelectPopupButton] = useState(false);
   const [selectArPopupButton, setSelectArPopupButton] = useState(false);
+
+  const [searchOff, setSearchOff] = useState(false);
 
   const searchToReserve = (SearchCriteria) => {
     if (SearchCriteria) {
@@ -63,7 +64,10 @@ const UserHomepage = () => {
         SeatNo: SearchCriteria.SeatsNo,
         Date: SearchCriteria.DepartureDate,
       })
-      .then((result) => {console.log(result.data);setDepartureRows(result.data);})
+      .then((result) => {
+        console.log(result.data);
+        setDepartureRows(result.data);
+      });
   };
 
   const searchArrivalReserve = async (SearchCriteria) => {
@@ -77,8 +81,6 @@ const UserHomepage = () => {
       })
       .then((result) => setReturnRows(result.data));
   };
-
-  
 
   const departureColumns = [
     { id: "FlightNumber", label: "Flight Number", width: 60 },
@@ -112,9 +114,6 @@ const UserHomepage = () => {
         </Link>
       </Button>
 
-      {/* <Button variant="contained" color="success"><Link to = '/ReservedFlights' underline
-      state = {{id : "617e93641ff94cd5d2055174"}}> View Reservation </Link></Button>
-       */}
       <UpdateOver trigger={selectPopupButton} setTrigger={setSelectPopupButton}>
         <h1>Flight Details:</h1>
         <br></br>
@@ -150,9 +149,10 @@ const UserHomepage = () => {
         <br></br>
         <Button
           variant="contained"
-          color="error"
           style={{ right: "5%", top: "7%" }}
           onClick={() => {
+            setSearchOff(false);
+
             setSelectPopupButton(false);
             updateDepChoosenRow(depSelectedRow);
             console.log(depSelectedRow._id);
@@ -162,8 +162,11 @@ const UserHomepage = () => {
         </Button>
         <Button
           variant="contained"
+          color="error"
           style={{ left: "5%", top: "7%" }}
           onClick={() => {
+            setSearchOff(false);
+
             setSelectPopupButton(false);
           }}
         >
@@ -209,9 +212,9 @@ const UserHomepage = () => {
         <br></br>
         <Button
           variant="contained"
-          color="error"
           style={{ right: "5%", top: "7%" }}
           onClick={() => {
+            setSearchOff(false);
             setSelectArPopupButton(false);
             updateArrChoosenRow(arrSelectedRow);
             //console.log(arrSelectedRow._id);
@@ -220,9 +223,11 @@ const UserHomepage = () => {
           Select
         </Button>
         <Button
+          color="error"
           variant="contained"
           style={{ left: "5%", top: "7%" }}
           onClick={() => {
+            setSearchOff(false);
             setSelectArPopupButton(false);
           }}
         >
@@ -231,7 +236,7 @@ const UserHomepage = () => {
       </UpdateOver>
 
       <div>
-        <SearchToReserve onSearch={searchToReserve} />
+        <SearchToReserve onSearch={searchToReserve} d={searchOff} />
       </div>
       <h1>Departure Flights</h1>
       <Paper sx={{ width: "100%", overflow: "hidden", marginTop: "1%" }}>
@@ -254,6 +259,7 @@ const UserHomepage = () => {
                 return (
                   <TableRow
                     onClick={() => {
+                      setSearchOff(true);
                       updateDepSelectedRow({
                         id:row._id,
                         FlightNumber: row.FlightNumber,
@@ -337,6 +343,7 @@ const UserHomepage = () => {
                 return (
                   <TableRow
                     onClick={() => {
+                      setSearchOff(true);
                       updateArrSelectedRow({
                         id:row._id,
                         FlightNumber: row.FlightNumber,
@@ -417,9 +424,6 @@ const UserHomepage = () => {
           Proceed to Seat Selection{" "}
         </Link>
       </Button>
-      {/* <Button disabled={depChoosenRow===""||arrChoosenRow===""}variant="contained"><Link underline="none" to = '/SummaryConfirm'
-      state = {{depFlight: depChoosenRow, arrFlight: arrChoosenRow,cabin: depclassType, noSeats: numberSeats,depSeatsReserved:["A1","A2","A3"],arrSeatsReserved:["A1","A2","A3"],id : "617e93641ff94cd5d2055174"}} 
-      > Proceed to Seat Selection </Link></Button> */}
     </div>
   );
 };

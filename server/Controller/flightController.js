@@ -192,7 +192,7 @@ const searchFlightsToReserve = (req, res) => {
       break;
     }
     case "Economy Class": {
-      arr.push({ EconomyAvailableSeatsNo: { $ggte: Number(req.body.SeatNo) } });
+      arr.push({ EconomyAvailableSeatsNo: { $gte: Number(req.body.SeatNo) } });
       break;
     }
     default:
