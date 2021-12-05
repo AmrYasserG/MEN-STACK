@@ -19,7 +19,7 @@ const SummaryConfirm = () => {
   const state = useLocation().state;
   const [depChoosen, setDepChoosen] = useState("");
   const [arrChoosen, setArrChoosen] = useState("");
-
+  let resNum = Date.now();
   useEffect(() => {
     console.log(state.arrSeatsReserved.length);
   }, []);
@@ -28,7 +28,7 @@ const SummaryConfirm = () => {
     axios
       .post("http://localhost:3005/bookingFlights/CreateReservation", {
         User_id: state.id,
-        ReservationNumber: "1234",
+        ReservationNumber: resNum,
         FlightNumber: state.depFlight.FlightNumber,
         ChosenCabin: state.cabin,
         SeatsReserved: state.depSeatsReserved,
@@ -97,7 +97,7 @@ const SummaryConfirm = () => {
               "http://localhost:3005/bookingFlights/CreateReservation",
               {
                 User_id: state.id,
-                ReservationNumber: "1234",
+                ReservationNumber: resNum,
                 FlightNumber: state.arrFlight.FlightNumber,
                 ChosenCabin: state.cabin,
                 SeatsReserved: state.arrSeatsReserved,
@@ -205,7 +205,7 @@ const SummaryConfirm = () => {
               noSeats: state.noSeats,
               depSeatsReserved: state.depSeatsReserved,
               arrSeatsReserved: state.arrSeatsReserved,
-              ConfirmId: "1234",
+              ConfirmId: resNum,
             }}
           >
             {" "}
