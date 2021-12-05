@@ -112,7 +112,7 @@ const ConfirmedFlight = () => {
         border: "5px solid #eeeeee",
         backgroundColor: "#fbfbfb",
         "box-shadow": "7px 7px 7px#cccccc",
-        float:"Right"
+       
       }}
     >
 

@@ -98,11 +98,9 @@ const UserHomepage = () => {
 
   return (
     <div>
-      <Link to={{
-      pathname: '/ReservedFlights',
-      state: [{id: "617e93641ff94cd5d2055174"}],
-      }}
-      style= {{backgroundColor: "#111"}}> Your Page </Link>
+       <Button variant="contained" color="success"><Link to = '/ReservedFlights' underline
+      state = {{id : "617e93641ff94cd5d2055174"}}> View Reservation </Link></Button>
+      
       <UpdateOver trigger={selectPopupButton} setTrigger={setSelectPopupButton}>
         <h1>Flight Details:</h1>
         <br></br>
@@ -378,8 +376,8 @@ const UserHomepage = () => {
           </Table>
         </TableContainer>
       </Paper>
-      <Button variant="contained"><Link underline="none" to = '/SummaryConfirm'
-      state = {{depFlight: depChoosenRow, arrFlight: arrChoosenRow,cabin: depclassType, noSeats: numberSeats,depSeatsReserved:["A1","A2","A3"],arrSeatsReserved:["A1","A2","A3"]}} 
+      <Button disabled={depChoosenRow===""||arrChoosenRow===""}variant="contained"><Link underline="none" to = '/SummaryConfirm'
+      state = {{depFlight: depChoosenRow, arrFlight: arrChoosenRow,cabin: depclassType, noSeats: numberSeats,depSeatsReserved:["A1","A2","A3"],arrSeatsReserved:["A1","A2","A3"],id : "617e93641ff94cd5d2055174"}} 
       > Proceed to Seat Selection </Link></Button>
     </div>
   );

@@ -21,6 +21,27 @@ const SummaryConfirm = () => {
     useEffect(() => {
         console.log(state);
       }, []);
+      function createReservation(){
+        axios.post("http://localhost:3005/bookingFlights/CreateReservation",{
+          User_id: state.id,
+    ReservationNumber: "1234",
+    FlightNumber: state.depFlight.FlightNumber,
+    ChosenCabin:state.cabin,
+    SeatsReserved: state.depSeatsReserved,
+    TotalReservationPrice:state.depFlight.Price*state.noSeats
+        }).then((res)=>{
+          axios.post("http://localhost:3005/bookingFlights/CreateReservation",{
+            User_id: state.id,
+      ReservationNumber: "1234",
+      FlightNumber: state.arrFlight.FlightNumber,
+      ChosenCabin:state.cabin,
+      SeatsReserved: state.arrSeatsReserved,
+      TotalReservationPrice:state.arrFlight.Price*state.noSeats
+          });
+        })
+
+        
+      }
     return (
         
         
@@ -49,7 +70,7 @@ const SummaryConfirm = () => {
       <label>Total Price: </label>
         <h3>${state.depFlight.Price*state.noSeats+state.arrFlight.Price*state.noSeats}</h3>
         <br></br>
-        <Button variant="contained"><Link underline="none" to = '/ConfirmedFlight'
+        <Button variant="contained" onClick={createReservation()}><Link underline="none" to = '/ConfirmedFlight'
       state = {{depFlight: state.depFlight, arrFlight: state.arrFlight,cabin: state.cabin, noSeats: state.noSeats,depSeatsReserved:["A1","A2","A3"],arrSeatsReserved:["A1","A2","A3"],ConfirmId:"1234"}} 
       > Proceed to Payment </Link></Button>
         </Box>
