@@ -93,12 +93,9 @@ const UserHomepage = () => {
   ];
 
   return (
-    <div>
-      <Link to={{
-      pathname: '/ReservedFlights',
-      state: [{id: "617e93641ff94cd5d2055174"}],
-      }}
-      style= {{backgroundColor: "#111"}}> Your Page </Link>
+    <div>    
+      <Button variant="contained" color="success"><Link to = '/ReservedFlights' underline
+      state = {{id : "617e93641ff94cd5d2055174"}}> View Reservation </Link></Button>
       <UpdateOver trigger={selectPopupButton} setTrigger={setSelectPopupButton}>
         <h1>Flight Details:</h1>
         <br></br>
@@ -154,7 +151,6 @@ const UserHomepage = () => {
           Cancel
         </Button>
       </UpdateOver>
-
       <UpdateOver
         trigger={selectArPopupButton}
         setTrigger={setSelectArPopupButton}

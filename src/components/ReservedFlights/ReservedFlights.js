@@ -24,8 +24,8 @@ const Alert = forwardRef(function Alert(props, ref) {
 
 function ReservedFlights() {
   const state = useLocation().state;
-
   const columns = [
+    { id: "ReservationNumber", label: "Reservation Number", width: 80 },
     { id: "FlightNumber", label: "Flight Number", width: 80 },
     { id: "From", label: "From", width: 60 },
     { id: "To", label: "To", width: 60 },
@@ -71,10 +71,8 @@ function ReservedFlights() {
   }, []);
 
   function GetAllReservedFlights() {
-    if (state !== undefined) {
-      // const User_id = state[0].id;
-      // console.log(state);
-      const User_id = "617e93641ff94cd5d2055174";     
+      if(state !== null) {
+      const User_id = state.id;  
       GetUserInfo(User_id);
       axios
         .get(
@@ -89,6 +87,7 @@ function ReservedFlights() {
           }
           setFlightsUserDetails(flight_User_Details);
           GetAllFlights(flight_Details, flight_User_Details);
+          console.log(res.data);
         })
         .catch((err) => {
           console.log(err);
@@ -295,6 +294,15 @@ function ReservedFlights() {
                             </Button>
                           </TableCell>
                         );
+                      } else if (column.id === "ReservationNumber") {
+                        return (
+                          <TableCell
+                            key={column.id}
+                            sx={{ textAlign: "center" }}
+                          >
+                            {FlightsUserDetails[index].ReservationNumber}
+                          </TableCell>
+                        );
                       } else if (column.id === "ChosenCabin") {
                         return (
                           <TableCell
@@ -312,7 +320,7 @@ function ReservedFlights() {
                           >
                             {FlightsUserDetails[index].SeatsReserved.map(
                               (SeatNumber) => {
-                                return <p key={SeatNumber}>{SeatNumber}</p>;
+                                return <span key={SeatNumber}>{SeatNumber} </span>;
                               }
                             )}
                           </TableCell>
