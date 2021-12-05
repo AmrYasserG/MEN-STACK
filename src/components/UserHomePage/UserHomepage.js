@@ -22,7 +22,6 @@ import UpdateOver from "../UpdateOver/UpdateOver";
 import "./UserHomepage.css";
 
 import SearchToReserve from "../SearchToReserve/SearchToReserve.js";
-import { Select } from "@mui/material";
 
 const UserHomepage = () => {
   const [ReturnRows, setReturnRows] = useState([]);
@@ -36,10 +35,12 @@ const UserHomepage = () => {
 
   const [depclassType, depsetClassType] = useState("");
   const [arrclassType, arrsetClassType] = useState("");
-  const[numberSeats,setNumberSeats]=useState(0);
+  const [numberSeats, setNumberSeats] = useState(0);
 
   const [selectPopupButton, setSelectPopupButton] = useState(false);
   const [selectArPopupButton, setSelectArPopupButton] = useState(false);
+
+  const [searchOff, setSearchOff] = useState(false);
 
   const searchToReserve = (SearchCriteria) => {
     if (SearchCriteria) {
@@ -63,7 +64,10 @@ const UserHomepage = () => {
         SeatNo: SearchCriteria.SeatsNo,
         Date: SearchCriteria.DepartureDate,
       })
-      .then((result) => setDepartureRows(result.data));
+      .then((result) => {
+        console.log(result.data);
+        setDepartureRows(result.data);
+      });
   };
 
   const searchArrivalReserve = async (SearchCriteria) => {
@@ -77,8 +81,6 @@ const UserHomepage = () => {
       })
       .then((result) => setReturnRows(result.data));
   };
-
-  
 
   const departureColumns = [
     { id: "FlightNumber", label: "Flight Number", width: 60 },
@@ -99,8 +101,6 @@ const UserHomepage = () => {
 
   return (
     <div>
-      
-      
       <ResponsiveAppBar pages={["Reserved Flights"]} isUser={true} />
 
       <Button variant="contained" color="success" style={{marginLeft:"87%", marginTop:"1%"}}><Link to = '/ReservedFlights'
@@ -141,9 +141,10 @@ const UserHomepage = () => {
         <br></br>
         <Button
           variant="contained"
-          color="error"
           style={{ right: "5%", top: "7%" }}
           onClick={() => {
+            setSearchOff(false);
+
             setSelectPopupButton(false);
             updateDepChoosenRow(depSelectedRow);
             console.log(depSelectedRow._id);
@@ -153,8 +154,11 @@ const UserHomepage = () => {
         </Button>
         <Button
           variant="contained"
+          color="error"
           style={{ left: "5%", top: "7%" }}
           onClick={() => {
+            setSearchOff(false);
+
             setSelectPopupButton(false);
           }}
         >
@@ -199,9 +203,9 @@ const UserHomepage = () => {
         <br></br>
         <Button
           variant="contained"
-          color="error"
           style={{ right: "5%", top: "7%" }}
           onClick={() => {
+            setSearchOff(false);
             setSelectArPopupButton(false);
             updateArrChoosenRow(arrSelectedRow);
             //console.log(arrSelectedRow._id);
@@ -210,9 +214,11 @@ const UserHomepage = () => {
           Select
         </Button>
         <Button
+          color="error"
           variant="contained"
           style={{ left: "5%", top: "7%" }}
           onClick={() => {
+            setSearchOff(false);
             setSelectArPopupButton(false);
           }}
         >
@@ -221,7 +227,7 @@ const UserHomepage = () => {
       </UpdateOver>
 
       <div>
-        <SearchToReserve onSearch={searchToReserve} />
+        <SearchToReserve onSearch={searchToReserve} d={searchOff} />
       </div>
       <h1>Departure Flights</h1>
       <Paper sx={{ width: "100%", overflow: "hidden", marginTop: "1%" }}>
@@ -244,7 +250,9 @@ const UserHomepage = () => {
                 return (
                   <TableRow
                     onClick={() => {
+                      setSearchOff(true);
                       updateDepSelectedRow({
+                        id:row._id,
                         FlightNumber: row.FlightNumber,
                         From: row.From,
                         To: row.To,
@@ -259,6 +267,12 @@ const UserHomepage = () => {
                             : depclassType === "Economy"
                             ? row.EconomyClassPrice
                             : row.BusinessClassPrice,
+                        EconomySeats: row.EconomySeats,
+                        FirstSeats: row.FirstSeats,
+                        BusinessSeats: row.BusinessSeats,
+                        EconomyAvailableSeatsNo : row.EconomyAvailableSeatsNo,
+                        BusinessAvailableSeatsNo : row.BusinessAvailableSeatsNo,
+                        FirstAvailableSeatsNo : row.FirstAvailableSeatsNo
                       });
                       setSelectPopupButton(true);
                     }}
@@ -323,7 +337,9 @@ const UserHomepage = () => {
                 return (
                   <TableRow
                     onClick={() => {
+                      setSearchOff(true);
                       updateArrSelectedRow({
+                        id:row._id,
                         FlightNumber: row.FlightNumber,
                         From: row.From,
                         To: row.To,
@@ -338,6 +354,12 @@ const UserHomepage = () => {
                             : arrclassType === "Economy"
                             ? row.EconomyClassPrice
                             : row.BusinessClassPrice,
+                        EconomySeats: row.EconomySeats,
+                        FirstSeats: row.FirstSeats,
+                        BusinessSeats: row.BusinessSeats,
+                        EconomyAvailableSeatsNo : row.EconomyAvailableSeatsNo,
+                        BusinessAvailableSeatsNo : row.BusinessAvailableSeatsNo,
+                        FirstAvailableSeatsNo : row.FirstAvailableSeatsNo
                       });
                       setSelectArPopupButton(true);
                     }}
@@ -380,9 +402,26 @@ const UserHomepage = () => {
           </Table>
         </TableContainer>
       </Paper>
-      <Button disabled={depChoosenRow===""||arrChoosenRow===""}variant="contained" style={{marginLeft:"40%", marginTop:"1%"}}><Link to = '/SummaryConfirm'
-      state = {{depFlight: depChoosenRow, arrFlight: arrChoosenRow,cabin: depclassType, noSeats: numberSeats,depSeatsReserved:["A1"],arrSeatsReserved:["A1","A2","A3"],id : "617e93641ff94cd5d2055174"}} 
-      > Proceed to Seat Selection </Link></Button>
+      <Button
+        disabled={depChoosenRow === "" || arrChoosenRow === ""}
+        variant="contained"
+        style ={{marginLeft:"40%", marginTop:"1%"}}
+      >
+        <Link
+          underline="none"
+          to="/PlaneSeats"
+          state={{
+            depFlight: depChoosenRow,
+            arrFlight: arrChoosenRow,
+            cabin: depclassType,
+            noSeats: parseInt(numberSeats),
+            id: "617e93641ff94cd5d2055174",
+          }}
+        >
+          {" "}
+          Proceed to Seat Selection{" "}
+        </Link>
+      </Button>
     </div>
   );
 };

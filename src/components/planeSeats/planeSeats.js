@@ -1,117 +1,180 @@
-import * as React from "react";
-import { experimentalStyled as styled } from "@mui/material/styles";
-import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
-import './planeSeats.css'
+import "./planeSeats.css";
+import { useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import ResponsiveAppBar from "../ResponsiveAppBar/ResponsiveAppBar";
+import Button from "@mui/material/Button";
+import { Link } from "react-router-dom";
 
-export default function ResponsiveGrid() {
-  const seats = [
-    "A01",
-    "B01",
-    "C01",
-    "D01",
-    "E01",
-    "F01",
-    "A02",
-    "B02",
-    "C02",
-    "D02",
-    "E02",
-    "F02",
-    "A03",
-    "B03",
-    "C03",
-    "D03",
-    "E03",
-    "F03",
-    "A04",
-    "B04",
-    "C04",
-    "D04",
-    "E04",
-    "F04",
-    "A05",
-    "B05",
-    "C05",
-    "D05",
-    "E05",
-    "F05",
-    "A06",
-    "B06",
-    "C06",
-    "D06",
-    "E06",
-    "F06",
-    "A07",
-    "B07",
-    "C07",
-    "D07",
-    "E07",
-    "F07",
-    "A08",
-    "B08",
-    "C08",
-    "D08",
-    "E08",
-    "F08",
-    "A09",
-    "B09",
-    "C09",
-    "D09",
-    "E09",
-    "F09",
-    "A10",
-    "B10",
-    "C10",
-    "D10",
-    "E10",
-    "F10",
+export default function PlaneSeats() {
+  const state = useLocation().state;
+  useEffect(() => {
+    console.log(state);
+    console.log(state.cabin);
+
+    // console.log(depSeatsEco);
+    //console.log(state.depFlight);
+    console.log(Object.keys(state.depFlight.EconomySeats));
+    // console.log(state.depflight.EconomySeats);
+  }, []);
+  const depSeatsEco = Object.keys(state.depFlight.EconomySeats);
+  const depSeatsFirst = Object.keys(state.depFlight.FirstSeats);
+  const depSeatsBusiness = Object.keys(state.depFlight.BusinessSeats);
+
+  const depSeats = depSeatsFirst.concat(depSeatsBusiness).concat(depSeatsEco);
+
+  const [depChosenSeats, setdepChosenSeats] = useState([]);
+  const [retChosenSeats, setretChosenSeats] = useState([]);
+
+  let retBlockedSeats = [];
+  let depBlockedSeats = [];
+  if (state.cabin === "Business") {
+    depBlockedSeats = getBlockedSeats(state.depFlight.BusinessSeats);
+    retBlockedSeats = getBlockedSeats(state.arrFlight.BusinessSeats);
+  }
+  if (state.cabin === "First") {
+    depBlockedSeats = getBlockedSeats(state.depFlight.FirstSeats);
+    retBlockedSeats = getBlockedSeats(state.arrFlight.FirstSeats);
+  }
+  if (state.cabin === "Economy") {
+    depBlockedSeats = getBlockedSeats(state.depFlight.EconomySeats);
+    retBlockedSeats = getBlockedSeats(state.arrFlight.EconomySeats);
+    console.log(depBlockedSeats);
+    console.log(retBlockedSeats);
+  }
+
+  const depNumOfSeats = [
+    depSeatsFirst.length,
+    depSeatsBusiness.length,
+    depSeatsEco.length,
   ];
-  let chosenSeats = [];
-  const blockedSeats = [
-    "E06",
-    "F06",
-    "A07",
-    "B07",
-    "C07",
-    "D07",
-    "E07",
-    "F07",
-    "A08",
-    "B08",
-    "C08",
+
+  const retSeatsEco = Object.keys(state.arrFlight.EconomySeats);
+  const retSeatsFirst = Object.keys(state.arrFlight.FirstSeats);
+  const retSeatsBusiness = Object.keys(state.arrFlight.BusinessSeats);
+  const retSeats = retSeatsFirst.concat(retSeatsBusiness).concat(retSeatsEco);
+
+  //let retChosenSeats = [];
+
+  const retNumOfSeats = [
+    retSeatsFirst.length,
+    retSeatsBusiness.length,
+    retSeatsEco.length,
   ];
-  const NumOfSeats = [8, 18, 30];
 
   const returnChosenSeats = () => {
-    console.log(chosenSeats);
+    console.log(depChosenSeats);
+    console.log(retChosenSeats);
   };
 
-  function changeBackground(e) {
+  function getBlockedSeats(obj) {
+    const temp = Object.entries(obj);
+    let temp2 = [];
+    for (let i = 0; i < temp.length; i++) {
+      temp2 = temp2.concat(temp[i]);
+    }
+    const result = [];
+    for (let i = 0; i < temp2.length - 1; i++) {
+      if (!temp2[i + 1]) {
+        result.push(temp2[i]);
+      }
+      i++;
+    }
+
+    return result;
+  }
+
+  function depChangeBackground(e) {
     if (
       e.target.style.background === "white" ||
       e.target.style.background === ""
     ) {
       e.target.style.background = "#adddff";
-      chosenSeats.push(e.target.id);
+      setdepChosenSeats([...depChosenSeats, e.target.id]);
+      //depChosenSeats.push(e.target.id);
     } else {
       e.target.style.background = "white";
       let newChosenSeats = [];
-      for (let i = 0; i < chosenSeats.length; i++) {
-        if (chosenSeats[i] !== e.target.id) newChosenSeats.push(chosenSeats[i]);
+      for (let i = 0; i < depChosenSeats.length; i++) {
+        if (depChosenSeats[i] !== e.target.id)
+          newChosenSeats.push(depChosenSeats[i]);
       }
-      chosenSeats = newChosenSeats;
+      setdepChosenSeats(newChosenSeats);
     }
   }
+  function retChangeBackground(e) {
+    if (
+      e.target.style.background === "white" ||
+      e.target.style.background === ""
+    ) {
+      e.target.style.background = "#adddff";
+      setretChosenSeats([...retChosenSeats, e.target.id]);
+      //retChosenSeats.push(e.target.id);
+    } else {
+      e.target.style.background = "white";
+      let newChosenSeats = [];
+      for (let i = 0; i < retChosenSeats.length; i++) {
+        if (retChosenSeats[i] !== e.target.id)
+          newChosenSeats.push(retChosenSeats[i]);
+      }
+      setretChosenSeats(newChosenSeats);
+    }
+  }
+
   return (
-    <div className="container">
-        {NumOfSeats[0] >0 ? <h3 textAlign="center">First Class Seats</h3> : <></>}
-      <div className="container1">
-        <Grid container spacing={1} columns={2}>
-          {seats.splice(0, NumOfSeats[0]).map((seat) => (
+    <>
+      <ResponsiveAppBar pages={[]} isUser={true} />
+
+      <div className="container3">
+        <h2 style={{ textAlign: "center" }}>Select Departure Flight Seats</h2>
+
+        {depNumOfSeats[0] > 0 ? <h3>First Class Seats</h3> : <></>}
+        <div className="container1">
+          <Grid container spacing={1} columns={2}>
+            {depSeats.splice(0, depNumOfSeats[0]).map((seat) => (
+              <Grid item key={seat}>
+                {state.cabin !== "First" ||
+                depBlockedSeats.includes(seat) ? (
+                  <button
+                    disabled
+                    style={{
+                      backgroundColor: "#BBBBBB",
+                      width: 50,
+                      height: 25,
+                      borderRadius: 6,
+                      borderColor: "#BBBBBB",
+                    }}
+                  >
+                    {seat}
+                  </button>
+                ) : (
+                  <button
+                    id={seat}
+                    onClick={depChangeBackground}
+                    style={{
+                      textAlign: "center",
+                      cursor: "pointer",
+                      backgroundColor: "white",
+                      width: 50,
+                      height: 25,
+                      borderRadius: 5,
+                      borderColor: "#E0E0E0",
+                    }}
+                  >
+                    {seat}
+                  </button>
+                )}
+              </Grid>
+            ))}
+          </Grid>
+        </div>
+
+        {depNumOfSeats[1] > 0 ? <h3>Business Class Seats</h3> : <></>}
+        <Grid container spacing={1} columns={{ xs: 12, sm: 12 }}>
+          {depSeats.splice(0, depNumOfSeats[1]).map((seat) => (
             <Grid item key={seat}>
-              {blockedSeats.includes(seat) ? (
+              {state.cabin !== "Business" ||
+              depBlockedSeats.includes(seat) ? (
                 <button
                   disabled
                   style={{
@@ -127,7 +190,7 @@ export default function ResponsiveGrid() {
               ) : (
                 <button
                   id={seat}
-                  onClick={changeBackground}
+                  onClick={depChangeBackground}
                   style={{
                     textAlign: "center",
                     cursor: "pointer",
@@ -144,92 +207,194 @@ export default function ResponsiveGrid() {
             </Grid>
           ))}
         </Grid>
-      </div>
 
-      {NumOfSeats[1] >0 ? <h3 textAlign="center">Business Class Seats</h3> : <></>}
-      <Grid container spacing={1} columns={{ xs: 12, sm: 12 }}>
-        {seats.splice(0, NumOfSeats[1]).map((seat) => (
-          <Grid item key={seat}>
-            {blockedSeats.includes(seat) ? (
-              <button
-                disabled
-                style={{
-                  backgroundColor: "#BBBBBB",
-                  width: 50,
-                  height: 25,
-                  borderRadius: 6,
-                  borderColor: "#BBBBBB",
-                }}
-              >
-                {seat}
-              </button>
-            ) : (
-              <button
-                id={seat}
-                onClick={changeBackground}
-                style={{
-                  textAlign: "center",
-                  cursor: "pointer",
-                  backgroundColor: "white",
-                  width: 50,
-                  height: 25,
-                  borderRadius: 5,
-                  borderColor: "#E0E0E0",
-                }}
-              >
-                {seat}
-              </button>
-            )}
-          </Grid>
-        ))}
-      </Grid>
-
-      {NumOfSeats[2] >0 ? <h3 textAlign="center">Economy Class Seats</h3> : <></>}
-      <Grid container spacing={1} columns={{ xs: 12, sm: 12 }}>
+        {depNumOfSeats[2] > 0 ? <h3>Economy Class Seats</h3> : <></>}
+        <Grid container spacing={1} columns={{ xs: 12, sm: 12 }}>
+          <br />
+          {depSeats.splice(0, depNumOfSeats[2]).map((seat) => (
+            <Grid item key={seat}>
+              {state.cabin !== "Economy" ||
+              depBlockedSeats.includes(seat) ? (
+                <button
+                  disabled
+                  style={{
+                    backgroundColor: "#BBBBBB",
+                    width: 50,
+                    height: 25,
+                    borderRadius: 6,
+                    borderColor: "#BBBBBB",
+                  }}
+                >
+                  {seat}
+                </button>
+              ) : (
+                <button
+                  id={seat}
+                  onClick={depChangeBackground}
+                  style={{
+                    textAlign: "center",
+                    cursor: "pointer",
+                    backgroundColor: "white",
+                    width: 50,
+                    height: 25,
+                    borderRadius: 5,
+                    borderColor: "#E0E0E0",
+                  }}
+                >
+                  {seat}
+                </button>
+              )}
+            </Grid>
+          ))}
+        </Grid>
         <br />
-        {seats.splice(0, NumOfSeats[2]).map((seat) => (
-          <Grid item key={seat}>
-            {blockedSeats.includes(seat) ? (
-              <button
-                disabled
-                style={{
-                  backgroundColor: "#BBBBBB",
-                  width: 50,
-                  height: 25,
-                  borderRadius: 6,
-                  borderColor: "#BBBBBB",
-                }}
-              >
-                {seat}
-              </button>
-            ) : (
-              <button
-                id={seat}
-                onClick={changeBackground}
-                style={{
-                  textAlign: "center",
-                  cursor: "pointer",
-                  backgroundColor: "white",
-                  width: 50,
-                  height: 25,
-                  borderRadius: 5,
-                  borderColor: "#E0E0E0",
-                }}
-              >
-                {seat}
-              </button>
-            )}
+      </div>
+      <div className="container4">
+        <h2 style={{ textAlign: "center" }}>Select Return Flight Seats</h2>
+        {retNumOfSeats[0] > 0 ? <h3>First Class Seats</h3> : <></>}
+        <div className="container1">
+          <Grid container spacing={1} columns={2}>
+            {retSeats.splice(0, retNumOfSeats[0]).map((seat) => (
+              <Grid item key={seat}>
+                {state.cabin !== "First" ||
+                retBlockedSeats.includes(seat) ? (
+                  <button
+                    disabled
+                    style={{
+                      backgroundColor: "#BBBBBB",
+                      width: 50,
+                      height: 25,
+                      borderRadius: 6,
+                      borderColor: "#BBBBBB",
+                    }}
+                  >
+                    {seat}
+                  </button>
+                ) : (
+                  <button
+                    id={seat}
+                    onClick={retChangeBackground}
+                    style={{
+                      textAlign: "center",
+                      cursor: "pointer",
+                      backgroundColor: "white",
+                      width: 50,
+                      height: 25,
+                      borderRadius: 5,
+                      borderColor: "#E0E0E0",
+                    }}
+                  >
+                    {seat}
+                  </button>
+                )}
+              </Grid>
+            ))}
           </Grid>
-        ))}
-      </Grid>
+        </div>
+
+        {retNumOfSeats[1] > 0 ? <h3>Business Class Seats</h3> : <></>}
+        <Grid container spacing={1} columns={{ xs: 12, sm: 12 }}>
+          {retSeats.splice(0, retNumOfSeats[1]).map((seat) => (
+            <Grid item key={seat}>
+              {state.cabin !== "Business" ||
+              retBlockedSeats.includes(seat) ? (
+                <button
+                  disabled
+                  style={{
+                    backgroundColor: "#BBBBBB",
+                    width: 50,
+                    height: 25,
+                    borderRadius: 6,
+                    borderColor: "#BBBBBB",
+                  }}
+                >
+                  {seat}
+                </button>
+              ) : (
+                <button
+                  id={seat}
+                  onClick={retChangeBackground}
+                  style={{
+                    textAlign: "center",
+                    cursor: "pointer",
+                    backgroundColor: "white",
+                    width: 50,
+                    height: 25,
+                    borderRadius: 5,
+                    borderColor: "#E0E0E0",
+                  }}
+                >
+                  {seat}
+                </button>
+              )}
+            </Grid>
+          ))}
+        </Grid>
+
+        {retNumOfSeats[2] > 0 ? <h3>Economy Class Seats</h3> : <></>}
+        <Grid container spacing={1} columns={{ xs: 12, sm: 12 }}>
+          <br />
+          {retSeats.splice(0, retNumOfSeats[2]).map((seat) => (
+            <Grid item key={seat}>
+              {state.cabin !== "Economy" ||
+              retBlockedSeats.includes(seat) ? (
+                <button
+                  disabled
+                  style={{
+                    backgroundColor: "#BBBBBB",
+                    width: 50,
+                    height: 25,
+                    borderRadius: 6,
+                    borderColor: "#BBBBBB",
+                  }}
+                >
+                  {seat}
+                </button>
+              ) : (
+                <button
+                  id={seat}
+                  onClick={retChangeBackground}
+                  style={{
+                    textAlign: "center",
+                    cursor: "pointer",
+                    backgroundColor: "white",
+                    width: 50,
+                    height: 25,
+                    borderRadius: 5,
+                    borderColor: "#E0E0E0",
+                  }}
+                >
+                  {seat}
+                </button>
+              )}
+            </Grid>
+          ))}
+        </Grid>
+        <br />
+      </div>
       <br />
-      <button
-        className="btn"
-        style={{ backgroundColor: "#000000" }}
+      <Button
+        disabled={retChosenSeats.length !== state.noSeats || depChosenSeats.length !== state.noSeats}
         onClick={returnChosenSeats}
+        variant="contained"
+        className="btn"
       >
-        Reserve
-      </button>
-    </div>
+        <Link
+          to="/SummaryConfirm"
+          state={{
+            depFlight: state.depFlight,
+            arrFlight: state.arrFlight,
+            cabin: state.cabin,
+            noSeats: state.noSeats,
+            id:state.id,
+            depSeatsReserved: depChosenSeats,
+            arrSeatsReserved: retChosenSeats,
+          }}
+        >
+          {" "}
+          Reserve{" "}
+        </Link>
+      </Button>
+    </>
   );
 }

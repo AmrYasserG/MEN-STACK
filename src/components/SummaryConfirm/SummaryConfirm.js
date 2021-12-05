@@ -13,6 +13,7 @@ import Button from "@mui/material/Button";
 import { useLocation } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
+import ResponsiveAppBar from "../ResponsiveAppBar/ResponsiveAppBar";
 
 const SummaryConfirm = () => {
   const state = useLocation().state;
@@ -20,7 +21,7 @@ const SummaryConfirm = () => {
   const [arrChoosen, setArrChoosen] = useState("");
 
   useEffect(() => {
-    // console.log(state);
+    console.log(state.arrSeatsReserved.length);
   }, []);
 
   const createReservation = () => {
@@ -36,7 +37,7 @@ const SummaryConfirm = () => {
       .then((res) => {
         console.log("created dep flight");
         const toBeUpdatedFlight = state.depFlight;
-        const toBeUpdatedFlightSeats = state.depChosenSeats;
+        const toBeUpdatedFlightSeats = state.depSeatsReserved;
         const ChosenCabin = state.cabin + "AvailableSeatsNo";
         let updatedAvailableSeats = {};
         switch (ChosenCabin) {
@@ -49,8 +50,8 @@ const SummaryConfirm = () => {
             }
             updatedAvailableSeats = {
               EconomyAvailableSeatsNo:
-                toBeUpdatedFlight.EconomyAvailableSeatsNo +
-                toBeUpdatedFlightSeats.SeatsReserved.length,
+                toBeUpdatedFlight.EconomyAvailableSeatsNo -
+                toBeUpdatedFlightSeats.length,
               EconomySeats: Object.fromEntries(EconomySeats),
             };
             break;
@@ -63,8 +64,8 @@ const SummaryConfirm = () => {
             }
             updatedAvailableSeats = {
               BusinessAvailableSeatsNo:
-                toBeUpdatedFlight.BusinessAvailableSeatsNo +
-                toBeUpdatedFlightSeats.SeatsReserved.length,
+                toBeUpdatedFlight.BusinessAvailableSeatsNo -
+                toBeUpdatedFlightSeats.length,
               BusinessSeats: Object.fromEntries(BusinessSeats),
             };
             break;
@@ -77,8 +78,8 @@ const SummaryConfirm = () => {
             }
             updatedAvailableSeats = {
               FirstAvailableSeatsNo:
-                toBeUpdatedFlight.FirstAvailableSeatsNo +
-                toBeUpdatedFlightSeats.SeatsReserved.length,
+                toBeUpdatedFlight.FirstAvailableSeatsNo -
+                toBeUpdatedFlightSeats.length,
               FirstSeats: Object.fromEntries(FirstSeats),
             };
             break;
@@ -107,7 +108,7 @@ const SummaryConfirm = () => {
           .then((res) => {
             console.log("created ret flight");
             const toBeUpdatedFlight = state.arrFlight;
-            const toBeUpdatedFlightSeats = state.retChosenSeats;
+            const toBeUpdatedFlightSeats = state.arrSeatsReserved;
             const ChosenCabin = state.cabin + "AvailableSeatsNo";
             let updatedAvailableSeats = {};
             switch (ChosenCabin) {
@@ -120,8 +121,8 @@ const SummaryConfirm = () => {
                 }
                 updatedAvailableSeats = {
                   EconomyAvailableSeatsNo:
-                    toBeUpdatedFlight.EconomyAvailableSeatsNo +
-                    toBeUpdatedFlightSeats.SeatsReserved.length,
+                    toBeUpdatedFlight.EconomyAvailableSeatsNo -
+                    toBeUpdatedFlightSeats.length,
                   EconomySeats: Object.fromEntries(EconomySeats),
                 };
                 break;
@@ -134,8 +135,8 @@ const SummaryConfirm = () => {
                 }
                 updatedAvailableSeats = {
                   BusinessAvailableSeatsNo:
-                    toBeUpdatedFlight.BusinessAvailableSeatsNo +
-                    toBeUpdatedFlightSeats.SeatsReserved.length,
+                    toBeUpdatedFlight.BusinessAvailableSeatsNo -
+                    toBeUpdatedFlightSeats.length,
                   BusinessSeats: Object.fromEntries(BusinessSeats),
                 };
                 break;
@@ -148,8 +149,8 @@ const SummaryConfirm = () => {
                 }
                 updatedAvailableSeats = {
                   FirstAvailableSeatsNo:
-                    toBeUpdatedFlight.FirstAvailableSeatsNo +
-                    toBeUpdatedFlightSeats.SeatsReserved.length,
+                    toBeUpdatedFlight.FirstAvailableSeatsNo -
+                    toBeUpdatedFlightSeats.length,
                   FirstSeats: Object.fromEntries(FirstSeats),
                 };
                 break;
@@ -202,8 +203,8 @@ const SummaryConfirm = () => {
               arrFlight: state.arrFlight,
               cabin: state.cabin,
               noSeats: state.noSeats,
-              depSeatsReserved: ["A1"],
-              arrSeatsReserved: ["A1", "A2", "A3"],
+              depSeatsReserved: state.depSeatsReserved,
+              arrSeatsReserved: state.arrSeatsReserved,
               ConfirmId: "1234",
             }}
           >

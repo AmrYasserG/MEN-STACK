@@ -11,7 +11,7 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import logo from "./logo3.png";
+import logo from "./logo.png";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
@@ -35,107 +35,97 @@ const ResponsiveAppBar = ({ pages, isUser, isAdmin }) => {
     setAnchorElUser(null);
   };
 
-  return (
-    <AppBar position="static" sx={{ height: "6%" }}>
-      <Container>
-        <Toolbar disableGutters>
-          <Box
-            noWrap
-            component="div"
-            sx={{
-              mr: 2,
-              display: { xs: "none", md: "flex" },
-              left: "1%",
-              position: "absolute",
-            }}
-          >
-            {" "}
-            <Tooltip title=" Home Page" placement="right">
-              <img
-                src={logo}
-                alt="Balabizo"
-                onClick={
-                  isAdmin === true ? (
-                    () => {
-                      window.location.href = "/AdminHomepage";
-                    }
-                  ) : isUser === true ? (
-                    () => {
-                      window.location.href = "../HomePage";
-                    }
-                  ) : (
-                    <></>
-                  )
-                }
-              />
-            </Tooltip>
-          </Box>
+  
 
-          <Box sx={{ flexGrow: 1, display: { xs: "flex" } }}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "left",
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: "block", md: "none" },
-              }}
-            >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
+    return (
+        <AppBar position="static"  >
+            <Container maxWidth="xl" >
+                <Toolbar disableGutters >
+                    <Typography
+                        variant="h6"
+                        noWrap
+                        component="div"
+                        sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
+                    > <Tooltip title=" Home Page" placement= 'right'>
+                        <img src={logo} width="198" height="82" style={{ cursor: 'pointer' }} onClick={ isAdmin === true ? () => {
+                            window.location.href = "/AdminHomepage" }: isUser === true ?  () => {
+                                window.location.href = '../HomePage' }:<></>
+                        } />
+                        </Tooltip>
+                    </Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={
-                  page === "Create Flight"
-                    ? () => {
-                        window.location.href = "../createFlight";
-                      }
-                    : page === "Reserved Flights" && isUser === true
-                    ? () => {
-                        window.location.href = "../ReservedFlights";
-                      }
-                    : handleCloseNavMenu
-                }
-                sx={{ my: 2, color: "white", display: "block" }}
-              >
-                {page}
-              </Button>
-            ))}
-          </Box>
+                    <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+                        <IconButton
+                            size="large"
+                            aria-label="account of current user"
+                            aria-controls="menu-appbar"
+                            aria-haspopup="true"
+                            onClick={handleOpenNavMenu}
+                            color="inherit"
+                        >
+                            <MenuIcon />
+                        </IconButton>
+                        <Menu
+                            id="menu-appbar"
+                            anchorEl={anchorElNav}
+                            anchorOrigin={{
+                                vertical: 'bottom',
+                                horizontal: 'left',
+                            }}
+                            keepMounted
+                            transformOrigin={{
+                                vertical: 'top',
+                                horizontal: 'left',
+                            }}
+                            open={Boolean(anchorElNav)}
+                            onClose={handleCloseNavMenu}
+                            sx={{
+                                display: { xs: 'block', md: 'none' },
+                            }}
+                        >
+                            {pages.map((page) => (
+                                <MenuItem key={page} onClick={handleCloseNavMenu}>
+                                    <Typography textAlign="center">{page}</Typography>
+                                </MenuItem>
+                            ))}
+                        </Menu>
+                    </Box>
+                    <Typography
+                        variant="h6"
+                        noWrap
+                        component="div"
+                        sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
+                    >
+                        <Tooltip title=" Home Page" placement= 'right'>
+                        <img src={logo} width="198" height="82" style={{ cursor: 'pointer' }} onClick={ isAdmin === true ? () => {
+                            window.location.href = "/AdminHomepage" }: isUser === true ?  () => {
+                                window.location.href = '../HomePage' }:<></>
+                        } />
+                        </Tooltip> 
 
-          <Box sx={{ flexGrow: 0 }}>
-            {/* <Tooltip title="Open settings"> */}
-            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-              <Avatar src={AccountCircleOutlinedIcon} />
-            </IconButton>
-            {/* </Tooltip>
+                    </Typography>
+                    <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+                        {pages.map((page) => (
+                            <Button
+                                key={page}
+                                onClick={page === 'Create Flight' ? () => {
+                                    window.location.href = "../createFlight"
+                                } : page === 'Reserved Flights' && isUser === true? () => {
+                                    window.location.href = "../ReservedFlights"
+                                } : handleCloseNavMenu}
+                                sx={{ my: 2, color: 'white', display: 'block' }}
+                            >
+                                {page}
+                            </Button>
+                        ))}
+                    </Box>
+
+                    <Box sx={{ flexGrow: 0 }}>
+                        {/* <Tooltip title="Open settings"> */}
+                            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                                <Avatar src={'AccountCircleOutlinedIcon'} />
+                            </IconButton>
+                        {/* </Tooltip>
                         <Menu
                             sx={{ mt: '45px' }}
                             id="menu-appbar"
