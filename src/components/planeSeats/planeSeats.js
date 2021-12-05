@@ -123,7 +123,7 @@ export default function PlaneSeats() {
 
   return (
     <>
-      <ResponsiveAppBar pages={["Reserved Flights"]} isUser={true} />
+      <ResponsiveAppBar pages={[]} isUser={true} />
 
       <div className="container3">
         <h2 style={{ textAlign: "center" }}>Select Departure Flight Seats</h2>
@@ -382,10 +382,13 @@ export default function PlaneSeats() {
         <Link
           to="/SummaryConfirm"
           state={{
-            state:state,
-            id: "617e93641ff94cd5d2055174",
-            depChosenSeats: depChosenSeats,
-            retChosenSeats: retChosenSeats,
+            depFlight: state.depFlight,
+            arrFlight: state.arrFlight,
+            cabin: state.cabin,
+            noSeats: state.noSeats,
+            id:state.id,
+            depSeatsReserved: depChosenSeats,
+            arrSeatsReserved: retChosenSeats,
           }}
         >
           {" "}

@@ -36,7 +36,7 @@ const UserHomepage = () => {
 
   const [depclassType, depsetClassType] = useState("");
   const [arrclassType, arrsetClassType] = useState("");
-  const [numberSeats, setNumberSeats] = useState(0);
+  const[numberSeats,setNumberSeats]=useState(0);
 
   const [selectPopupButton, setSelectPopupButton] = useState(false);
   const [selectArPopupButton, setSelectArPopupButton] = useState(false);
@@ -63,10 +63,7 @@ const UserHomepage = () => {
         SeatNo: SearchCriteria.SeatsNo,
         Date: SearchCriteria.DepartureDate,
       })
-      .then((result) => {
-        console.log(result.data);
-        setDepartureRows(result.data);
-      });
+      .then((result) => {console.log(result.data);setDepartureRows(result.data);})
   };
 
   const searchArrivalReserve = async (SearchCriteria) => {
@@ -80,6 +77,8 @@ const UserHomepage = () => {
       })
       .then((result) => setReturnRows(result.data));
   };
+
+  
 
   const departureColumns = [
     { id: "FlightNumber", label: "Flight Number", width: 60 },
@@ -113,6 +112,9 @@ const UserHomepage = () => {
         </Link>
       </Button>
 
+      {/* <Button variant="contained" color="success"><Link to = '/ReservedFlights' underline
+      state = {{id : "617e93641ff94cd5d2055174"}}> View Reservation </Link></Button>
+       */}
       <UpdateOver trigger={selectPopupButton} setTrigger={setSelectPopupButton}>
         <h1>Flight Details:</h1>
         <br></br>
@@ -415,6 +417,9 @@ const UserHomepage = () => {
           Proceed to Seat Selection{" "}
         </Link>
       </Button>
+      {/* <Button disabled={depChoosenRow===""||arrChoosenRow===""}variant="contained"><Link underline="none" to = '/SummaryConfirm'
+      state = {{depFlight: depChoosenRow, arrFlight: arrChoosenRow,cabin: depclassType, noSeats: numberSeats,depSeatsReserved:["A1","A2","A3"],arrSeatsReserved:["A1","A2","A3"],id : "617e93641ff94cd5d2055174"}} 
+      > Proceed to Seat Selection </Link></Button> */}
     </div>
   );
 };

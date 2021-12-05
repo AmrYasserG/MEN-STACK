@@ -19,8 +19,8 @@ import "./AdminHomepage.css";
 import UpdateOver from "../UpdateOver/UpdateOver";
 import SearchFlight from "../SearchFlight/SearchFlight.js";
 import IconButton from "@mui/material/IconButton";
-import ResponsiveAppBar from '../ResponsiveAppBar/ResponsiveAppBar' ;
-import CollapsibleTable from "../CollapsibleTable/CollapsibleTable";
+import ResponsiveAppBar from "../ResponsiveAppBar/ResponsiveAppBar";
+import { CollapsibleTable, Row2 } from "../CollapsibleTable/CollapsibleTable";
 
 const Alert = forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -37,10 +37,16 @@ const AdminHomepage = () => {
   const [editDepartureTime, setEditDepartureTime] = useState("");
   const [editArrivalTime, setEditArrivalTime] = useState("");
   const [editDepartureTerminal, setEditDepartureTerminal] = useState("");
-  const [editArrivalTerminal, setEditArrivalTermina] = useState("");
+  const [editArrivalTerminal, setEditArrivalTerminal] = useState("");
   const [editBusinessClassSeats, setEditBusinessClassSeats] = useState("");
   const [editEconomyClassSeats, setEditEconomyClassSeats] = useState("");
   const [editFirstClassSeats, setEditFirstClassSeats] = useState("");
+  const [editBusinessClassSeatsPrice, setEditBusinessClassSeatsPrice] =
+    useState("");
+  const [editEconomyClassSeatsPrice, setEditEconomyClassSeatsPrice] =
+    useState("");
+  const [editFirstClassSeatsPrice, setEditFirstClassSeatsPrice] = useState("");
+  const [editBaggageAllowance, setEditBaggageAllowance] = useState("");
   const [edit_id, setEdit_id] = useState("");
 
   const [updPopupButton, setUpdPopupButton] = useState(false);
@@ -110,6 +116,10 @@ const AdminHomepage = () => {
         AirportDepartureTerminal: editDepartureTerminal,
         AirportArrivalTerminal: editArrivalTerminal,
         Date: editDate,
+        BaggageAllowance: editBaggageAllowance,
+        FirstClassPrice: editFirstClassSeatsPrice,
+        BusinessClassPrice: editBusinessClassSeatsPrice,
+        EconomyClassPrice: editEconomyClassSeatsPrice,
       })
       .then((res) => {
         setEditOpenResponse(true);
@@ -243,7 +253,7 @@ const AdminHomepage = () => {
       <UpdateOver trigger={updPopupButton} setTrigger={setUpdPopupButton}>
         <h1>Update Flight</h1>
 
-        <label>FlightNumber:</label>
+        <label style={{ marginRight: "4%" }}>FlightNumber:</label>
         <span>
           <input
             name="flno"
@@ -256,7 +266,7 @@ const AdminHomepage = () => {
           />
         </span>
         <br></br>
-        <label>From:</label>
+        <label style={{ marginRight: "4%" }}>From:</label>
         <span>
           <input
             name="from"
@@ -269,7 +279,7 @@ const AdminHomepage = () => {
           />
         </span>
         <br></br>
-        <label>To:</label>
+        <label style={{ marginRight: "4%" }}>To:</label>
         <span>
           <input
             name="to"
@@ -282,7 +292,7 @@ const AdminHomepage = () => {
           />
         </span>
         <br></br>
-        <label>Flight Date:</label>
+        <label style={{ marginRight: "4%" }}>Flight Date:</label>
         <span>
           <input
             name="date"
@@ -295,7 +305,7 @@ const AdminHomepage = () => {
           />
         </span>
         <br></br>
-        <label>Departure Time:</label>
+        <label style={{ marginRight: "4%" }}>Departure Time:</label>
         <span>
           <input
             name="dep"
@@ -308,7 +318,7 @@ const AdminHomepage = () => {
           />
         </span>
         <br></br>
-        <label>Arrival Time:</label>
+        <label style={{ marginRight: "4%" }}>Arrival Time:</label>
         <span>
           <input
             name="arrive"
@@ -321,12 +331,12 @@ const AdminHomepage = () => {
           />
         </span>
         <br></br>
-        <label>Airport Departure Terminal:</label>
+        <label style={{ marginRight: "4%" }}>Airport Departure Terminal:</label>
         <span>
           <input
             name="depTer"
             id="depTer"
-            type="text"
+            type="number"
             value={editDepartureTerminal}
             onChange={(e) => {
               setEditDepartureTerminal(Number(e.target.value));
@@ -334,25 +344,27 @@ const AdminHomepage = () => {
           />
         </span>
         <br></br>
-        <label>Airport Arrival Terminal:</label>
+        <label style={{ marginRight: "4%" }}>Airport Arrival Terminal:</label>
         <span>
           <input
             name="arrTer"
             id="arrTer"
-            type="text"
+            type="number"
             value={editArrivalTerminal}
             onChange={(e) => {
-              setEditArrivalTermina(Number(e.target.value));
+              setEditArrivalTerminal(Number(e.target.value));
             }}
           />
         </span>
         <br></br>
-        <label>Number Of Business Class Seats:</label>
+        <label style={{ marginRight: "4%" }}>
+          Number Of Business Class Seats:
+        </label>
         <span>
           <input
             name="busNo"
             id="busNo"
-            type="text"
+            type="number"
             value={editBusinessClassSeats}
             onChange={(e) => {
               setEditBusinessClassSeats(Number(e.target.value));
@@ -360,12 +372,14 @@ const AdminHomepage = () => {
           />
         </span>
         <br></br>
-        <label>Number Of Economy Class Seats:</label>
+        <label style={{ marginRight: "4%" }}>
+          Number Of Economy Class Seats:
+        </label>
         <span>
           <input
             name="ecoNo"
             id="ecoNo"
-            type="text"
+            type="number"
             value={editEconomyClassSeats}
             onChange={(e) => {
               setEditEconomyClassSeats(Number(e.target.value));
@@ -373,15 +387,72 @@ const AdminHomepage = () => {
           />
         </span>
         <br></br>
-        <label>Number Of First Class Seats:</label>
+        <label style={{ marginRight: "4%" }}>
+          Number Of First Class Seats:
+        </label>
         <span>
           <input
             name="fstNo"
             id="fstNo"
-            type="text"
+            type="number"
             value={editFirstClassSeats}
             onChange={(e) => {
               setEditFirstClassSeats(Number(e.target.value));
+            }}
+          />
+        </span>
+        <br></br>
+        <label style={{ marginRight: "4%" }}>Economy Class Seats Prices:</label>
+        <span>
+          <input
+            name="econop"
+            id="econop"
+            type="number"
+            value={editEconomyClassSeatsPrice}
+            onChange={(e) => {
+              setEditEconomyClassSeatsPrice(Number(e.target.value));
+            }}
+          />
+        </span>
+        <br></br>
+        <label style={{ marginRight: "4%" }}>
+          Business Class Seats Prices:
+        </label>
+        <span>
+          <input
+            name="buisnop"
+            id="buisnop"
+            type="number"
+            value={editBusinessClassSeatsPrice}
+            onChange={(e) => {
+              setEditBusinessClassSeatsPrice(Number(e.target.value));
+            }}
+          />
+        </span>
+        <br></br>
+
+        <label style={{ marginRight: "4%" }}>First Class Seats Prices:</label>
+        <span>
+          <input
+            name="fstNop"
+            id="fstNop"
+            type="number"
+            value={editFirstClassSeatsPrice}
+            onChange={(e) => {
+              setEditFirstClassSeatsPrice(Number(e.target.value));
+            }}
+          />
+        </span>
+        <br></br>
+        <label style={{ marginRight: "4%" }}>Baggage Allowance:</label>
+        <span>
+          <input
+            name="fstNop"
+            id="fstNop"
+            type="number"
+            value={editBaggageAllowance}
+            onChange={(e) => {
+              setEditBaggageAllowance(Number(e.target.value));
             }}
           />
         </span>
@@ -425,27 +496,6 @@ const AdminHomepage = () => {
         <SearchFlight d={x} onSearch={searchFlight} />
         {/* <Link to="/signup" className="btn btn-primary">Sign up</Link> */}
       </div>
-
-      <CollapsibleTable
-        rows={rows}
-        isAdmin={true}
-        setX={setX}
-        setDeletePopupButton={setDeletePopupButton}
-        setToBeDeletedFlight={setToBeDeletedFlight}
-        setUpdPopupButton={setUpdPopupButton}
-        setEdit_id={setEdit_id}
-        setEditDepartureTime={setEditDepartureTime}
-        setEditDepartureTerminal={setEditDepartureTerminal}
-        setEditArrivalTime={setEditArrivalTime}
-        setEditArrivalTermina={setEditArrivalTermina}
-        setEditDate={setEditDate}
-        setEditEconomyClassSeats={setEditEconomyClassSeats}
-        setEditFirstClassSeats={setEditFirstClassSeats}
-        setEditFlight={setEditFlight}
-        setEditFrom={setEditFrom}
-        setEditTo={setEditTo}
-        setEditBusinessClassSeats={setEditBusinessClassSeats}
-      />
 
       {/* <Paper sx={{ width: "100%", overflow: "hidden", marginTop: "1%" }}>
         <TableContainer sx={{ maxHeight: 500 }}>
@@ -535,201 +585,109 @@ const AdminHomepage = () => {
             </TableBody>
           </Table>
         </TableContainer>
-      </Paper> */}
-      {/* <TableContainer sx={{ maxHeight: 500 }} component={Paper}>
-        <Table aria-label="collapsible table" stickyHeader={x}>
+      </Paper>
+      <br />
+      <br />
+      <br />
+      <br />
+      <CollapsibleTable
+        rows={rows}
+        isAdmin={true}
+        setX={setX}
+        setDeletePopupButton={setDeletePopupButton}
+        setToBeDeletedFlight={setToBeDeletedFlight}
+        setUpdPopupButton={setUpdPopupButton}
+        setEdit_id={setEdit_id}
+        setEditDepartureTime={setEditDepartureTime}
+        setEditDepartureTerminal={setEditDepartureTerminal}
+        setEditArrivalTime={setEditArrivalTime}
+        setEditArrivalTermina={setEditArrivalTermina}
+        setEditDate={setEditDate}
+        setEditEconomyClassSeats={setEditEconomyClassSeats}
+        setEditFirstClassSeats={setEditFirstClassSeats}
+        setEditFlight={setEditFlight}
+        setEditFrom={setEditFrom}
+        setEditTo={setEditTo}
+        setEditBusinessClassSeats={setEditBusinessClassSeats}
+      />
+      <br />
+      <br />
+      <br />
+      <br /> */}
+      <hr />
+      <TableContainer sx={{ maxHeight: "70%" }}>
+        <Table
+          aria-label="collapsible table"
+          classname="header"
+          stickyHeader={!x}
+        >
           <TableHead>
-            <TableRow style={{ backgroundColor: "#F0F0F0" }}>
+            <TableRow>
+              {" "}
               <TableCell />
               <TableCell style={{ fontWeight: "bold" }}>
                 Flight Number
               </TableCell>
               <TableCell style={{ fontWeight: "bold" }}>From</TableCell>
               <TableCell style={{ fontWeight: "bold" }}>To</TableCell>
+              <TableCell style={{ fontWeight: "bold" }}>Arrival Time</TableCell>
               <TableCell style={{ fontWeight: "bold" }}>
-                Departure Date
+                Departure Time
               </TableCell>
+              <TableCell style={{ fontWeight: "bold" }}>Date</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-          {rows.map((row) => {
-            return (
-
-<React.Fragment>
-      <TableRow
-        style={{ backgroundColor: "#F7F7F7" }}
-        sx={{ fontWeight: "bold", "& > *": { borderBottom: "unset" } }}
-      >
-        <TableCell>
-          <IconButton
-            aria-label="expand row"
-            size="small"
-            onClick={() => setOpen(!open)}
-          >
-            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-          </IconButton>
-        </TableCell>
-        <TableCell component="th" scope="row">
-          {row.FlightNumber}
-        </TableCell>
-        <TableCell>{row.From}</TableCell>
-        <TableCell>{row.To}</TableCell>
-        <TableCell>{row.dDate}</TableCell>
-        <TableCell>{row.rDate}</TableCell>
-      </TableRow>
-      <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={8}>
-          <Collapse in={open} timeout="auto" unmountOnExit>
-            <Box sx={{ margin: 1 }}>
-              <Typography
-                variant="h6"
-                gutterBottom
-                component="div"
-              ></Typography>
-              <Table size="small">
-                <TableHead>
-                  <TableRow>
-                    <TableCell></TableCell>
-                    <TableCell style={{ fontWeight: "bold" }}>
-                      Departure Time
-                    </TableCell>
-                    <TableCell style={{ fontWeight: "bold" }}>
-                      Arrival Time
-                    </TableCell>
-                    <TableCell style={{ fontWeight: "bold" }}>
-                      Airport Departure Terminal
-                    </TableCell>
-                    <TableCell style={{ fontWeight: "bold" }}>
-                      Airport Arrival Terminal
-                    </TableCell>
-                    <Tooltip title="Available Seats/All Seats" placement="top">
-                      <TableCell style={{ fontWeight: "bold" }}>
-                        Economy Class Seats
-                      </TableCell>
-                    </Tooltip>
-                    <TableCell style={{ fontWeight: "bold" }}>
-                      {" "}
-                      Economy Class Price $
-                    </TableCell>
-                    <Tooltip title="Available Seats/All Seats" placement="top">
-                      <TableCell style={{ fontWeight: "bold" }}>
-                        Business Class Seats
-                      </TableCell>
-                    </Tooltip>
-                    <TableCell style={{ fontWeight: "bold" }}>
-                      Business Class Price $
-                    </TableCell>
-                    <Tooltip title="Available Seats/All Seats" placement="top">
-                      <TableCell style={{ fontWeight: "bold" }}>
-                        First Class Seats
-                      </TableCell>
-                    </Tooltip>
-                    <TableCell style={{ fontWeight: "bold" }}>
-                      First Class Price $
-                    </TableCell>
-
-                    <TableCell style={{ fontWeight: "bold" }}>
-                      Baggage Allowance (kg)
-                    </TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  <TableRow>
-                    <TableCell style={{ fontWeight: "bold" }}>
-                      {" "}
-                      Departure
-                    </TableCell>
-                    <TableCell>{row.dDepartureTime}</TableCell>
-                    <TableCell>{row.dArrivalTime}</TableCell>
-                    <TableCell>{row.dAirportDepartureTerminal}</TableCell>
-                    <TableCell>{row.dAirportArrivalTerminal}</TableCell>
-                    <TableCell>
-                      <div id="bloc1" style={{ color: "blue" }}>
-                        {row.dEconomyAvailableSeatsNo}
-                      </div>{" "}
-                      <div id="bloc2">{"/" + row.dEconomySeatsNo}</div>{" "}
-                    </TableCell>
-                    <TableCell>{row.dEconomyClassPrice}</TableCell>
-                    <TableCell>
-                      <div id="bloc1" style={{ color: "blue" }}>
-                        {row.dBusinessAvailableSeatsNo}
-                      </div>{" "}
-                      <div id="bloc2">{"/" + row.dBusinessSeatsNo}</div>{" "}
-                    </TableCell>
-                    <TableCell>{row.dBusinessClassPrice}</TableCell>
-                    <TableCell>
-                      <div id="bloc1" style={{ color: "blue" }}>
-                        {row.dFirstAvailableSeatsNo}
-                      </div>{" "}
-                      <div id="bloc2">{"/" + row.dFirstSeatsNo}</div>{" "}
-                    </TableCell>
-                    <TableCell>{row.dFirstClassPrice}</TableCell>
-                    <TableCell>{row.dBaggageAllowance}</TableCell>
-
-           
-                  </TableRow>
-
-                  <TableRow>
-                    <TableCell style={{ fontWeight: "bold" }}>
-                      {" "}
-                      Return
-                    </TableCell>
-                    <TableCell>{row.rDepartureTime}</TableCell>
-                    <TableCell>{row.rArrivalTime}</TableCell>
-                    <TableCell>{row.rAirportDepartureTerminal}</TableCell>
-                    <TableCell>{row.rAirportArrivalTerminal}</TableCell>
-                    <TableCell>
-                      <div id="bloc1" style={{ color: "blue" }}>
-                        {row.rEconomyAvailableSeatsNo}
-                      </div>{" "}
-                      <div id="bloc2">{"/" + row.rEconomySeatsNo}</div>{" "}
-                    </TableCell>
-                    <TableCell>{row.rEconomyClassPrice}</TableCell>
-                    <TableCell>
-                      <div id="bloc1" style={{ color: "blue" }}>
-                        {row.rBusinessAvailableSeatsNo}
-                      </div>{" "}
-                      <div id="bloc2">{"/" + row.rBusinessSeatsNo}</div>{" "}
-                    </TableCell>
-                    <TableCell>{row.rBusinessClassPrice}</TableCell>
-                    <TableCell>
-                      <div id="bloc1" style={{ color: "blue" }}>
-                        {row.rFirstAvailableSeatsNo}
-                      </div>{" "}
-                      <div id="bloc2">{"/" + row.rFirstSeatsNo}</div>{" "}
-                    </TableCell>
-                    <TableCell>{row.rFirstClassPrice}</TableCell>
-                    <TableCell>{row.rBaggageAllowance}</TableCell>
-                    {isAdmin === true ? (
-                      <TableCell>
-                        <DeleteButton
-                          row={row}
-                          setX={setX}
-                          setDeletePopupButton={setDeletePopupButton}
-                          setToBeDeletedFlight={setToBeDeletedFlight}
-                        />
-                      </TableCell>
-                    ) : (
-                      <></>
-                    )}
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </Box>
-          </Collapse>
-        </TableCell>
-      </TableRow>
-    </React.Fragment>
-
-
-            );
-          })}
-
-
-
+            {rows.map((row) => (
+              <Row2
+                row={row}
+                EditContent={
+                  <IconButton
+                    variant="contained"
+                    color="primary"
+                    onClick={() => {
+                      setEdit_id(row._id);
+                      setUpdPopupButton(true);
+                      setEditDepartureTime(row.DepartureTime);
+                      setEditDepartureTerminal(row.AirportDepartureTerminal);
+                      setEditArrivalTime(row.ArrivalTime);
+                      setEditArrivalTerminal(row.AirportArrivalTerminal);
+                      setEditDate(row.Date);
+                      setEditEconomyClassSeats(row.EconomySeatsNo);
+                      setEditFirstClassSeats(row.FirstSeatsNo);
+                      setEditFlight(row.FlightNumber);
+                      setEditFrom(row.From);
+                      setEditTo(row.To);
+                      setEditBusinessClassSeats(row.BusinessSeatsNo);
+                      setEditBaggageAllowance(row.BaggageAllowance);
+                      setEditEconomyClassSeatsPrice(row.EconomyClassPrice);
+                      setEditBusinessClassSeatsPrice(row.BusinessClassPrice);
+                      setEditFirstClassSeatsPrice(row.FirstClassPrice);
+                      setX(true);
+                    }}
+                  >
+                    <EditIcon />
+                  </IconButton>
+                }
+                DeleteContent={
+                  <IconButton
+                    variant="contained"
+                    color="error"
+                    onClick={() => {
+                      setX(true);
+                      setDeletePopupButton(true);
+                      setToBeDeletedFlight(row._id);
+                    }}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                }
+                isAdmin={true}
+              />
+            ))}
           </TableBody>
         </Table>
-      </TableContainer> */}
+      </TableContainer>
     </div>
   );
 };
