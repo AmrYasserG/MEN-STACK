@@ -7,6 +7,10 @@ const BookingFlightsSchema = new Schema(
       type: String,
       required: true,
     },
+    ReservationNumber:{
+      type: String,
+      required: true,
+    },
     FlightNumber: {
       type: String,
       required: true,

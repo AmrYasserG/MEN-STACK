@@ -5,6 +5,7 @@ require("dotenv").config({ path: __dirname + "/./../../.env" });
 const createReservation = (req, res) => {
     const bookingFlights = new BookingFlights({
         User_id: req.body.User_id,
+        ReservationNumber: req.body.ReservationNumber,
         FlightNumber: req.body.FlightNumber,
         ChosenCabin: req.body.ChosenCabin,
         SeatsReserved: req.body.SeatsReserved,
