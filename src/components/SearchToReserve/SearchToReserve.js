@@ -79,164 +79,173 @@ const SearchToReserve = ({ onSearch }) => {
     setReturnDate(e.target.value);
   };
   return (
-    <Accordion>
-      <AccordionSummary
-        sx={{ "text-align": "center" }}
-        expandIcon={<ExpandMoreIcon />}
-        aria-controls="panel1a-content"
-        id="panel1a-header"
-      >
-        <Typography sx={{ mx: "40%", width: 800 }} variant="h5">
-          Search Criteriea
-        </Typography>
-      </AccordionSummary>
-      <AccordionDetails>
-        <Box sx={{ mx: 5, "text-align": "center" }}>
-          <TextField
-            sx={{ width: "20%", height: "40px", mx: 7, my: 3 }}
-            id="outlined-basic"
-            required
-            label="Origin"
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <FlightTakeoffRoundedIcon />
-                </InputAdornment>
-              ),
-            }}
-            variant="outlined"
-            onChange={(e) => {
-              setFrom(e.target.value);
-            }}
-            value={From}
-          />
-          <TextField
-            sx={{ width: "20%", height: "40px", mx: 7, my: 3 }}
-            id="outlined-basic"
-            required
-            label="Destination"
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <FlightLandRoundedIcon />
-                </InputAdornment>
-              ),
-            }}
-            variant="outlined"
-            onChange={(e) => {
-              setTo(e.target.value);
-            }}
-            value={To}
-          />
-          <br />
-          <TextField
-            sx={{ width: "20%", height: "40px", mx: 7, my: 3 }}
-            id="Class"
-            required
-            select
-            label="Class"
-            value={SeatClass}
-            onChange={(e) => {
-              setSeatClass(e.target.value);
-            }}
-            helperText="Please select your Prefered Class"
-          >
-            {seatClasses.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
-          <TextField
-            sx={{ width: "20%", height: "40px", mx: 7, my: 3 }}
-            required
-            label="Number Of Seats"
-            id="NoOfSeats"
-            error={!validSeatNo}
-            type="number"
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <AirlineSeatReclineNormalIcon />
-                </InputAdornment>
-              ),
-              type: "number",
-            }}
-            variant="outlined"
-            onChange={handlSeatChange}
-            value={SeatsNo}
-            helperText={validSeatNo ? "" : "Number should be greater than 0"}
-          />
+    <Box
+      sx={{
+        p: 2,
+        margin: "auto",
+        maxWidth: "80%",
+        my: 1,
+      }}
+    >
+      <Accordion>
+        <AccordionSummary
+          sx={{ "text-align": "center" }}
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
+        >
+          <Typography sx={{ mx: "40%", width: 800 }} variant="h5">
+            Search Criteriea
+          </Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Box sx={{ mx: 5, "text-align": "center" }}>
+            <TextField
+              sx={{ width: "35%", height: "40px", mx: 7, my: 3 }}
+              id="outlined-basic"
+              required
+              label="Origin"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <FlightTakeoffRoundedIcon />
+                  </InputAdornment>
+                ),
+              }}
+              variant="outlined"
+              onChange={(e) => {
+                setFrom(e.target.value);
+              }}
+              value={From}
+            />
+            <TextField
+              sx={{ width: "35%", height: "40px", mx: 7, my: 3 }}
+              id="outlined-basic"
+              required
+              label="Destination"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <FlightLandRoundedIcon />
+                  </InputAdornment>
+                ),
+              }}
+              variant="outlined"
+              onChange={(e) => {
+                setTo(e.target.value);
+              }}
+              value={To}
+            />
+            <br />
+            <TextField
+              sx={{ width: "35%", height: "40px", mx: 7, my: 3 }}
+              id="Class"
+              required
+              select
+              label="Class"
+              value={SeatClass}
+              onChange={(e) => {
+                setSeatClass(e.target.value);
+              }}
+              helperText="Please select your Prefered Class"
+            >
+              {seatClasses.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
+            <TextField
+              sx={{ width: "35%", height: "40px", mx: 7, my: 3 }}
+              required
+              label="Number Of Seats"
+              id="NoOfSeats"
+              error={!validSeatNo}
+              type="number"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <AirlineSeatReclineNormalIcon />
+                  </InputAdornment>
+                ),
+                type: "number",
+              }}
+              variant="outlined"
+              onChange={handlSeatChange}
+              value={SeatsNo}
+              helperText={validSeatNo ? "" : "Number should be greater than 0"}
+            />
 
-          <br />
-          <TextField
-            sx={{ width: "20%", height: "40px", mx: 7, my: 3 }}
-            error={!validDate}
-            required
-            label="Departure Date"
-            id="dDate"
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start"></InputAdornment>
-              ),
-              type: "date",
-            }}
-            variant="outlined"
-            value={DepartureDate}
-            onChange={handleDdate}
-            helperText={
-              validDate
-                ? ""
-                : "Return Date shoud be earlier than Departure Date"
-            }
-          />
-          <TextField
-            sx={{ width: "20%", height: "40px", mx: 7, my: 3 }}
-            required
-            error={!validDate}
-            label="Return Date"
-            id="rDate"
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start"></InputAdornment>
-              ),
-              type: "date",
-            }}
-            variant="outlined"
-            value={ReturnDate}
-            onChange={handleRdate}
-          />
-          <br />
-          <Button
-            startIcon={<BackspaceRoundedIcon />}
-            variant="contained"
-            color="secondary"
-            onClick={reset}
-            sx={{ width: "7%", height: "40px", mx: 7, my: 2 }}
-          >
-            Reset
-          </Button>
-          <Button
-            sx={{ width: "7%", height: "40px", mx: 7, my: 2 }}
-            endIcon={<SearchRoundedIcon />}
-            variant="contained"
-            color="primary"
-            disabled={
-              !validDate ||
-              !validSeatNo ||
-              From === "" ||
-              To === "" ||
-              SeatClass === "" ||
-              DepartureDate === "" ||
-              ReturnDate === ""
-            }
-            onClick={search}
-          >
-            Search
-          </Button>
-        </Box>
-      </AccordionDetails>
-    </Accordion>
+            <br />
+            <TextField
+              sx={{ width: "35%", height: "40px", mx: 7, my: 3 }}
+              error={!validDate}
+              required
+              label="Departure Date"
+              id="dDate"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start"></InputAdornment>
+                ),
+                type: "date",
+              }}
+              variant="outlined"
+              value={DepartureDate}
+              onChange={handleDdate}
+              helperText={
+                validDate
+                  ? ""
+                  : "Return Date shoud be earlier than Departure Date"
+              }
+            />
+            <TextField
+              sx={{ width: "35%", height: "40px", mx: 7, my: 3 }}
+              required
+              error={!validDate}
+              label="Return Date"
+              id="rDate"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start"></InputAdornment>
+                ),
+                type: "date",
+              }}
+              variant="outlined"
+              value={ReturnDate}
+              onChange={handleRdate}
+            />
+            <br />
+            <Button
+              startIcon={<BackspaceRoundedIcon />}
+              variant="contained"
+              color="secondary"
+              onClick={reset}
+              sx={{ width: "15%", height: "40px", mx: 7, my: 2 }}
+            >
+              Reset
+            </Button>
+            <Button
+              sx={{ width: "15%", height: "40px", mx: 7, my: 2 }}
+              endIcon={<SearchRoundedIcon />}
+              variant="contained"
+              color="primary"
+              disabled={
+                !validDate ||
+                !validSeatNo ||
+                From === "" ||
+                To === "" ||
+                SeatClass === "" ||
+                DepartureDate === "" ||
+                ReturnDate === ""
+              }
+              onClick={search}
+            >
+              Search
+            </Button>
+          </Box>
+        </AccordionDetails>
+      </Accordion>
+    </Box>
   );
 };
 
