@@ -211,7 +211,7 @@ function ReservedFlights() {
 
   return (
     <div>
-     <ResponsiveAppBar pages={["Reserved Flights"]}  isUser={true} />
+     <ResponsiveAppBar pages={["Reserved Flights"]}  isUser={true} settings={['profile']}/>
       <Snackbar
         open={deleteOpenResponse}
         autoHideDuration={3000}

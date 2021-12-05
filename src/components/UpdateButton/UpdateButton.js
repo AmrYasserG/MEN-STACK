@@ -2,7 +2,7 @@ import React from "react";
 import Button from "@mui/material/Button";
 import EditIcon from "@mui/icons-material/Edit";
 
-const UpdateButton = (
+const UpdateButton = ({
   row,
   setUpdPopupButton,
   setEdit_id,
@@ -18,7 +18,7 @@ const UpdateButton = (
   setEditTo,
   setEditBusinessClassSeats,
   setX
-) => {
+}) => {
   return (
     <Button
       style={{

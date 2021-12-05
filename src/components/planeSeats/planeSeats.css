@@ -1,8 +1,7 @@
 .container3 {
-    display: inline-block;
     max-width: 385px;
     min-width: 385px;
-    margin-left: 100px;
+    margin: auto;
     margin-top: 100px;
     min-height: 300px;
     border: 1px solid steelblue;
@@ -11,13 +10,21 @@
 }
 
 .container4 {
-    display: inline-block;
     max-width: 385px;
     min-width: 385px;
-    margin-left: 100px;
+    margin: auto;
     margin-top: 100px;
     min-height: 300px;
     border: 1px solid steelblue;
+    padding: 30px;
+    border-radius: 5px;
+}
+
+.container2 {
+    max-width: 385px;
+    min-width: 385px;
+    margin-left: center;
+    margin-top: 30px;
     padding: 30px;
     border-radius: 5px;
 }
@@ -31,8 +38,7 @@
 .btn {
     display: inline-block;
     border: none;
-    margin-left: auto;
-    margin-right: auto;
+    margin: auto;
     margin-top: 30px;
     border-radius: 5px;
     cursor: pointer;

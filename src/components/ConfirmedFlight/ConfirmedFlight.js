@@ -13,6 +13,7 @@ import Button from "@mui/material/Button";
 import { useLocation } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
+import ResponsiveAppBar from "../ResponsiveAppBar/ResponsiveAppBar";
 
 const ConfirmedFlight = () => {
   const state = useLocation().state;
@@ -23,6 +24,7 @@ const ConfirmedFlight = () => {
   }, []);
   return (
     <div>
+      <ResponsiveAppBar pages={[]} isUser={true}settings={['profile']}  />
       <h1>Choosen Flights Summary</h1>
       <br></br>
 

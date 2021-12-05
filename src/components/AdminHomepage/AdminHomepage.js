@@ -189,7 +189,7 @@ const AdminHomepage = () => {
 
   return (
     <div>
-      <ResponsiveAppBar pages={["Create Flight"]} isAdmin = {true} />
+      <ResponsiveAppBar pages={["Create Flight"]} settings ={["profile"]} isAdmin = {true}  />
       <Snackbar
         open={deleteOpenResponse}
         autoHideDuration={6000}
@@ -618,7 +618,7 @@ const AdminHomepage = () => {
       <TableContainer sx={{ maxHeight: "70%" }}>
         <Table
           aria-label="collapsible table"
-          classname="header"
+          className="header"
           stickyHeader={!x}
         >
           <TableHead>

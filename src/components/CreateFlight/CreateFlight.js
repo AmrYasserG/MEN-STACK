@@ -200,7 +200,7 @@ const CreateFlight = () => {
 
   return (
     <>
-    <ResponsiveAppBar pages={["Create Flight"]} isAdmin = {true} />
+    <ResponsiveAppBar pages={["Create Flight"]} isAdmin = {true} settings={['profile']} />
     <Box
       p={1}
       sx={{

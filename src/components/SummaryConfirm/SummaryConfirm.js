@@ -170,6 +170,7 @@ const SummaryConfirm = () => {
   };
   return (
     <div>
+      <ResponsiveAppBar pages={[]} isUser={true} settings={['profile']} />
       <h1>Choosen Flights Summary</h1>
       <br></br>
 
