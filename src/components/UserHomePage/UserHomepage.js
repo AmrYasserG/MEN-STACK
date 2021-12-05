@@ -10,6 +10,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import axios from "axios";
 import Button from "@mui/material/Button";
+import ResponsiveAppBar from "../ResponsiveAppBar/ResponsiveAppBar";
 // import Button from "@mui/material/Button";
 // import DeleteIcon from "@mui/icons-material/Delete";
 // import EditIcon from "@mui/icons-material/Edit";
@@ -94,16 +95,8 @@ const UserHomepage = () => {
 
   return (
     <div>
-      <nav>
-        <Link
-          to={"/scratch"}
-          state={{ id: "sa", afs: "sad  " }}
-          style={{ backgroundColor: "#111" }}
-        >
-          {" "}
-          Your Page{" "}
-        </Link>
-      </nav>
+      <ResponsiveAppBar pages={["Reserved Flights"]} isUser={true} />
+
       <UpdateOver trigger={selectPopupButton} setTrigger={setSelectPopupButton}>
         <h1>Flight Details:</h1>
         <br></br>

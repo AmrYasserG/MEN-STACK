@@ -16,8 +16,10 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import Button from "@mui/material/Button";
 import DeleteButton from "../DeleteButton/DeleteButton";
 import Tooltip from "@mui/material/Tooltip";
-
-function Row({
+import UpdateButton from "../UpdateButton/UpdateButton";
+import "./CollapsibleTable.css";
+export function Row({
+  row,
   isAdmin,
   setX,
   setDeletePopupButton,
@@ -36,7 +38,6 @@ function Row({
   setEditTo,
   setEditBusinessClassSeats,
 }) {
-    
   //   const { row } = props;
   const [open, setOpen] = React.useState(false);
 
@@ -200,7 +201,7 @@ function Row({
 //   }).isRequired,
 // };
 
-export default function CollapsibleTable({
+export function CollapsibleTable({
   rows,
   isAdmin,
   setX,
@@ -222,12 +223,10 @@ export default function CollapsibleTable({
 }) {
   return (
     <TableContainer sx={{ maxHeight: 500 }} component={Paper}>
-      <Table aria-label="collapsible table"  classname = 'header'>
+      <Table aria-label="collapsible table" classname="header" stickyHeader>
         <TableHead>
-
           <TableRow>
             {" "}
-           
             <TableCell />
             <TableCell style={{ fontWeight: "bold" }}>Flight Number</TableCell>
             <TableCell style={{ fontWeight: "bold" }}>From</TableCell>

@@ -16,6 +16,7 @@ import FormLabel from "@mui/material/FormLabel";
 import FlightTakeoffRoundedIcon from "@mui/icons-material/FlightTakeoffRounded";
 import FlightLandRoundedIcon from "@mui/icons-material/FlightLandRounded";
 import AirlineSeatReclineNormalIcon from "@mui/icons-material/AirlineSeatReclineNormal";
+import ResponsiveAppBar from "../ResponsiveAppBar/ResponsiveAppBar";
 
 const Alert = forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -198,6 +199,8 @@ const CreateFlight = () => {
   };
 
   return (
+    <>
+    <ResponsiveAppBar pages={["Create Flight"]} />
     <Box
       p={1}
       sx={{
@@ -808,6 +811,8 @@ const CreateFlight = () => {
         </Alert>
       </Snackbar>
     </Box>
+    </>
+
   );
 };
 export default CreateFlight;

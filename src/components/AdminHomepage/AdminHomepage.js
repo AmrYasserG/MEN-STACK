@@ -19,6 +19,8 @@ import "./AdminHomepage.css";
 import UpdateOver from "../UpdateOver/UpdateOver";
 import SearchFlight from "../SearchFlight/SearchFlight.js";
 import IconButton from "@mui/material/IconButton";
+import ResponsiveAppBar from "../ResponsiveAppBar/ResponsiveAppBar";
+import CollapsibleTable from "../CollapsibleTable/CollapsibleTable";
 
 const Alert = forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -177,6 +179,7 @@ const AdminHomepage = () => {
 
   return (
     <div>
+      <ResponsiveAppBar pages={["Create Flight"]} />
       <Snackbar
         open={deleteOpenResponse}
         autoHideDuration={6000}
@@ -406,7 +409,7 @@ const AdminHomepage = () => {
           Cancel
         </Button>
       </UpdateOver>
-      <Button
+      {/* <Button
         variant="contained"
         startIcon={<AddIcon />}
         color="success"
@@ -416,12 +419,33 @@ const AdminHomepage = () => {
         }}
       >
         {"Create"}
-      </Button>
+      </Button> */}
 
       <div>
         <SearchFlight d={x} onSearch={searchFlight} />
         {/* <Link to="/signup" className="btn btn-primary">Sign up</Link> */}
       </div>
+
+      <CollapsibleTable
+        rows={rows}
+        isAdmin={true}
+        setX={setX}
+        setDeletePopupButton={setDeletePopupButton}
+        setToBeDeletedFlight={setToBeDeletedFlight}
+        setUpdPopupButton={setUpdPopupButton}
+        setEdit_id={setEdit_id}
+        setEditDepartureTime={setEditDepartureTime}
+        setEditDepartureTerminal={setEditDepartureTerminal}
+        setEditArrivalTime={setEditArrivalTime}
+        setEditArrivalTermina={setEditArrivalTermina}
+        setEditDate={setEditDate}
+        setEditEconomyClassSeats={setEditEconomyClassSeats}
+        setEditFirstClassSeats={setEditFirstClassSeats}
+        setEditFlight={setEditFlight}
+        setEditFrom={setEditFrom}
+        setEditTo={setEditTo}
+        setEditBusinessClassSeats={setEditBusinessClassSeats}
+      />
 
       <Paper sx={{ width: "100%", overflow: "hidden", marginTop: "1%" }}>
         <TableContainer sx={{ maxHeight: 500 }}>
@@ -512,6 +536,7 @@ const AdminHomepage = () => {
           </Table>
         </TableContainer>
       </Paper>
+
       {/* <TableContainer sx={{ maxHeight: 500 }} component={Paper}>
         <Table aria-label="collapsible table" stickyHeader={x}>
           <TableHead>
@@ -705,7 +730,7 @@ const AdminHomepage = () => {
 
           </TableBody>
         </Table>
-      </TableContainer> */}
+        </TableContainer>*/}
     </div>
   );
 };
