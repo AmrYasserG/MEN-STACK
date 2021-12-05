@@ -101,7 +101,7 @@ const UserHomepage = () => {
 
   return (
     <div>
-      <ResponsiveAppBar pages={["Reserved Flights"]} isUser={true} />
+      <ResponsiveAppBar pages={[]} settings={['profile']} isUser={true} />
 
       <Button variant="contained" color="success" style={{marginLeft:"87%", marginTop:"1%"}}><Link to = '/ReservedFlights'
       state = {{id : "617e93641ff94cd5d2055174"}}> View Reservation </Link></Button>

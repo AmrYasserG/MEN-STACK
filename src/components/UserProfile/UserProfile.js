@@ -139,7 +139,7 @@ const UserProfile = ({ onEdit }) => {
 
   return (
     <div>
-      <ResponsiveAppBar pages={[]} />
+      <ResponsiveAppBar pages={[]} settings={['profile']}  />
       <Snackbar
         open={editOpenResponse}
         autoHideDuration={3000}

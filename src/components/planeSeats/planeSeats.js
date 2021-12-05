@@ -123,7 +123,7 @@ export default function PlaneSeats() {
 
   return (
     <>
-      <ResponsiveAppBar pages={[]} isUser={true} />
+      <ResponsiveAppBar pages={[]} isUser={true} settings={['profile']}/>
 
       <div className="container3">
         <h2 style={{ textAlign: "center" }}>Select Departure Flight Seats</h2>
@@ -373,11 +373,14 @@ export default function PlaneSeats() {
         <br />
       </div>
       <br />
+      <dic className='container2'>
       <Button
         disabled={retChosenSeats.length !== state.noSeats || depChosenSeats.length !== state.noSeats}
         onClick={returnChosenSeats}
         variant="contained"
         className="btn"
+        styl
+        
       >
         <Link
           to="/SummaryConfirm"
@@ -395,6 +398,7 @@ export default function PlaneSeats() {
           Reserve{" "}
         </Link>
       </Button>
+      </dic>
     </>
   );
 }
