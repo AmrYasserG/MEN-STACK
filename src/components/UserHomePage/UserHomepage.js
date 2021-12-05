@@ -10,6 +10,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import axios from "axios";
 import Button from "@mui/material/Button";
+import ResponsiveAppBar from "../ResponsiveAppBar/ResponsiveAppBar";
 // import Button from "@mui/material/Button";
 // import DeleteIcon from "@mui/icons-material/Delete";
 // import EditIcon from "@mui/icons-material/Edit";
@@ -35,6 +36,7 @@ const UserHomepage = () => {
 
   const [depclassType, depsetClassType] = useState("");
   const [arrclassType, arrsetClassType] = useState("");
+  const[numberSeats,setNumberSeats]=useState(0);
 
   const [selectPopupButton, setSelectPopupButton] = useState(false);
   const [selectArPopupButton, setSelectArPopupButton] = useState(false);
@@ -45,6 +47,7 @@ const UserHomepage = () => {
       searchArrivalReserve(SearchCriteria);
       depsetClassType(SearchCriteria.SeatClass);
       arrsetClassType(SearchCriteria.SeatClass);
+      setNumberSeats(SearchCriteria.SeatsNo);
     } else {
       setReturnRows([]);
       setDepartureRows([]);
@@ -75,6 +78,8 @@ const UserHomepage = () => {
       .then((result) => setReturnRows(result.data));
   };
 
+  
+
   const departureColumns = [
     { id: "FlightNumber", label: "Flight Number", width: 60 },
     { id: "From", label: "From", width: 60 },
@@ -93,9 +98,14 @@ const UserHomepage = () => {
   ];
 
   return (
-    <div>    
-      <Button variant="contained" color="success"><Link to = '/ReservedFlights' underline
+    <div>
+      
+      
+      <ResponsiveAppBar pages={["Reserved Flights"]} isUser={true} />
+
+      <Button variant="contained" color="success" style={{marginLeft:"87%", marginTop:"1%"}}><Link to = '/ReservedFlights'
       state = {{id : "617e93641ff94cd5d2055174"}}> View Reservation </Link></Button>
+      
       <UpdateOver trigger={selectPopupButton} setTrigger={setSelectPopupButton}>
         <h1>Flight Details:</h1>
         <br></br>
@@ -244,9 +254,9 @@ const UserHomepage = () => {
                         DepTerminal: row.AirportDepartureTerminal,
                         ArrTerminal: row.AirportArrivalTerminal,
                         Price:
-                          depclassType === "First Class"
+                          depclassType === "First"
                             ? row.FirstClassPrice
-                            : depclassType === "Economy Class"
+                            : depclassType === "Economy"
                             ? row.EconomyClassPrice
                             : row.BusinessClassPrice,
                       });
@@ -323,9 +333,9 @@ const UserHomepage = () => {
                         DepTerminal: row.AirportDepartureTerminal,
                         ArrTerminal: row.AirportArrivalTerminal,
                         Price:
-                          arrclassType === "First Class"
+                          arrclassType === "First"
                             ? row.FirstClassPrice
-                            : arrclassType === "Economy Class"
+                            : arrclassType === "Economy"
                             ? row.EconomyClassPrice
                             : row.BusinessClassPrice,
                       });
@@ -370,6 +380,9 @@ const UserHomepage = () => {
           </Table>
         </TableContainer>
       </Paper>
+      <Button disabled={depChoosenRow===""||arrChoosenRow===""}variant="contained" style={{marginLeft:"40%", marginTop:"1%"}}><Link to = '/SummaryConfirm'
+      state = {{depFlight: depChoosenRow, arrFlight: arrChoosenRow,cabin: depclassType, noSeats: numberSeats,depSeatsReserved:["A1"],arrSeatsReserved:["A1","A2","A3"],id : "617e93641ff94cd5d2055174"}} 
+      > Proceed to Seat Selection </Link></Button>
     </div>
   );
 };

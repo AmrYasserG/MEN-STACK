@@ -16,6 +16,7 @@ import Snackbar from "@mui/material/Snackbar";
 import Popup from "../Popup/Popup";
 import MuiAlert from "@mui/material/Alert";
 import "./ReservedFlights.css";
+import ResponsiveAppBar from "../ResponsiveAppBar/ResponsiveAppBar";
 import { useLocation } from "react-router-dom";
 
 const Alert = forwardRef(function Alert(props, ref) {
@@ -162,6 +163,7 @@ function ReservedFlights() {
         break;
       default:
     }
+    console.log(updatedAvailableSeats);
     axios
       .put(
         "http://localhost:3005/flights/updateFlightAvailableSeats/" +
@@ -209,6 +211,7 @@ function ReservedFlights() {
 
   return (
     <div>
+     <ResponsiveAppBar pages={["Reserved Flights"]}  isUser={true} />
       <Snackbar
         open={deleteOpenResponse}
         autoHideDuration={3000}
