@@ -374,7 +374,7 @@ export default function PlaneSeats() {
       </div>
       <br />
       <Button
-        disabled={!retChosenSeats.length > 0 || !depChosenSeats.length > 0}
+        disabled={retChosenSeats.length !== state.noSeats || depChosenSeats.length !== state.noSeats}
         onClick={returnChosenSeats}
         variant="contained"
         className="btn"

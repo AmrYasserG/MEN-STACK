@@ -31,7 +31,8 @@
 .btn {
     display: inline-block;
     border: none;
-    margin-left: 100px;
+    margin-left: auto;
+    margin-right: auto;
     margin-top: 30px;
     border-radius: 5px;
     cursor: pointer;

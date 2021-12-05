@@ -54,8 +54,10 @@ const ResponsiveAppBar = ({ pages, isUser, isAdmin }) => {
                         </Tooltip>
                     </Typography>
 
+                    {pages.length !==0 ?(
+                      <>
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-                        <IconButton
+                    <IconButton
                             size="large"
                             aria-label="account of current user"
                             aria-controls="menu-appbar"
@@ -89,7 +91,9 @@ const ResponsiveAppBar = ({ pages, isUser, isAdmin }) => {
                                 </MenuItem>
                             ))}
                         </Menu>
+                       
                     </Box>
+                    </>):(<></>)}
                     <Typography
                         variant="h6"
                         noWrap
