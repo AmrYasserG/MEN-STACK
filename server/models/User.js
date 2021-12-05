@@ -12,7 +12,7 @@ const userSchema = new Schema({
   },
   Age: {
     type: Number,
-    required: true,
+    required: false,
   },
   BornIn: {
     type: String,

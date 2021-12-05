@@ -1,19 +1,37 @@
-import React, { Component } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import React, { Component } from "react";
+import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 
-import AdminHomepage from './components/AdminHomepage/AdminHomepage';
-import scratch from './components/scratch/scratch';
-import CreateFlight from './components/CreateFlight/CreateFlight';
+import None from "./components/None/None";
+import AdminHomepage from "./components/AdminHomepage/AdminHomepage";
+import UserHomepage from "./components/UserHomePage/UserHomepage";
+import Scratch from "./components/scratch/scratch";
+import CreateFlight from "./components/CreateFlight/CreateFlight";
+import UserProfile from "./components/UserProfile/UserProfile";
+import Login from "./components/Login/Login";
+import ReservedFlights from "./components/ReservedFlights/ReservedFlights";
+import PlaneSeats from "./components/planeSeats/planeSeats";
+import SummaryConfirm from "./components/SummaryConfirm/SummaryConfirm";
+import ConfirmedFlight from "./components/ConfirmedFlight/ConfirmedFlight";
 
 class App extends Component {
   render() {
     return (
-      <Router className='App'>
+      <Router className="App">
         <div>
-        <Route exact path='/' component={AdminHomepage} />
-        <Route path='/CreateFlight' component={CreateFlight} />
-        <Route path='/AdminHomepage' component={AdminHomepage} />
-        <Route path='/scratch' component={scratch} />
+          <Routes>
+            <Route path="/" element={<AdminHomepage />} />
+            <Route path="/CreateFlight" element={<CreateFlight />} />
+            <Route path="/AdminHomepage" element={<AdminHomepage />} />
+            <Route path="/scratch" element={<Scratch />} />
+            <Route path="/HomePage" element={<UserHomepage />} />
+            <Route path="/UserProfile" element={<UserProfile />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/ReservedFlights" element={<ReservedFlights />} />
+            <Route path="/*" element={<None />} />
+            <Route path="/SummaryConfirm" element={<SummaryConfirm />} />
+            <Route path="/ConfirmedFlight" element={<ConfirmedFlight />} />
+            <Route path="/planeSeats" element={<PlaneSeats />} /> 
+          </Routes>
         </div>
       </Router>
     );
