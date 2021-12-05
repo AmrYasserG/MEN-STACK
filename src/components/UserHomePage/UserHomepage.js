@@ -63,7 +63,7 @@ const UserHomepage = () => {
         SeatNo: SearchCriteria.SeatsNo,
         Date: SearchCriteria.DepartureDate,
       })
-      .then((result) => setDepartureRows(result.data));
+      .then((result) => {console.log(result.data);setDepartureRows(result.data);})
   };
 
   const searchArrivalReserve = async (SearchCriteria) => {
@@ -260,6 +260,9 @@ const UserHomepage = () => {
                             : depclassType === "Economy Class"
                             ? row.EconomyClassPrice
                             : row.BusinessClassPrice,
+                            EconomySeats:row.EconomySeats,
+                            FirstSeats: row. FirstSeats,
+                            BusinessSeats:row.BusinessSeats
                       });
                       setSelectPopupButton(true);
                     }}
@@ -339,6 +342,9 @@ const UserHomepage = () => {
                             : arrclassType === "Economy Class"
                             ? row.EconomyClassPrice
                             : row.BusinessClassPrice,
+                            EconomySeats:row.EconomySeats,
+                            FirstSeats: row. FirstSeats,
+                            BusinessSeats:row.BusinessSeats
                       });
                       setSelectArPopupButton(true);
                     }}
