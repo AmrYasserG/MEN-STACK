@@ -402,7 +402,7 @@ const UserHomepage = () => {
           </Table>
         </TableContainer>
       </Paper>
-      <Button
+      {!searchOff&&<Button
         disabled={depChoosenRow === "" || arrChoosenRow === ""}
         variant="contained"
         style ={{marginLeft:"40%", marginTop:"1%"}}
@@ -421,7 +421,7 @@ const UserHomepage = () => {
           {" "}
           Proceed to Seat Selection{" "}
         </Link>
-      </Button>
+      </Button>}
     </div>
   );
 };
