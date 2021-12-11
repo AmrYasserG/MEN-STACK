@@ -26,15 +26,15 @@ const SearchToReserve = ({ onSearch, d }) => {
   const [validDate, setvalidDate] = useState(true);
   const seatClasses = [
     {
-      value: "Business Class",
+      value: "Business",
       label: "Business Class",
     },
     {
-      value: "First Class",
+      value: "First",
       label: "First Class",
     },
     {
-      value: "Economy Class",
+      value: "Economy",
       label: "Economy Class",
     },
   ];

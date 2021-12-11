@@ -11,12 +11,17 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import logo from "./logo3.png";
+import logo from "./logo.png";
+import { useEffect } from "react";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+//const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
-const ResponsiveAppBar = ({ pages, isUser, isAdmin }) => {
+const ResponsiveAppBar = ({ pages, settings, isUser, isAdmin }) => {
+  useEffect(() => {
+    console.log(settings);
+    
+  }, []);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -36,24 +41,22 @@ const ResponsiveAppBar = ({ pages, isUser, isAdmin }) => {
   };
 
   return (
-    <AppBar position="static" sx={{ height: "6%" }}>
-      <Container>
+    <AppBar position="static">
+      <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Box
+          <Typography
+            variant="h6"
             noWrap
             component="div"
-            sx={{
-              mr: 2,
-              display: { xs: "none", md: "flex" },
-              left: "1%",
-              position: "absolute",
-            }}
+            sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
           >
             {" "}
             <Tooltip title=" Home Page" placement="right">
               <img
                 src={logo}
-                alt="Balabizo"
+                width="198"
+                height="82"
+                style={{ cursor: "pointer" }}
                 onClick={
                   isAdmin === true ? (
                     () => {
@@ -69,45 +72,78 @@ const ResponsiveAppBar = ({ pages, isUser, isAdmin }) => {
                 }
               />
             </Tooltip>
-          </Box>
+          </Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: "flex" } }}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "left",
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: "block", md: "none" },
-              }}
-            >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
-
+          {pages.length !== 0 ? (
+            <>
+              <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+                <IconButton
+                  size="large"
+                  aria-label="account of current user"
+                  aria-controls="menu-appbar"
+                  aria-haspopup="true"
+                  onClick={handleOpenNavMenu}
+                  color="inherit"
+                >
+                  <MenuIcon />
+                </IconButton>
+                <Menu
+                  id="menu-appbar"
+                  anchorEl={anchorElNav}
+                  anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "left",
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "left",
+                  }}
+                  open={Boolean(anchorElNav)}
+                  onClose={handleCloseNavMenu}
+                  sx={{
+                    display: { xs: "block", md: "none" },
+                  }}
+                >
+                  {pages.map((page) => (
+                    <MenuItem key={page} onClick={handleCloseNavMenu}>
+                      <Typography textAlign="center">{page}</Typography>
+                    </MenuItem>
+                  ))}
+                </Menu>
+              </Box>
+            </>
+          ) : (
+            <></>
+          )}
+          <Typography
+            variant="h6"
+            noWrap
+            component="div"
+            sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
+          >
+            <Tooltip title=" Home Page" placement="right">
+              <img
+                src={logo}
+                width="198"
+                height="82"
+                style={{ cursor: "pointer" }}
+                onClick={
+                  isAdmin === true ? (
+                    () => {
+                      window.location.href = "/AdminHomepage";
+                    }
+                  ) : isUser === true ? (
+                    () => {
+                      window.location.href = "../HomePage";
+                    }
+                  ) : (
+                    <></>
+                  )
+                }
+              />
+            </Tooltip>
+          </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
               <Button
@@ -131,33 +167,48 @@ const ResponsiveAppBar = ({ pages, isUser, isAdmin }) => {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            {/* <Tooltip title="Open settings"> */}
-            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-              <Avatar src={AccountCircleOutlinedIcon} />
-            </IconButton>
-            {/* </Tooltip>
-                        <Menu
-                            sx={{ mt: '45px' }}
-                            id="menu-appbar"
-                            anchorEl={anchorElUser}
-                            anchorOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            open={Boolean(anchorElUser)}
-                            onClose={handleCloseUserMenu}
-                        >
-                            {settings.map((setting) => (
-                                <MenuItem key={setting} onClick={handleCloseNavMenu}>
-                                    <Typography textAlign="center">{setting}</Typography>
-                                </MenuItem>
-                            ))}
-                        </Menu> */}
+            
+            {settings.length!== 0 ? (
+              <>
+              <Tooltip title="Open settings">
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <Avatar src={"AccountCircleOutlinedIcon"} />
+              </IconButton>
+            </Tooltip>
+              <Menu
+                sx={{ mt: "45px" }}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+              >
+                {settings.map((setting) => (
+                  <MenuItem key={setting}  onClick={
+                    setting === "profile"
+                      ? () => {
+                          window.location.href = "../UserProfile";
+                        }
+                      : handleCloseNavMenu
+                  }>
+                    <Typography textAlign="center">{setting}</Typography>
+                  </MenuItem>
+                ))}
+              </Menu>
+              </>
+            ) : (
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <Avatar src={"AccountCircleOutlinedIcon"} />
+              </IconButton>
+            )}
           </Box>
         </Toolbar>
       </Container>
