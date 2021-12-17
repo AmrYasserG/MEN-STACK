@@ -1,40 +1,63 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const { isEmail } = require("validator");
+const bcrypt = require("bcrypt");
+const userSchema = new Schema(
+  {
+    Name: {
+      type: String,
+      required: false,
+    },
+    Email: {
+      type: String,
+      required: [true, "Please enter an email"],
+      unique: true,
+      lowercase: true,
+      validate: [isEmail, "Please enter a valid email"],
+    },
+    Password: {
+      type: String,
+      required: [true, "Please enter a password"],
+      minlength: [6, "Minimum password length is 6 characters"],
+    },
+    Age: {
+      type: Number,
+      required: false,
+    },
+    BornIn: {
+      type: String,
+      required: false,
+    },
+    LivesIn: {
+      type: String,
+      required: false,
+    },
+    MartialStatus: {
+      type: String,
+      required: false,
+    },
+    PhoneNumber: {
+      type: String,
+      required: false,
+    },
+    Job: {
+      type: String,
+      required: false,
+    },
+  },
+  { timestamps: true }
+);
+// userSchema.pre("save", (next) => {
+//   bcrypt.genSalt().then((salt) => {
+//     console.log(salt);
+//     console.log(this.Password);
+//     console.log(this);
+//     bcrypt.hash(this.Password, salt).then((res) => {
+//       this.Password = res;
+//       next();
+//     });
+//   });
+// });
 
-const userSchema = new Schema({
-  Name: {
-    type: String,
-    required: true,
-  },
-  Email: {
-    type: String,
-    required: true
-  },
-  Age: {
-    type: Number,
-    required: false,
-  },
-  BornIn: {
-    type: String,
-    required: true
-  },
-  LivesIn: {
-    type: String,
-    required: true
-  },
-  MartialStatus: {
-    type: String,
-    required: true
-  },
-  PhoneNumber: {
-    type: String,
-    required: true
-  },
-  Job: {
-    type: String,
-    required: true
-  }
-}, { timestamps: true });
-mongoose.models = {}
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model("User", userSchema);
 module.exports = User;
