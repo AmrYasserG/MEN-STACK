@@ -11,6 +11,7 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import { useState, useEffect} from "react";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const theme = createTheme();
@@ -19,7 +20,7 @@ function Copyright(props) {
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
       <Link color="inherit" href="http://localhost:3000/UserProfile">
-        GUC Airlines
+        MENStack Airlines
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -27,6 +28,7 @@ function Copyright(props) {
   );
 }
 function Login() {
+  const [showPass, setshowPass] = useState(false);
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -35,6 +37,10 @@ function Login() {
       email: data.get('email'),
       password: data.get('password'),
     });
+  };
+  const handlechange = (e) => {
+    // e.preventDefault();
+     setshowPass(!showPass);
   };
   
   
@@ -89,13 +95,14 @@ function Login() {
               fullWidth
               name="password"
               label="Password"
-              type="password"
+              type={showPass?"text":"password"}
               id="password"
               autoComplete="current-password"
             />
             <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
+              control={<Checkbox value="Show password" color="primary" />}
+              label="Show password"
+              onChange={handlechange}
             />
             <Button
               type="submit"

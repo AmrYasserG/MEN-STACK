@@ -23,7 +23,8 @@ class App extends Component {
         <Box
          p={2}
         sx={{ 
-        backgroundImage:`url(${background})`}}>
+          
+          backgroundImage:`url(${background})`}}>
           <Routes>
             <Route path="/" element={<AdminHomepage />} />
             <Route path="/CreateFlight" element={<CreateFlight />} />
