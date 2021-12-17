@@ -21,10 +21,11 @@ class App extends Component {
     return (
       <Router className="App">
         <Box
-         p={2}
+         p={0}
         sx={{ 
-          
-          backgroundImage:`url(${background})`}}>
+          width:"100%",
+          backgroundImage:`url(${background})`,
+          backgroundRepeat: "repeat-y",}}>
           <Routes>
             <Route path="/" element={<AdminHomepage />} />
             <Route path="/CreateFlight" element={<CreateFlight />} />

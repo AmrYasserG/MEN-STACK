@@ -13,6 +13,9 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { useState, useEffect} from "react";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import background from "./flight.webp";
+import logo from "./logo.png";
+import Tooltip from "@mui/material/Tooltip";
 
 const theme = createTheme();
 function Copyright(props) {
@@ -47,14 +50,19 @@ function Login() {
   return (
      <Grid
         container
-        spacing={2}
-        rowSpacing={3}
-        columnSpacing={1}
+        sx={{
+          opacity:"1000%",
+          backgroundImage:`url(${background})`,
+          backgroundRepeat: 'no-repeat',
+          backgroundColor: (t) =>
+            t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
      >
-      <Grid item sm={6} xs={0}>Hello</Grid>
       <Grid 
         item
-        sm={6}
+        sm={5}
         xs={12}
       >
       <Box>
@@ -63,13 +71,13 @@ function Login() {
         <Box
           sx={{
             m: "auto","& > :not(style)": { mt: 4, mx: 3 },
+            opacity:"100%",
             marginTop: 30,
-            border: "5px solid #eeeeee",
+            
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            backgroundColor:"#ffffff",
-            "box-shadow": "7px 7px 7px#cccccc",
+            "box-shadow": "0px 0px 60px 7px #0a8fad",
           }}
         >
           <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
@@ -129,6 +137,18 @@ function Login() {
         <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
       </Box>
+      </Grid>
+      <Grid item
+        p={45}
+        sm={7}
+        xs={12}
+        >  
+              <img
+                src={logo}
+                width="198"
+                height="82"
+                style={{ cursor: "pointer" }}
+              />
       </Grid>
     </Grid>
   );
