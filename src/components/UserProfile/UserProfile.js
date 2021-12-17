@@ -20,8 +20,7 @@ import EventIcon from '@mui/icons-material/Event';
 import EmailIcon from '@mui/icons-material/Email';
 import BadgeIcon from '@mui/icons-material/Badge';
 import Typography from '@mui/material/Typography';
-import Grid from "@mui/material/Grid";
-import Card from "@mui/material/Card";
+import background from "./Background.jpg";
 
 const UserProfile = ({ onEdit }) => {
   const [Name, setName] = useState("");
@@ -138,7 +137,7 @@ const UserProfile = ({ onEdit }) => {
   }, []);
 
   return (
-    <div>
+    <Box>
       <ResponsiveAppBar pages={[]} settings={['profile']}  />
       <Snackbar
         open={editOpenResponse}
@@ -161,7 +160,7 @@ const UserProfile = ({ onEdit }) => {
         width:"30%",
         "text-align": "center" ,
         border: "5px solid #eeeeee",
-        backgroundColor: "#fbfbfb",
+        backgroundColor: "#f9f9f9",
         "box-shadow": "7px 7px 7px#cccccc",}}
       >
         <div>
@@ -375,7 +374,7 @@ const UserProfile = ({ onEdit }) => {
         </div>
         {/* <Input type="submit" value="Create Flight" className="btn btn-block"/> */}
       </Box>
-    </div>
+    </Box>
   );
 };
 

@@ -12,12 +12,18 @@ import ReservedFlights from "./components/ReservedFlights/ReservedFlights";
 import PlaneSeats from "./components/planeSeats/planeSeats";
 import SummaryConfirm from "./components/SummaryConfirm/SummaryConfirm";
 import ConfirmedFlight from "./components/ConfirmedFlight/ConfirmedFlight";
+import SignIn from "./components/SignIn/SignIn";
+import { Box } from "@mui/material";
+import background from "./components/Background.jpg";
 
 class App extends Component {
   render() {
     return (
       <Router className="App">
-        <div>
+        <Box
+         p={2}
+        sx={{ 
+        backgroundImage:`url(${background})`}}>
           <Routes>
             <Route path="/" element={<AdminHomepage />} />
             <Route path="/CreateFlight" element={<CreateFlight />} />
@@ -32,7 +38,7 @@ class App extends Component {
             <Route path="/ConfirmedFlight" element={<ConfirmedFlight />} />
             <Route path="/planeSeats" element={<PlaneSeats />} /> 
           </Routes>
-        </div>
+        </Box>
       </Router>
     );
   }

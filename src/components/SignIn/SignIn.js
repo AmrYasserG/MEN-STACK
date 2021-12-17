@@ -13,57 +13,44 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-const theme = createTheme();
+
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
-      <Link color="inherit" href="http://localhost:3000/UserProfile">
-        GUC Airlines
+      <Link color="inherit" href="https://mui.com/">
+        Your Website
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
     </Typography>
   );
 }
-function Login() {
+
+const theme = createTheme();
+
+export default function SignIn() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     // eslint-disable-next-line no-console
-      console.log({
+    console.log({
       email: data.get('email'),
       password: data.get('password'),
     });
   };
-  
-  
+
   return (
-     <Grid
-        container
-        spacing={2}
-        rowSpacing={3}
-        columnSpacing={1}
-     >
-      <Grid item sm={6} xs={0}>Hello</Grid>
-      <Grid 
-        item
-        sm={6}
-        xs={12}
-      >
-      <Box>
+    <ThemeProvider theme={theme}>
+       
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
           sx={{
-            m: "auto","& > :not(style)": { mt: 4, mx: 3 },
-            marginTop: 30,
-            border: "5px solid #eeeeee",
+            marginTop: 8,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            backgroundColor:"#ffffff",
-            "box-shadow": "7px 7px 7px#cccccc",
           }}
         >
           <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
@@ -121,10 +108,6 @@ function Login() {
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
-      </Box>
-      </Grid>
-    </Grid>
+    </ThemeProvider>
   );
 }
-
-export default Login;
