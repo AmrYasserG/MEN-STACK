@@ -1,9 +1,10 @@
+import Box from "@mui/material/Box";
 const None = () => {
   return (
-    <div>
+    <Box sx={{ height: "100%" }}>
       <h1>😥 Wrong Address</h1>
       <h2>Try /login</h2>
-    </div>
+    </Box>
   );
 };
 
