@@ -15,16 +15,20 @@ import ConfirmedFlight from "./components/ConfirmedFlight/ConfirmedFlight";
 import SignIn from "./components/SignIn/SignIn";
 import { Box } from "@mui/material";
 import background from "./components/Background.jpg";
+import background2 from "./components/background.png";
 
 class App extends Component {
   render() {
     return (
-      <Router className="App">
-        <Box
-         p={2}
-        sx={{ 
-          
-          backgroundImage:`url(${background})`}}>
+      <Box
+        width={1 / 1}
+        sx={{
+          position: "absolute",
+          backgroundImage: `url(${background})`,
+          backgroundRepeat: "repeat-y",
+        }}
+      >
+        <Router className="App">
           <Routes>
             <Route path="/" element={<AdminHomepage />} />
             <Route path="/CreateFlight" element={<CreateFlight />} />
@@ -37,10 +41,10 @@ class App extends Component {
             <Route path="/*" element={<None />} />
             <Route path="/SummaryConfirm" element={<SummaryConfirm />} />
             <Route path="/ConfirmedFlight" element={<ConfirmedFlight />} />
-            <Route path="/planeSeats" element={<PlaneSeats />} /> 
+            <Route path="/planeSeats" element={<PlaneSeats />} />
           </Routes>
-        </Box>
-      </Router>
+        </Router>
+      </Box>
     );
   }
 }
