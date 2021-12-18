@@ -13,9 +13,10 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { useState, useEffect } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import background from "./flight.webp";
+import background from "./Background.jpg";
 import logo from "./logo.png";
 import logo2 from "./../../Images/logo2.png";
+import axios from "axios";
 import Tooltip from "@mui/material/Tooltip";
 
 const theme = createTheme();
@@ -42,6 +43,14 @@ function Login() {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     // eslint-disable-next-line no-console
+    axios
+      .post("http://localhost:3005/auth/login", {
+        Email: data.get("email"),
+        Password: data.get("password"),
+      })
+      .then((res) => {
+        console.log(res);
+      });
     console.log({
       email: data.get("email"),
       password: data.get("password"),
@@ -57,7 +66,6 @@ function Login() {
       container
       direction={"row-reverse"}
       sx={{
-        opacity: "100%",
         backgroundImage: `url(${background})`,
         backgroundRepeat: "no-repeat",
         backgroundColor: (t) =>
@@ -66,30 +74,25 @@ function Login() {
         backgroundPosition: "center",
       }}
     >
-      <Grid item sm={7} xs={12}>
+      <Grid item sm={12} xs={12}>
         <Box
           sx={{
-            width: ["100%", "60%"],
-            height: ["30%", "50%"],
             m: "auto",
-            mx: 7,
+            mx: 0,
+            alignItems: "center",
             textAlign: "center",
           }}
         >
           <img
             src={logo2}
-            width="90%%"
-            height="150"
-            style={{
-              cursor: "pointer",
-              marginTop: "77%",
-              transition: "transform .4s",
-            }}
+            width="20%"
+            height="100%"
+            style={{ cursor: "pointer", marginTop: "5%" }}
             alt="Logo"
           />
         </Box>
       </Grid>
-      <Grid item sm={5} xs={12}>
+      <Grid item sm={12} xs={12}>
         <Box>
           <Container component="main" maxWidth="xs">
             <CssBaseline />
@@ -97,13 +100,12 @@ function Login() {
               sx={{
                 m: "auto",
                 "& > :not(style)": { mt: 4, mx: 3 },
-
-                marginTop: 24.5,
-
+                marginTop: "13%",
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
-                "box-shadow": "0px 0px 60px 7px #0a8fad",
+                backgroundColor: "#f9f9f9",
+                "box-shadow": "0px 0px 20px 14px #0a8fad",
               }}
             >
               <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>

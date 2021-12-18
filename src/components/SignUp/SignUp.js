@@ -14,10 +14,8 @@ import Container from "@mui/material/Container";
 import { useState, useEffect } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import logo2 from "./../../Images/logo2.png";
-import Tooltip from "@mui/material/Tooltip";
 
 const theme = createTheme();
-
 function SignUp() {
   const [showPass, setshowPass] = useState(false);
   const handleSubmit = (event) => {

@@ -35,7 +35,7 @@ const signup_post = (req, res) => {
     bcrypt.genSalt().then((salt) => {
       console.log(salt);
       bcrypt.hash(Password, salt).then((res2) => {
-        User.create({ Email, Password: res2 }).then((user) => {
+        User.create({ Email, Password: res2, Type: "user" }).then((user) => {
           res.status(201).json(user);
         });
       });

@@ -23,6 +23,7 @@ class App extends Component {
         <Box
           p={0}
           sx={{
+            minHeight: "100%",
             position: "absolute",
             overflow: "auto",
             minHeight: "100%",
