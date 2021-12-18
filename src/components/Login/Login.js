@@ -44,13 +44,10 @@ function Login() {
     const data = new FormData(event.currentTarget);
     // eslint-disable-next-line no-console
     axios
-      .post(
-        "http://localhost:3005/auth/login" ,
-        {
-          Email: data.get("email"),
-          Password: data.get("password"),  
-        }
-      )
+      .post("http://localhost:3005/auth/login", {
+        Email: data.get("email"),
+        Password: data.get("password"),
+      })
       .then((res) => {
         console.log(res);
       });
@@ -69,11 +66,10 @@ function Login() {
       container
       direction={"row-reverse"}
       sx={{
-        
         backgroundImage: `url(${background})`,
         backgroundRepeat: "no-repeat",
         backgroundColor: (t) =>
-        t.palette.mode === "light" ? t.palette.grey[50] : t.palette.grey[900],
+          t.palette.mode === "light" ? t.palette.grey[50] : t.palette.grey[900],
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
@@ -84,7 +80,7 @@ function Login() {
             m: "auto",
             mx: 0,
             alignItems: "center",
-            textAlign:"center"
+            textAlign: "center",
           }}
         >
           <img

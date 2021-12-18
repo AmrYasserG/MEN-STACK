@@ -27,13 +27,6 @@ const handleErrors = (err) => {
 };
 
 // controller actions
-const signup_get = (req, res) => {
-  res.render("signup");
-};
-
-const login_get = (req, res) => {
-  res.render("login");
-};
 
 const signup_post = (req, res) => {
   let { Email, Password } = req.body;
@@ -42,7 +35,7 @@ const signup_post = (req, res) => {
     bcrypt.genSalt().then((salt) => {
       console.log(salt);
       bcrypt.hash(Password, salt).then((res2) => {
-        User.create({ Email, Password: res2 }).then((user) => {
+        User.create({ Email, Password: res2, Type: "user" }).then((user) => {
           res.status(201).json(user);
         });
       });
@@ -82,8 +75,6 @@ const createToken = (id) => {
 };
 
 module.exports = {
-  signup_get,
-  login_get,
   signup_post,
   login_post,
 };

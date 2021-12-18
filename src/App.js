@@ -25,6 +25,8 @@ class App extends Component {
           sx={{
             minHeight: "100%",
             position: "absolute",
+            overflow: "auto",
+            minHeight: "100%",
             width: "100%",
             backgroundImage: `url(${background})`,
             backgroundRepeat: "repeat-y",

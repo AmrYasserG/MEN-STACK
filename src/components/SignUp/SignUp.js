@@ -16,23 +16,6 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import logo2 from "./../../Images/logo2.png";
 
 const theme = createTheme();
-function Copyright(props) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      <Link color="inherit" href="http://localhost:3000/UserProfile">
-        MENStack Airlines
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
 function SignUp() {
   const [showPass, setshowPass] = useState(false);
   const handleSubmit = (event) => {
@@ -50,18 +33,7 @@ function SignUp() {
   };
 
   return (
-    <Grid
-      container
-      direction={"row-reverse"}
-      sx={{
-        opacity: "1000%",
-        backgroundRepeat: "no-repeat",
-        backgroundColor: (t) =>
-          t.palette.mode === "light" ? t.palette.grey[50] : t.palette.grey[900],
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
-    >
+    <Grid container direction={"row-reverse"}>
       <Grid item sm={7} xs={12}>
         <Box
           sx={{
@@ -156,7 +128,6 @@ function SignUp() {
                 </Grid>
               </Box>
             </Box>
-            <Copyright sx={{ mt: 8, mb: 4 }} />
           </Container>
         </Box>
       </Grid>
