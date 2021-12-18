@@ -12,7 +12,7 @@ import ReservedFlights from "./components/ReservedFlights/ReservedFlights";
 import PlaneSeats from "./components/planeSeats/planeSeats";
 import SummaryConfirm from "./components/SummaryConfirm/SummaryConfirm";
 import ConfirmedFlight from "./components/ConfirmedFlight/ConfirmedFlight";
-import SignIn from "./components/SignIn/SignIn";
+import SignUp from "./components/SignUp/SignUp";
 import { Box } from "@mui/material";
 import background from "./components/Background.jpg";
 
@@ -37,6 +37,7 @@ class App extends Component {
             <Route path="/HomePage" element={<UserHomepage />} />
             <Route path="/UserProfile" element={<UserProfile />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<SignUp />} />
             <Route path="/ReservedFlights" element={<ReservedFlights />} />
             <Route path="/*" element={<None />} />
             <Route path="/SummaryConfirm" element={<SummaryConfirm />} />
