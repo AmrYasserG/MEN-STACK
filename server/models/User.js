@@ -16,7 +16,7 @@ const userSchema = new Schema(
     },
     Type:{
       type:String,
-      required : true
+      required : false
     },
     Password: {
       type: String,
@@ -25,7 +25,7 @@ const userSchema = new Schema(
     },
     Age: {
       type: Number,
-      required: false,
+      required: true,
     },
     BornIn: {
       type: String,

@@ -68,7 +68,7 @@ const login_post = (req, res) => {
               Access_Token: `Bearer ${token}`,
             });
           }
-          res.send("Wrong PassWord");
+          else res.send("Wrong PassWord");
         });
       } else res.send("Wrong Email");
     });
