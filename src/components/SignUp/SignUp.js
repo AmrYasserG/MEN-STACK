@@ -13,10 +13,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { useState, useEffect } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import background from "./flight.webp";
-import logo from "./logo.png";
 import logo2 from "./../../Images/logo2.png";
-import Tooltip from "@mui/material/Tooltip";
 
 const theme = createTheme();
 function Copyright(props) {
@@ -36,7 +33,7 @@ function Copyright(props) {
     </Typography>
   );
 }
-function Login() {
+function SignUp() {
   const [showPass, setshowPass] = useState(false);
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -58,7 +55,6 @@ function Login() {
       direction={"row-reverse"}
       sx={{
         opacity: "1000%",
-        backgroundImage: `url(${background})`,
         backgroundRepeat: "no-repeat",
         backgroundColor: (t) =>
           t.palette.mode === "light" ? t.palette.grey[50] : t.palette.grey[900],
@@ -168,4 +164,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default SignUp;

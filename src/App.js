@@ -23,6 +23,7 @@ class App extends Component {
         <Box
           p={0}
           sx={{
+            minHeight: "100%",
             position: "absolute",
             width: "100%",
             backgroundImage: `url(${background})`,
