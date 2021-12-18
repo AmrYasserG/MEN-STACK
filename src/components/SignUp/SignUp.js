@@ -13,30 +13,12 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { useState, useEffect } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import background from "./flight.webp";
-import logo from "./logo.png";
 import logo2 from "./../../Images/logo2.png";
 import Tooltip from "@mui/material/Tooltip";
 
 const theme = createTheme();
-function Copyright(props) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      <Link color="inherit" href="http://localhost:3000/UserProfile">
-        MENStack Airlines
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
-function Login() {
+
+function SignUp() {
   const [showPass, setshowPass] = useState(false);
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -53,19 +35,7 @@ function Login() {
   };
 
   return (
-    <Grid
-      container
-      direction={"row-reverse"}
-      sx={{
-        opacity: "1000%",
-        backgroundImage: `url(${background})`,
-        backgroundRepeat: "no-repeat",
-        backgroundColor: (t) =>
-          t.palette.mode === "light" ? t.palette.grey[50] : t.palette.grey[900],
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
-    >
+    <Grid container direction={"row-reverse"}>
       <Grid item sm={7} xs={12}>
         <Box
           sx={{
@@ -160,7 +130,6 @@ function Login() {
                 </Grid>
               </Box>
             </Box>
-            <Copyright sx={{ mt: 8, mb: 4 }} />
           </Container>
         </Box>
       </Grid>
@@ -168,4 +137,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default SignUp;

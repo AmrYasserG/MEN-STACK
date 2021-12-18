@@ -57,7 +57,7 @@ function Login() {
       container
       direction={"row-reverse"}
       sx={{
-        opacity: "1000%",
+        opacity: "100%",
         backgroundImage: `url(${background})`,
         backgroundRepeat: "no-repeat",
         backgroundColor: (t) =>
@@ -73,13 +73,18 @@ function Login() {
             height: ["30%", "50%"],
             m: "auto",
             mx: 7,
+            textAlign: "center",
           }}
         >
           <img
             src={logo2}
             width="90%%"
             height="150"
-            style={{ cursor: "pointer", marginTop: "77%" }}
+            style={{
+              cursor: "pointer",
+              marginTop: "77%",
+              transition: "transform .4s",
+            }}
             alt="Logo"
           />
         </Box>

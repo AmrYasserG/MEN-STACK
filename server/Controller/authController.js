@@ -27,13 +27,6 @@ const handleErrors = (err) => {
 };
 
 // controller actions
-const signup_get = (req, res) => {
-  res.render("signup");
-};
-
-const login_get = (req, res) => {
-  res.render("login");
-};
 
 const signup_post = (req, res) => {
   let { Email, Password } = req.body;
@@ -82,8 +75,6 @@ const createToken = (id) => {
 };
 
 module.exports = {
-  signup_get,
-  login_get,
   signup_post,
   login_post,
 };
