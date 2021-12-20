@@ -20,6 +20,7 @@ const SearchFlight = ({ onSearch, d }) => {
   const [From, setFrom] = useState("");
   const [To, setTo] = useState("");
   const [Date, setDate] = useState("");
+  const [ArrivalDate, setArrivalDate] = useState("");
   const [DepartureTime, setDepartureTime] = useState("");
   const [ArrivalTime, setArrivalTime] = useState("");
   const [DepartureTerminal, setDepartureTerminal] = useState();
@@ -38,6 +39,7 @@ const SearchFlight = ({ onSearch, d }) => {
       From,
       To,
       Date,
+      ArrivalDate,
       DepartureTime,
       ArrivalTime,
       DepartureTerminal,
@@ -56,6 +58,7 @@ const SearchFlight = ({ onSearch, d }) => {
     setFrom("");
     setTo("");
     setDate("");
+    setArrivalDate("");
     setDepartureTime("");
     setArrivalTime("");
     setDepartureTerminal();
@@ -72,6 +75,7 @@ const SearchFlight = ({ onSearch, d }) => {
       From: "",
       To: "",
       Date: "",
+      ArrivalDate: "",
       DepartureTime: "",
       ArrivalTime: "",
       DepartureTerminal: "",
@@ -164,19 +168,23 @@ const SearchFlight = ({ onSearch, d }) => {
                     align="center"
                     sx={{ textAlign: "left" }}
                   >
-                    Flight Date:
+                    Baggage Allowance:
                   </Typography>
                 </Grid>
                 <Grid item xs={2}>
                   <TextField
                     size="small"
                     sx={{ width: "110%", height: "3ch", p: 0 }}
-                    InputProps={{
-                      type: "date",
-                    }}
+                    type="number"
                     required
-                    value={Date}
-                    onChange={(e) => setDate(e.target.value)}
+                    label="Baggage Allowance"
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">kg</InputAdornment>
+                      ),
+                    }}
+                    value={BaggageAllowance}
+                    onChange={(e) => setBaggageAllowance(e.target.value)}
                   />
                 </Grid>
                 <Grid item xs={1}></Grid>
@@ -249,6 +257,67 @@ const SearchFlight = ({ onSearch, d }) => {
                         </InputAdornment>
                       ),
                     }}
+                  />
+                </Grid>
+                <Grid item xs={1}></Grid>
+                <Grid item xs={1}></Grid>
+                <Grid item xs={2}>
+                  {" "}
+                  <Typography
+                    gutterBottom
+                    variant="subtitle1"
+                    component="h4"
+                    align="center"
+                    sx={{ textAlign: "left" }}
+                  >
+                    Departure Date:
+                  </Typography>
+                </Grid>
+                <Grid item xs={2}>
+                  <TextField
+                    size="small"
+                    sx={{ width: "110%", height: "3ch", p: 0 }}
+                    InputProps={{
+                      type: "date",
+                    }}
+                    required
+                    value={Date}
+                    onChange={(e) => setDate(e.target.value)}
+                  />
+                </Grid>
+                <Grid
+                  item
+                  xs={1}
+                  sx={{ borderRight: "1px solid #eeeeee" }}
+                ></Grid>
+                <Grid
+                  item
+                  xs={1}
+                  sx={{ borderLeft: "1px solid #eeeeee" }}
+                ></Grid>
+                {/*Flight Date*/}
+                <Grid item xs={2}>
+                  {" "}
+                  <Typography
+                    gutterBottom
+                    variant="subtitle1"
+                    component="h4"
+                    align="center"
+                    sx={{ textAlign: "left" }}
+                  >
+                    Arrival Date:
+                  </Typography>
+                </Grid>
+                <Grid item xs={2}>
+                  <TextField
+                    size="small"
+                    sx={{ width: "110%", height: "3ch", p: 0 }}
+                    InputProps={{
+                      type: "date",
+                    }}
+                    required
+                    value={ArrivalDate}
+                    onChange={(e) => setArrivalDate(e.target.value)}
                   />
                 </Grid>
                 <Grid item xs={1}></Grid>
@@ -369,7 +438,7 @@ const SearchFlight = ({ onSearch, d }) => {
                 {/*/--------------------------/*/}
                 <Grid item xs={1}></Grid>
                 {/*First Class Seats*/}
-                <Grid item xs={2}>
+                <Grid item xs={4}>
                   <Typography
                     gutterBottom
                     variant="subtitle1"
@@ -414,26 +483,11 @@ const SearchFlight = ({ onSearch, d }) => {
                     onChange={(e) => setFirstClassSeatsPrice(e.target.value)}
                   />
                 </Grid>{" "}
-                <Grid
-                  item
-                  xs={1}
-                  sx={{ borderRight: "1px solid #eeeeee" }}
-                ></Grid>
-                <Grid item xs={4}>
-                  {" "}
-                  <Typography
-                    gutterBottom
-                    variant="subtitle1"
-                    component="h4"
-                    align="center"
-                    sx={{ textAlign: "center" }}
-                  >
-                    Baggage Allowance:
-                  </Typography>
-                </Grid>
+                <Grid item xs={1}></Grid>
+                <Grid item xs={2}></Grid>
                 <Grid item xs={1}></Grid>
                 {/*Business Class Seats*/}
-                <Grid item xs={2}>
+                <Grid item xs={4}>
                   <Typography
                     gutterBottom
                     variant="subtitle1"
@@ -478,30 +532,11 @@ const SearchFlight = ({ onSearch, d }) => {
                     onChange={(e) => setBusinessClassSeatsPrice(e.target.value)}
                   />
                 </Grid>
-                <Grid
-                  item
-                  xs={1}
-                  sx={{ borderRight: "1px solid #eeeeee" }}
-                ></Grid>
-                <Grid item xs={4} sx={{ textAlign: "center" }}>
-                  <TextField
-                    size="small"
-                    sx={{ width: "55%", height: "3ch", p: 0 }}
-                    type="number"
-                    required
-                    label="Baggage Allowance"
-                    InputProps={{
-                      endAdornment: (
-                        <InputAdornment position="end">kg</InputAdornment>
-                      ),
-                    }}
-                    value={BaggageAllowance}
-                    onChange={(e) => setBaggageAllowance(e.target.value)}
-                  />
-                </Grid>
+                <Grid item xs={1}></Grid>
+                <Grid item xs={2} sx={{ textAlign: "center" }}></Grid>
                 <Grid item xs={1}></Grid>
                 {/*Economy Class Seats*/}
-                <Grid item xs={2}>
+                <Grid item xs={4}>
                   <Typography
                     gutterBottom
                     variant="subtitle1"
@@ -546,12 +581,8 @@ const SearchFlight = ({ onSearch, d }) => {
                     onChange={(e) => setEconomyClassSeatsPrice(e.target.value)}
                   />
                 </Grid>
-                <Grid
-                  item
-                  xs={1}
-                  sx={{ borderRight: "1px solid #eeeeee" }}
-                ></Grid>
-                <Grid item xs={4}></Grid>
+                <Grid item xs={1}></Grid>
+                <Grid item xs={2}></Grid>
                 <Grid item xs={1}></Grid>
                 <Grid item xs={5} sx={{ textAlign: "center" }}>
                   <Button

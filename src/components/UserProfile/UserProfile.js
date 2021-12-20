@@ -1,36 +1,35 @@
 import React from "react";
 import { useState, useEffect, forwardRef } from "react";
-import Input from "@mui/material/Input";
 import Button from "@mui/material/Button";
 import InputAdornment from "@mui/material/InputAdornment";
-import OutlinedInput from "@mui/material/OutlinedInput";
 import TextField from "@mui/material/TextField";
-import AvTimerOutlinedIcon from "@mui/icons-material/AvTimerOutlined";
 import Box from "@mui/material/Box";
 import axios from "axios";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import ResponsiveAppBar from "../ResponsiveAppBar/ResponsiveAppBar";
 import MenuItem from "@mui/material/MenuItem";
-import LoyaltyIcon from '@mui/icons-material/Loyalty';
-import WorkIcon from '@mui/icons-material/Work';
-import HomeIcon from '@mui/icons-material/Home';
-import PhoneIcon from '@mui/icons-material/Phone';
-import EventIcon from '@mui/icons-material/Event';
-import EmailIcon from '@mui/icons-material/Email';
-import BadgeIcon from '@mui/icons-material/Badge';
-import Typography from '@mui/material/Typography';
-import background from "./Background.jpg";
+import LoyaltyIcon from "@mui/icons-material/Loyalty";
+import WorkIcon from "@mui/icons-material/Work";
+import HomeIcon from "@mui/icons-material/Home";
+import PhoneIcon from "@mui/icons-material/Phone";
+import EventIcon from "@mui/icons-material/Event";
+import EmailIcon from "@mui/icons-material/Email";
+import BadgeIcon from "@mui/icons-material/Badge";
+import Typography from "@mui/material/Typography";
+import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
 
 const UserProfile = ({ onEdit }) => {
-  const [Name, setName] = useState("");
+  const [FirstName, setFirstName] = useState("");
+  const [LastName, setLastName] = useState("");
   const [Email, setEmail] = useState("");
   const [Age, setAge] = useState("");
   const [BornIn, setBornIn] = useState("");
   const [LivesIn, setLivesIn] = useState("");
   const [MartialStatus, setMartialStatus] = useState("");
   const [PhoneNumber, setPhoneNumber] = useState("");
-  const [Job, setJob] = useState("");
+  const [PassportNumber, setPassportNumber] = useState("");
+  const [validEmail, setValidEmail] = useState(true);
   const [editOpenResponse, setEditOpenResponse] = useState(false);
   const [User, setUser] = useState([]);
   const martialStatusClasses = [
@@ -69,18 +68,6 @@ const UserProfile = ({ onEdit }) => {
   const Alert = forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
-  const fillMap = (map, n) => {
-    const c = ["A", "B", "C", "D", "E", "F"];
-    let total = n;
-    for (let i = 1; i <= total / 6; i++) {
-      for (let j = 0; j < 6; j++) {
-        map.set(c[j] + i, true);
-      }
-    }
-    for (let i = 1; i <= total % 6; i++) {
-      map.set(c[i] + total / 6 + 1, true);
-    }
-  };
   const editHandleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
@@ -93,14 +80,15 @@ const UserProfile = ({ onEdit }) => {
       .put(
         "http://localhost:3005/users/editUser/" + "617e93641ff94cd5d2055174",
         {
-          Name: Name,
+          FirstName: FirstName,
+          LastName: LastName,
           Email: Email,
           Age: getAge(BornIn),
           BornIn: BornIn,
           LivesIn: LivesIn,
           MartialStatus: MartialStatus,
           PhoneNumber: PhoneNumber,
-          Job: Job,
+          PassportNumber: PhoneNumber,
         }
       )
       .then((res) => {
@@ -114,14 +102,15 @@ const UserProfile = ({ onEdit }) => {
   };
 
   useEffect(() => {
-    setName(User.Name);
+    setFirstName(User.FirstName);
+    setLastName(User.LastName);
     setEmail(User.Email);
     setBornIn(User.BornIn);
     setAge(User.Age);
     setMartialStatus(User.MartialStatus);
     setPhoneNumber(User.PhoneNumber);
+    setPassportNumber(User.PassportNumber);
     setLivesIn(User.LivesIn);
-    setJob(User.Job);
   }, [User]);
 
   useEffect(() => {
@@ -136,9 +125,21 @@ const UserProfile = ({ onEdit }) => {
       });
   }, []);
 
+  const validateEmail = (email) => {
+    return String(email)
+      .toLowerCase()
+      .match(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      );
+  };
+  useEffect(() => {
+    if (validateEmail(Email)) setValidEmail(true);
+    else setValidEmail(false);
+  }, [Email]);
+
   return (
     <Box>
-      <ResponsiveAppBar pages={[]} settings={['profile']}  />
+      <ResponsiveAppBar pages={[]} settings={["profile"]} />
       <Snackbar
         open={editOpenResponse}
         autoHideDuration={3000}
@@ -154,28 +155,28 @@ const UserProfile = ({ onEdit }) => {
       </Snackbar>
       <Box
         p={2}
-        sx={{ 
-        m: "auto","& > :not(style)": { mt: 4, mx: 3 },
-        my: "2%",
-        width:"30%",
-        "text-align": "center" ,
-        border: "5px solid #eeeeee",
-        backgroundColor: "#f9f9f9",
-        "box-shadow": "7px 7px 7px#cccccc",}}
+        sx={{
+          m: "auto",
+          "& > :not(style)": { mt: 4, mx: 3 },
+          my: "2%",
+          width: "30%",
+          "text-align": "center",
+          border: "5px solid #eeeeee",
+          backgroundColor: "#f9f9f9",
+          "box-shadow": "7px 7px 7px#cccccc",
+        }}
       >
         <div>
-        <Typography variant="h3">
-            Your Profile
-        </Typography>
+          <Typography variant="h3">Your Profile</Typography>
         </div>
         <div>
           <TextField
-            sx={{ width: "50%"}}
+            sx={{ width: "50%" }}
             type="text"
             id="outlined-basic"
-            label="Name"
+            label="First Name"
             required
-            value={Name}
+            value={FirstName}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -183,17 +184,37 @@ const UserProfile = ({ onEdit }) => {
                 </InputAdornment>
               ),
             }}
-            onChange={(e) => setName(e.target.value)}
-            error={Name === ""}
-            helperText={Name === "" ? "This is required" : ""}
+            onChange={(e) => setFirstName(e.target.value)}
+            error={FirstName === ""}
+            helperText={FirstName === "" ? "This is required" : ""}
           />
         </div>
         <div>
           <TextField
-            sx={{ width: "50%"}}
+            sx={{ width: "50%" }}
+            type="text"
+            id="outlined-basic"
+            label="Last Name"
+            required
+            value={LastName}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <BadgeIcon />
+                </InputAdornment>
+              ),
+            }}
+            onChange={(e) => setLastName(e.target.value)}
+            error={LastName === ""}
+            helperText={LastName === "" ? "This is required" : ""}
+          />
+        </div>
+        <div>
+          <TextField
+            sx={{ width: "50%" }}
             type="text"
             label="email"
-            error={Email === ""}
+            error={!validEmail}
             required
             InputProps={{
               startAdornment: (
@@ -204,12 +225,18 @@ const UserProfile = ({ onEdit }) => {
             }}
             onChange={(e) => setEmail(e.target.value)}
             value={Email}
-            helperText={Email === "" ? "This is required" : ""}
+            helperText={
+              Email === ""
+                ? "This is required"
+                : validEmail
+                ? ""
+                : "Wrong Format"
+            }
           />
         </div>
         <div>
           <TextField
-            sx={{ width: "50%"}}
+            sx={{ width: "50%" }}
             error={BornIn === ""}
             required
             type="date"
@@ -227,41 +254,14 @@ const UserProfile = ({ onEdit }) => {
             onChange={(e) => setBornIn(e.target.value)}
             helperText={BornIn === "" ? "This is required" : ""}
           />
-
-          {/* <input
-          type="date"
-          lable="Date"
-          value={Date}
-          required
-          onChange={(e) => setDate(e.target.value)}
-        /> */}
         </div>
-
-        {/* <div>
-          <TextField
-            type="text"
-            label="Age"
-            value={Age}
-            required
-            onChange={(e) => setAge(e.target.value)}
-            error={Age <= 0 || !parseInt(Age)}
-            helperText={
-              !parseInt(Age)
-                ? "Should be Numbers"
-                : Age <= 0
-                ? "Age should be positive"
-                : ""
-            }
-          />
-        </div> */}
-       
         <div>
           <TextField
-            sx={{ width: "50%"}}
+            sx={{ width: "50%" }}
             type="text"
             variant="outlined"
             error={PhoneNumber === "" || !parseInt(PhoneNumber)}
-            label="PhoneNumber"
+            label="Phone Number"
             value={PhoneNumber}
             required
             InputProps={{
@@ -277,7 +277,26 @@ const UserProfile = ({ onEdit }) => {
         </div>
         <div>
           <TextField
-            sx={{ width: "50%"}}
+            sx={{ width: "50%" }}
+            type="text"
+            variant="outlined"
+            error={PassportNumber === ""}
+            label="Passport Number"
+            value={PassportNumber}
+            required
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <AssignmentIndIcon />
+                </InputAdornment>
+              ),
+            }}
+            onChange={(e) => setPassportNumber(e.target.value)}
+          />
+        </div>
+        <div>
+          <TextField
+            sx={{ width: "50%" }}
             type="text"
             id="outlined-basic"
             label="LivesIn"
@@ -297,27 +316,7 @@ const UserProfile = ({ onEdit }) => {
         </div>
         <div>
           <TextField
-            sx={{ width: "50%"}}
-            type="text"
-            id="outlined-basic"
-            label="Job"
-            required
-            value={Job}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <WorkIcon />
-                </InputAdornment>
-              ),
-            }}
-            onChange={(e) => setJob(e.target.value)}
-            error={Job === ""}
-            helperText={Job === "" ? "This is required" : ""}
-          />
-        </div>
-        <div>
-          <TextField
-            sx={{ width: "50%","textAlign":"left"}}
+            sx={{ width: "50%", textAlign: "left" }}
             type="text"
             id="outlined-basic"
             label="MartialStatus"
@@ -336,11 +335,11 @@ const UserProfile = ({ onEdit }) => {
             helperText={MartialStatus === "" ? "This is required" : ""}
           >
             {martialStatusClasses.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </TextField>
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </TextField>
         </div>
         <div className="form-control">
           <Button
@@ -349,24 +348,24 @@ const UserProfile = ({ onEdit }) => {
             onClick={onSubmit}
             size="large"
             disabled={
-              Name === "" ||
+              FirstName === "" ||
               Email === "" ||
               BornIn === "" ||
               Age <= 0 ||
               MartialStatus === "" ||
               LivesIn === "" ||
-              Job === "" ||
               PhoneNumber === "" ||
               !parseInt(PhoneNumber) ||
               !parseInt(Age) ||
-              (Name === User.Name &&
+              (FirstName === User.FirstName &&
+                LastName === User.LastName &&
                 Email === User.Email &&
                 //BornIn===User.Born&&
                 Age === User.Age &&
                 MartialStatus === User.MartialStatus &&
                 LivesIn === User.LivesIn &&
-                Job === User.Job &&
-                PhoneNumber === User.PhoneNumber)
+                PhoneNumber === User.PhoneNumber &&
+                PassportNumber === User.PassportNumber)
             }
           >
             Edit Profile

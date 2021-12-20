@@ -51,8 +51,6 @@ const login_post = (req, res) => {
   try {
     User.findOne({ Email }).then((user) => {
       if (user) {
-        console.log(user);
-        console.log(req.body);
         bcrypt.compare(Password, user.Password).then((auth) => {
           if (auth) {
             const token = createToken(user._id);
@@ -60,8 +58,7 @@ const login_post = (req, res) => {
               user: user,
               Access_Token: `Bearer ${token}`,
             });
-          }
-          res.send("Wrong PassWord");
+          } else res.send("Wrong PassWord");
         });
       } else res.send("Wrong Email");
     });

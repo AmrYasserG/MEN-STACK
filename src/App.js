@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import None from "./components/None/None";
 import AdminHomepage from "./components/AdminHomepage/AdminHomepage";
@@ -26,7 +26,6 @@ class App extends Component {
             minHeight: "100%",
             position: "absolute",
             overflow: "auto",
-            minHeight: "100%",
             width: "100%",
             backgroundImage: `url(${background})`,
             backgroundRepeat: "repeat-y",

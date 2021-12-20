@@ -151,25 +151,25 @@ function Row({
                       <></>
                     )}
                     {isAdmin === true ? (
-                    <TableCell>
-                      <UpdateButton
-                        row={row}
-                        setUpdPopupButton={setUpdPopupButton}
-                        setEdit_id={setEdit_id}
-                        setEditDepartureTime={setEditDepartureTime}
-                        setEditDepartureTerminal={setEditDepartureTerminal}
-                        setEditArrivalTime={setEditArrivalTime}
-                        setEditArrivalTermina={setEditArrivalTermina}
-                        setEditDate={setEditDate}
-                        setEditEconomyClassSeats={setEditEconomyClassSeats}
-                        setEditFirstClassSeats={setEditFirstClassSeats}
-                        setEditFlight={setEditFlight}
-                        setEditFrom={setEditFrom}
-                        setEditTo={setEditTo}
-                        setEditBusinessClassSeats={setEditBusinessClassSeats}
-                        setX={setX}
-                      />
-                    </TableCell>
+                      <TableCell>
+                        <UpdateButton
+                          row={row}
+                          setUpdPopupButton={setUpdPopupButton}
+                          setEdit_id={setEdit_id}
+                          setEditDepartureTime={setEditDepartureTime}
+                          setEditDepartureTerminal={setEditDepartureTerminal}
+                          setEditArrivalTime={setEditArrivalTime}
+                          setEditArrivalTermina={setEditArrivalTermina}
+                          setEditDate={setEditDate}
+                          setEditEconomyClassSeats={setEditEconomyClassSeats}
+                          setEditFirstClassSeats={setEditFirstClassSeats}
+                          setEditFlight={setEditFlight}
+                          setEditFrom={setEditFrom}
+                          setEditTo={setEditTo}
+                          setEditBusinessClassSeats={setEditBusinessClassSeats}
+                          setX={setX}
+                        />
+                      </TableCell>
                     ) : (
                       <></>
                     )}
@@ -269,7 +269,7 @@ export function CollapsibleTable({
   );
 }
 
-export function Row2({ row, isAdmin, EditContent, DeleteContent }) {
+export function Row2({ row, isAdmin, EditContent, DeleteContent, rownumber }) {
   //   const { row } = props;
   const [open, setOpen] = React.useState(false);
 
@@ -277,8 +277,12 @@ export function Row2({ row, isAdmin, EditContent, DeleteContent }) {
   return (
     <React.Fragment>
       <TableRow
-        style={{ backgroundColor: "#F7F7F7" }}
         sx={{ fontWeight: "bold", "& > *": { borderBottom: "unset" } }}
+        style={
+          rownumber % 2 === 0
+            ? { backgroundColor: "#F7F7F7" }
+            : { backgroundColor: "#F3F3F3" }
+        }
       >
         <TableCell>
           <IconButton
@@ -289,16 +293,17 @@ export function Row2({ row, isAdmin, EditContent, DeleteContent }) {
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
-        <TableCell component="th" scope="row">
+        <TableCell component="th" scope="row" sx={{ textAlign: "center" }}>
           {row.FlightNumber}
         </TableCell>
-        <TableCell>{row.From}</TableCell>
-        <TableCell>{row.To}</TableCell>
-        <TableCell>{row.ArrivalTime}</TableCell>
-        <TableCell>{row.DepartureTime}</TableCell>
-        <TableCell>{row.Date}</TableCell>
+        <TableCell sx={{ textAlign: "center" }}>{row.From}</TableCell>
+        <TableCell sx={{ textAlign: "center" }}>{row.To}</TableCell>
+        <TableCell sx={{ textAlign: "center" }}>{row.Date}</TableCell>
+        <TableCell sx={{ textAlign: "center" }}>{row.DepartureTime}</TableCell>
+        <TableCell sx={{ textAlign: "center" }}>{row.ArrivalDate}</TableCell>
+        <TableCell sx={{ textAlign: "center" }}>{row.ArrivalTime}</TableCell>
       </TableRow>
-      <TableRow>
+      <TableRow sx={{ backgroundColor: "#FDFDFD" }}>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={8}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1, float: "left", width: "94%" }}>
@@ -377,11 +382,11 @@ export function Row2({ row, isAdmin, EditContent, DeleteContent }) {
               </Table>
             </Box>
             <Box>
-              <Tooltip title="Edit" sx={{ m: 1 }}>
+              <Tooltip title="Edit" sx={{ my: 1 }}>
                 {EditContent}
               </Tooltip>
               <br />
-              <Tooltip title="Delete" sx={{ m: 1 }}>
+              <Tooltip title="Delete" sx={{ my: 1 }}>
                 {DeleteContent}
               </Tooltip>
             </Box>

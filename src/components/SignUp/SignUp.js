@@ -17,6 +17,41 @@ import logo2 from "./../../Images/logo2.png";
 
 const theme = createTheme();
 function SignUp() {
+  const [FirstName, setFirstName] = useState("");
+  const [LastName, setLastName] = useState("");
+  const [Email, setEmail] = useState("");
+  const [Age, setAge] = useState("");
+  const [BornIn, setBornIn] = useState("");
+  const [LivesIn, setLivesIn] = useState("");
+  const [MartialStatus, setMartialStatus] = useState("");
+  const [PhoneNumber, setPhoneNumber] = useState("");
+  const [PassportNumber, setPassportNumber] = useState("");
+  const [Job, setJob] = useState("");
+  const [validEmail, setValidEmail] = useState(true);
+  const [editOpenResponse, setEditOpenResponse] = useState(false);
+  const [User, setUser] = useState([]);
+  const martialStatusClasses = [
+    {
+      value: "Single",
+      label: "Single",
+    },
+    {
+      value: "Married",
+      label: "Married",
+    },
+    {
+      value: "Divorced",
+      label: "Divorced",
+    },
+    {
+      value: "Separated",
+      label: "Separated",
+    },
+    {
+      value: "Widowed",
+      label: "Widowed",
+    },
+  ];
   const [showPass, setshowPass] = useState(false);
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -33,103 +68,146 @@ function SignUp() {
   };
 
   return (
-    <Grid container direction={"row-reverse"}>
-      <Grid item sm={7} xs={12}>
-        <Box
-          sx={{
-            width: ["100%", "60%"],
-            height: ["30%", "50%"],
-            m: "auto",
-            mx: 7,
-          }}
+    <Grid container direction="row">
+      <Grid item xs={2}>
+        <Typography
+          gutterBottom
+          variant="subtitle1"
+          component="h4"
+          align="center"
+          sx={{ textAlign: "left" }}
         >
-          <img
-            src={logo2}
-            width="90%%"
-            height="150"
-            style={{ cursor: "pointer", marginTop: "77%" }}
-            alt="Logo"
-          />
-        </Box>
+          User Name:
+        </Typography>
       </Grid>
-      <Grid item sm={5} xs={12}>
-        <Box>
-          <Container component="main" maxWidth="xs">
-            <CssBaseline />
-            <Box
-              sx={{
-                m: "auto",
-                "& > :not(style)": { mt: 4, mx: 3 },
-
-                marginTop: 24.5,
-
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                "box-shadow": "0px 0px 60px 7px #0a8fad",
-              }}
-            >
-              <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-                <LockOutlinedIcon />
-              </Avatar>
-              <Typography component="h1" variant="h5">
-                Sign in
-              </Typography>
-              <Box
-                component="form"
-                onSubmit={handleSubmit}
-                noValidate
-                sx={{ mt: 1 }}
-              >
-                <TextField
-                  margin="normal"
-                  required
-                  fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
-                  autoFocus
-                />
-                <TextField
-                  margin="normal"
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type={showPass ? "text" : "password"}
-                  id="password"
-                  autoComplete="current-password"
-                />
-                <FormControlLabel
-                  control={<Checkbox value="Show password" color="primary" />}
-                  label="Show password"
-                  onChange={handlechange}
-                />
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  sx={{ mt: 3, mb: 2 }}
-                >
-                  Sign In
-                </Button>
-                <Grid container>
-                  <Grid item xs>
-                    <Link href="#" variant="body2">
-                      Forgot password?
-                    </Link>
-                  </Grid>
-                  <Grid item>
-                    <Link href="#" variant="body2">
-                      {"Don't have an account? Sign Up"}
-                    </Link>
-                  </Grid>
-                </Grid>
-              </Box>
-            </Box>
-          </Container>
-        </Box>
+      <Grid item xs={2} sx={{ all: "left" }}>
+        <TextField
+          size="small"
+          sx={{ p: 0 }}
+          type="text"
+          label="User Name"
+          required
+        />
+      </Grid>
+      <Grid item xs={2}>
+        <Typography
+          gutterBottom
+          variant="subtitle1"
+          component="h4"
+          align="center"
+          sx={{ textAlign: "left" }}
+        >
+          Email
+        </Typography>
+      </Grid>
+      <Grid item xs={2} sx={{ textAlign: "left" }}>
+        <TextField
+          size="small"
+          sx={{ width: "110%", p: 0 }}
+          type="text"
+          label="Email"
+          required
+        />
+      </Grid>
+      <Grid item xs={2}>
+        <Typography
+          gutterBottom
+          variant="subtitle1"
+          component="h4"
+          align="center"
+          sx={{ textAlign: "left" }}
+        >
+          Password:
+        </Typography>
+      </Grid>
+      <Grid item xs={2} sx={{ textAlign: "left" }}>
+        <TextField
+          size="small"
+          sx={{ width: "110%", p: 0 }}
+          type="text"
+          label="Password"
+          required
+        />
+      </Grid>
+      <Grid item xs={2}>
+        <Typography
+          gutterBottom
+          variant="subtitle1"
+          component="h4"
+          align="center"
+          sx={{ textAlign: "left" }}
+        >
+          Confirm Password:
+        </Typography>
+      </Grid>
+      <Grid item xs={2} sx={{ textAlign: "left" }}>
+        <TextField
+          size="small"
+          sx={{ width: "110%", p: 0 }}
+          type="text"
+          label="Confirm Password"
+          required
+        />
+      </Grid>
+      <Grid item xs={2}>
+        <Typography
+          gutterBottom
+          variant="subtitle1"
+          component="h4"
+          align="center"
+          sx={{ textAlign: "left" }}
+        >
+          Address:
+        </Typography>
+      </Grid>
+      <Grid item xs={2} sx={{ textAlign: "left" }}>
+        <TextField
+          size="small"
+          sx={{ width: "110%", p: 0 }}
+          type="text"
+          label="Address"
+          required
+        />
+      </Grid>
+      <Grid item xs={2}>
+        <Typography
+          gutterBottom
+          variant="subtitle1"
+          component="h4"
+          align="center"
+          sx={{ textAlign: "left" }}
+        >
+          Phone Number:
+        </Typography>
+      </Grid>
+      <Grid item xs={2} sx={{ textAlign: "left" }}>
+        <TextField
+          size="small"
+          sx={{ width: "110%", p: 0 }}
+          type="text"
+          label="Phone No"
+          required
+        />
+      </Grid>
+      <Grid item xs={2}>
+        <Typography
+          gutterBottom
+          variant="subtitle1"
+          component="h4"
+          align="center"
+          sx={{ textAlign: "left" }}
+        >
+          Job:
+        </Typography>
+      </Grid>
+      <Grid item xs={2} sx={{ textAlign: "left" }}>
+        <TextField
+          size="small"
+          sx={{ width: "110%", p: 0 }}
+          type="text"
+          label="Job"
+          required
+        />
       </Grid>
     </Grid>
   );

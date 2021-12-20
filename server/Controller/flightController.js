@@ -10,6 +10,7 @@ const fillMap = (map, n, c) => {
   }
 };
 const createNewFlight = (req, res) => {
+  console.log(req.body);
   Flight.exists({ FlightNumber: req.body.FlightNumber })
     .then((result) => {
       if (!result) {
@@ -36,6 +37,7 @@ const createNewFlight = (req, res) => {
                   From: req.body.From,
                   To: req.body.To,
                   Date: req.body.Date,
+                  ArrivalDate: req.body.ArrivalDate,
                   DepartureTime: req.body.DepartureTime,
                   ArrivalTime: req.body.ArrivalTime,
                   EconomySeatsNo: req.body.EconomySeatsNo,
@@ -81,7 +83,7 @@ const createNewFlight = (req, res) => {
                       From: req.body.To,
                       To: req.body.From,
                       Date: req.body.ReturnDate,
-
+                      ArrivalDate: req.body.ReturnArrivalDate,
                       DepartureTime: req.body.ReturnDepartureTime,
                       ArrivalTime: req.body.ReturnArrivalTime,
                       EconomySeatsNo: req.body.ReturnEconomySeatsNo,
@@ -139,6 +141,7 @@ const createNewFlight = (req, res) => {
             From: req.body.From,
             To: req.body.To,
             Date: req.body.Date,
+            ArrivalDate: req.body.ArrivalDate,
             DepartureTime: req.body.DepartureTime,
             ArrivalTime: req.body.ArrivalTime,
             EconomySeatsNo: req.body.EconomySeatsNo,
@@ -233,6 +236,7 @@ const searchFlights = (req, res) => {
   if (req.body.AirportArrivalTerminal)
     arr = { ...arr, AirportArrivalTerminal: req.body.AirportArrivalTerminal };
   if (req.body.Date) arr = { ...arr, Date: req.body.Date };
+  if (req.body.ArrivalDate) arr = { ...arr, ArrivalDate: req.body.ArrivalDate };
   if (req.body.FirstClassPrice)
     arr = { ...arr, FirstClassPrice: req.body.FirstClassPrice };
   if (req.body.BusinessClassPrice)
@@ -246,7 +250,6 @@ const searchFlights = (req, res) => {
 
   Flight.find(arr)
     .then((result) => {
-      console.log(result);
       res.send(result);
     })
     .catch((err) => {
