@@ -17,9 +17,15 @@ const userSchema = new Schema(
       unique: true,
       validate: [isEmail, "Please enter a valid email"],
     },
+<<<<<<< HEAD
     Type: {
       type: String,
       required: true,
+=======
+    Type:{
+      type:String,
+      required : false
+>>>>>>> 009423481e6079ab2adba80af9ab573b6f157bcf
     },
     Password: {
       type: String,
@@ -28,7 +34,7 @@ const userSchema = new Schema(
     },
     Age: {
       type: Number,
-      required: false,
+      required: true,
     },
     BornIn: {
       type: String,
