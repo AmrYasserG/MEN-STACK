@@ -29,13 +29,36 @@ const handleErrors = (err) => {
 // controller actions
 
 const signup_post = (req, res) => {
-  let { Email, Password } = req.body;
+  let {
+    FirstName,
+    LastName,
+    Email,
+    Age,
+    BornIn,
+    LivesIn,
+    MartialStatus,
+    PhoneNumber,
+    PassportNumber,
+    Password,
+  } = req.body;
   console.log(req.body);
   try {
     bcrypt.genSalt().then((salt) => {
       console.log(salt);
       bcrypt.hash(Password, salt).then((res2) => {
-        User.create({ Email, Password: res2, Type: "user" }).then((user) => {
+        User.create({
+          FirstName,
+          LastName,
+          Email,
+          Age,
+          BornIn,
+          LivesIn,
+          MartialStatus,
+          PhoneNumber,
+          PassportNumber,
+          Password: res2,
+          Type: "user",
+        }).then((user) => {
           res.status(201).json(user);
         });
       });

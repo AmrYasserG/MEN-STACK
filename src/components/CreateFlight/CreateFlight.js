@@ -267,9 +267,9 @@ const CreateFlight = () => {
           my: "2%",
           "text-align": "center",
           width: ["95%", 7 / 9, 5 / 9],
-          border: "5px solid #eeeeee",
-          backgroundColor: "#fbfbfb",
-          "box-shadow": "7px 7px 7px#cccccc",
+          border: "1px solid #eeeeee",
+          backgroundColor: "#f9f9f9",
+          "box-shadow": "0px 0px 3px 3px #59C8FD",
         }}
       >
         <Box component={"div"}>

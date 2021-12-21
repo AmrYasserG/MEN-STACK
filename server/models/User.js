@@ -5,11 +5,11 @@ const userSchema = new Schema(
   {
     FirstName: {
       type: String,
-      required: false,
+      required: true,
     },
     LastName: {
       type: String,
-      required: false,
+      required: true,
     },
     Email: {
       type: String,
@@ -17,20 +17,13 @@ const userSchema = new Schema(
       unique: true,
       validate: [isEmail, "Please enter a valid email"],
     },
-<<<<<<< HEAD
     Type: {
       type: String,
       required: true,
-=======
-    Type:{
-      type:String,
-      required : false
->>>>>>> 009423481e6079ab2adba80af9ab573b6f157bcf
     },
     Password: {
       type: String,
       required: [true, "Please enter a password"],
-      minlength: [6, "Minimum password length is 6 characters"],
     },
     Age: {
       type: Number,
@@ -38,23 +31,23 @@ const userSchema = new Schema(
     },
     BornIn: {
       type: String,
-      required: false,
+      required: true,
     },
     LivesIn: {
       type: String,
-      required: false,
+      required: true,
     },
     MartialStatus: {
       type: String,
-      required: false,
+      required: true,
     },
     PhoneNumber: {
       type: String,
-      required: false,
+      required: true,
     },
     PassportNumber: {
       type: String,
-      required: false,
+      required: true,
     },
   },
   { timestamps: true }
