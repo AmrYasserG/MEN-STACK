@@ -1,4 +1,5 @@
 import { useState, useEffect, forwardRef, Fragment } from "react";
+import Grid from "@mui/material/Grid";
 
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -224,246 +225,273 @@ const AdminHomepage = () => {
       </Popup>
       <UpdateOver trigger={updPopupButton} setTrigger={setUpdPopupButton}>
         <h1>Update Flight</h1>
-
-        <label style={{ marginRight: "4%" }}>FlightNumber:</label>
-        <span>
-          <input
-            name="flno"
-            id="flno"
-            type="text"
-            value={editFlight}
-            onChange={(e) => {
-              setEditFlight(e.target.value);
-            }}
-          />
-        </span>
-        <br></br>
-        <label style={{ marginRight: "4%" }}>From:</label>
-        <span>
-          <input
-            name="from"
-            id="from"
-            type="text"
-            value={editFrom}
-            onChange={(e) => {
-              setEditFrom(e.target.value);
-            }}
-          />
-        </span>
-        <br></br>
-        <label style={{ marginRight: "4%" }}>To:</label>
-        <span>
-          <input
-            name="to"
-            id="to"
-            type="text"
-            value={editTo}
-            onChange={(e) => {
-              setEditTo(e.target.value);
-            }}
-          />
-        </span>
-        <br></br>
-        <label style={{ marginRight: "4%" }}>Departure Date:</label>
-        <span>
-          <input
-            name="date"
-            id="date"
-            type="date"
-            value={editDate}
-            onChange={(e) => {
-              setEditDate(e.target.value);
-            }}
-          />
-        </span>
-        <br></br>
-        <label style={{ marginRight: "4%" }}>Arrival Date:</label>
-        <span>
-          <input
-            name="date"
-            id="adate"
-            type="date"
-            value={editArrivalDate}
-            onChange={(e) => {
-              setEditArrivalDate(e.target.value);
-            }}
-          />
-        </span>
-        <br></br>
-        <label style={{ marginRight: "4%" }}>Departure Time:</label>
-        <span>
-          <input
-            name="dep"
-            id="dep"
-            type="time"
-            value={editDepartureTime}
-            onChange={(e) => {
-              setEditDepartureTime(e.target.value);
-            }}
-          />
-        </span>
-        <br></br>
-        <label style={{ marginRight: "4%" }}>Arrival Time:</label>
-        <span>
-          <input
-            name="arrive"
-            id="arrive"
-            type="time"
-            value={editArrivalTime}
-            onChange={(e) => {
-              setEditDepartureTime(e.target.value);
-            }}
-          />
-        </span>
-        <br></br>
-        <label style={{ marginRight: "4%" }}>Airport Departure Terminal:</label>
-        <span>
-          <input
-            name="depTer"
-            id="depTer"
-            type="number"
-            value={editDepartureTerminal}
-            onChange={(e) => {
-              setEditDepartureTerminal(Number(e.target.value));
-            }}
-          />
-        </span>
-        <br></br>
-        <label style={{ marginRight: "4%" }}>Airport Arrival Terminal:</label>
-        <span>
-          <input
-            name="arrTer"
-            id="arrTer"
-            type="number"
-            value={editArrivalTerminal}
-            onChange={(e) => {
-              setEditArrivalTerminal(Number(e.target.value));
-            }}
-          />
-        </span>
-        <br></br>
-        <label style={{ marginRight: "4%" }}>
-          Number Of Business Class Seats:
-        </label>
-        <span>
-          <input
-            name="busNo"
-            id="busNo"
-            type="number"
-            value={editBusinessClassSeats}
-            onChange={(e) => {
-              setEditBusinessClassSeats(Number(e.target.value));
-            }}
-          />
-        </span>
-        <br></br>
-        <label style={{ marginRight: "4%" }}>
-          Number Of Economy Class Seats:
-        </label>
-        <span>
-          <input
-            name="ecoNo"
-            id="ecoNo"
-            type="number"
-            value={editEconomyClassSeats}
-            onChange={(e) => {
-              setEditEconomyClassSeats(Number(e.target.value));
-            }}
-          />
-        </span>
-        <br></br>
-        <label style={{ marginRight: "4%" }}>
-          Number Of First Class Seats:
-        </label>
-        <span>
-          <input
-            name="fstNo"
-            id="fstNo"
-            type="number"
-            value={editFirstClassSeats}
-            onChange={(e) => {
-              setEditFirstClassSeats(Number(e.target.value));
-            }}
-          />
-        </span>
-        <br></br>
-        <label style={{ marginRight: "4%" }}>Economy Class Seats Prices:</label>
-        <span>
-          <input
-            name="econop"
-            id="econop"
-            type="number"
-            value={editEconomyClassSeatsPrice}
-            onChange={(e) => {
-              setEditEconomyClassSeatsPrice(Number(e.target.value));
-            }}
-          />
-        </span>
-        <br></br>
-        <label style={{ marginRight: "4%" }}>
-          Business Class Seats Prices:
-        </label>
-        <span>
-          <input
-            name="buisnop"
-            id="buisnop"
-            type="number"
-            value={editBusinessClassSeatsPrice}
-            onChange={(e) => {
-              setEditBusinessClassSeatsPrice(Number(e.target.value));
-            }}
-          />
-        </span>
-        <br></br>
-
-        <label style={{ marginRight: "4%" }}>First Class Seats Prices:</label>
-        <span>
-          <input
-            name="fstNop"
-            id="fstNop"
-            type="number"
-            value={editFirstClassSeatsPrice}
-            onChange={(e) => {
-              setEditFirstClassSeatsPrice(Number(e.target.value));
-            }}
-          />
-        </span>
-        <br></br>
-        <label style={{ marginRight: "4%" }}>Baggage Allowance:</label>
-        <span>
-          <input
-            name="fstNop"
-            id="fstNop"
-            type="number"
-            value={editBaggageAllowance}
-            onChange={(e) => {
-              setEditBaggageAllowance(Number(e.target.value));
-            }}
-          />
-        </span>
-        <br></br>
-        <Button
-          variant="contained"
-          color="error"
-          style={{ right: "5%", top: "7%" }}
-          onClick={() => {
-            setUpdPopupButton(false);
-            EditRow(edit_id);
-            setX(false);
-          }}
-        >
-          Update
-        </Button>
-        <Button
-          variant="contained"
-          style={{ left: "5%", top: "7%" }}
-          onClick={() => {
-            setUpdPopupButton(false);
-            setX(false);
-          }}
-        >
-          Cancel
-        </Button>
+        <Grid container rowSpacing={"0.8%"} ml={"5%"}>
+          <Grid item xs={6} sx={{ textAlign: "left" }}>
+            <label>FlightNumber:</label>
+          </Grid>
+          <Grid item xs={4} sx={{ textAlign: "left" }}>
+            <input
+              style={{ width: "70%" }}
+              error={true}
+              name="flno"
+              id="flno"
+              type="text"
+              value={editFlight}
+              onChange={(e) => {
+                setEditFlight(e.target.value);
+              }}
+            />
+          </Grid>
+          <Grid item xs={6} sx={{ textAlign: "left" }}>
+            <label>From:</label>
+          </Grid>
+          <Grid item xs={4} sx={{ textAlign: "left" }}>
+            <input
+              style={{ width: "70%" }}
+              name="from"
+              id="from"
+              type="text"
+              value={editFrom}
+              onChange={(e) => {
+                setEditFrom(e.target.value);
+              }}
+            />
+          </Grid>
+          <Grid item xs={6} sx={{ textAlign: "left" }}>
+            <label>To:</label>
+          </Grid>
+          <Grid item xs={4} sx={{ textAlign: "left" }}>
+            <input
+              style={{ width: "70%" }}
+              name="to"
+              id="to"
+              type="text"
+              value={editTo}
+              onChange={(e) => {
+                setEditTo(e.target.value);
+              }}
+            />
+          </Grid>
+          <Grid item xs={6} sx={{ textAlign: "left" }}>
+            <label>Departure Date:</label>
+          </Grid>
+          <Grid item xs={4} sx={{ textAlign: "left" }}>
+            <input
+              style={{ width: "70%" }}
+              name="date"
+              id="date"
+              type="date"
+              value={editDate}
+              onChange={(e) => {
+                setEditDate(e.target.value);
+              }}
+            />
+          </Grid>
+          <Grid item xs={6} sx={{ textAlign: "left" }}>
+            <label>Arrival Date:</label>
+          </Grid>
+          <Grid item xs={4} sx={{ textAlign: "left" }}>
+            <input
+              style={{ width: "70%" }}
+              name="date"
+              id="adate"
+              type="date"
+              value={editArrivalDate}
+              onChange={(e) => {
+                setEditArrivalDate(e.target.value);
+              }}
+            />
+          </Grid>
+          <Grid item xs={6} sx={{ textAlign: "left" }}>
+            <label>Departure Time:</label>
+          </Grid>
+          <Grid item xs={4} sx={{ textAlign: "left" }}>
+            <input
+              style={{ width: "70%" }}
+              name="dep"
+              id="dep"
+              type="time"
+              value={editDepartureTime}
+              onChange={(e) => {
+                setEditDepartureTime(e.target.value);
+              }}
+            />
+          </Grid>
+          <Grid item xs={6} sx={{ textAlign: "left" }}>
+            <label>Arrival Time:</label>
+          </Grid>
+          <Grid item xs={4} sx={{ textAlign: "left" }}>
+            <input
+              style={{ width: "70%" }}
+              name="arrivet"
+              id="arrivet"
+              type="time"
+              value={editArrivalTime}
+              onChange={(e) => {
+                setEditArrivalTime(e.target.value);
+              }}
+            />
+          </Grid>
+          <Grid item xs={6} sx={{ textAlign: "left" }}>
+            <label>Airport Departure Terminal:</label>
+          </Grid>
+          <Grid item xs={4} sx={{ textAlign: "left" }}>
+            <input
+              style={{ width: "70%" }}
+              name="depTer"
+              id="depTer"
+              type="number"
+              value={editDepartureTerminal}
+              onChange={(e) => {
+                setEditDepartureTerminal(Number(e.target.value));
+              }}
+            />
+          </Grid>
+          <Grid item xs={6} sx={{ textAlign: "left" }}>
+            <label>Airport Arrival Terminal:</label>
+          </Grid>
+          <Grid item xs={4} sx={{ textAlign: "left" }}>
+            <input
+              style={{ width: "70%" }}
+              name="arrTer"
+              id="arrTer"
+              type="number"
+              value={editArrivalTerminal}
+              onChange={(e) => {
+                setEditArrivalTerminal(Number(e.target.value));
+              }}
+            />
+          </Grid>
+          <Grid item xs={6} sx={{ textAlign: "left" }}>
+            <label>Number Of Business Class Seats:</label>
+          </Grid>
+          <Grid item xs={4} sx={{ textAlign: "left" }}>
+            <input
+              style={{ width: "70%" }}
+              name="busNo"
+              id="busNo"
+              type="number"
+              value={editBusinessClassSeats}
+              onChange={(e) => {
+                setEditBusinessClassSeats(Number(e.target.value));
+              }}
+            />
+          </Grid>
+          <Grid item xs={6} sx={{ textAlign: "left" }}>
+            <label>Number Of Economy Class Seats:</label>
+          </Grid>
+          <Grid item xs={4} sx={{ textAlign: "left" }}>
+            <input
+              style={{ width: "70%" }}
+              name="ecoNo"
+              id="ecoNo"
+              type="number"
+              value={editEconomyClassSeats}
+              onChange={(e) => {
+                setEditEconomyClassSeats(Number(e.target.value));
+              }}
+            />
+          </Grid>
+          <Grid item xs={6} sx={{ textAlign: "left" }}>
+            <label>Number Of First Class Seats:</label>
+          </Grid>
+          <Grid item xs={4} sx={{ textAlign: "left" }}>
+            <input
+              style={{ width: "70%" }}
+              name="fstNo"
+              id="fstNo"
+              type="number"
+              value={editFirstClassSeats}
+              onChange={(e) => {
+                setEditFirstClassSeats(Number(e.target.value));
+              }}
+            />
+          </Grid>
+          <Grid item xs={6} sx={{ textAlign: "left" }}>
+            <label>Economy Class Seats Prices:</label>
+          </Grid>
+          <Grid item xs={4} sx={{ textAlign: "left" }}>
+            <input
+              style={{ width: "70%" }}
+              name="econop"
+              id="econop"
+              type="number"
+              value={editEconomyClassSeatsPrice}
+              onChange={(e) => {
+                setEditEconomyClassSeatsPrice(Number(e.target.value));
+              }}
+            />
+          </Grid>
+          <Grid item xs={6} sx={{ textAlign: "left" }}>
+            <label>Business Class Seats Prices:</label>
+          </Grid>
+          <Grid item xs={4} sx={{ textAlign: "left" }}>
+            <input
+              style={{ width: "70%" }}
+              name="buisnop"
+              id="buisnop"
+              type="number"
+              value={editBusinessClassSeatsPrice}
+              onChange={(e) => {
+                setEditBusinessClassSeatsPrice(Number(e.target.value));
+              }}
+            />
+          </Grid>
+          <Grid item xs={6} sx={{ textAlign: "left" }}>
+            <label>First Class Seats Prices:</label>
+          </Grid>
+          <Grid item xs={4} sx={{ textAlign: "left" }}>
+            <input
+              style={{ width: "70%" }}
+              name="fstNop"
+              id="fstNop"
+              type="number"
+              value={editFirstClassSeatsPrice}
+              onChange={(e) => {
+                setEditFirstClassSeatsPrice(Number(e.target.value));
+              }}
+            />
+          </Grid>
+          <Grid item xs={6} sx={{ textAlign: "left" }}>
+            <label>Baggage Allowance:</label>
+          </Grid>
+          <Grid item xs={4} sx={{ textAlign: "left" }}>
+            <input
+              style={{ width: "70%" }}
+              name="fstNop"
+              id="fstNop"
+              type="number"
+              value={editBaggageAllowance}
+              onChange={(e) => {
+                setEditBaggageAllowance(Number(e.target.value));
+              }}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Button
+              variant="contained"
+              style={{ right: "5%", top: "7%" }}
+              onClick={() => {
+                setUpdPopupButton(false);
+                EditRow(edit_id);
+                setX(false);
+              }}
+            >
+              Update
+            </Button>{" "}
+            <Button
+              variant="contained"
+              color="error"
+              style={{ left: "5%", top: "7%" }}
+              onClick={() => {
+                setUpdPopupButton(false);
+                setX(false);
+              }}
+            >
+              Cancel
+            </Button>
+          </Grid>
+        </Grid>
       </UpdateOver>
       <div>
         <SearchFlight d={x} onSearch={searchFlight} />
@@ -532,9 +560,11 @@ const AdminHomepage = () => {
                   row={row}
                   EditContent={
                     <IconButton
+                      disabled={x}
                       variant="contained"
                       color="primary"
                       onClick={() => {
+                        console.log(row);
                         setEdit_id(row._id);
                         setUpdPopupButton(true);
                         setEditDepartureTime(row.DepartureTime);
@@ -542,7 +572,7 @@ const AdminHomepage = () => {
                         setEditArrivalTime(row.ArrivalTime);
                         setEditArrivalTerminal(row.AirportArrivalTerminal);
                         setEditDate(row.Date);
-                        setEditArrivalTime(row.ArrivalDate);
+                        setEditArrivalDate(row.ArrivalDate);
                         setEditEconomyClassSeats(row.EconomySeatsNo);
                         setEditFirstClassSeats(row.FirstSeatsNo);
                         setEditFlight(row.FlightNumber);
@@ -561,6 +591,7 @@ const AdminHomepage = () => {
                   }
                   DeleteContent={
                     <IconButton
+                      disabled={x}
                       variant="contained"
                       color="error"
                       onClick={() => {

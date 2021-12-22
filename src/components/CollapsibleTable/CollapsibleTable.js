@@ -76,7 +76,10 @@ function Row({
               <Table size="small">
                 <TableHead>
                   <TableRow>
-                    <Tooltip title="Available Seats/All Seats" placement="top">
+                    <Tooltip
+                      title="Available Seats/All Seats"
+                      placement="top-start"
+                    >
                       <TableCell style={{ fontWeight: "bold" }}>
                         Economy Class Seats
                       </TableCell>
@@ -272,7 +275,20 @@ export function CollapsibleTable({
 export function Row2({ row, isAdmin, EditContent, DeleteContent, rownumber }) {
   //   const { row } = props;
   const [open, setOpen] = React.useState(false);
+  const from24to12 = (date) => {
+    let temp = date.split(":");
+    return `${Number(temp[0]) % 12}:${temp[1]} ${
+      Number(temp[0]) < 12 ? "AM" : "PM"
+    }`;
+  };
 
+  const dateFormatter = (date) => {
+    if (date) {
+      let temp = date.split("-");
+      return `${temp[1]} / ${temp[2]} / ${temp[0]}`;
+    }
+    return date;
+  };
   //style={{fontWeight : 'bold'}}
   return (
     <React.Fragment>
@@ -280,8 +296,8 @@ export function Row2({ row, isAdmin, EditContent, DeleteContent, rownumber }) {
         sx={{ fontWeight: "bold", "& > *": { borderBottom: "unset" } }}
         style={
           rownumber % 2 === 0
-            ? { backgroundColor: "#F7F7F7" }
-            : { backgroundColor: "#F3F3F3" }
+            ? { backgroundColor: "#F1F1F1" }
+            : { backgroundColor: "#FEFEFE" }
         }
       >
         <TableCell>
@@ -298,10 +314,22 @@ export function Row2({ row, isAdmin, EditContent, DeleteContent, rownumber }) {
         </TableCell>
         <TableCell sx={{ textAlign: "center" }}>{row.From}</TableCell>
         <TableCell sx={{ textAlign: "center" }}>{row.To}</TableCell>
-        <TableCell sx={{ textAlign: "center" }}>{row.Date}</TableCell>
-        <TableCell sx={{ textAlign: "center" }}>{row.DepartureTime}</TableCell>
-        <TableCell sx={{ textAlign: "center" }}>{row.ArrivalDate}</TableCell>
-        <TableCell sx={{ textAlign: "center" }}>{row.ArrivalTime}</TableCell>
+        <Tooltip title="MM/DD/YYYY" placement="top" arrow>
+          <TableCell sx={{ textAlign: "center" }}>
+            {dateFormatter(row.Date)}
+          </TableCell>
+        </Tooltip>
+        <TableCell sx={{ textAlign: "center" }}>
+          {from24to12(row.DepartureTime)}
+        </TableCell>
+        <Tooltip title="MM/DD/YYYY" placement="top" arrow>
+          <TableCell sx={{ textAlign: "center" }}>
+            {dateFormatter(row.ArrivalDate)}
+          </TableCell>
+        </Tooltip>
+        <TableCell sx={{ textAlign: "center" }}>
+          {from24to12(row.ArrivalTime)}
+        </TableCell>
       </TableRow>
       <TableRow sx={{ backgroundColor: "#FDFDFD" }}>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={8}>
@@ -315,7 +343,11 @@ export function Row2({ row, isAdmin, EditContent, DeleteContent, rownumber }) {
               <Table size="small">
                 <TableHead>
                   <TableRow>
-                    <Tooltip title="Available Seats/All Seats" placement="top">
+                    <Tooltip
+                      arrow
+                      title="Available Seats/All Seats"
+                      placement="top"
+                    >
                       <TableCell style={{ fontWeight: "bold" }}>
                         Economy Class Seats
                       </TableCell>
@@ -324,7 +356,11 @@ export function Row2({ row, isAdmin, EditContent, DeleteContent, rownumber }) {
                       {" "}
                       Economy Class Price ($)
                     </TableCell>
-                    <Tooltip title="Available Seats/All Seats" placement="top">
+                    <Tooltip
+                      arrow
+                      title="Available Seats/All Seats"
+                      placement="top"
+                    >
                       <TableCell style={{ fontWeight: "bold" }}>
                         Business Class Seats
                       </TableCell>
@@ -332,7 +368,11 @@ export function Row2({ row, isAdmin, EditContent, DeleteContent, rownumber }) {
                     <TableCell style={{ fontWeight: "bold" }}>
                       Business Class Price ($)
                     </TableCell>
-                    <Tooltip title="Available Seats/All Seats" placement="top">
+                    <Tooltip
+                      arrow
+                      title="Available Seats/All Seats"
+                      placement="top"
+                    >
                       <TableCell style={{ fontWeight: "bold" }}>
                         First Class Seats
                       </TableCell>
@@ -382,11 +422,11 @@ export function Row2({ row, isAdmin, EditContent, DeleteContent, rownumber }) {
               </Table>
             </Box>
             <Box>
-              <Tooltip title="Edit" sx={{ my: 1 }}>
+              <Tooltip arrow title="Edit" sx={{ my: 1 }}>
                 {EditContent}
               </Tooltip>
               <br />
-              <Tooltip title="Delete" sx={{ my: 1 }}>
+              <Tooltip arrow title="Delete" sx={{ my: 1 }}>
                 {DeleteContent}
               </Tooltip>
             </Box>

@@ -1,5 +1,6 @@
 import * as React from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -24,7 +25,6 @@ import BadgeIcon from "@mui/icons-material/Badge";
 import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { set } from "mongoose";
 
 function SignUp() {
   const [FirstName, setFirstName] = useState("");
@@ -41,6 +41,9 @@ function SignUp() {
   const [validEmail, setValidEmail] = useState(true);
   const [validAge, setValidAge] = useState(true);
   const [validPassword, setValidPassword] = useState(true);
+  const [duplicateEmail, setDuplicateEmail] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [sent, setSent] = useState(false);
 
   const [showPassword, setshowPassword] = useState(false);
   const [showConfirmPassword, setshowConfirmPassword] = useState(false);
@@ -90,10 +93,12 @@ function SignUp() {
       );
   };
   useEffect(() => {
+    if (duplicateEmail) setDuplicateEmail(false);
     if (validateEmail(Email)) setValidEmail(true);
     else setValidEmail(false);
   }, [Email]);
   const CreateNewUser = () => {
+    setSending(true);
     axios
       .post("http://localhost:3005/auth/signup", {
         FirstName: FirstName,
@@ -108,16 +113,19 @@ function SignUp() {
         Password: Password,
       })
       .then((res) => {
+        setSent(true);
         console.log(res);
       })
       .catch((err) => {
-        console.log("duplicated Email");
+        setSending(false);
+        setDuplicateEmail(true);
       });
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    CreateNewUser();
+
+    if (!sending) CreateNewUser();
   };
 
   const handleClickShowPassword = () => {
@@ -153,274 +161,312 @@ function SignUp() {
           Edited Successfully
         </Alert>
       </Snackbar> */}
-      <Box
-        p={2}
-        sx={{
-          m: "auto",
-          "& > :not(style)": { mt: 4, mx: 3 },
-          my: "2%",
-          width: ["95%", "55%"],
-          "text-align": "center",
-          border: "1px solid #eeeeee",
-          backgroundColor: "#f9f9f9",
-          "box-shadow": "0px 0px 3px 3px #59C8FD",
-        }}
-      >
-        <div>
-          <Typography variant="h3">Ready to Fly?</Typography>
-        </div>
-        <Box>
-          <TextField
-            sx={{ width: ["45%", "30%"], mx: "2%", m: "1%" }}
-            type="text"
-            id="outlined-basic"
-            label="First Name"
-            required
-            value={FirstName}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <BadgeIcon />
-                </InputAdornment>
-              ),
-            }}
-            onChange={(e) => setFirstName(e.target.value)}
-          />
-
-          <TextField
-            sx={{ width: ["45%", "30%"], mx: "2%", my: "1%" }}
-            type="text"
-            id="outlined-basic"
-            label="Last Name"
-            required
-            value={LastName}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <BadgeIcon />
-                </InputAdornment>
-              ),
-            }}
-            onChange={(e) => setLastName(e.target.value)}
-          />
+      {sent ? (
+        <Box
+          sx={{
+            "text-align": "center",
+            m: "auto",
+            my: "30%",
+            width: ["90%", "50%"],
+            border: "1px solid #eeeeee",
+            backgroundColor: "#f9f9f9",
+            "box-shadow": "0px 0px 3px 3px #59C8FD",
+          }}
+        >
+          <div>
+            <Typography variant="h3">Welcome On Board :)</Typography>
+          </div>
+          <div className="form-control">
+            <Button variant="contained" color="primary">
+              <Link
+                to="/Login"
+                style={{ textDecoration: "none", color: "#FFFFFF" }}
+              >
+                Return to login
+              </Link>{" "}
+            </Button>
+          </div>
         </Box>
-        <Box>
-          <TextField
-            sx={{ width: ["94%", "64%"], mb: "1%" }}
-            type="text"
-            variant="outlined"
-            label="Passport Number"
-            value={PassportNumber}
-            required
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <AssignmentIndIcon />
-                </InputAdornment>
-              ),
-            }}
-            onChange={(e) => setPassportNumber(e.target.value)}
-          />
-        </Box>
-        <Box>
-          <TextField
-            sx={{ width: ["94%", "64%"], mb: "1%" }}
-            type="text"
-            label="Email"
-            error={!validEmail}
-            required
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <EmailIcon />
-                </InputAdornment>
-              ),
-            }}
-            onChange={(e) => setEmail(e.target.value)}
-            value={Email}
-            helperText={validEmail ? "" : "Wrong Format (xxx@yyy.zzz)"}
-          />
-        </Box>
-        <Box>
-          <FormControl
-            sx={{ width: ["45%", "30%"], mx: "2%", mb: "1%" }}
-            variant="outlined"
-          >
-            <InputLabel htmlFor="outlined-adornment-password">
-              Password
-            </InputLabel>
-            <OutlinedInput
-              error={!validPassword}
-              id="outlined-adornment-password"
-              type={showPassword ? "text" : "password"}
-              value={Password}
-              onChange={handlePasswordChange}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
-                    edge="end"
-                  >
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              }
-              label="Password"
-            />
-          </FormControl>
-          <FormControl
-            sx={{ width: ["45%", "30%"], mx: ["2%"], mb: "1%" }}
-            variant="outlined"
-          >
-            <InputLabel htmlFor="outlined-adornment-cpassword">
-              Confirm Password
-            </InputLabel>
-            <OutlinedInput
-              id="outlined-adornment-cpassword"
-              error={!validPassword}
-              type={showConfirmPassword ? "text" : "password"}
-              value={ConfirmPassword}
-              onChange={handleConfirmPasswordChange}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={handleClickShowConfirmPassword}
-                    onMouseDown={handleMouseDownPassword}
-                    edge="end"
-                  >
-                    {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              }
-              label="Password"
-            />
-            {!validPassword && (
-              <FormHelperText id="cpassword-helper-text" error>
-                Passwords do not match
-              </FormHelperText>
-            )}
-          </FormControl>
-        </Box>
-        <Box>
-          <TextField
-            sx={{ width: ["76%", "56%"], mb: "1%" }}
-            required
-            type="date"
-            label="BornIn"
-            id="dDate"
-            variant="outlined"
-            value={BornIn}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <EventIcon />
-                </InputAdornment>
-              ),
-            }}
-            onChange={(e) => setBornIn(e.target.value)}
-          />
-          {Age && (
-            <FormLabel
-              sx={{
-                pt: "2%",
-                display: "inline-flex",
-
-                mx: "2%",
+      ) : (
+        <Box
+          p={2}
+          sx={{
+            m: "auto",
+            "& > :not(style)": { mt: 4, mx: 3 },
+            my: "2%",
+            width: ["95%", "55%"],
+            "text-align": "center",
+            border: "1px solid #eeeeee",
+            backgroundColor: "#f9f9f9",
+            "box-shadow": "0px 0px 3px 3px #59C8FD",
+          }}
+        >
+          <div>
+            <Typography variant="h3">Ready to Fly?</Typography>
+          </div>
+          <Box>
+            <TextField
+              sx={{ width: ["45%", "30%"], mx: "2%", m: "1%" }}
+              type="text"
+              id="outlined-basic"
+              label="First Name"
+              required
+              value={FirstName}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <BadgeIcon />
+                  </InputAdornment>
+                ),
               }}
+              onChange={(e) => setFirstName(e.target.value)}
+            />
+
+            <TextField
+              sx={{ width: ["45%", "30%"], mx: "2%", my: "1%" }}
+              type="text"
+              id="outlined-basic"
+              label="Last Name"
+              required
+              value={LastName}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <BadgeIcon />
+                  </InputAdornment>
+                ),
+              }}
+              onChange={(e) => setLastName(e.target.value)}
+            />
+          </Box>
+          <Box>
+            <TextField
+              sx={{ width: ["94%", "64%"], mb: "1%" }}
+              type="text"
+              variant="outlined"
+              label="Passport Number"
+              value={PassportNumber}
+              required
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <AssignmentIndIcon />
+                  </InputAdornment>
+                ),
+              }}
+              onChange={(e) => setPassportNumber(e.target.value)}
+            />
+          </Box>
+          <Box>
+            <TextField
+              sx={{ width: ["94%", "64%"], mb: "1%" }}
+              type="text"
+              label="Email"
+              error={!validEmail || duplicateEmail}
+              required
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <EmailIcon />
+                  </InputAdornment>
+                ),
+              }}
+              onChange={(e) => setEmail(e.target.value)}
+              value={Email}
+              helperText={
+                validEmail
+                  ? duplicateEmail
+                    ? "Email Already In Use"
+                    : ""
+                  : "Wrong Format (xxx@yyy.zzz)"
+              }
+            />
+          </Box>
+          <Box>
+            <FormControl
+              sx={{ width: ["45%", "30%"], mx: "2%", mb: "1%" }}
+              variant="outlined"
             >
-              {Age}
-            </FormLabel>
-          )}
+              <InputLabel htmlFor="outlined-adornment-password">
+                Password
+              </InputLabel>
+              <OutlinedInput
+                error={!validPassword}
+                id="outlined-adornment-password"
+                type={showPassword ? "text" : "password"}
+                value={Password}
+                onChange={handlePasswordChange}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                label="Password"
+              />
+            </FormControl>
+            <FormControl
+              sx={{ width: ["45%", "30%"], mx: ["2%"], mb: "1%" }}
+              variant="outlined"
+            >
+              <InputLabel htmlFor="outlined-adornment-cpassword">
+                Confirm Password
+              </InputLabel>
+              <OutlinedInput
+                id="outlined-adornment-cpassword"
+                error={!validPassword}
+                type={showConfirmPassword ? "text" : "password"}
+                value={ConfirmPassword}
+                onChange={handleConfirmPasswordChange}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowConfirmPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                    >
+                      {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                label="Password"
+              />
+              {!validPassword && (
+                <FormHelperText id="cpassword-helper-text" error>
+                  Passwords do not match
+                </FormHelperText>
+              )}
+            </FormControl>
+          </Box>
+          <Box>
+            <TextField
+              sx={{ width: ["76%", "56%"], mb: "1%" }}
+              required
+              type="date"
+              label="BornIn"
+              id="dDate"
+              variant="outlined"
+              value={BornIn}
+              error={!validAge}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <EventIcon />
+                  </InputAdornment>
+                ),
+              }}
+              onChange={(e) => setBornIn(e.target.value)}
+              helperText={!validAge && "InValid Date"}
+            />
+            {Age && (
+              <FormLabel
+                sx={{
+                  pt: "2%",
+                  display: "inline-flex",
+
+                  mx: "2%",
+                }}
+              >
+                {Age}
+              </FormLabel>
+            )}
+          </Box>
+          <Box>
+            <TextField
+              sx={{ width: ["94%", "64%"], mb: "1%" }}
+              type="text"
+              variant="outlined"
+              label="Phone Number"
+              value={PhoneNumber}
+              required
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <PhoneIcon />
+                  </InputAdornment>
+                ),
+              }}
+              onChange={(e) => setPhoneNumber(e.target.value)}
+            />
+          </Box>
+          <Box>
+            <TextField
+              sx={{ width: ["94%", "64%"], mb: "1%" }}
+              type="text"
+              id="outlined-basic"
+              label="Address"
+              value={LivesIn}
+              required
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <HomeIcon />
+                  </InputAdornment>
+                ),
+              }}
+              onChange={(e) => setLivesIn(e.target.value)}
+            />
+          </Box>
+          <Box>
+            <TextField
+              sx={{ width: ["94%", "64%"], mb: "1%", textAlign: "left" }}
+              type="text"
+              id="outlined-basic"
+              label="Martial Status"
+              required
+              select
+              value={MartialStatus}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <LoyaltyIcon />
+                  </InputAdornment>
+                ),
+              }}
+              onChange={(e) => setMartialStatus(e.target.value)}
+            >
+              {martialStatusClasses.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
+          </Box>
+          <div className="form-control">
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleSubmit}
+              disabled={
+                !(
+                  FirstName &&
+                  LastName &&
+                  PassportNumber &&
+                  BornIn &&
+                  Email &&
+                  MartialStatus &&
+                  LivesIn &&
+                  validAge &&
+                  validEmail &&
+                  validPassword &&
+                  !duplicateEmail &&
+                  !sent
+                )
+              }
+            >
+              Sign Up
+            </Button>
+          </div>
+          {/* <Input type="submit" value="Create Flight" className="btn btn-block"/> */}
         </Box>
-        <Box>
-          <TextField
-            sx={{ width: ["94%", "64%"], mb: "1%" }}
-            type="text"
-            variant="outlined"
-            label="Phone Number"
-            value={PhoneNumber}
-            required
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <PhoneIcon />
-                </InputAdornment>
-              ),
-            }}
-            onChange={(e) => setPhoneNumber(e.target.value)}
-          />
-        </Box>
-        <Box>
-          <TextField
-            sx={{ width: ["94%", "64%"], mb: "1%" }}
-            type="text"
-            id="outlined-basic"
-            label="Address"
-            value={LivesIn}
-            required
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <HomeIcon />
-                </InputAdornment>
-              ),
-            }}
-            onChange={(e) => setLivesIn(e.target.value)}
-          />
-        </Box>
-        <Box>
-          <TextField
-            sx={{ width: ["94%", "64%"], mb: "1%", textAlign: "left" }}
-            type="text"
-            id="outlined-basic"
-            label="Martial Status"
-            required
-            select
-            value={MartialStatus}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <LoyaltyIcon />
-                </InputAdornment>
-              ),
-            }}
-            onChange={(e) => setMartialStatus(e.target.value)}
-          >
-            {martialStatusClasses.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
-        </Box>
-        <div className="form-control">
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleSubmit}
-            disabled={
-              !(
-                FirstName &&
-                LastName &&
-                PassportNumber &&
-                BornIn &&
-                Email &&
-                MartialStatus &&
-                LivesIn &&
-                validAge &&
-                validEmail &&
-                validPassword
-              )
-            }
-          >
-            Sign Up
-          </Button>
-        </div>
-        {/* <Input type="submit" value="Create Flight" className="btn btn-block"/> */}
-      </Box>
+      )}{" "}
     </Box>
   );
 }
