@@ -25,7 +25,7 @@ class App extends Component {
             <Route path="/scratch" element={<Scratch />} />
             <Route path="/HomePage" element={<UserHomepage />} />
             <Route path="/UserProfile" element={<UserProfile />} />
-            <Route path="/login" element={<Login />} />
+            
             <Route path="/ReservedFlights" element={<ReservedFlights />} />
             <Route path="/*" element={<None />} />
             <Route path="/SummaryConfirm" element={<SummaryConfirm />} />
