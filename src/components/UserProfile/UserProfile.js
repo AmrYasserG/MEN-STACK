@@ -19,6 +19,7 @@ import BadgeIcon from "@mui/icons-material/Badge";
 import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
+import Divider from "@mui/material/Divider";
 
 const UserProfile = ({ onEdit }) => {
   const [FirstName, setFirstName] = useState("");
@@ -166,7 +167,7 @@ const UserProfile = ({ onEdit }) => {
           m: "auto",
           "& > :not(style)": { mt: 4, mx: 3 },
           my: "2%",
-          width: ["90%", "50%"],
+          width: ["90%", "40%"],
           "text-align": "center",
           border: "1px solid #eeeeee",
           backgroundColor: "#f9f9f9",
@@ -177,6 +178,7 @@ const UserProfile = ({ onEdit }) => {
           <Tab label="Profile Info" />
           <Tab label="Password" />
         </Tabs>
+        <Divider />
         {selectedTab === 0 && (
           <Box>
             <div>

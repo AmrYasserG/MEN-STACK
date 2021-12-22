@@ -93,10 +93,9 @@ function SignUp() {
     if (validateEmail(Email)) setValidEmail(true);
     else setValidEmail(false);
   }, [Email]);
-  const CreateNewUser = (event) => {
-    event.preventDefault();
+  const CreateNewUser = () => {
     axios
-      .put("http://localhost:3005/auth/signup", {
+      .post("http://localhost:3005/auth/signup", {
         FirstName: FirstName,
         LastName: LastName,
         Email: Email,
@@ -108,10 +107,16 @@ function SignUp() {
         PassportNumber: PassportNumber,
         Password: Password,
       })
-      .then((res) => {});
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log("duplicated Email");
+      });
   };
 
   const handleSubmit = (event) => {
+    event.preventDefault();
     CreateNewUser();
   };
 

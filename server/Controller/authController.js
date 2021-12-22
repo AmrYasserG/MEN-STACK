@@ -9,6 +9,7 @@ const handleErrors = (err) => {
 
   // duplicate email error
   if (err.code === 11000) {
+    console.log("BALABIZOOOOOOOOOOOOOOOOOOOOOO");
     errors.Email = "that email is already registered";
     return errors;
   }
@@ -42,31 +43,38 @@ const signup_post = (req, res) => {
     Password,
   } = req.body;
   console.log(req.body);
-  try {
-    bcrypt.genSalt().then((salt) => {
-      console.log(salt);
-      bcrypt.hash(Password, salt).then((res2) => {
-        User.create({
-          FirstName,
-          LastName,
-          Email,
-          Age,
-          BornIn,
-          LivesIn,
-          MartialStatus,
-          PhoneNumber,
-          PassportNumber,
-          Password: res2,
-          Type: "user",
-        }).then((user) => {
-          res.status(201).json(user);
+
+  console.log("BALABIZOOOOOOOOOOOOOOOOOOOOOOOOOOO3");
+
+  bcrypt.genSalt().then((salt) => {
+    bcrypt.hash(Password, salt).then((res2) => {
+      console.log("BALABIZOOOOOOOOOOOOOOOOOOOOOOOOOOO4 ");
+
+      User.create({
+        FirstName,
+        LastName,
+        Email,
+        Age,
+        BornIn,
+        LivesIn,
+        MartialStatus,
+        PhoneNumber,
+        PassportNumber,
+        Password: res2,
+        Type: "user",
+      })
+        .then((user) => {
+          res.status(201);
+          res.send(user);
+        })
+        .catch((err) => {
+          console.log("BALABIZOOOOOOOOOOOOOOOOOOOOOOOOOOO2");
+          const errors = handleErrors(err);
+          res.status(400);
+          res.send({ errors });
         });
-      });
     });
-  } catch (err) {
-    const errors = handleErrors(err);
-    res.status(400).json({ errors });
-  }
+  });
 };
 
 const login_post = (req, res) => {
