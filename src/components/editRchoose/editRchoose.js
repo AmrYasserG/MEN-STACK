@@ -16,7 +16,7 @@ import "./UserHomepage.css";
 
 import editSearchFlight from "../SearchToReserve/SearchToReserve.js";
 
-const editDchoose = () => {
+const editRchoose = () => {
     const [DepartureRows, setDepartureRows] = useState([]);
 
     const [depSelectedRow, updateDepSelectedRow] = useState("");
@@ -272,4 +272,4 @@ const editDchoose = () => {
     </div>
   );
 };
-export default editDchoose;
+export default editRchoose;
