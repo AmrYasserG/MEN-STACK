@@ -1,4 +1,4 @@
-import { useState, useEffect, forwardRef, Fragment } from "react";
+import { useState, useEffect, forwardRef } from "react";
 import Grid from "@mui/material/Grid";
 
 import Table from "@mui/material/Table";
@@ -20,8 +20,9 @@ import UpdateOver from "../UpdateOver/UpdateOver";
 import SearchFlight from "../SearchFlight/SearchFlight.js";
 import IconButton from "@mui/material/IconButton";
 import ResponsiveAppBar from "../ResponsiveAppBar/ResponsiveAppBar";
-import { CollapsibleTable, Row2 } from "../CollapsibleTable/CollapsibleTable";
+import { Row2 } from "../CollapsibleTable/CollapsibleTable";
 import Box from "@mui/material/Box";
+import { Typography } from "@mui/material";
 
 const Alert = forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -499,116 +500,133 @@ const AdminHomepage = () => {
       </div>
       <hr />
       <Box p={"1%"} maxHeight={1}>
-        <TableContainer>
-          <Table
-            aria-label="collapsible table"
-            className="header"
-            stickyHeader={!x}
+        {rows.length > 0 ? (
+          <TableContainer>
+            <Table
+              aria-label="collapsible table"
+              className="header"
+              stickyHeader={!x}
+            >
+              <TableHead>
+                <TableRow>
+                  {" "}
+                  <TableCell />
+                  <TableCell
+                    sx={{ textAlign: "center" }}
+                    style={{ fontWeight: "bold" }}
+                  >
+                    Flight Number
+                  </TableCell>
+                  <TableCell
+                    sx={{ textAlign: "center" }}
+                    style={{ fontWeight: "bold" }}
+                  >
+                    From
+                  </TableCell>
+                  <TableCell
+                    sx={{ textAlign: "center" }}
+                    style={{ fontWeight: "bold" }}
+                  >
+                    To
+                  </TableCell>
+                  <TableCell
+                    sx={{ textAlign: "center" }}
+                    style={{ fontWeight: "bold" }}
+                  >
+                    Departure Date
+                  </TableCell>
+                  <TableCell
+                    sx={{ textAlign: "center" }}
+                    style={{ fontWeight: "bold" }}
+                  >
+                    Departure Time
+                  </TableCell>
+                  <TableCell
+                    sx={{ textAlign: "center" }}
+                    style={{ fontWeight: "bold" }}
+                  >
+                    Arrival Date
+                  </TableCell>
+                  <TableCell
+                    sx={{ textAlign: "center" }}
+                    style={{ fontWeight: "bold" }}
+                  >
+                    Arrival Time
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {rows.map((row, index) => (
+                  <Row2
+                    rownumber={index}
+                    row={row}
+                    EditContent={
+                      <IconButton
+                        disabled={x}
+                        variant="contained"
+                        color="primary"
+                        onClick={() => {
+                          console.log(row);
+                          setEdit_id(row._id);
+                          setUpdPopupButton(true);
+                          setEditDepartureTime(row.DepartureTime);
+                          setEditDepartureTerminal(
+                            row.AirportDepartureTerminal
+                          );
+                          setEditArrivalTime(row.ArrivalTime);
+                          setEditArrivalTerminal(row.AirportArrivalTerminal);
+                          setEditDate(row.Date);
+                          setEditArrivalDate(row.ArrivalDate);
+                          setEditEconomyClassSeats(row.EconomySeatsNo);
+                          setEditFirstClassSeats(row.FirstSeatsNo);
+                          setEditFlight(row.FlightNumber);
+                          setEditFrom(row.From);
+                          setEditTo(row.To);
+                          setEditBusinessClassSeats(row.BusinessSeatsNo);
+                          setEditBaggageAllowance(row.BaggageAllowance);
+                          setEditEconomyClassSeatsPrice(row.EconomyClassPrice);
+                          setEditBusinessClassSeatsPrice(
+                            row.BusinessClassPrice
+                          );
+                          setEditFirstClassSeatsPrice(row.FirstClassPrice);
+                          setX(true);
+                        }}
+                      >
+                        <EditIcon />
+                      </IconButton>
+                    }
+                    DeleteContent={
+                      <IconButton
+                        disabled={x}
+                        variant="contained"
+                        color="error"
+                        onClick={() => {
+                          setX(true);
+                          setDeletePopupButton(true);
+                          setToBeDeletedFlight(row._id);
+                        }}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    }
+                    isAdmin={true}
+                  />
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        ) : (
+          <Box
+            sx={{
+              textAlign: "center",
+
+              mx: "4%",
+              opacity: 0.5,
+            }}
           >
-            <TableHead>
-              <TableRow>
-                {" "}
-                <TableCell />
-                <TableCell
-                  sx={{ textAlign: "center" }}
-                  style={{ fontWeight: "bold" }}
-                >
-                  Flight Number
-                </TableCell>
-                <TableCell
-                  sx={{ textAlign: "center" }}
-                  style={{ fontWeight: "bold" }}
-                >
-                  From
-                </TableCell>
-                <TableCell
-                  sx={{ textAlign: "center" }}
-                  style={{ fontWeight: "bold" }}
-                >
-                  To
-                </TableCell>
-                <TableCell
-                  sx={{ textAlign: "center" }}
-                  style={{ fontWeight: "bold" }}
-                >
-                  Departure Date
-                </TableCell>
-                <TableCell
-                  sx={{ textAlign: "center" }}
-                  style={{ fontWeight: "bold" }}
-                >
-                  Departure Time
-                </TableCell>
-                <TableCell
-                  sx={{ textAlign: "center" }}
-                  style={{ fontWeight: "bold" }}
-                >
-                  Arrival Date
-                </TableCell>
-                <TableCell
-                  sx={{ textAlign: "center" }}
-                  style={{ fontWeight: "bold" }}
-                >
-                  Arrival Time
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rows.map((row, index) => (
-                <Row2
-                  rownumber={index}
-                  row={row}
-                  EditContent={
-                    <IconButton
-                      disabled={x}
-                      variant="contained"
-                      color="primary"
-                      onClick={() => {
-                        console.log(row);
-                        setEdit_id(row._id);
-                        setUpdPopupButton(true);
-                        setEditDepartureTime(row.DepartureTime);
-                        setEditDepartureTerminal(row.AirportDepartureTerminal);
-                        setEditArrivalTime(row.ArrivalTime);
-                        setEditArrivalTerminal(row.AirportArrivalTerminal);
-                        setEditDate(row.Date);
-                        setEditArrivalDate(row.ArrivalDate);
-                        setEditEconomyClassSeats(row.EconomySeatsNo);
-                        setEditFirstClassSeats(row.FirstSeatsNo);
-                        setEditFlight(row.FlightNumber);
-                        setEditFrom(row.From);
-                        setEditTo(row.To);
-                        setEditBusinessClassSeats(row.BusinessSeatsNo);
-                        setEditBaggageAllowance(row.BaggageAllowance);
-                        setEditEconomyClassSeatsPrice(row.EconomyClassPrice);
-                        setEditBusinessClassSeatsPrice(row.BusinessClassPrice);
-                        setEditFirstClassSeatsPrice(row.FirstClassPrice);
-                        setX(true);
-                      }}
-                    >
-                      <EditIcon />
-                    </IconButton>
-                  }
-                  DeleteContent={
-                    <IconButton
-                      disabled={x}
-                      variant="contained"
-                      color="error"
-                      onClick={() => {
-                        setX(true);
-                        setDeletePopupButton(true);
-                        setToBeDeletedFlight(row._id);
-                      }}
-                    >
-                      <DeleteIcon />
-                    </IconButton>
-                  }
-                  isAdmin={true}
-                />
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+            <Typography variant="h6">No Flights Available</Typography>
+          </Box>
+        )}
       </Box>
     </div>
   );

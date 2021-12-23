@@ -20,6 +20,13 @@ import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Divider from "@mui/material/Divider";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import InputLabel from "@mui/material/InputLabel";
+import FormControl from "@mui/material/FormControl";
+import FormHelperText from "@mui/material/FormHelperText";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import IconButton from "@mui/material/IconButton";
 
 const UserProfile = ({ onEdit }) => {
   const [FirstName, setFirstName] = useState("");
@@ -36,6 +43,15 @@ const UserProfile = ({ onEdit }) => {
   const [User, setUser] = useState([]);
   const [selectedTab, setSelectedTab] = useState(0);
 
+  const [OldPassword, setOldPassword] = useState("");
+  const [showOldPassword, setshowOldPassword] = useState(false);
+  const [NewPassword, setNewPassword] = useState("");
+  const [showNewPassword, setshowNewPassword] = useState(false);
+  const [ConfirmNewPassword, setConfirmNewPassword] = useState("");
+  const [showConfirmNewPassword, setshowConfirmNewPassword] = useState(false);
+
+  const [validPassword, setValidPassword] = useState(true);
+  const [passwordExists, setPasswordExists] = useState(false);
   const martialStatusClasses = [
     {
       value: "Single",
@@ -58,6 +74,36 @@ const UserProfile = ({ onEdit }) => {
       label: "Widowed",
     },
   ];
+  useEffect(() => {
+    setValidPassword(
+      NewPassword === ConfirmNewPassword ||
+        NewPassword === "" ||
+        ConfirmNewPassword === ""
+    );
+  }, [NewPassword, ConfirmNewPassword]);
+  const handleClickShowOldPassword = () => {
+    setshowOldPassword(!showOldPassword);
+  };
+  const handleOldPasswordChange = (event) => {
+    setOldPassword(event.target.value);
+  };
+
+  const handleClickShowConfirmNewPassword = () => {
+    setshowConfirmNewPassword(!showConfirmNewPassword);
+  };
+  const handleConfirmNewPasswordChange = (event) => {
+    setConfirmNewPassword(event.target.value);
+  };
+
+  const handleClickShowNewPassword = () => {
+    setshowNewPassword(!showNewPassword);
+  };
+  const handleNewPasswordChange = (event) => {
+    setNewPassword(event.target.value);
+  };
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
 
   function getAge(dateString) {
     var today = new Date();
@@ -104,6 +150,21 @@ const UserProfile = ({ onEdit }) => {
     e.preventDefault();
     EditUser("617e93641ff94cd5d2055174");
   };
+  const onSubmitPassword = (e) => {
+    e.preventDefault();
+    EditUser("617e93641ff94cd5d2055174");
+    axios
+      .post(
+        "http://localhost:3005/auth/changePassword/61c2c04fe853f9aff159522d"
+      )
+      .then((res) => {
+        setUser(res.data);
+        console.log(res.data);
+      })
+      .catch((err) => {
+        setPasswordExists(true);
+      });
+  };
 
   useEffect(() => {
     setFirstName(User.FirstName);
@@ -119,7 +180,7 @@ const UserProfile = ({ onEdit }) => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3005/users/userInfo/617e93641ff94cd5d2055174")
+      .get("http://localhost:3005/users/userInfo/61c2c04fe853f9aff159522d")
       .then((res) => {
         setUser(res.data);
         console.log(res.data);
@@ -167,7 +228,7 @@ const UserProfile = ({ onEdit }) => {
           m: "auto",
           "& > :not(style)": { mt: 4, mx: 3 },
           my: "2%",
-          width: ["90%", "40%"],
+          width: ["80%", "40%"],
           "text-align": "center",
           border: "1px solid #eeeeee",
           backgroundColor: "#f9f9f9",
@@ -175,14 +236,20 @@ const UserProfile = ({ onEdit }) => {
         }}
       >
         <Tabs centered value={selectedTab} onChange={handleChange}>
-          <Tab label="Profile Info" />
-          <Tab label="Password" />
+          <Tab
+            label="Profile Info"
+            sx={{ fontSize: ["3vw", "1vw"], maxWidth: "50%" }}
+          />
+          <Tab
+            label="Password"
+            sx={{ fontSize: ["3vw", "1vw"], maxWidth: "50%" }}
+          />
         </Tabs>
         <Divider />
-        {selectedTab === 0 && (
+        {selectedTab === 0 ? (
           <Box>
             <div>
-              <Typography sx={{ fontSize: "3vw", m: "3%" }}>
+              <Typography sx={{ fontSize: ["5vw", "3vw"], m: "3%" }}>
                 Your Profile
               </Typography>
             </div>
@@ -386,10 +453,155 @@ const UserProfile = ({ onEdit }) => {
                     PhoneNumber === User.PhoneNumber &&
                     PassportNumber === User.PassportNumber)
                 }
+                sx={{ fontSize: "1vw" }}
               >
                 Edit Profile
               </Button>
             </div>
+          </Box>
+        ) : (
+          <Box>
+            <Typography sx={{ fontSize: ["5vw", "3vw"], m: "3%" }}>
+              Change Password{" "}
+            </Typography>
+            <Box>
+              <FormControl
+                sx={{
+                  width: ["90%", "50%"],
+                  textAlign: "left",
+                  my: ["8%", "2%"],
+                }}
+                variant="outlined"
+              >
+                <InputLabel
+                  htmlFor="outlined-adornment-password"
+                  sx={{ fontSize: ["3.5vw", "1.2vw"] }}
+                >
+                  Old Password
+                </InputLabel>
+                <OutlinedInput
+                  id="outlined-adornment-password"
+                  type={showOldPassword ? "text" : "password"}
+                  value={OldPassword}
+                  onChange={handleOldPasswordChange}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowOldPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                      >
+                        {showOldPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                  sx={{ height: ["9vw", "4vw"] }}
+                  label="Password"
+                />
+              </FormControl>
+            </Box>
+            <Box>
+              <FormControl
+                sx={{
+                  width: ["90%", "50%"],
+                  textAlign: "left",
+                  my: ["8%", "2%"],
+                }}
+                variant="outlined"
+              >
+                <InputLabel
+                  htmlFor="outlined-adornment-password"
+                  sx={{ fontSize: ["3.5vw", "1.2vw"] }}
+                >
+                  New Password
+                </InputLabel>
+                <OutlinedInput
+                  error={!validPassword}
+                  id="outlined-adornment-password"
+                  type={showNewPassword ? "text" : "password"}
+                  value={NewPassword}
+                  onChange={handleNewPasswordChange}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowNewPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                      >
+                        {showNewPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                  sx={{ height: ["9vw", "4vw"] }}
+                  label="Password"
+                />
+              </FormControl>
+            </Box>
+            <Box>
+              <FormControl
+                sx={{
+                  width: ["90%", "50%"],
+                  textAlign: "left",
+                  my: ["8%", "2%"],
+                }}
+                variant="outlined"
+              >
+                <InputLabel
+                  htmlFor="outlined-adornment-password"
+                  sx={{ fontSize: ["3.5vw", "1.2vw"] }}
+                >
+                  Confirm New Password
+                </InputLabel>
+                <OutlinedInput
+                  error={!validPassword}
+                  id="outlined-adornment-password"
+                  type={showConfirmNewPassword ? "text" : "password"}
+                  value={ConfirmNewPassword}
+                  onChange={handleConfirmNewPasswordChange}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowConfirmNewPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                      >
+                        {showConfirmNewPassword ? (
+                          <VisibilityOff />
+                        ) : (
+                          <Visibility />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                  label="Password"
+                  sx={{ height: ["9vw", "4vw"] }}
+                />
+              </FormControl>
+            </Box>
+            <br />
+            <Box>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={onSubmitPassword}
+                size="large"
+                disabled={
+                  !(
+                    OldPassword &&
+                    NewPassword &&
+                    ConfirmNewPassword &&
+                    validPassword
+                  )
+                }
+                sx={{ fontSize: ["3.1vw", "1vw"] }}
+              >
+                Change Password{" "}
+              </Button>
+            </Box>
+            <br />
           </Box>
         )}{" "}
         {/* <Input type="submit" value="Create Flight" className="btn btn-block"/> */}

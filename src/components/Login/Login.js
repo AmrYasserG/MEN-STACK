@@ -11,15 +11,11 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { useState, useEffect } from "react";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useState } from "react";
 import background from "./Background.jpg";
-import logo from "./logo.png";
 import logo2 from "./../../Images/logo2.png";
 import axios from "axios";
-import Tooltip from "@mui/material/Tooltip";
 
-const theme = createTheme();
 function Copyright(props) {
   return (
     <Typography
@@ -74,24 +70,7 @@ function Login() {
         backgroundPosition: "center",
       }}
     >
-      <Grid item sm={12} xs={12}>
-        <Box
-          sx={{
-            m: "auto",
-            mx: 0,
-            alignItems: "center",
-            textAlign: "center",
-          }}
-        >
-          <img
-            src={logo2}
-            width="20%"
-            height="100%"
-            style={{ cursor: "pointer", marginTop: "5%" }}
-            alt="Logo"
-          />
-        </Box>
-      </Grid>
+      <Grid item sm={12} xs={12}></Grid>
       <Grid item sm={12} xs={12}>
         <Box>
           <Container component="main" maxWidth="xs">
@@ -108,9 +87,23 @@ function Login() {
                 "box-shadow": "0px 0px 20px 14px #0a8fad",
               }}
             >
-              <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-                <LockOutlinedIcon />
-              </Avatar>
+              {" "}
+              <Box
+                sx={{
+                  mx: 0,
+                  width: "90%",
+                  alignItems: "center",
+                  textAlign: "center",
+                }}
+              >
+                <img
+                  src={logo2}
+                  width="70%"
+                  height="100%"
+                  style={{ cursor: "pointer" }}
+                  alt="Logo"
+                />
+              </Box>
               <Typography component="h1" variant="h5">
                 Sign in
               </Typography>
@@ -160,9 +153,12 @@ function Login() {
                     </Link>
                   </Grid>
                   <Grid item>
-                    <Link href="#" variant="body2">
+                    <Link
+                      to="/signup"
+                      style={{ textDecoration: "none", color: "#FFFFFF" }}
+                    >
                       {"Don't have an account? Sign Up"}
-                    </Link>
+                    </Link>{" "}
                   </Grid>
                 </Grid>
               </Box>

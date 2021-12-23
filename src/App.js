@@ -14,7 +14,7 @@ import SummaryConfirm from "./components/SummaryConfirm/SummaryConfirm";
 import ConfirmedFlight from "./components/ConfirmedFlight/ConfirmedFlight";
 import SignUp from "./components/SignUp/SignUp";
 import { Box } from "@mui/material";
-import background from "./components/Background.jpg";
+import background from "./Images/Background.jpg";
 
 class App extends Component {
   render() {

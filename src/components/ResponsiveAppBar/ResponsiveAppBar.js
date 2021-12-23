@@ -20,7 +20,6 @@ import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined
 const ResponsiveAppBar = ({ pages, settings, isUser, isAdmin }) => {
   useEffect(() => {
     console.log(settings);
-    
   }, []);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -53,6 +52,7 @@ const ResponsiveAppBar = ({ pages, settings, isUser, isAdmin }) => {
             {" "}
             <Tooltip title=" Home Page" placement="right">
               <img
+                alt="Logo"
                 src={logo}
                 width="198"
                 height="82"
@@ -124,6 +124,7 @@ const ResponsiveAppBar = ({ pages, settings, isUser, isAdmin }) => {
           >
             <Tooltip title=" Home Page" placement="right">
               <img
+                alt="Logo"
                 src={logo}
                 width="198"
                 height="82"
@@ -167,42 +168,44 @@ const ResponsiveAppBar = ({ pages, settings, isUser, isAdmin }) => {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            
-            {settings.length!== 0 ? (
+            {settings.length !== 0 ? (
               <>
-              <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar src={"AccountCircleOutlinedIcon"} />
-              </IconButton>
-            </Tooltip>
-              <Menu
-                sx={{ mt: "45px" }}
-                id="menu-appbar"
-                anchorEl={anchorElUser}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
-              >
-                {settings.map((setting) => (
-                  <MenuItem key={setting}  onClick={
-                    setting === "profile"
-                      ? () => {
-                          window.location.href = "../UserProfile";
-                        }
-                      : handleCloseNavMenu
-                  }>
-                    <Typography textAlign="center">{setting}</Typography>
-                  </MenuItem>
-                ))}
-              </Menu>
+                <Tooltip title="Open settings">
+                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                    <Avatar src={"AccountCircleOutlinedIcon"} />
+                  </IconButton>
+                </Tooltip>
+                <Menu
+                  sx={{ mt: "45px" }}
+                  id="menu-appbar"
+                  anchorEl={anchorElUser}
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  open={Boolean(anchorElUser)}
+                  onClose={handleCloseUserMenu}
+                >
+                  {settings.map((setting) => (
+                    <MenuItem
+                      key={setting}
+                      onClick={
+                        setting === "profile"
+                          ? () => {
+                              window.location.href = "../UserProfile";
+                            }
+                          : handleCloseNavMenu
+                      }
+                    >
+                      <Typography textAlign="center">{setting}</Typography>
+                    </MenuItem>
+                  ))}
+                </Menu>
               </>
             ) : (
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
