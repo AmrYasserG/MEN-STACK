@@ -59,7 +59,7 @@ const UserProfile = ({ onEdit }) => {
   const [uniqueEmail, setUniqueEmail] = useState(true);
   const [validPassword, setValidPassword] = useState(true);
   const [notSimilarPassword, setNotSimilarPassword] = useState(true);
-  const [passwordExists, setPasswordExists] = useState(true);
+  const [passwordExists, setPasswordExists] = useState(false);
   const martialStatusClasses = [
     {
       value: "Single",
@@ -166,9 +166,16 @@ const UserProfile = ({ onEdit }) => {
   };
   const onSubmitPassword = (e) => {
     e.preventDefault();
+    console.log(user.id);
     axios
-      .post("http://localhost:3005/auth/changePassword/" + user.id)
+      .put("http://localhost:3005/auth/changePassword/" + user.id,{
+        oldPass: OldPassword,
+        newPass: NewPassword
+      })
       .then((res) => {
+        setOldPassword("");
+        setConfirmNewPassword("");
+        setNewPassword("");
         setEditOpenResponse(true);
         setUserDetails(res.data);
         console.log(res.data);
@@ -189,6 +196,10 @@ const UserProfile = ({ onEdit }) => {
     setPassportNumber(userDetails.PassportNumber);
     setLivesIn(userDetails.LivesIn);
   }, [userDetails]);
+
+  useEffect(() => {
+    setPasswordExists(false);
+  }, [OldPassword]);
 
   useEffect(() => {
     axios
@@ -445,7 +456,7 @@ const UserProfile = ({ onEdit }) => {
               <Button
                 variant="contained"
                 color="primary"
-                onClick={() => onSubmit}
+                onClick={onSubmit}
                 size="large"
                 disabled={
                   !validateEmail(Email) ||
@@ -496,7 +507,7 @@ const UserProfile = ({ onEdit }) => {
                 </InputLabel>
                 <OutlinedInput
                   id="outlined-adornment-password"
-                  error={!notSimilarPassword || !passwordExists}
+                  error={!notSimilarPassword || passwordExists}
                   type={showOldPassword ? "text" : "password"}
                   value={OldPassword}
                   onChange={handleOldPasswordChange}
@@ -515,7 +526,7 @@ const UserProfile = ({ onEdit }) => {
                   sx={{ height: ["9vw", "4vw"] }}
                   label="Old Password"
                 />
-                {!passwordExists && (
+                {passwordExists && (
                   <FormHelperText error>Incorrect Password</FormHelperText>
                 )}
               </FormControl>
@@ -616,7 +627,7 @@ const UserProfile = ({ onEdit }) => {
               <Button
                 variant="contained"
                 color="primary"
-                onClick={() => onSubmitPassword}
+                onClick={onSubmitPassword}
                 size="large"
                 disabled={
                   !(
