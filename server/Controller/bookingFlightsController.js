@@ -10,6 +10,8 @@ const createReservation = (req, res) => {
         ChosenCabin: req.body.ChosenCabin,
         SeatsReserved: req.body.SeatsReserved,
         TotalReservationPrice: req.body.TotalReservationPrice,
+        Type: req.body.Type,
+        Otherflight: req.body.Otherflight
     });
     bookingFlights.save().then(result=>{
         res.send("created successfully");

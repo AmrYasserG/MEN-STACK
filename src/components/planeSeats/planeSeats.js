@@ -382,6 +382,7 @@ export default function PlaneSeats() {
         style={{marginLeft:"44%"}}       
       >
         <Link
+        style={{textDecoration:'none'}}
           to="/SummaryConfirm"
           state={{
             depFlight: state.depFlight,

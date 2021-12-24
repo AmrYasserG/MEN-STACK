@@ -28,12 +28,12 @@ const BookingFlightsSchema = new Schema(
       required: true,
     },
     Type:{
-      required : true,
       type: String,
+      required : true,
     },
     Otherflight:{
       type: String,
-      required:false
+      required:true
     }
 
   },
