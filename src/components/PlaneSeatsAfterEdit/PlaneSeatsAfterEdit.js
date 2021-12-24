@@ -301,11 +301,12 @@ const PlaneSeatsAfterEdit = () => {
      
 
         <Button
-          // disabled={ chosenSeats.length !== state.noSeats}
-
-          onClick={returnChosenSeats}
+          onClick={() => {
+            window.location.href = "/ReservedFlights";
+          }}
           variant="contained"
           className="btn"
+          style={{marginLeft:"44%"}}    
         >
           Cancel
         </Button>
@@ -317,6 +318,7 @@ const PlaneSeatsAfterEdit = () => {
           onClick={returnChosenSeats}
           variant="contained"
           className="btn"
+          style={{marginLeft:"44%"}}    
         >
           Reserve
           {/* <Link

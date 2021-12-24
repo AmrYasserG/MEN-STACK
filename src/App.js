@@ -16,6 +16,7 @@ import Payment from "./components/Payment/Payment";
 import PlaneSeatsAfterEdit from "./components/PlaneSeatsAfterEdit/PlaneSeatsAfterEdit";
 import EditDchoose from "./components/EditDchoose/EditDchoose";
 
+
 class App extends Component {
   render() {
     return (
