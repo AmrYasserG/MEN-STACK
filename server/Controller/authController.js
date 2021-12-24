@@ -76,6 +76,24 @@ const signup_post = (req, res) => {
     });
   });
 };
+const changePassword = (req, res) => {
+  let id = req.params.id;
+  console.log(req.params.id);
+  let { Password } = req.body;
+  bcrypt.genSalt().then((salt) => {
+    bcrypt.hash(Password, salt).then((res2) => {
+      User.findByIdAndUpdate({ _id: id },{
+        Password: res2
+      })
+        .then((result) => {
+          res.send(req.body);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    });
+  });
+};
 
 const login_post = (req, res) => {
   const { Email, Password } = req.body;
@@ -106,4 +124,5 @@ const createToken = (id) => {
 module.exports = {
   signup_post,
   login_post,
+  changePassword,
 };

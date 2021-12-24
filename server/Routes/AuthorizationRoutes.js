@@ -4,5 +4,6 @@ const authController = require("../Controller/authController");
 
 authorizationRouter.post("/signup", authController.signup_post);
 authorizationRouter.post("/login", authController.login_post);
+authorizationRouter.put("/changePassword/:id", authController.changePassword);
 
 module.exports = authorizationRouter;
