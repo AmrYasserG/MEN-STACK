@@ -19,9 +19,16 @@ const createNewFlight = (req, res) => {
             (result) => {
               if (!result) {
                 let fmap = new Map();
-                fillMap(fmap, req.body.FirstSeatsNo, ["X", "Y"]);
+                fillMap(fmap, req.body.FirstSeatsNo, ["W", "X", "Y", "Z"]);
                 let bmap = new Map();
-                fillMap(bmap, req.body.BusinessSeatsNo, ["O", "P", "Q", "R"]);
+                fillMap(bmap, req.body.BusinessSeatsNo, [
+                  "M",
+                  "N",
+                  "O",
+                  "P",
+                  "Q",
+                  "R",
+                ]);
                 let emap = new Map();
                 fillMap(emap, req.body.EconomySeatsNo, [
                   "A",
@@ -60,16 +67,18 @@ const createNewFlight = (req, res) => {
                   .save()
                   .then((result) => {
                     let frmap = new Map();
-                    fillMap(frmap, req.body.ReturnFirstSeatsNo, ["X", "Y"]);
+                    fillMap(frmap, req.body.FirstSeatsNo, ["W", "X", "Y", "Z"]);
                     let brmap = new Map();
-                    fillMap(brmap, req.body.ReturnBusinessSeatsNo, [
+                    fillMap(brmap, req.body.BusinessSeatsNo, [
+                      "M",
+                      "N",
                       "O",
                       "P",
                       "Q",
                       "R",
                     ]);
                     let ermap = new Map();
-                    fillMap(ermap, req.body.ReturnEconomySeatsNo, [
+                    fillMap(ermap, req.body.EconomySeatsNo, [
                       "A",
                       "B",
                       "C",
@@ -123,9 +132,16 @@ const createNewFlight = (req, res) => {
           );
         } else {
           let fmap = new Map();
-          fillMap(fmap, req.body.FirstSeatsNo, ["X", "Y"]);
+          fillMap(fmap, req.body.FirstSeatsNo, ["W", "X", "Y", "Z"]);
           let bmap = new Map();
-          fillMap(bmap, req.body.BusinessSeatsNo, ["O", "P", "Q", "R"]);
+          fillMap(bmap, req.body.BusinessSeatsNo, [
+            "M",
+            "N",
+            "O",
+            "P",
+            "Q",
+            "R",
+          ]);
           let emap = new Map();
           fillMap(emap, req.body.EconomySeatsNo, [
             "A",
@@ -258,6 +274,8 @@ const searchFlights = (req, res) => {
 };
 
 const getAllFlights = (req, res) => {
+  console.log(req);
+
   Flight.find()
     .then((result) => {
       res.send(result);

@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useEffect, forwardRef } from "react";
+import { useState, useEffect, forwardRef, useContext } from "react";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import InputAdornment from "@mui/material/InputAdornment";
@@ -27,6 +27,7 @@ import FormHelperText from "@mui/material/FormHelperText";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import IconButton from "@mui/material/IconButton";
+import UserContext from "../Context/UserContext";
 
 const UserProfile = ({ onEdit }) => {
   const [FirstName, setFirstName] = useState("");
@@ -40,9 +41,9 @@ const UserProfile = ({ onEdit }) => {
   const [PassportNumber, setPassportNumber] = useState("");
   const [validEmail, setValidEmail] = useState(true);
   const [editOpenResponse, setEditOpenResponse] = useState(false);
-  const [User, setUser] = useState([]);
+  const [userDetails, setUserDetails] = useState([]);
   const [selectedTab, setSelectedTab] = useState(0);
-
+  const { user } = useContext(UserContext);
   const [OldPassword, setOldPassword] = useState("");
   const [showOldPassword, setshowOldPassword] = useState(false);
   const [NewPassword, setNewPassword] = useState("");
@@ -51,6 +52,7 @@ const UserProfile = ({ onEdit }) => {
   const [showConfirmNewPassword, setshowConfirmNewPassword] = useState(false);
 
   const [validPassword, setValidPassword] = useState(true);
+  const [notSimilarPassword, setNotSimilarPassword] = useState(true);
   const [passwordExists, setPasswordExists] = useState(false);
   const martialStatusClasses = [
     {
@@ -74,6 +76,7 @@ const UserProfile = ({ onEdit }) => {
       label: "Widowed",
     },
   ];
+
   useEffect(() => {
     setValidPassword(
       NewPassword === ConfirmNewPassword ||
@@ -81,6 +84,11 @@ const UserProfile = ({ onEdit }) => {
         ConfirmNewPassword === ""
     );
   }, [NewPassword, ConfirmNewPassword]);
+  useEffect(() => {
+    setNotSimilarPassword(
+      NewPassword !== OldPassword || NewPassword === "" || OldPassword === ""
+    );
+  }, [NewPassword, OldPassword]);
   const handleClickShowOldPassword = () => {
     setshowOldPassword(!showOldPassword);
   };
@@ -143,7 +151,7 @@ const UserProfile = ({ onEdit }) => {
       )
       .then((res) => {
         setEditOpenResponse(true);
-        setUser(res.data);
+        setUserDetails(res.data);
       });
   }
   const onSubmit = (e) => {
@@ -158,7 +166,7 @@ const UserProfile = ({ onEdit }) => {
         "http://localhost:3005/auth/changePassword/61c2c04fe853f9aff159522d"
       )
       .then((res) => {
-        setUser(res.data);
+        setUserDetails(res.data);
         console.log(res.data);
       })
       .catch((err) => {
@@ -167,22 +175,22 @@ const UserProfile = ({ onEdit }) => {
   };
 
   useEffect(() => {
-    setFirstName(User.FirstName);
-    setLastName(User.LastName);
-    setEmail(User.Email);
-    setBornIn(User.BornIn);
-    setAge(User.Age);
-    setMartialStatus(User.MartialStatus);
-    setPhoneNumber(User.PhoneNumber);
-    setPassportNumber(User.PassportNumber);
-    setLivesIn(User.LivesIn);
-  }, [User]);
+    setFirstName(userDetails.FirstName);
+    setLastName(userDetails.LastName);
+    setEmail(userDetails.Email);
+    setBornIn(userDetails.BornIn);
+    setAge(userDetails.Age);
+    setMartialStatus(userDetails.MartialStatus);
+    setPhoneNumber(userDetails.PhoneNumber);
+    setPassportNumber(userDetails.PassportNumber);
+    setLivesIn(userDetails.LivesIn);
+  }, [userDetails]);
 
   useEffect(() => {
     axios
       .get("http://localhost:3005/users/userInfo/61c2c04fe853f9aff159522d")
       .then((res) => {
-        setUser(res.data);
+        setUserDetails(res.data);
         console.log(res.data);
       })
       .catch((err) => {
@@ -249,7 +257,7 @@ const UserProfile = ({ onEdit }) => {
         {selectedTab === 0 ? (
           <Box>
             <div>
-              <Typography sx={{ fontSize: ["5vw", "3vw"], m: "3%" }}>
+              <Typography sx={{ fontSize: ["5vw", "2vw"], m: "3%" }}>
                 Your Profile
               </Typography>
             </div>
@@ -443,15 +451,15 @@ const UserProfile = ({ onEdit }) => {
                   PhoneNumber === "" ||
                   !parseInt(PhoneNumber) ||
                   !parseInt(Age) ||
-                  (FirstName === User.FirstName &&
-                    LastName === User.LastName &&
-                    Email === User.Email &&
+                  (FirstName === userDetails.FirstName &&
+                    LastName === userDetails.LastName &&
+                    Email === userDetails.Email &&
                     //BornIn===User.Born&&
-                    Age === User.Age &&
-                    MartialStatus === User.MartialStatus &&
-                    LivesIn === User.LivesIn &&
-                    PhoneNumber === User.PhoneNumber &&
-                    PassportNumber === User.PassportNumber)
+                    Age === userDetails.Age &&
+                    MartialStatus === userDetails.MartialStatus &&
+                    LivesIn === userDetails.LivesIn &&
+                    PhoneNumber === userDetails.PhoneNumber &&
+                    PassportNumber === userDetails.PassportNumber)
                 }
                 sx={{ fontSize: "1vw" }}
               >
@@ -461,7 +469,7 @@ const UserProfile = ({ onEdit }) => {
           </Box>
         ) : (
           <Box>
-            <Typography sx={{ fontSize: ["5vw", "3vw"], m: "3%" }}>
+            <Typography sx={{ fontSize: ["5vw", "2vw"], m: "3%" }}>
               Change Password{" "}
             </Typography>
             <Box>
@@ -481,6 +489,7 @@ const UserProfile = ({ onEdit }) => {
                 </InputLabel>
                 <OutlinedInput
                   id="outlined-adornment-password"
+                  error={!notSimilarPassword}
                   type={showOldPassword ? "text" : "password"}
                   value={OldPassword}
                   onChange={handleOldPasswordChange}
@@ -517,7 +526,7 @@ const UserProfile = ({ onEdit }) => {
                   New Password
                 </InputLabel>
                 <OutlinedInput
-                  error={!validPassword}
+                  error={!validPassword || !notSimilarPassword}
                   id="outlined-adornment-password"
                   type={showNewPassword ? "text" : "password"}
                   value={NewPassword}
@@ -537,6 +546,17 @@ const UserProfile = ({ onEdit }) => {
                   sx={{ height: ["9vw", "4vw"] }}
                   label="Password"
                 />
+                {!notSimilarPassword ? (
+                  <FormHelperText error>
+                    New and Old Passwords Can not be similar
+                  </FormHelperText>
+                ) : (
+                  !validPassword && (
+                    <FormHelperText error>
+                      Passwords are not similar
+                    </FormHelperText>
+                  )
+                )}
               </FormControl>
             </Box>
             <Box>
@@ -606,6 +626,13 @@ const UserProfile = ({ onEdit }) => {
         )}{" "}
         {/* <Input type="submit" value="Create Flight" className="btn btn-block"/> */}
       </Box>
+      <Button
+        onClick={(e) => {
+          console.log(user);
+        }}
+      >
+        Test
+      </Button>
     </Box>
   );
 };

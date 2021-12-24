@@ -85,9 +85,10 @@ const login_post = (req, res) => {
         bcrypt.compare(Password, user.Password).then((auth) => {
           if (auth) {
             const token = createToken(user._id);
+
             res.send({
               user: user,
-              Access_Token: `Bearer ${token}`,
+              authorization: token,
             });
           } else res.send("Wrong PassWord");
         });

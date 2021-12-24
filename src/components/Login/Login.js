@@ -5,13 +5,16 @@ import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
+import { Link } from "react-router-dom";
+
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import UserContext from "./../Context/UserContext";
+
 import background from "./Background.jpg";
 import logo2 from "./../../Images/logo2.png";
 import axios from "axios";
@@ -25,7 +28,7 @@ function Copyright(props) {
       {...props}
     >
       {"Copyright © "}
-      <Link color="inherit" href="http://localhost:3000/UserProfile">
+      <Link color="inherit" to="/UserProfile">
         MENStack Airlines
       </Link>{" "}
       {new Date().getFullYear()}
@@ -35,6 +38,8 @@ function Copyright(props) {
 }
 function Login() {
   const [showPass, setshowPass] = useState(false);
+  const { user, setUser } = useContext(UserContext);
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -45,12 +50,13 @@ function Login() {
         Password: data.get("password"),
       })
       .then((res) => {
+        setUser({
+          token: res.data.authorization,
+          type: res.data.user.type,
+          id: res.data.user._id,
+        });
         console.log(res);
       });
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
   };
   const handlechange = (e) => {
     // e.preventDefault();
@@ -148,15 +154,12 @@ function Login() {
                 </Button>
                 <Grid container>
                   <Grid item xs>
-                    <Link href="#" variant="body2">
+                    <Link to="#" variant="body2">
                       Forgot password?
                     </Link>
                   </Grid>
                   <Grid item>
-                    <Link
-                      to="/signup"
-                      style={{ textDecoration: "none", color: "#FFFFFF" }}
-                    >
+                    <Link to="/signup" style={{ textDecoration: "none" }}>
                       {"Don't have an account? Sign Up"}
                     </Link>{" "}
                   </Grid>

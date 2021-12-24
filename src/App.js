@@ -1,5 +1,8 @@
-import React, { Component } from "react";
+import { useContext, createContext, useState, useMemo } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import axios from "axios";
+
+import UserContext from "./components/Context/UserContext";
 
 import None from "./components/None/None";
 import AdminHomepage from "./components/AdminHomepage/AdminHomepage";
@@ -16,21 +19,31 @@ import SignUp from "./components/SignUp/SignUp";
 import { Box } from "@mui/material";
 import background from "./Images/Background.jpg";
 
-class App extends Component {
-  render() {
-    return (
-      <Router className="App">
-        <Box
-          p={0}
-          sx={{
-            minHeight: "100%",
-            position: "absolute",
-            overflow: "auto",
-            width: "100%",
-            backgroundImage: `url(${background})`,
-            backgroundRepeat: "repeat-y",
-          }}
-        >
+const App = () => {
+  const [user, setUser] = useState(null);
+  const value = useMemo(() => ({ user, setUser }), [user, setUser]);
+
+  axios.interceptors.request.use(function (config) {
+    if (true) {
+      // const token = user.token;
+      config.headers.Authorization = "balabizo";
+    }
+    return config;
+  });
+  return (
+    <Router className="App">
+      <Box
+        p={0}
+        sx={{
+          minHeight: "100%",
+          position: "absolute",
+          overflow: "auto",
+          width: "100%",
+          backgroundImage: `url(${background})`,
+          backgroundRepeat: "repeat-y",
+        }}
+      >
+        <UserContext.Provider value={value}>
           <Routes>
             <Route path="/" element={<AdminHomepage />} />
             <Route path="/CreateFlight" element={<CreateFlight />} />
@@ -46,10 +59,10 @@ class App extends Component {
             <Route path="/ConfirmedFlight" element={<ConfirmedFlight />} />
             <Route path="/planeSeats" element={<PlaneSeats />} />
           </Routes>
-        </Box>
-      </Router>
-    );
-  }
-}
+        </UserContext.Provider>
+      </Box>
+    </Router>
+  );
+};
 
 export default App;
