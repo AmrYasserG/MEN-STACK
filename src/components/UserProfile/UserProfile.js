@@ -49,8 +49,10 @@ const UserProfile = ({ onEdit }) => {
 
   const [OldPassword, setOldPassword] = useState("");
   const [showOldPassword, setshowOldPassword] = useState(false);
+
   const [NewPassword, setNewPassword] = useState("");
   const [showNewPassword, setshowNewPassword] = useState(false);
+
   const [ConfirmNewPassword, setConfirmNewPassword] = useState("");
   const [showConfirmNewPassword, setshowConfirmNewPassword] = useState(false);
 
@@ -502,7 +504,7 @@ const UserProfile = ({ onEdit }) => {
                     <InputAdornment position="end">
                       <IconButton
                         aria-label="toggle password visibility"
-                        onClick={() => handleClickShowOldPassword}
+                        onClick={() => handleClickShowOldPassword()}
                         onMouseDown={handleMouseDownPassword}
                         edge="end"
                       >
@@ -543,7 +545,7 @@ const UserProfile = ({ onEdit }) => {
                     <InputAdornment position="end">
                       <IconButton
                         aria-label="toggle password visibility"
-                        onClick={() => handleClickShowNewPassword}
+                        onClick={() => handleClickShowNewPassword()}
                         onMouseDown={handleMouseDownPassword}
                         edge="end"
                       >
@@ -592,7 +594,7 @@ const UserProfile = ({ onEdit }) => {
                     <InputAdornment position="end">
                       <IconButton
                         aria-label="toggle password visibility"
-                        onClick={() => handleClickShowConfirmNewPassword}
+                        onClick={() => handleClickShowConfirmNewPassword()}
                         onMouseDown={handleMouseDownPassword}
                         edge="end"
                       >

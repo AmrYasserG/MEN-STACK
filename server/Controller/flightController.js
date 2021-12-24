@@ -9,6 +9,28 @@ const fillMap = (map, n, c) => {
     map.set(c[i - 1] + (parseInt(n / c.length) + 1), true);
   }
 };
+const getDuration = (y1, t1, y2, t2) => {
+  let departureDate = y1.split["-"];
+  let departureTime = t1.split[":"];
+  let arrivalDate = y2.split["-"];
+  let arrivalTime = t2.split[":"];
+  let d1 = new Date(
+    Number(departureDate[0]),
+    Number(departureDate[1]),
+    Number(departureDate[2]),
+    Number(departureTime[0]),
+    Number(departureTime[1])
+  );
+  let d2 = new Date(
+    Number(arrivalDate[0]),
+    Number(arrivalDate[1]),
+    Number(arrivalDate[2]),
+    Number(arrivalTime[0]),
+    Number(arrivalTime[1])
+  );
+  let n = (d2 - d1) / 1000 / 60;
+  return `${n / 60} h, ${n % 60} min`;
+};
 const createNewFlight = (req, res) => {
   console.log(req.body);
   Flight.exists({ FlightNumber: req.body.FlightNumber })
@@ -62,6 +84,12 @@ const createNewFlight = (req, res) => {
                   FirstClassPrice: req.body.FirstClassPrice,
                   BusinessClassPrice: req.body.BusinessClassPrice,
                   EconomyClassPrice: req.body.EconomyClassPrice,
+                  TripDuration: getDuration(
+                    req.body.Date,
+                    req.body.DepartureTime,
+                    req.body.ArrivalDate,
+                    req.body.ArrivalTime
+                  ),
                 });
                 flight
                   .save()
@@ -112,6 +140,12 @@ const createNewFlight = (req, res) => {
                       FirstClassPrice: req.body.ReturnFirstClassPrice,
                       BusinessClassPrice: req.body.ReturnBusinessClassPrice,
                       EconomyClassPrice: req.body.ReturnEconomyClassPrice,
+                      TripDuration: getDuration(
+                        req.body.ReturnDate,
+                        req.body.ReturnDepartureTime,
+                        req.body.ReturnArrivalDate,
+                        req.body.ReturnArrivalTime
+                      ),
                     });
                     flightReturn
                       .save()
@@ -175,6 +209,12 @@ const createNewFlight = (req, res) => {
             FirstClassPrice: req.body.FirstClassPrice,
             BusinessClassPrice: req.body.BusinessClassPrice,
             EconomyClassPrice: req.body.EconomyClassPrice,
+            TripDuration: getDuration(
+              req.body.Date,
+              req.body.DepartureTime,
+              req.body.ArrivalDate,
+              req.body.ArrivalTime
+            ),
           });
           flight
             .save()
@@ -316,7 +356,20 @@ const updateFlightdetails = (req, res) => {
 };
 
 const updateFlightAvailableSeats = (req, res) => {
-  Flight.findByIdAndUpdate({ _id: req.params.id }, { $set: req.body })
+  Flight.findByIdAndUpdate(
+    { _id: req.params.id },
+    {
+      $set: {
+        ...req.body,
+        TripDuration: getDuration(
+          req.body.Date,
+          req.body.DepartureTime,
+          req.body.ArrivalDate,
+          req.body.ArrivalTime
+        ),
+      },
+    }
+  )
     .then((result) => {
       res.send("Updated Successfully");
     })

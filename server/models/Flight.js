@@ -95,6 +95,10 @@ const FlightSchema = new Schema(
       type: Number,
       required: true,
     },
+    TripDuration: {
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true }
 );
