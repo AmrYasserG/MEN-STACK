@@ -1,5 +1,3 @@
-import * as React from "react";
-import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
@@ -12,8 +10,9 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { useState, useContext } from "react";
-import UserContext from "./../Context/UserContext";
+import { useState, useContext, useEffect } from "react";
+import { UserContext } from "../Context/UserContext";
+import { useNavigate } from "react-router";
 
 import background from "./Background.jpg";
 import logo2 from "./../../Images/logo2.png";
@@ -37,9 +36,10 @@ function Copyright(props) {
   );
 }
 function Login() {
+  const navigate = useNavigate();
   const [showPass, setshowPass] = useState(false);
   const { user, setUser } = useContext(UserContext);
-
+  useEffect(() => console.log(user), [user]);
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -50,12 +50,9 @@ function Login() {
         Password: data.get("password"),
       })
       .then((res) => {
-        setUser({
-          token: res.data.authorization,
-          type: res.data.user.type,
-          id: res.data.user._id,
-        });
+        setUser("Balabizo");
         console.log(res);
+        navigate("../", { replace: true });
       });
   };
   const handlechange = (e) => {

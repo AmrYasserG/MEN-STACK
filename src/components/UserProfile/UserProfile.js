@@ -27,7 +27,7 @@ import FormHelperText from "@mui/material/FormHelperText";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import IconButton from "@mui/material/IconButton";
-import UserContext from "../Context/UserContext";
+import { UserContext } from "../Context/UserContext";
 
 const UserProfile = ({ onEdit }) => {
   const [FirstName, setFirstName] = useState("");
@@ -188,10 +188,9 @@ const UserProfile = ({ onEdit }) => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3005/users/userInfo/61c2c04fe853f9aff159522d")
+      .get("http://localhost:3005/users/userInfo/61c3a0749c21d2042f4a7d1c")
       .then((res) => {
         setUserDetails(res.data);
-        console.log(res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -626,13 +625,8 @@ const UserProfile = ({ onEdit }) => {
         )}{" "}
         {/* <Input type="submit" value="Create Flight" className="btn btn-block"/> */}
       </Box>
-      <Button
-        onClick={(e) => {
-          console.log(user);
-        }}
-      >
-        Test
-      </Button>
+      <h2>{user}</h2>
+      <Button onClick={() => console.log(user)}>Test</Button>
     </Box>
   );
 };

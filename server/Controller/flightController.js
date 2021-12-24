@@ -274,8 +274,6 @@ const searchFlights = (req, res) => {
 };
 
 const getAllFlights = (req, res) => {
-  console.log(req);
-
   Flight.find()
     .then((result) => {
       res.send(result);

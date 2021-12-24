@@ -1,13 +1,12 @@
-import { useContext, createContext, useState, useMemo } from "react";
+import { useState, useMemo } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import axios from "axios";
 
-import UserContext from "./components/Context/UserContext";
+import { UserContext } from "./components/Context/UserContext";
 
 import None from "./components/None/None";
 import AdminHomepage from "./components/AdminHomepage/AdminHomepage";
 import UserHomepage from "./components/UserHomePage/UserHomepage";
-import Scratch from "./components/scratch/scratch";
 import CreateFlight from "./components/CreateFlight/CreateFlight";
 import UserProfile from "./components/UserProfile/UserProfile";
 import Login from "./components/Login/Login";
@@ -20,8 +19,8 @@ import { Box } from "@mui/material";
 import background from "./Images/Background.jpg";
 
 const App = () => {
-  const [user, setUser] = useState(null);
-  const value = useMemo(() => ({ user, setUser }), [user, setUser]);
+  const [user, setUser] = useState("");
+  // const value = useMemo(() => ({ user, setUser }), [user, setUser]);
 
   axios.interceptors.request.use(function (config) {
     if (true) {
@@ -32,26 +31,25 @@ const App = () => {
   });
   return (
     <Router className="App">
-      <Box
-        p={0}
-        sx={{
-          minHeight: "100%",
-          position: "absolute",
-          overflow: "auto",
-          width: "100%",
-          backgroundImage: `url(${background})`,
-          backgroundRepeat: "repeat-y",
-        }}
-      >
-        <UserContext.Provider value={value}>
+      <UserContext.Provider value={{ user, setUser }}>
+        <Box
+          p={0}
+          sx={{
+            minHeight: "100%",
+            position: "absolute",
+            overflow: "auto",
+            width: "100%",
+            backgroundImage: `url(${background})`,
+            backgroundRepeat: "repeat-y",
+          }}
+        >
           <Routes>
+            <Route path="/login" element={<Login />} />
             <Route path="/" element={<AdminHomepage />} />
             <Route path="/CreateFlight" element={<CreateFlight />} />
             <Route path="/AdminHomepage" element={<AdminHomepage />} />
-            <Route path="/scratch" element={<Scratch />} />
             <Route path="/HomePage" element={<UserHomepage />} />
             <Route path="/UserProfile" element={<UserProfile />} />
-            <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/ReservedFlights" element={<ReservedFlights />} />
             <Route path="/*" element={<None />} />
@@ -59,8 +57,8 @@ const App = () => {
             <Route path="/ConfirmedFlight" element={<ConfirmedFlight />} />
             <Route path="/planeSeats" element={<PlaneSeats />} />
           </Routes>
-        </UserContext.Provider>
-      </Box>
+        </Box>
+      </UserContext.Provider>
     </Router>
   );
 };
