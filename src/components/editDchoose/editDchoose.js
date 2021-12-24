@@ -132,7 +132,7 @@ const EditDchoose = () => {
       </UpdateOver>
 
       <div>
-        <EditSearchFlight onSearch={searchToReserve} hide={searchOff} />
+        <EditSearchFlight onSearch={searchToReserve} hide={searchOff}  otherflight={state.otherflight}/>
       </div>
 
       <h1>Departure Flights</h1>

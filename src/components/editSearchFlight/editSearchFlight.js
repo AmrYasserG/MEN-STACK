@@ -13,7 +13,10 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import BackspaceRoundedIcon from "@mui/icons-material/BackspaceRounded";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 
-const EditSearchFlight = ({ onSearch, hide }) => {
+const EditSearchFlight = ({ onSearch, hide,otherflight }) => {
+
+  const [validDate, setvalidDate] = useState(true);
+
   const [DepartureDate, setDepartureDate] = useState("");
   const [SeatClass, setSeatClass] = useState("");
   const seatClasses = [
@@ -31,10 +34,16 @@ const EditSearchFlight = ({ onSearch, hide }) => {
     },
   ];
 
+  useLayoutEffect(() => {
+    setvalidDate(new Date(DepartureDate) < new Date(otherflight.Date));
+  }, [DepartureDate, otherflight.Date]);
+
   const reset = (e) => {
     setSeatClass("");
     setDepartureDate(new Date());
     onSearch(null);
+
+    setvalidDate(true);
   };
 
   const search = (e) => {
@@ -89,7 +98,8 @@ const EditSearchFlight = ({ onSearch, hide }) => {
                 ))}
               </TextField>
               <TextField
-                sx={{ width: "35%", height: "20%", mx: 7, my: 3 }}
+                sx={{ width: "35%", height: "40px", mx: 7, my: 3 }}
+                error={!validDate}
                 required
                 label="Departure Date"
                 id="dDate"
@@ -102,6 +112,11 @@ const EditSearchFlight = ({ onSearch, hide }) => {
                 variant="outlined"
                 value={DepartureDate}
                 onChange={handleDdate}
+                helperText={
+                  validDate
+                    ? ""
+                    : "Return Date shoud be earlier than Departure Date"
+                }
               />
               <Button
                 startIcon={<BackspaceRoundedIcon />}
