@@ -14,6 +14,8 @@ import SummaryConfirm from "./components/SummaryConfirm/SummaryConfirm";
 import ConfirmedFlight from "./components/ConfirmedFlight/ConfirmedFlight";
 import PlaneSeatsAfterEdit from "./components/PlaneSeatsAfterEdit/PlaneSeatsAfterEdit";
 
+import EditDchoose from "./components/editDchoose/EditDchoose";
+
 class App extends Component {
   render() {
     return (
@@ -33,6 +35,8 @@ class App extends Component {
             <Route path="/ConfirmedFlight" element={<ConfirmedFlight />} />
             <Route path="/planeSeats" element={<PlaneSeats />} /> 
             <Route path="/planeSeatsAfterEdit" element={<PlaneSeatsAfterEdit />} />
+
+            <Route path="/editDeparture" element={<EditDchoose />} /> 
           </Routes>
         </div>
       </Router>

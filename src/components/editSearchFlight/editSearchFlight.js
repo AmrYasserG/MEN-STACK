@@ -13,7 +13,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import BackspaceRoundedIcon from "@mui/icons-material/BackspaceRounded";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 
-const editSearchFlight = ({ onSearch, hide }) => {
+const EditSearchFlight = ({ onSearch, hide }) => {
   const [DepartureDate, setDepartureDate] = useState("");
   const [SeatClass, setSeatClass] = useState("");
   const seatClasses = [
@@ -130,4 +130,4 @@ const editSearchFlight = ({ onSearch, hide }) => {
   );
 };
 
-export default editSearchFlight;
+export default EditSearchFlight;
