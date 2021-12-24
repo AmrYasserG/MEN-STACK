@@ -11,7 +11,7 @@ const PlaneSeatsAfterEdit = () => {
     const state = useLocation().state;
 
     useEffect(() => {
-      console.log(state);
+      console.log(state.id);
     }, []);
   
     const seatsEco = Object.keys(state.rows.EconomySeats);
@@ -43,7 +43,7 @@ const PlaneSeatsAfterEdit = () => {
       blockedSeats = getBlockedSeats(state.rows.EconomySeats);
   
   
-    let editFlight = true ;
+    let editFlight = false ;
   
     let temp = [];
     let found = false
@@ -300,43 +300,52 @@ const PlaneSeatsAfterEdit = () => {
       <br />
      
 
-        <Button
+        
+       
+      <Button
           onClick={() => {
             window.location.href = "/ReservedFlights";
           }}
           variant="contained"
-          className="btn"
-          style={{marginLeft:"44%"}}    
+          id="bloc1"
+          style={{marginLeft:"48%" } }    
         >
-          Cancel
+         {editFlight===false?(
+         <Link
+          to="/ReservedFlights"
+          state={{id:state.id
+          }}
+        >
+          Back{" "}
+        </Link>
+        ):(<Link
+          to="/ReservedFlights"
+          state={{id:state.id
+          }}
+        >
+          Back{" "}
+        </Link>)}
+        
         </Button>
-       
-      
       <Button
           // disabled={ chosenSeats.length !== state.noSeats}
           disabled={chosenSeats.length !== alreadyChosen.length}
           onClick={returnChosenSeats}
           variant="contained"
-          className="btn"
-          style={{marginLeft:"44%"}}    
+          id="bloc2"
+          style={{marginLeft:"2%"}} 
         >
-          Reserve
-          {/* <Link
-          to="/SummaryConfirm"
-          state={{
-            depFlight: state.depFlight,
-            arrFlight: state.arrFlight,
-            cabin: state.cabin,
-            noSeats: state.noSeats,
-            id:state.id,
-            depSeatsReserved: chosenSeats,
-            arrSeatsReserved: retChosenSeats,
+          {editFlight===false?(
+        <div>Reserve</div>
+        ):(<Link
+          to="/ReservedFlights"
+          state={{id:state.id
           }}
         >
-          {" "}
           Reserve{" "}
-        </Link> */}
+        </Link>)}
         </Button>
+       
     </>
     )
 }

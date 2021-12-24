@@ -54,6 +54,7 @@ function Row({
   setToBeCanceled,
   setCancelReservationPopupButton,
   FlightsUserDetails,
+  state,
   setSelectArPopupButton,
 
   setSearchOff,
@@ -405,7 +406,8 @@ function Row({
                             style={{textDecoration : 'none' , color : 'none'} }
                             state={{
                               FlightsUserDetails: FlightsUserDetails[index],
-                              rows:row
+                              rows:row,
+                              id : state.id
                             }}
                           >
                             <EditIcon />
@@ -509,6 +511,7 @@ export function CollapsibleTable({
   setSearchOff,
   setSelectArPopupButton,
   updateArrChoosenRow,
+  state
 }) {
   return (
     <TableContainer component={Paper}>
@@ -564,6 +567,7 @@ export function CollapsibleTable({
               setSearchOff={setSearchOff}
               setSelectArPopupButton={setSelectArPopupButton}
               updateArrChoosenRow={updateArrChoosenRow}
+              state = {state}
             />
           ))}
         </TableBody>
