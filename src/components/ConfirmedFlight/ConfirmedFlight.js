@@ -33,7 +33,7 @@ const ConfirmedFlight = () => {
         SeatsReserved: state.depSeatsReserved,
         TotalReservationPrice: state.depFlight.Price * state.noSeats,
         Type: "Departure Flight",
-        OtherFlight: state.arrFlight.FlightNumber
+        Otherflight: state.arrFlight.FlightNumber
       })
       .then((res) => {
         console.log("created dep flight");
@@ -104,7 +104,7 @@ const ConfirmedFlight = () => {
                 SeatsReserved: state.arrSeatsReserved,
                 TotalReservationPrice: state.arrFlight.Price * state.noSeats,
                 Type: "Return Flight",
-                OtherFlight: state.depFlight.FlightNumber
+                Otherflight: state.depFlight.FlightNumber
               }
             );
           })
