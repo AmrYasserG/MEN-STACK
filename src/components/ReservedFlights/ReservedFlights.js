@@ -18,6 +18,9 @@ import MuiAlert from "@mui/material/Alert";
 import "./ReservedFlights.css";
 import ResponsiveAppBar from "../ResponsiveAppBar/ResponsiveAppBar";
 import { useLocation } from "react-router-dom";
+import { CollapsibleTable } from "../CollapsibleTable/CollapsibleTable";
+import { collapseClasses } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Edit";
 
 const Alert = forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -25,41 +28,41 @@ const Alert = forwardRef(function Alert(props, ref) {
 
 function ReservedFlights() {
   const state = useLocation().state;
-  const columns = [
-    { id: "ReservationNumber", label: "Reservation Number", width: 80 },
-    { id: "FlightNumber", label: "Flight Number", width: 80 },
-    { id: "From", label: "From", width: 60 },
-    { id: "To", label: "To", width: 60 },
-    { id: "Date", label: "Flight Date", width: 100 },
-    { id: "DepartureTime", label: "Departure Time", width: 80 },
-    { id: "ArrivalTime", label: "Arrival Time", width: 80 },
-    {
-      id: "AirportDepartureTerminal",
-      label: "Airport Departure Terminal",
-      width: 120,
-    },
-    {
-      id: "AirportArrivalTerminal",
-      label: "Airport Arrival Terminal",
-      width: 120,
-    },
-    {
-      id: "ChosenCabin",
-      label: "Cabin",
-      Width: 60,
-    },
-    {
-      id: "SeatsReserved",
-      label: "Reserved Seats",
-      Width: 80,
-    },
-    {
-      id: "TotalReservationPrice",
-      label: "Total Reservation Price",
-      Width: 60,
-    },
-    { id: "action", label: "Action", Width: 100 },
-  ];
+  // const columns = [
+  //   { id: "ReservationNumber", label: "Reservation Number", width: 80 },
+  //   { id: "FlightNumber", label: "Flight Number", width: 80 },
+  //   { id: "From", label: "From", width: 60 },
+  //   { id: "To", label: "To", width: 60 },
+  //   { id: "Date", label: "Flight Date", width: 100 },
+  //   { id: "DepartureTime", label: "Departure Time", width: 80 },
+  //   { id: "ArrivalTime", label: "Arrival Time", width: 80 },
+  //   {
+  //     id: "AirportDepartureTerminal",
+  //     label: "Airport Departure Terminal",
+  //     width: 120,
+  //   },
+  //   {
+  //     id: "AirportArrivalTerminal",
+  //     label: "Airport Arrival Terminal",
+  //     width: 120,
+  //   },
+  //   {
+  //     id: "ChosenCabin",
+  //     label: "Cabin",
+  //     Width: 60,
+  //   },
+  //   {
+  //     id: "SeatsReserved",
+  //     label: "Reserved Seats",
+  //     Width: 80,
+  //   },
+  //   {
+  //     id: "TotalReservationPrice",
+  //     label: "Total Reservation Price",
+  //     Width: 60,
+  //   },
+  //   { id: "action", label: "Action", Width: 100 },
+  // ];
   const [FlightsReserved, setFlightsReserved] = useState([]);
   const [FlightsUserDetails, setFlightsUserDetails] = useState([]);
   const [toBeCanceled, setToBeCanceled] = useState(0);
@@ -69,11 +72,13 @@ function ReservedFlights() {
 
   useEffect(() => {
     GetAllReservedFlights();
+    console.log(FlightsUserDetails);
+    console.log(FlightsReserved);
   }, []);
 
   function GetAllReservedFlights() {
-      if(state !== null) {
-      const User_id = state.id;  
+    if (state !== null) {
+      const User_id = state.id;
       GetUserInfo(User_id);
       axios
         .get(
@@ -88,7 +93,9 @@ function ReservedFlights() {
           }
           setFlightsUserDetails(flight_User_Details);
           GetAllFlights(flight_Details, flight_User_Details);
-          console.log(res.data);
+          //console.log(res.data);
+          // console.log(FlightsUserDetails);
+          // console.log(FlightsReserved);
         })
         .catch((err) => {
           console.log(err);
@@ -96,17 +103,17 @@ function ReservedFlights() {
     }
   }
 
-  function GetUserInfo(User_id){
+  function GetUserInfo(User_id) {
     axios
-        .get(
-          "http://localhost:3005/users/userInfo/" + User_id
-        )
-        .then((res) => {
-          setUserEmail(res.data.Email);
-        })
-        .catch((err)=>{
-          console.log(err);
-        })
+      .get(
+        "http://localhost:3005/users/userInfo/" + User_id
+      )
+      .then((res) => {
+        setUserEmail(res.data.Email);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
   }
 
   function GetAllFlights(flight_Details, flight_User_Details) {
@@ -118,11 +125,11 @@ function ReservedFlights() {
         )
         .then((res) => {
           let sortedFlightsReserved = new Array(flight_User_Details.length);
-          for(let i=0; i< flight_User_Details.length;i++){
-            for(let j = 0; j < res.data.length; j++){
-              if(flight_User_Details[i].FlightNumber ===  res.data[j].FlightNumber){
-              sortedFlightsReserved[i] = res.data[j];
-              break;
+          for (let i = 0; i < flight_User_Details.length; i++) {
+            for (let j = 0; j < res.data.length; j++) {
+              if (flight_User_Details[i].FlightNumber === res.data[j].FlightNumber) {
+                sortedFlightsReserved[i] = res.data[j];
+                break;
               }
             }
           }
@@ -134,32 +141,32 @@ function ReservedFlights() {
     }
   }
 
-  function updateFlightAvailableSeats(FlightsReservedArray,FlightsUserDetailsArray) {
+  function updateFlightAvailableSeats(FlightsReservedArray, FlightsUserDetailsArray) {
     const toBeUpdatedFlight = FlightsReservedArray[toBeCanceled];
     const toBeUpdatedFlightSeats = FlightsUserDetailsArray[toBeCanceled];
     const ChosenCabin = FlightsUserDetailsArray[toBeCanceled].ChosenCabin + "AvailableSeatsNo";
     let updatedAvailableSeats = {};
-    switch(ChosenCabin){
+    switch (ChosenCabin) {
       case "EconomyAvailableSeatsNo":
         const EconomySeats = new Map(Object.entries(toBeUpdatedFlight.EconomySeats));
-        for(let i = 0; i< toBeUpdatedFlightSeats.SeatsReserved.length; i++ ){
-          EconomySeats.set(toBeUpdatedFlightSeats.SeatsReserved[i],true);
+        for (let i = 0; i < toBeUpdatedFlightSeats.SeatsReserved.length; i++) {
+          EconomySeats.set(toBeUpdatedFlightSeats.SeatsReserved[i], true);
         }
-        updatedAvailableSeats = {EconomyAvailableSeatsNo : toBeUpdatedFlight.EconomyAvailableSeatsNo + toBeUpdatedFlightSeats.SeatsReserved.length, EconomySeats: Object.fromEntries(EconomySeats)};
+        updatedAvailableSeats = { EconomyAvailableSeatsNo: toBeUpdatedFlight.EconomyAvailableSeatsNo + toBeUpdatedFlightSeats.SeatsReserved.length, EconomySeats: Object.fromEntries(EconomySeats) };
         break;
       case "BusinessAvailableSeatsNo":
         const BusinessSeats = new Map(Object.entries(toBeUpdatedFlight.BusinessSeats));
-        for(let i = 0; i< toBeUpdatedFlightSeats.SeatsReserved.length; i++ ){
-          BusinessSeats.set(toBeUpdatedFlightSeats.SeatsReserved[i],true);
+        for (let i = 0; i < toBeUpdatedFlightSeats.SeatsReserved.length; i++) {
+          BusinessSeats.set(toBeUpdatedFlightSeats.SeatsReserved[i], true);
         }
-        updatedAvailableSeats = {BusinessAvailableSeatsNo : toBeUpdatedFlight.BusinessAvailableSeatsNo + toBeUpdatedFlightSeats.SeatsReserved.length, BusinessSeats: Object.fromEntries(BusinessSeats)};
+        updatedAvailableSeats = { BusinessAvailableSeatsNo: toBeUpdatedFlight.BusinessAvailableSeatsNo + toBeUpdatedFlightSeats.SeatsReserved.length, BusinessSeats: Object.fromEntries(BusinessSeats) };
         break;
       case "FirstAvailableSeatsNo":
         const FirstSeats = new Map(Object.entries(toBeUpdatedFlight.FirstSeats));
-        for(let i = 0; i< toBeUpdatedFlightSeats.SeatsReserved.length; i++ ){
-          FirstSeats.set(toBeUpdatedFlightSeats.SeatsReserved[i],true);
+        for (let i = 0; i < toBeUpdatedFlightSeats.SeatsReserved.length; i++) {
+          FirstSeats.set(toBeUpdatedFlightSeats.SeatsReserved[i], true);
         }
-        updatedAvailableSeats = {FirstAvailableSeatsNo : toBeUpdatedFlight.FirstAvailableSeatsNo + toBeUpdatedFlightSeats.SeatsReserved.length, FirstSeats: Object.fromEntries(FirstSeats)};
+        updatedAvailableSeats = { FirstAvailableSeatsNo: toBeUpdatedFlight.FirstAvailableSeatsNo + toBeUpdatedFlightSeats.SeatsReserved.length, FirstSeats: Object.fromEntries(FirstSeats) };
         break;
       default:
     }
@@ -167,7 +174,7 @@ function ReservedFlights() {
     axios
       .put(
         "http://localhost:3005/flights/updateFlightAvailableSeats/" +
-          toBeUpdatedFlight._id,
+        toBeUpdatedFlight._id,
         updatedAvailableSeats
       )
       .then((res) => {
@@ -185,9 +192,9 @@ function ReservedFlights() {
         "http://localhost:3005/bookingFlights/cancelReservation/" + FlightReservedId + "/" + User_Email
       )
       .then((res) => {
-        updateFlightAvailableSeats(FlightsReserved,FlightsUserDetails);
+        updateFlightAvailableSeats(FlightsReserved, FlightsUserDetails);
         setDeleteOpenResponse(true);
-        FlightsReserved.splice(toBeCanceled,1) 
+        FlightsReserved.splice(toBeCanceled, 1)
         setFlightsReserved(
           FlightsReserved
         );
@@ -211,7 +218,7 @@ function ReservedFlights() {
 
   return (
     <div>
-     <ResponsiveAppBar pages={["Reserved Flights"]}  isUser={true} settings={['profile']}/>
+      <ResponsiveAppBar pages={[]} isUser={true} settings={['profile']} />
       <Snackbar
         open={deleteOpenResponse}
         autoHideDuration={3000}
@@ -258,7 +265,14 @@ function ReservedFlights() {
           Cancel Reservation
         </Button>
       </Popup>
-      <Paper sx={{ width: "100%", overflow: "hidden", marginTop: "1%" }}>
+
+      <CollapsibleTable rows={FlightsReserved} reservation
+        setCancelReservationPopupButton={setCancelReservationPopupButton} 
+        FlightsUserDetails={FlightsUserDetails}
+        setToBeCanceled={setToBeCanceled}
+        />
+
+      {/* <Paper sx={{ width: "100%", overflow: "hidden", marginTop: "1%" }}>
         <TableContainer sx={{ maxHeight: 500 }}>
           <Table>
             <TableHead>
@@ -354,11 +368,20 @@ function ReservedFlights() {
             </TableBody>
           </Table>
         </TableContainer>
-      </Paper>
-      <p style={{ textAlign:"center",width:"100%"}}>
-         {FlightsUserDetails.length === 0? "No Reservations" : "" }
+      </Paper> */}
+      <p style={{ textAlign: "center", width: "100%" }}>
+        {FlightsUserDetails.length === 0 ? "No Reservations" : ""}
       </p>
-      </div>
+      {/* <Button
+        
+        onClick={console.log(FlightsReserved) }
+        variant="contained"
+        className="btn"
+        styl
+        
+      ></Button> */}
+
+    </div>
   );
 }
 

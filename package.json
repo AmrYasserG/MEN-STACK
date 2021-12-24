@@ -35,7 +35,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "jest",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -57,6 +57,8 @@
     ]
   },
   "devDependencies": {
-    "nodemon": "^2.0.15"
+    "jest": "^26.6.0",
+    "nodemon": "^2.0.15",
+    "supertest": "^6.1.6"
   }
 }
