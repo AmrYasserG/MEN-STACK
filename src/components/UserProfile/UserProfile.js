@@ -160,12 +160,12 @@ const UserProfile = ({ onEdit }) => {
   };
   const onSubmitPassword = (e) => {
     e.preventDefault();
-    EditUser("617e93641ff94cd5d2055174");
     axios
       .post(
-        "http://localhost:3005/auth/changePassword/61c2c04fe853f9aff159522d"
+        "http://localhost:3005/auth/changePassword/" +"61c2c04fe853f9aff159522d",
       )
       .then((res) => {
+        setEditOpenResponse(true);
         setUserDetails(res.data);
         console.log(res.data);
       })
