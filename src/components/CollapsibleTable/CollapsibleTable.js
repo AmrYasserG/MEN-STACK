@@ -20,6 +20,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import Checkbox from "@mui/material/Checkbox";
 import { Link } from "react-router-dom";
+import EmailIcon from '@mui/icons-material/Email';
 
 function Row({
   row,
@@ -400,7 +401,8 @@ function Row({
                           onClick={() => {}}
                         >
                           <Link
-                            to="/Scratch"
+                            to="/planeSeatsAfterEdit"
+                            style={{textDecoration : 'none' , color : 'none'} }
                             state={{
                               FlightsUserDetails: FlightsUserDetails[index],
                               rows:row
@@ -409,6 +411,17 @@ function Row({
                             <EditIcon />
                           </Link>
                           
+                        </IconButton>
+                      </TableCell>
+                      <TableCell>
+                        <IconButton
+                          variant="contained"
+                          color="primary"
+                          onClick={() => {
+                            
+                          }}
+                        >
+                          <EmailIcon />
                         </IconButton>
                       </TableCell>
                     </TableRow>
@@ -446,6 +459,7 @@ function Row({
                           <DeleteIcon />
                         </IconButton>
                       </TableCell>
+                      
                     </TableRow>
                   </TableBody>
                 </Table>
