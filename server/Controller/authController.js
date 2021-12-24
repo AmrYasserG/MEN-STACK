@@ -76,26 +76,36 @@ const signup_post = (req, res) => {
     });
   });
 };
-const changePassword = (req, res) => {
+const changePassword = (req, res) => { 
   let id = req.params.id;
-  console.log(req.params.id);
-  let { Password } = req.body;
-  bcrypt.genSalt().then((salt) => {
-    bcrypt.hash(Password, salt).then((res2) => {
-      User.findByIdAndUpdate(
-        { _id: id },
-        {
-          Password: res2,
-        }
-      )
-        .then((result) => {
-          res.send(req.body);
-        })
-        .catch((err) => {
-          console.log(err);
+  User.findById(req.params.id).then((cur) => {
+  
+  let { newPass, oldPass } = req.body;
+  
+  bcrypt.compare(oldPass, cur.Password).then((auth) => {
+    if (auth) {
+      bcrypt.genSalt().then((salt) => {
+        bcrypt.hash(newPass, salt).then((res2) => {
+          User.findByIdAndUpdate({ _id: id },{
+            Password: res2
+          })
+            .then((result) => {
+              res.send(req.body);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
         });
-    });
+      });
+    } else {
+      res.status(410);
+      res.send("Wrong Password");} 
+  })
+  .catch((err) => {
+    console.log(err)
   });
+});
+  
 };
 
 const login_post = (req, res) => {
@@ -106,19 +116,14 @@ const login_post = (req, res) => {
         bcrypt.compare(Password, user.Password).then((auth) => {
           if (auth) {
             const token = createToken(user._id);
+
             res.send({
               user: user,
-              authorization: "Bearer " + token,
+              authorization: token,
             });
-          } else {
-            res.status(401);
-            res.send("Wrong PassWord");
-          }
+          } else res.send("Wrong PassWord");
         });
-      } else {
-        res.status(401);
-        res.send("Wrong Email");
-      }
+      } else res.send("Wrong Email");
     });
   } catch (err) {
     res.status(400).json({});
@@ -134,16 +139,3 @@ module.exports = {
   login_post,
   changePassword,
 };
-
-function authenticateToken(req, res, next) {
-  const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.split(" ")[1];
-  if (token == null) return res.sendStatus(401);
-
-  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, id) => {
-    console.log(err);
-    if (err) return res.sendStatus(403);
-    req.id = id;
-    next();
-  });
-}
