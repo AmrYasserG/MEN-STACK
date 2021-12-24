@@ -1,8 +1,8 @@
 import { useState, useMemo } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import axios from "axios";
-
-import { UserContext } from "./components/Context/UserContext";
+import useLocalStorage from "./Hooks/useLocalaStorage";
+import { UserContext } from "./Context/UserContext";
 
 import None from "./components/None/None";
 import AdminHomepage from "./components/AdminHomepage/AdminHomepage";
@@ -17,9 +17,10 @@ import ConfirmedFlight from "./components/ConfirmedFlight/ConfirmedFlight";
 import SignUp from "./components/SignUp/SignUp";
 import { Box } from "@mui/material";
 import background from "./Images/Background.jpg";
+import backgroundA from "./Images/BackgroundA.jpg";
 
 const App = () => {
-  const [user, setUser] = useState("");
+  const [user, setUser] = useLocalStorage("Authentication", { s: "asd" });
   // const value = useMemo(() => ({ user, setUser }), [user, setUser]);
 
   axios.interceptors.request.use(function (config) {
@@ -39,14 +40,18 @@ const App = () => {
             position: "absolute",
             overflow: "auto",
             width: "100%",
-            backgroundImage: `url(${background})`,
+            backgroundImage: `url(${
+              user && user.type === "user" ? backgroundA : background
+            })`,
             backgroundRepeat: "repeat-y",
           }}
         >
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/" element={<AdminHomepage />} />
-            <Route path="/CreateFlight" element={<CreateFlight />} />
+            {user.token && user.type === "admin" && (
+              <Route path="/CreateFlight" element={<CreateFlight />} />
+            )}
             <Route path="/AdminHomepage" element={<AdminHomepage />} />
             <Route path="/HomePage" element={<UserHomepage />} />
             <Route path="/UserProfile" element={<UserProfile />} />

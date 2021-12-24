@@ -11,7 +11,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { useState, useContext, useEffect } from "react";
-import { UserContext } from "../Context/UserContext";
+import { UserContext } from "../../Context/UserContext";
 import { useNavigate } from "react-router";
 
 import background from "./Background.jpg";
@@ -50,8 +50,13 @@ function Login() {
         Password: data.get("password"),
       })
       .then((res) => {
-        setUser("Balabizo");
         console.log(res);
+
+        setUser({
+          id: res.data.user._id,
+          token: res.data.authorization,
+          type: res.data.user.Type,
+        });
         navigate("../", { replace: true });
       });
   };

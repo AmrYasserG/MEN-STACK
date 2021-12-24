@@ -27,7 +27,7 @@ import FormHelperText from "@mui/material/FormHelperText";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import IconButton from "@mui/material/IconButton";
-import { UserContext } from "../Context/UserContext";
+import { UserContext } from "../../Context/UserContext";
 
 const UserProfile = ({ onEdit }) => {
   const [FirstName, setFirstName] = useState("");
@@ -162,7 +162,8 @@ const UserProfile = ({ onEdit }) => {
     e.preventDefault();
     axios
       .post(
-        "http://localhost:3005/auth/changePassword/" +"61c2c04fe853f9aff159522d",
+        "http://localhost:3005/auth/changePassword/" +
+          "61c2c04fe853f9aff159522d"
       )
       .then((res) => {
         setEditOpenResponse(true);
@@ -625,7 +626,7 @@ const UserProfile = ({ onEdit }) => {
         )}{" "}
         {/* <Input type="submit" value="Create Flight" className="btn btn-block"/> */}
       </Box>
-      <h2>{user}</h2>
+      <h2>{user.id}</h2>
       <Button onClick={() => console.log(user)}>Test</Button>
     </Box>
   );
