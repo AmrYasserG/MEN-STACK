@@ -400,7 +400,7 @@ function Row({
                           onClick={() => {}}
                         >
                           <Link
-                            to="/Scratch"
+                            to="/editDeparture"
                             state={{
                               FlightsUserDetails: FlightsUserDetails[index],
                               rows:row

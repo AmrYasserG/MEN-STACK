@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-
+import { useLocation } from "react-router-dom";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -12,17 +12,19 @@ import axios from "axios";
 import Button from "@mui/material/Button";
 import ResponsiveAppBar from "../ResponsiveAppBar/ResponsiveAppBar";
 import UpdateOver from "../UpdateOver/UpdateOver";
-import "./UserHomepage.css";
+import "./EditDchoose.css";
 
-import editSearchFlight from "../SearchToReserve/SearchToReserve.js";
+import EditSearchFlight from "../editSearchFlight/EditSearchFlight.js";
 
-const editDchoose = () => {
+const EditDchoose = () => {
     const [DepartureRows, setDepartureRows] = useState([]);
 
     const [depSelectedRow, updateDepSelectedRow] = useState("");
     const [depChoosenRow, updateDepChoosenRow] = useState("");
 
     const [selectPopupButton, setSelectPopupButton] = useState(false);
+    const [depclassType, depsetClassType] = useState("");
+    const [searchOff, setSearchOff] = useState(false);
 
     const state = useLocation().state;
 
@@ -40,10 +42,10 @@ const editDchoose = () => {
     const searchDepatureReserve = async (SearchCriteria) => {
         await axios
           .post("http://localhost:3005/flights/searchFlightsToReserve", {
-            From: state.prevFlight.From,
-            To: state.prevFlight.To,
+            From: state.rows.From,
+            To: state.rows.To,
             Class: SearchCriteria.SeatClass,
-            SeatNo: state.prevFlight.SeatsNo,
+            SeatNo: state.rows.SeatsNo,
             Date: SearchCriteria.DepartureDate,
           })
           .then((result) => {
@@ -67,6 +69,7 @@ const editDchoose = () => {
 
       <Button variant="contained" color="success" style={{marginLeft:"87%", marginTop:"1%"}}><Link to = '/ReservedFlights'
       state = {{id : "617e93641ff94cd5d2055174"}}> View Reservation </Link></Button>
+      
       
       <UpdateOver trigger={selectPopupButton} setTrigger={setSelectPopupButton}>
         <h1>Flight Details:</h1>
@@ -127,10 +130,9 @@ const editDchoose = () => {
           Cancel
         </Button>
       </UpdateOver>
-   
 
       <div>
-        <editSearchFlight onSearch={searchToReserve} hide={searchOff} />
+        <EditSearchFlight onSearch={searchToReserve} hide={searchOff} />
       </div>
 
       <h1>Departure Flights</h1>
@@ -217,7 +219,13 @@ const editDchoose = () => {
                               key={column.id}
                               sx={{ textAlign: "center" }}
                             >
-                              {state.Price-(depclassType === "First"
+                              {
+                            
+                            (state.FlightsUserDetails.ChosenCabin === "First"
+                            ? state.rows.FirstClassPrice
+                            : state.FlightsUserDetails.ChosenCabin === "Economy"
+                            ?  state.rows.EconomyClassPrice
+                            :  state.rows.BusinessClassPrice) -(depclassType === "First"
                             ? row.FirstClassPrice
                             : depclassType === "Economy"
                             ? row.EconomyClassPrice
@@ -249,19 +257,19 @@ const editDchoose = () => {
       <br></br>
    
       {!searchOff&&<Button
-        disabled={depChoosenRow === "" || arrChoosenRow === ""}
+        disabled={depChoosenRow === "" }
         variant="contained"
         style ={{marginLeft:"40%", marginTop:"1%"}}
       >
         <Link
           underline="none"
-          to="/editDPlaneSeats"
+          to="/scratch"
           state={{
             prevFlight :state.prevFlight,
             depFlight: depChoosenRow,
            
             cabin: depclassType,
-            noSeats: parseInt(numberSeats),
+            //noSeats: parseInt(numberSeats),
             id: "617e93641ff94cd5d2055174",
           }}
         >
@@ -272,4 +280,4 @@ const editDchoose = () => {
     </div>
   );
 };
-export default editDchoose;
+export default EditDchoose;
