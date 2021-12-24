@@ -330,11 +330,12 @@ export function Row2({ row, isAdmin, EditContent, DeleteContent, rownumber }) {
         <TableCell sx={{ textAlign: "center" }}>
           {from24to12(row.ArrivalTime)}
         </TableCell>
+        <TableCell sx={{ textAlign: "center" }}>{row.TripDuration}</TableCell>
       </TableRow>
       <TableRow sx={{ backgroundColor: "#FDFDFD" }}>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={8}>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={9}>
           <Collapse in={open} timeout="auto" unmountOnExit>
-            <Box sx={{ margin: 1, float: "left", width: "94%" }}>
+            <Box sx={{ m: 1, float: "left", width: "100%" }}>
               <Typography
                 variant="h6"
                 gutterBottom
@@ -389,6 +390,12 @@ export function Row2({ row, isAdmin, EditContent, DeleteContent, rownumber }) {
                     <TableCell style={{ fontWeight: "bold" }}>
                       Baggage Allowance (kg)
                     </TableCell>
+                    <TableCell>
+                      {" "}
+                      <Tooltip arrow title="Edit" sx={{ my: 1 }}>
+                        {EditContent}
+                      </Tooltip>
+                    </TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -417,11 +424,18 @@ export function Row2({ row, isAdmin, EditContent, DeleteContent, rownumber }) {
                     <TableCell>{row.AirportDepartureTerminal}</TableCell>
                     <TableCell>{row.AirportArrivalTerminal}</TableCell>
                     <TableCell>{row.BaggageAllowance}</TableCell>
+
+                    <TableCell>
+                      {" "}
+                      <Tooltip arrow title="Delete" sx={{ my: 1 }}>
+                        {DeleteContent}
+                      </Tooltip>
+                    </TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
             </Box>
-            <Box>
+            {/* <Box>
               <Tooltip arrow title="Edit" sx={{ my: 1 }}>
                 {EditContent}
               </Tooltip>
@@ -429,7 +443,7 @@ export function Row2({ row, isAdmin, EditContent, DeleteContent, rownumber }) {
               <Tooltip arrow title="Delete" sx={{ my: 1 }}>
                 {DeleteContent}
               </Tooltip>
-            </Box>
+            </Box> */}
           </Collapse>
         </TableCell>
       </TableRow>

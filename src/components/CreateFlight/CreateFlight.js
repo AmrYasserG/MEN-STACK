@@ -273,7 +273,7 @@ const CreateFlight = () => {
         }}
       >
         <Box component={"div"}>
-          <Typography variant="h3" component="div" sx={{ color: "#7777e4" }}>
+          <Typography variant="h3" component="div" sx={{ my: "3%" }}>
             Create A Flight{" "}
           </Typography>
           <FormControlLabel
@@ -297,7 +297,7 @@ const CreateFlight = () => {
               required
               onChange={(e) => setFrom(e.target.value)}
               value={From}
-              sx={{ width: ["60%", "30%"], mx: 5 }}
+              sx={{ backgroundColor: "#ffffff", width: ["60%", "30%"], mx: 5 }}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
@@ -312,7 +312,12 @@ const CreateFlight = () => {
               value={To}
               required
               onChange={(e) => setTo(e.target.value)}
-              sx={{ width: ["60%", "30%"], mx: 5 }}
+              sx={{
+                backgroundColor: "#ffffff",
+                width: ["60%", "30%"],
+                mx: 5,
+                my: [2, 0],
+              }}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
@@ -359,7 +364,12 @@ const CreateFlight = () => {
               }
               value={FlightDate}
               onChange={(e) => setFlightDate(e.target.value)}
-              sx={{ width: ["60%", "30%"], mx: 5 }}
+              sx={{
+                backgroundColor: "#ffffff",
+                width: ["60%", "30%"],
+                mx: 5,
+                my: [2, 0],
+              }}
             />
             <TextField
               required
@@ -381,7 +391,7 @@ const CreateFlight = () => {
               }
               value={FlightArrivalDate}
               onChange={(e) => setFlightArrivalDate(e.target.value)}
-              sx={{ width: ["60%", "30%"], mx: 5 }}
+              sx={{ backgroundColor: "#ffffff", width: ["60%", "30%"], mx: 5 }}
             />
           </Box>{" "}
           <Box componet={"div"} p={1}>
@@ -393,7 +403,12 @@ const CreateFlight = () => {
               value={DepartureTime}
               required
               onChange={(e) => setDepartureTime(e.target.value)}
-              sx={{ width: ["60%", "30%"], mx: 5 }}
+              sx={{
+                backgroundColor: "#ffffff",
+                width: ["60%", "30%"],
+                mx: 5,
+                my: [2, 0],
+              }}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start"> </InputAdornment>
@@ -408,7 +423,7 @@ const CreateFlight = () => {
               error={!validDepartureTime}
               required
               onChange={(e) => setArrivalTime(e.target.value)}
-              sx={{ width: ["60%", "30%"], mx: 5 }}
+              sx={{ backgroundColor: "#ffffff", width: ["60%", "30%"], mx: 5 }}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start"> </InputAdornment>
@@ -431,7 +446,12 @@ const CreateFlight = () => {
               required
               onChange={(e) => setDepartureTerminal(e.target.value)}
               helperText={DepartureTerminal <= 0 ? "Invalid Value" : ""}
-              sx={{ width: ["60%", "30%"], mx: 5 }}
+              sx={{
+                backgroundColor: "#ffffff",
+                width: ["60%", "30%"],
+                mx: 5,
+                my: [2, 0],
+              }}
             />
             <TextField
               type="number"
@@ -441,7 +461,7 @@ const CreateFlight = () => {
               required
               onChange={(e) => setArrivalTerminal(e.target.value)}
               helperText={ArrivalTerminal <= 0 ? "Invalid Value" : ""}
-              sx={{ width: ["60%", "30%"], mx: 5 }}
+              sx={{ backgroundColor: "#ffffff", width: ["60%", "30%"], mx: 5 }}
             />
           </Box>{" "}
           <Divider sx={{ width: 4 / 5, m: "auto" }}>Classes Info</Divider>
@@ -451,7 +471,7 @@ const CreateFlight = () => {
             </FormLabel>
 
             <TextField
-              sx={{ width: "20%", mx: "2%" }}
+              sx={{ backgroundColor: "#ffffff", width: "20%", mx: "2%" }}
               type="number"
               size="small"
               label="No. Seats"
@@ -469,7 +489,7 @@ const CreateFlight = () => {
               }}
             />
             <TextField
-              sx={{ width: "20%" }}
+              sx={{ backgroundColor: "#ffffff", width: "20%" }}
               type="number"
               size="small"
               label="Price"
@@ -487,7 +507,7 @@ const CreateFlight = () => {
             <FormLabel>Business Class:</FormLabel>
 
             <TextField
-              sx={{ width: "20%", mx: "2%" }}
+              sx={{ backgroundColor: "#ffffff", width: "20%", mx: "2%" }}
               type="number"
               label="No. Seats"
               value={BusinessClassSeats}
@@ -505,7 +525,7 @@ const CreateFlight = () => {
               }}
             />
             <TextField
-              sx={{ width: "20%" }}
+              sx={{ backgroundColor: "#ffffff", width: "20%" }}
               type="number"
               label="Price"
               value={BusinessClassPrice}
@@ -523,7 +543,7 @@ const CreateFlight = () => {
             <FormLabel>Economy Class:</FormLabel>
 
             <TextField
-              sx={{ width: "20%", mx: "2%" }}
+              sx={{ backgroundColor: "#ffffff", width: "20%", mx: "2%" }}
               type="number"
               label="No. Seats"
               value={EconomyClassSeats}
@@ -541,7 +561,7 @@ const CreateFlight = () => {
               }}
             />
             <TextField
-              sx={{ width: "20%" }}
+              sx={{ backgroundColor: "#ffffff", width: "20%" }}
               type="number"
               label="Price"
               value={EconomyClassPrice}
@@ -559,7 +579,7 @@ const CreateFlight = () => {
           <Box componet={"div"} p={2}>
             <TextField
               type="number"
-              sx={{ width: ["60%", "30%"], mx: 5 }}
+              sx={{ backgroundColor: "#ffffff", width: ["60%", "30%"], mx: 5 }}
               error={BaggageAllowance <= 0}
               label="Baggage allowance"
               value={BaggageAllowance}
@@ -614,7 +634,12 @@ const CreateFlight = () => {
                   }
                   value={ReturnDate}
                   onChange={(e) => setReturnDate(e.target.value)}
-                  sx={{ width: ["60%", "30%"], mx: 5 }}
+                  sx={{
+                    backgroundColor: "#ffffff",
+                    width: ["60%", "30%"],
+                    mx: 5,
+                    my: [2, 0],
+                  }}
                 />
                 <TextField
                   required
@@ -634,7 +659,11 @@ const CreateFlight = () => {
                   }
                   value={ReturnArrivalDate}
                   onChange={(e) => setReturnArrivalDate(e.target.value)}
-                  sx={{ width: ["60%", "30%"], mx: 5 }}
+                  sx={{
+                    backgroundColor: "#ffffff",
+                    width: ["60%", "30%"],
+                    mx: 5,
+                  }}
                 />
               </Box>{" "}
               <Box componet={"div"} p={1}>
@@ -646,7 +675,12 @@ const CreateFlight = () => {
                   value={ReturnDepartureTime}
                   required
                   onChange={(e) => setReturnDepartureTime(e.target.value)}
-                  sx={{ width: ["60%", "30%"], mx: 5 }}
+                  sx={{
+                    backgroundColor: "#ffffff",
+                    width: ["60%", "30%"],
+                    mx: 5,
+                    my: [2, 0],
+                  }}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start"> </InputAdornment>
@@ -661,7 +695,11 @@ const CreateFlight = () => {
                   value={ReturnArrivalTime}
                   required
                   onChange={(e) => setReturnArrivalTime(e.target.value)}
-                  sx={{ width: ["60%", "30%"], mx: 5 }}
+                  sx={{
+                    backgroundColor: "#ffffff",
+                    width: ["60%", "30%"],
+                    mx: 5,
+                  }}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start"> </InputAdornment>
@@ -684,7 +722,12 @@ const CreateFlight = () => {
                   required
                   onChange={(e) => setReturnDepartureTerminal(e.target.value)}
                   helperText={DepartureTerminal <= 0 ? "Invalid Value" : ""}
-                  sx={{ width: ["60%", "30%"], mx: 5 }}
+                  sx={{
+                    backgroundColor: "#ffffff",
+                    width: ["60%", "30%"],
+                    mx: 5,
+                    my: [2, 0],
+                  }}
                 />
                 <TextField
                   type="number"
@@ -694,7 +737,11 @@ const CreateFlight = () => {
                   required
                   onChange={(e) => setReturnArrivalTerminal(e.target.value)}
                   helperText={ArrivalTerminal <= 0 ? "Invalid Value" : ""}
-                  sx={{ width: ["60%", "30%"], mx: 5 }}
+                  sx={{
+                    backgroundColor: "#ffffff",
+                    width: ["60%", "30%"],
+                    mx: 5,
+                  }}
                 />
               </Box>{" "}
               <Divider sx={{ width: 4 / 5, m: "auto" }}>Classes Info</Divider>
@@ -704,7 +751,7 @@ const CreateFlight = () => {
                 </FormLabel>
 
                 <TextField
-                  sx={{ width: "20%", mx: "2%" }}
+                  sx={{ backgroundColor: "#ffffff", width: "20%", mx: "2%" }}
                   type="number"
                   size="small"
                   label="No. Seats"
@@ -724,7 +771,7 @@ const CreateFlight = () => {
                   }}
                 />
                 <TextField
-                  sx={{ width: "20%" }}
+                  sx={{ backgroundColor: "#ffffff", width: "20%" }}
                   type="number"
                   size="small"
                   label="Price"
@@ -746,7 +793,7 @@ const CreateFlight = () => {
                 <FormLabel>Business Class:</FormLabel>
 
                 <TextField
-                  sx={{ width: "20%", mx: "2%" }}
+                  sx={{ backgroundColor: "#ffffff", width: "20%", mx: "2%" }}
                   type="number"
                   label="No. Seats"
                   value={ReturnBusinessClassSeats}
@@ -766,7 +813,7 @@ const CreateFlight = () => {
                   }}
                 />
                 <TextField
-                  sx={{ width: "20%" }}
+                  sx={{ backgroundColor: "#ffffff", width: "20%" }}
                   type="number"
                   label="Price"
                   value={ReturnBusinessClassPrice}
@@ -788,7 +835,7 @@ const CreateFlight = () => {
                 <FormLabel>Economy Class:</FormLabel>
 
                 <TextField
-                  sx={{ width: "20%", mx: "2%" }}
+                  sx={{ backgroundColor: "#ffffff", width: "20%", mx: "2%" }}
                   type="number"
                   label="No. Seats"
                   value={ReturnEconomyClassSeats}
@@ -808,7 +855,7 @@ const CreateFlight = () => {
                   }}
                 />
                 <TextField
-                  sx={{ width: "20%" }}
+                  sx={{ backgroundColor: "#ffffff", width: "20%" }}
                   type="number"
                   label="Price"
                   value={ReturnEconomyClassPrice}
@@ -832,7 +879,11 @@ const CreateFlight = () => {
               <Box componet={"div"} p={2}>
                 <TextField
                   type="number"
-                  sx={{ width: ["60%", "30%"], mx: 5 }}
+                  sx={{
+                    backgroundColor: "#ffffff",
+                    width: ["60%", "30%"],
+                    mx: 5,
+                  }}
                   error={ReturnBaggageAllowance <= 0}
                   label="Baggage allowance"
                   value={ReturnBaggageAllowance}

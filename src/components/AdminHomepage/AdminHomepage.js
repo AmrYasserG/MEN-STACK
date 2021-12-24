@@ -41,14 +41,6 @@ const AdminHomepage = () => {
   const [editArrivalTime, setEditArrivalTime] = useState("");
   const [editDepartureTerminal, setEditDepartureTerminal] = useState("");
   const [editArrivalTerminal, setEditArrivalTerminal] = useState("");
-  const [editBusinessClassSeats, setEditBusinessClassSeats] = useState("");
-  const [editEconomyClassSeats, setEditEconomyClassSeats] = useState("");
-  const [editFirstClassSeats, setEditFirstClassSeats] = useState("");
-  const [editBusinessClassSeatsPrice, setEditBusinessClassSeatsPrice] =
-    useState("");
-  const [editEconomyClassSeatsPrice, setEditEconomyClassSeatsPrice] =
-    useState("");
-  const [editFirstClassSeatsPrice, setEditFirstClassSeatsPrice] = useState("");
   const [editBaggageAllowance, setEditBaggageAllowance] = useState("");
   const [edit_id, setEdit_id] = useState("");
 
@@ -56,6 +48,8 @@ const AdminHomepage = () => {
   const [deleteOpenResponse, setDeleteOpenResponse] = useState(false);
   const [editOpenResponse, setEditOpenResponse] = useState(false);
   const [x, setX] = useState(false);
+
+  const [validEditFlightN, setValidEditFlightNo] = useState(true);
 
   function GetAllFlights() {
     axios
@@ -78,21 +72,22 @@ const AdminHomepage = () => {
         To: editTo,
         ArrivalTime: editArrivalTime,
         DepartureTime: editDepartureTime,
-        EconomySeatsNo: editEconomyClassSeats,
-        BusinessSeatsNo: editBusinessClassSeats,
-        FirstSeatsNo: editFirstClassSeats,
+
         AirportDepartureTerminal: editDepartureTerminal,
         AirportArrivalTerminal: editArrivalTerminal,
         Date: editDate,
         ArrivalDate: editArrivalDate,
         BaggageAllowance: editBaggageAllowance,
-        FirstClassPrice: editFirstClassSeatsPrice,
-        BusinessClassPrice: editBusinessClassSeatsPrice,
-        EconomyClassPrice: editEconomyClassSeatsPrice,
       })
       .then((res) => {
+        setUpdPopupButton(false);
+        setX(false);
         setEditOpenResponse(true);
         GetAllFlights();
+      })
+      .catch((err) => {
+        console.log(err);
+        if (err.response.status === 411) setValidEditFlightNo(false);
       });
   }
 
@@ -226,7 +221,7 @@ const AdminHomepage = () => {
       </Popup>
       <UpdateOver trigger={updPopupButton} setTrigger={setUpdPopupButton}>
         <h1>Update Flight</h1>
-        <Grid container rowSpacing={"0.8%"} ml={"5%"}>
+        <Grid container rowSpacing={"3%"} ml={"2%"}>
           <Grid item xs={6} sx={{ textAlign: "left" }}>
             <label>FlightNumber:</label>
           </Grid>
@@ -240,9 +235,19 @@ const AdminHomepage = () => {
               value={editFlight}
               onChange={(e) => {
                 setEditFlight(e.target.value);
+                setValidEditFlightNo(true);
               }}
             />
           </Grid>
+          {!validEditFlightN && (
+            <Grid
+              item
+              xs={2}
+              sx={{ textAlign: "left", color: "#FF1004", fontSize: "9px" }}
+            >
+              <label>Flight No Already Exists</label>
+            </Grid>
+          )}
           <Grid item xs={6} sx={{ textAlign: "left" }}>
             <label>From:</label>
           </Grid>
@@ -363,96 +368,7 @@ const AdminHomepage = () => {
               }}
             />
           </Grid>
-          <Grid item xs={6} sx={{ textAlign: "left" }}>
-            <label>Number Of Business Class Seats:</label>
-          </Grid>
-          <Grid item xs={4} sx={{ textAlign: "left" }}>
-            <input
-              style={{ width: "70%" }}
-              name="busNo"
-              id="busNo"
-              type="number"
-              value={editBusinessClassSeats}
-              onChange={(e) => {
-                setEditBusinessClassSeats(Number(e.target.value));
-              }}
-            />
-          </Grid>
-          <Grid item xs={6} sx={{ textAlign: "left" }}>
-            <label>Number Of Economy Class Seats:</label>
-          </Grid>
-          <Grid item xs={4} sx={{ textAlign: "left" }}>
-            <input
-              style={{ width: "70%" }}
-              name="ecoNo"
-              id="ecoNo"
-              type="number"
-              value={editEconomyClassSeats}
-              onChange={(e) => {
-                setEditEconomyClassSeats(Number(e.target.value));
-              }}
-            />
-          </Grid>
-          <Grid item xs={6} sx={{ textAlign: "left" }}>
-            <label>Number Of First Class Seats:</label>
-          </Grid>
-          <Grid item xs={4} sx={{ textAlign: "left" }}>
-            <input
-              style={{ width: "70%" }}
-              name="fstNo"
-              id="fstNo"
-              type="number"
-              value={editFirstClassSeats}
-              onChange={(e) => {
-                setEditFirstClassSeats(Number(e.target.value));
-              }}
-            />
-          </Grid>
-          <Grid item xs={6} sx={{ textAlign: "left" }}>
-            <label>Economy Class Seats Prices:</label>
-          </Grid>
-          <Grid item xs={4} sx={{ textAlign: "left" }}>
-            <input
-              style={{ width: "70%" }}
-              name="econop"
-              id="econop"
-              type="number"
-              value={editEconomyClassSeatsPrice}
-              onChange={(e) => {
-                setEditEconomyClassSeatsPrice(Number(e.target.value));
-              }}
-            />
-          </Grid>
-          <Grid item xs={6} sx={{ textAlign: "left" }}>
-            <label>Business Class Seats Prices:</label>
-          </Grid>
-          <Grid item xs={4} sx={{ textAlign: "left" }}>
-            <input
-              style={{ width: "70%" }}
-              name="buisnop"
-              id="buisnop"
-              type="number"
-              value={editBusinessClassSeatsPrice}
-              onChange={(e) => {
-                setEditBusinessClassSeatsPrice(Number(e.target.value));
-              }}
-            />
-          </Grid>
-          <Grid item xs={6} sx={{ textAlign: "left" }}>
-            <label>First Class Seats Prices:</label>
-          </Grid>
-          <Grid item xs={4} sx={{ textAlign: "left" }}>
-            <input
-              style={{ width: "70%" }}
-              name="fstNop"
-              id="fstNop"
-              type="number"
-              value={editFirstClassSeatsPrice}
-              onChange={(e) => {
-                setEditFirstClassSeatsPrice(Number(e.target.value));
-              }}
-            />
-          </Grid>
+
           <Grid item xs={6} sx={{ textAlign: "left" }}>
             <label>Baggage Allowance:</label>
           </Grid>
@@ -473,9 +389,7 @@ const AdminHomepage = () => {
               variant="contained"
               style={{ right: "5%", top: "7%" }}
               onClick={() => {
-                setUpdPopupButton(false);
                 EditRow(edit_id);
-                setX(false);
               }}
             >
               Update
@@ -510,7 +424,7 @@ const AdminHomepage = () => {
               <TableHead>
                 <TableRow>
                   {" "}
-                  <TableCell />
+                  <TableCell sx={{ color: "#FFFFFF " }}> &#8205; </TableCell>
                   <TableCell
                     sx={{ textAlign: "center" }}
                     style={{ fontWeight: "bold" }}
@@ -553,6 +467,12 @@ const AdminHomepage = () => {
                   >
                     Arrival Time
                   </TableCell>
+                  <TableCell
+                    sx={{ textAlign: "center" }}
+                    style={{ fontWeight: "bold" }}
+                  >
+                    Trip Duration{" "}
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -577,18 +497,12 @@ const AdminHomepage = () => {
                           setEditArrivalTerminal(row.AirportArrivalTerminal);
                           setEditDate(row.Date);
                           setEditArrivalDate(row.ArrivalDate);
-                          setEditEconomyClassSeats(row.EconomySeatsNo);
-                          setEditFirstClassSeats(row.FirstSeatsNo);
+
                           setEditFlight(row.FlightNumber);
                           setEditFrom(row.From);
                           setEditTo(row.To);
-                          setEditBusinessClassSeats(row.BusinessSeatsNo);
                           setEditBaggageAllowance(row.BaggageAllowance);
-                          setEditEconomyClassSeatsPrice(row.EconomyClassPrice);
-                          setEditBusinessClassSeatsPrice(
-                            row.BusinessClassPrice
-                          );
-                          setEditFirstClassSeatsPrice(row.FirstClassPrice);
+
                           setX(true);
                         }}
                       >
