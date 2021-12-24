@@ -28,6 +28,7 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import IconButton from "@mui/material/IconButton";
 import { UserContext } from "../../Context/UserContext";
+import { set } from "mongoose";
 
 const UserProfile = ({ onEdit }) => {
   const [FirstName, setFirstName] = useState("");
@@ -43,7 +44,9 @@ const UserProfile = ({ onEdit }) => {
   const [editOpenResponse, setEditOpenResponse] = useState(false);
   const [userDetails, setUserDetails] = useState([]);
   const [selectedTab, setSelectedTab] = useState(0);
+
   const { user } = useContext(UserContext);
+
   const [OldPassword, setOldPassword] = useState("");
   const [showOldPassword, setshowOldPassword] = useState(false);
   const [NewPassword, setNewPassword] = useState("");
@@ -51,9 +54,10 @@ const UserProfile = ({ onEdit }) => {
   const [ConfirmNewPassword, setConfirmNewPassword] = useState("");
   const [showConfirmNewPassword, setshowConfirmNewPassword] = useState(false);
 
+  const [uniqueEmail, setUniqueEmail] = useState(true);
   const [validPassword, setValidPassword] = useState(true);
   const [notSimilarPassword, setNotSimilarPassword] = useState(true);
-  const [passwordExists, setPasswordExists] = useState(false);
+  const [passwordExists, setPasswordExists] = useState(true);
   const martialStatusClasses = [
     {
       value: "Single",
@@ -133,38 +137,35 @@ const UserProfile = ({ onEdit }) => {
     setEditOpenResponse(false);
   };
 
-  function EditUser(id) {
+  function EditUser() {
     axios
-      .put(
-        "http://localhost:3005/users/editUser/" + "617e93641ff94cd5d2055174",
-        {
-          FirstName: FirstName,
-          LastName: LastName,
-          Email: Email,
-          Age: getAge(BornIn),
-          BornIn: BornIn,
-          LivesIn: LivesIn,
-          MartialStatus: MartialStatus,
-          PhoneNumber: PhoneNumber,
-          PassportNumber: PassportNumber,
-        }
-      )
+      .put("http://localhost:3005/users/editUser/" + user.id, {
+        FirstName: FirstName,
+        LastName: LastName,
+        Email: Email,
+        Age: getAge(BornIn),
+        BornIn: BornIn,
+        LivesIn: LivesIn,
+        MartialStatus: MartialStatus,
+        PhoneNumber: PhoneNumber,
+        PassportNumber: PassportNumber,
+      })
       .then((res) => {
         setEditOpenResponse(true);
         setUserDetails(res.data);
+      })
+      .catch((err) => {
+        setUniqueEmail(false);
       });
   }
   const onSubmit = (e) => {
     e.preventDefault();
-    EditUser("617e93641ff94cd5d2055174");
+    EditUser();
   };
   const onSubmitPassword = (e) => {
     e.preventDefault();
     axios
-      .post(
-        "http://localhost:3005/auth/changePassword/" +
-          "61c2c04fe853f9aff159522d"
-      )
+      .post("http://localhost:3005/auth/changePassword/" + user.id)
       .then((res) => {
         setEditOpenResponse(true);
         setUserDetails(res.data);
@@ -189,7 +190,7 @@ const UserProfile = ({ onEdit }) => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3005/users/userInfo/61c3a0749c21d2042f4a7d1c")
+      .get("http://localhost:3005/users/userInfo/" + user.id)
       .then((res) => {
         setUserDetails(res.data);
       })
@@ -208,6 +209,7 @@ const UserProfile = ({ onEdit }) => {
   useEffect(() => {
     if (validateEmail(Email)) setValidEmail(true);
     else setValidEmail(false);
+    if (!uniqueEmail) setUniqueEmail(true);
   }, [Email]);
 
   const handleChange = (event, newValue) => {
@@ -306,7 +308,7 @@ const UserProfile = ({ onEdit }) => {
                 sx={{ width: "50%", my: "2%" }}
                 type="text"
                 label="Email"
-                error={!validEmail}
+                error={!validEmail || !uniqueEmail}
                 required
                 InputProps={{
                   startAdornment: (
@@ -321,7 +323,9 @@ const UserProfile = ({ onEdit }) => {
                   Email === ""
                     ? "This is required"
                     : validEmail
-                    ? ""
+                    ? uniqueEmail
+                      ? ""
+                      : "Email Already Exists"
                     : "Wrong Format"
                 }
               />
@@ -439,9 +443,10 @@ const UserProfile = ({ onEdit }) => {
               <Button
                 variant="contained"
                 color="primary"
-                onClick={onSubmit}
+                onClick={() => onSubmit}
                 size="large"
                 disabled={
+                  !validateEmail(Email) ||
                   FirstName === "" ||
                   Email === "" ||
                   BornIn === "" ||
@@ -483,13 +488,13 @@ const UserProfile = ({ onEdit }) => {
               >
                 <InputLabel
                   htmlFor="outlined-adornment-password"
-                  sx={{ fontSize: ["3.5vw", "1.2vw"] }}
+                  sx={{ fontSize: ["3.5vw", "1vw"] }}
                 >
                   Old Password
                 </InputLabel>
                 <OutlinedInput
                   id="outlined-adornment-password"
-                  error={!notSimilarPassword}
+                  error={!notSimilarPassword || !passwordExists}
                   type={showOldPassword ? "text" : "password"}
                   value={OldPassword}
                   onChange={handleOldPasswordChange}
@@ -497,7 +502,7 @@ const UserProfile = ({ onEdit }) => {
                     <InputAdornment position="end">
                       <IconButton
                         aria-label="toggle password visibility"
-                        onClick={handleClickShowOldPassword}
+                        onClick={() => handleClickShowOldPassword}
                         onMouseDown={handleMouseDownPassword}
                         edge="end"
                       >
@@ -506,8 +511,11 @@ const UserProfile = ({ onEdit }) => {
                     </InputAdornment>
                   }
                   sx={{ height: ["9vw", "4vw"] }}
-                  label="Password"
+                  label="Old Password"
                 />
+                {!passwordExists && (
+                  <FormHelperText error>Incorrect Password</FormHelperText>
+                )}
               </FormControl>
             </Box>
             <Box>
@@ -521,7 +529,7 @@ const UserProfile = ({ onEdit }) => {
               >
                 <InputLabel
                   htmlFor="outlined-adornment-password"
-                  sx={{ fontSize: ["3.5vw", "1.2vw"] }}
+                  sx={{ fontSize: ["3.5vw", "1vw"] }}
                 >
                   New Password
                 </InputLabel>
@@ -535,7 +543,7 @@ const UserProfile = ({ onEdit }) => {
                     <InputAdornment position="end">
                       <IconButton
                         aria-label="toggle password visibility"
-                        onClick={handleClickShowNewPassword}
+                        onClick={() => handleClickShowNewPassword}
                         onMouseDown={handleMouseDownPassword}
                         edge="end"
                       >
@@ -544,7 +552,7 @@ const UserProfile = ({ onEdit }) => {
                     </InputAdornment>
                   }
                   sx={{ height: ["9vw", "4vw"] }}
-                  label="Password"
+                  label="New Password"
                 />
                 {!notSimilarPassword ? (
                   <FormHelperText error>
@@ -570,7 +578,7 @@ const UserProfile = ({ onEdit }) => {
               >
                 <InputLabel
                   htmlFor="outlined-adornment-password"
-                  sx={{ fontSize: ["3.5vw", "1.2vw"] }}
+                  sx={{ fontSize: ["3.5vw", "1vw"] }}
                 >
                   Confirm New Password
                 </InputLabel>
@@ -584,7 +592,7 @@ const UserProfile = ({ onEdit }) => {
                     <InputAdornment position="end">
                       <IconButton
                         aria-label="toggle password visibility"
-                        onClick={handleClickShowConfirmNewPassword}
+                        onClick={() => handleClickShowConfirmNewPassword}
                         onMouseDown={handleMouseDownPassword}
                         edge="end"
                       >
@@ -596,7 +604,7 @@ const UserProfile = ({ onEdit }) => {
                       </IconButton>
                     </InputAdornment>
                   }
-                  label="Password"
+                  label="Confirm New Password"
                   sx={{ height: ["9vw", "4vw"] }}
                 />
               </FormControl>
@@ -606,7 +614,7 @@ const UserProfile = ({ onEdit }) => {
               <Button
                 variant="contained"
                 color="primary"
-                onClick={onSubmitPassword}
+                onClick={() => onSubmitPassword}
                 size="large"
                 disabled={
                   !(
@@ -626,8 +634,6 @@ const UserProfile = ({ onEdit }) => {
         )}{" "}
         {/* <Input type="submit" value="Create Flight" className="btn btn-block"/> */}
       </Box>
-      <h2>{user.id}</h2>
-      <Button onClick={() => console.log(user)}>Test</Button>
     </Box>
   );
 };

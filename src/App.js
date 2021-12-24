@@ -24,9 +24,9 @@ const App = () => {
   // const value = useMemo(() => ({ user, setUser }), [user, setUser]);
 
   axios.interceptors.request.use(function (config) {
-    if (true) {
-      // const token = user.token;
-      config.headers.Authorization = "balabizo";
+    if (user.token) {
+      const token = user.token;
+      config.headers.authorization = token;
     }
     return config;
   });
@@ -40,16 +40,14 @@ const App = () => {
             position: "absolute",
             overflow: "auto",
             width: "100%",
-            backgroundImage: `url(${
-              user && user.type === "user" ? backgroundA : background
-            })`,
+            backgroundImage: `url(${background})`,
             backgroundRepeat: "repeat-y",
           }}
         >
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/" element={<AdminHomepage />} />
-            {user.token && user.type === "admin" && (
+            {user.token && user.type && user.type === "admin" && (
               <Route path="/CreateFlight" element={<CreateFlight />} />
             )}
             <Route path="/AdminHomepage" element={<AdminHomepage />} />

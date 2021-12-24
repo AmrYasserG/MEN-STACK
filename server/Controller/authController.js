@@ -82,9 +82,12 @@ const changePassword = (req, res) => {
   let { Password } = req.body;
   bcrypt.genSalt().then((salt) => {
     bcrypt.hash(Password, salt).then((res2) => {
-      User.findByIdAndUpdate({ _id: id },{
-        Password: res2
-      })
+      User.findByIdAndUpdate(
+        { _id: id },
+        {
+          Password: res2,
+        }
+      )
         .then((result) => {
           res.send(req.body);
         })
@@ -103,14 +106,19 @@ const login_post = (req, res) => {
         bcrypt.compare(Password, user.Password).then((auth) => {
           if (auth) {
             const token = createToken(user._id);
-
             res.send({
               user: user,
-              authorization: token,
+              authorization: "Bearer " + token,
             });
-          } else res.send("Wrong PassWord");
+          } else {
+            res.status(401);
+            res.send("Wrong PassWord");
+          }
         });
-      } else res.send("Wrong Email");
+      } else {
+        res.status(401);
+        res.send("Wrong Email");
+      }
     });
   } catch (err) {
     res.status(400).json({});
@@ -126,3 +134,16 @@ module.exports = {
   login_post,
   changePassword,
 };
+
+function authenticateToken(req, res, next) {
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
+  if (token == null) return res.sendStatus(401);
+
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, id) => {
+    console.log(err);
+    if (err) return res.sendStatus(403);
+    req.id = id;
+    next();
+  });
+}

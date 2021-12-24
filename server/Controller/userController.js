@@ -37,7 +37,12 @@ const editUser = (req, res) => {
       res.send(req.body);
     })
     .catch((err) => {
-      console.log(err);
+      if (err.code === 11000) {
+        res.status(433);
+        res.send("Email Already Exists");
+      } else {
+        console.log(err);
+      }
     });
 };
 const getAllUsers = (req, res) => {
