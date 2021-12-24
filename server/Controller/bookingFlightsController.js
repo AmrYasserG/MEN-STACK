@@ -37,15 +37,25 @@ const cancelReservation = (req, res) => {
           port: 465,
           secure: true, 
           auth: {
-            user: "MenStack46@gmail.com", 
+            user: "menstack46@gmail.com", 
             pass: process.env.Password, 
           },
         });
         let info = transporter.sendMail({
           from: '"MenStack" MenStack46@gmail.com',
-          to: req.params.UserEmail,
+          to: 'menstack46@gmail.com',
           subject: "Cancelled Flight Reservation", 
-          html: `<p>Flight Number: ${result.FlightNumber}</p><p>Reservation Number: ${result.ReservationNumber}</p><p>Chosen Cabin: ${result.ChosenCabin}</p><p>Total amount refunded: ${result.TotalReservationPrice}</p>`,
+          html: `<h3>Flight Number:</h3>
+                 <p>${result.FlightNumber}</p>
+                 <hr style="width:50%;text-align:left;margin-left:0">
+                 <h3>Reservation Number:</h3>
+                 <p>${result.ReservationNumber}</p>
+                 <hr style="width:50%;text-align:left;margin-left:0">
+                 <h3>Chosen Cabin:</h3>
+                 <p>${result.ChosenCabin}</p>
+                 <hr style="width:50%;text-align:left;margin-left:0">
+                 <h3>Total amount refunded:</h3>
+                 <p>${result.TotalReservationPrice}</p>`,
         });
       })
       .catch((err) => {
@@ -53,4 +63,46 @@ const cancelReservation = (req, res) => {
       });
 };
 
-module.exports = {createReservation,getAllReservations,cancelReservation};
+const sendItinerary = (req,res)=>{
+    const state = req.body.state;
+    const resNum = req.body.resNum;
+        let transporter = nodemailer.createTransport({
+          service: "Gmail",
+          port: 465,
+          secure: true, 
+          auth: {
+            user: "menstack46@gmail.com", 
+            pass: process.env.Password, 
+          },
+        });
+        let info = transporter.sendMail({
+          from: '"MenStack" MenStack46@gmail.com',
+          to: 'menstack46@gmail.com',
+          subject: "Flight Itinerary", 
+          html: `<h3>Reservation Number:</h3>
+                 <p>${resNum}</p>
+                 <hr style="width:50%;text-align:left;margin-left:0">
+                 <h3>Departure Flight:</h3>
+                 <p>Flight Date: ${state.depFlight.Date}</p>
+                 <p>Departure Time: ${state.depFlight.DepTime}</p>
+                 <p>Arrival Time: ${state.depFlight.ArrTime}</p>
+                 <p>Price per Seat: ${state.depFlight.Price}</p>
+                 <p>Cabin Class: ${state.cabin}</p>
+                 <p>Choosen Seats: ${state.depSeatsReserved}</p> 
+                 <hr style="width:50%;text-align:left;margin-left:0">
+                 <h3>Return Flight:</h3>
+                 <p>Flight Date: ${state.arrFlight.Date}</p>
+                 <p>Departure Time: ${state.arrFlight.DepTime}</p>
+                 <p>Arrival Time: ${state.arrFlight.ArrTime}</p>
+                 <p>Price per Seat: ${state.arrFlight.Price}</p>
+                 <p>Cabin Class: ${state.cabin}</p>
+                 <p>Choosen Seats: ${state.arrSeatsReserved}</p>
+                 <hr style="width:50%;text-align:left;margin-left:0">
+                 <h3>Price:</h3>
+                 <p>Departure Flight: ${state.depFlight.Price * state.noSeats}</p>
+                 <p>Return Flight: ${state.arrFlight.Price * state.noSeats}</p>
+                 <p>Total Price ${state.depFlight.Price * state.noSeats + state.arrFlight.Price * state.noSeats}</p>`
+        });
+}
+
+module.exports = {createReservation,getAllReservations,cancelReservation,sendItinerary};

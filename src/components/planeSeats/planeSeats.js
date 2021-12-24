@@ -379,8 +379,7 @@ export default function PlaneSeats() {
         onClick={returnChosenSeats}
         variant="contained"
         className="btn"
-        styl
-        
+        style={{marginLeft:"44%"}}       
       >
         <Link
           to="/SummaryConfirm"

@@ -103,7 +103,7 @@ const UserHomepage = () => {
     <div>
       <ResponsiveAppBar pages={[]} settings={['profile']} isUser={true} />
 
-      <Button variant="contained" color="success" style={{marginLeft:"87%", marginTop:"1%"}}><Link to = '/ReservedFlights'
+      <Button variant="contained" color="success" style={{marginLeft:"87%", marginTop:"1%"}}><Link style={{textDecoration:'none'}} to = '/ReservedFlights'
       state = {{id : "617e93641ff94cd5d2055174"}}> View Reservation </Link></Button>
       
       <UpdateOver trigger={selectPopupButton} setTrigger={setSelectPopupButton}>
@@ -408,7 +408,7 @@ const UserHomepage = () => {
         style ={{marginLeft:"40%", marginTop:"1%"}}
       >
         <Link
-          underline="none"
+          style={{textDecoration:'none'}}
           to="/PlaneSeats"
           state={{
             depFlight: depChoosenRow,
