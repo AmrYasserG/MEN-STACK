@@ -74,6 +74,7 @@ function ReservedFlights() {
     GetAllReservedFlights();
     console.log(FlightsUserDetails);
     console.log(FlightsReserved);
+    console.log(state);
   }, []);
 
   function GetAllReservedFlights() {
@@ -269,7 +270,7 @@ function ReservedFlights() {
       <CollapsibleTable rows={FlightsReserved} reservation
         setCancelReservationPopupButton={setCancelReservationPopupButton} 
         FlightsUserDetails={FlightsUserDetails}
-        setToBeCanceled={setToBeCanceled}
+        setToBeCanceled={setToBeCanceled} state = {state}
         />
 
       {/* <Paper sx={{ width: "100%", overflow: "hidden", marginTop: "1%" }}>
