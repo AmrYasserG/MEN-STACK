@@ -24,6 +24,7 @@ const SearchToReserve = ({ onSearch, d }) => {
   const [SeatsNo, setSeatsNo] = useState(1);
   const [validSeatNo, setvalidSeatNo] = useState(true);
   const [validDate, setvalidDate] = useState(true);
+
   const seatClasses = [
     {
       value: "Business",
@@ -84,13 +85,13 @@ const SearchToReserve = ({ onSearch, d }) => {
         p: 2,
         margin: "auto",
         maxWidth: "80%",
-        my: 1,
+        mb: 1,
       }}
     >
       {!d && (
         <Accordion>
           <AccordionSummary
-            sx={{ "text-align": "center" }}
+            sx={{ textAlign: "center" }}
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1a-content"
             id="panel1a-header"
@@ -100,7 +101,7 @@ const SearchToReserve = ({ onSearch, d }) => {
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <Box sx={{ mx: 5, "text-align": "center" }}>
+            <Box sx={{ mx: 5, textAlign: "center" }}>
               <TextField
                 sx={{ width: "35%", height: "40px", mx: 7, my: 3 }}
                 id="outlined-basic"
