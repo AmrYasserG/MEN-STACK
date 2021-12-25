@@ -5,6 +5,7 @@ import { useState } from "react";
 import ResponsiveAppBar from "../ResponsiveAppBar/ResponsiveAppBar";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
+import TextField from "@mui/material/TextField";
 
 export default function PlaneSeats() {
   const state = useLocation().state;
@@ -368,32 +369,39 @@ export default function PlaneSeats() {
         <br />
       </div>
       <br />
-      <dic className='container2'>
-        <Button
-          disabled={retChosenSeats.length !== state.noSeats || depChosenSeats.length !== state.noSeats}
-          // onClick={returnChosenSeats}
-          variant="contained"
-          className="btn"
-          style={{ marginLeft: "44%" }}
+      <Button
+        disabled={retChosenSeats.length !== state.noSeats || depChosenSeats.length !== state.noSeats}
+        // onClick={returnChosenSeats}
+        variant="contained"
+        className="btn"
+        required
+        helperText="Please select your Prefered Class"
+        style={{ marginLeft: "44%" }}
+      >
+        <Link
+          style={{ textDecoration: 'none' }}
+          to="/SummaryConfirm"
+          state={{
+            depFlight: state.depFlight,
+            arrFlight: state.arrFlight,
+            cabin: state.cabin,
+            noSeats: state.noSeats,
+            id: state.id,
+            depSeatsReserved: depChosenSeats,
+            arrSeatsReserved: retChosenSeats,
+          }}
         >
-          <Link
-            style={{ textDecoration: 'none' }}
-            to="/SummaryConfirm"
-            state={{
-              depFlight: state.depFlight,
-              arrFlight: state.arrFlight,
-              cabin: state.cabin,
-              noSeats: state.noSeats,
-              id: state.id,
-              depSeatsReserved: depChosenSeats,
-              arrSeatsReserved: retChosenSeats,
-            }}
-          >
-            {" "}
-            Reserve{" "}
-          </Link>
-        </Button>
-      </dic>
+          {" "}
+          Reserve{" "}
+        </Link>
+      </Button>
+      {retChosenSeats.length !== state.noSeats &&
+        depChosenSeats.length !== state.noSeats ? (
+        <div style={{ marginLeft: "43%", color: 'red' }}
+        >*Please select {state.noSeats} Seats</div>
+      ) : null}
+
+
     </>
   );
 }

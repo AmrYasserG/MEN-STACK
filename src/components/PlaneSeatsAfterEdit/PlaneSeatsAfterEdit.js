@@ -316,12 +316,12 @@ const PlaneSeatsAfterEdit = () => {
         }}
         variant="contained"
         id="bloc1"
-        style={{ marginLeft: "40%", width: 100, height: 35 }}
+        style={{ marginLeft: "42%", width: 100, height: 35 }}
       >
         {editFlight === false ? (
           <Link
             to="/ReservedFlights"
-            style={{ textDecoration: 'none' }}
+            style={{ textDecoration: 'none' , color: 'white' }}
             state={{
               id: state.id
             }}
@@ -330,13 +330,13 @@ const PlaneSeatsAfterEdit = () => {
           </Link>
         ) : (<Link
           to="/ReservedFlights"
-          style={{ textDecoration: 'none', width: 100, height: 35 }}
+          style={{ textDecoration: 'none' ,color: 'white', width: 100, height: 35  }}
           state={{
             FlightsUserDetails: state.FlightsUserDetails,
             rows: state.rows
           }}
         >
-          Back{" "}
+          Back
         </Link>)}
 
       </Button>
@@ -361,6 +361,10 @@ const PlaneSeatsAfterEdit = () => {
           Reserve{" "}
         </Link>)}
       </Button>
+      {chosenSeats.length !== state.FlightsUserDetails.SeatsReserved.length  ? (
+        <div style={{ marginLeft: "43%", color: 'red' }}
+        >*Please select {state.FlightsUserDetails.SeatsReserved.length} Seats</div>
+      ) : null}
 
     </>
   )
