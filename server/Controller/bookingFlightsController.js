@@ -21,8 +21,8 @@ const createReservation = (req, res) => {
 }
 
 const editSeats = (req,res)=>{
-  BookingFlights.findById()
-
+  //console.log(req.body);
+  BookingFlights.findById(req.body.id).then((x)=>{BookingFlights.findByIdAndUpdate(req.body.id , {$set:{SeatsReserved:req.body.newArr}}).then(()=>{res.send("done")})});
 }
 
 const getAllReservations = (req,res) => {

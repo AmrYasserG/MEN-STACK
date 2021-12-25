@@ -8,6 +8,6 @@ BookingFlightsRouter.post("/createReservation",bookingFlightsController.createRe
 BookingFlightsRouter.get("/getAllReservations/:User_id",bookingFlightsController.getAllReservations);
 BookingFlightsRouter.delete("/cancelReservation/:id/:UserEmail", bookingFlightsController.cancelReservation);
 BookingFlightsRouter.post("/sendItinerary", bookingFlightsController.sendItinerary);
-BookingFlightsRouter.post("/editSeats", bookingFlightsController.editSeats);
+BookingFlightsRouter.put("/editSeats", bookingFlightsController.editSeats);
 
 module.exports = BookingFlightsRouter;

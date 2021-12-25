@@ -1,17 +1,23 @@
 import React from "react";
 import Grid from "@mui/material/Grid";
 import "../planeSeats/planeSeats.css";
-import { useLocation } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import ResponsiveAppBar from "../ResponsiveAppBar/ResponsiveAppBar";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { useNavigate } from "react-router";
 
 const PlaneSeatsAfterEdit = () => {
   const state = useLocation().state;
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     console.log(state);
+    console.log(state.newClass);
+    console.log(state.FlightsUserDetails._id);
   }, []);
 
   const seatsEco = Object.keys(state.rows.EconomySeats);
@@ -19,10 +25,7 @@ const PlaneSeatsAfterEdit = () => {
   const seatsBusiness = Object.keys(state.rows.BusinessSeats);
 
   const seats = seatsFirst.concat(seatsBusiness).concat(seatsEco);
-  // const seats=['a1']
-  // const numOfSeats = [
-  //   1
-  // ];
+
   const numOfSeats = [
     seatsFirst.length,
     seatsBusiness.length,
@@ -43,7 +46,7 @@ const PlaneSeatsAfterEdit = () => {
 
 
   let blockedSeats = [];
-  const cabin = state.FlightsUserDetails.ChosenCabin;
+  const cabin = state.newClass;
   if (cabin === "Business")
     blockedSeats = getBlockedSeats(state.rows.BusinessSeats);
 
@@ -71,6 +74,68 @@ const PlaneSeatsAfterEdit = () => {
   }
   blockedSeats = temp;
 
+  function updateFlightAvailableSeats(FlightsReservedArray, FlightsUserDetailsArray) {
+    const toBeUpdatedFlight = FlightsReservedArray;
+    const toBeUpdatedFlightSeats = FlightsUserDetailsArray;
+    const ChosenCabin = FlightsUserDetailsArray.ChosenCabin + "AvailableSeatsNo";
+    let updatedAvailableSeats = {};
+    switch (ChosenCabin) {
+      case "EconomyAvailableSeatsNo":
+        const EconomySeats = new Map(Object.entries(toBeUpdatedFlight.EconomySeats));
+        for (let i = 0; i < toBeUpdatedFlightSeats.SeatsReserved.length; i++) {
+          EconomySeats.set(toBeUpdatedFlightSeats.SeatsReserved[i], true);
+        }
+        for (let i = 0; i < chosenSeats.length; i++) {
+          console.log(chosenSeats);
+          EconomySeats.set(chosenSeats[i], false);
+        }
+        updatedAvailableSeats = { EconomyAvailableSeatsNo: toBeUpdatedFlight.EconomyAvailableSeatsNo + toBeUpdatedFlightSeats.SeatsReserved.length, EconomySeats: Object.fromEntries(EconomySeats) };
+        break;
+      case "BusinessAvailableSeatsNo":
+        const BusinessSeats = new Map(Object.entries(toBeUpdatedFlight.BusinessSeats));
+        for (let i = 0; i < toBeUpdatedFlightSeats.SeatsReserved.length; i++) {
+          BusinessSeats.set(toBeUpdatedFlightSeats.SeatsReserved[i], true);
+        }
+        for (let i = 0; i < chosenSeats.length; i++) {
+          console.log(chosenSeats);
+          BusinessSeats.set(chosenSeats[i], false);
+        }
+        updatedAvailableSeats = { BusinessAvailableSeatsNo: toBeUpdatedFlight.BusinessAvailableSeatsNo + toBeUpdatedFlightSeats.SeatsReserved.length, BusinessSeats: Object.fromEntries(BusinessSeats) };
+        break;
+      case "FirstAvailableSeatsNo":
+        const FirstSeats = new Map(Object.entries(toBeUpdatedFlight.FirstSeats));
+        for (let i = 0; i < toBeUpdatedFlightSeats.SeatsReserved.length; i++) {
+          FirstSeats.set(toBeUpdatedFlightSeats.SeatsReserved[i], true);
+        }
+        for (let i = 0; i < chosenSeats.length; i++) {
+          console.log(chosenSeats);
+          FirstSeats.set(chosenSeats[i], false);
+        }
+        updatedAvailableSeats = { FirstAvailableSeatsNo: toBeUpdatedFlight.FirstAvailableSeatsNo + toBeUpdatedFlightSeats.SeatsReserved.length, FirstSeats: Object.fromEntries(FirstSeats) };
+        break;
+      default:
+    }
+    console.log(updatedAvailableSeats);
+    axios
+      .put(
+        "http://localhost:3005/flights/updateFlightAvailableSeats/" +
+        toBeUpdatedFlight._id,
+        updatedAvailableSeats
+      )
+      .then((res) => {
+        editSeats(chosenSeats, state.FlightsUserDetails._id);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  function editSeats(newArr, id) {
+    axios.put("http://localhost:3005/bookingFlights/editSeats", { newArr, id }).then(() => {
+      navigate("/ReservedFlights", { state: { id: state.id } }
+      );
+    })
+  }
 
   const returnChosenSeats = () => {
     if (editFlight === true) { }
@@ -321,7 +386,7 @@ const PlaneSeatsAfterEdit = () => {
         {editFlight === false ? (
           <Link
             to="/ReservedFlights"
-            style={{ textDecoration: 'none' , color: 'white' }}
+            style={{ textDecoration: 'none', color: 'white' }}
             state={{
               id: state.id
             }}
@@ -329,8 +394,8 @@ const PlaneSeatsAfterEdit = () => {
             Back{" "}
           </Link>
         ) : (<Link
-          to="/ReservedFlights"
-          style={{ textDecoration: 'none' ,color: 'white', width: 100, height: 35  }}
+          to="/editDeparture"
+          style={{ textDecoration: 'none', color: 'white', width: 100, height: 35 }}
           state={{
             FlightsUserDetails: state.FlightsUserDetails,
             rows: state.rows
@@ -342,8 +407,10 @@ const PlaneSeatsAfterEdit = () => {
       </Button>
       <Button
         // disabled={ chosenSeats.length !== state.noSeats}
-        disabled={chosenSeats.length !== alreadyChosen.length}
-        onClick={returnChosenSeats}
+        disabled={chosenSeats.length !== state.FlightsUserDetails.SeatsReserved.length}
+        onClick={() => {
+          editFlight === false && updateFlightAvailableSeats(state.rows, state.FlightsUserDetails);
+        }}
         variant="contained"
         id="bloc2"
         style={{ marginLeft: "2%" }}
@@ -352,16 +419,22 @@ const PlaneSeatsAfterEdit = () => {
 
           <div>Reserve</div>
         ) : (<Link
-          to="/ReservedFlights"
-          style={{ textDecoration: 'none' }}
+          to="/Payment"
+          style={{ textDecoration: 'none', color: 'white' }}
           state={{
-            id: state.id
+            arrFlight: state.arrFlight,
+            arrSeatsReserved: state.isDep ? state.otherFightSeats : chosenSeats,
+            depFlight: state.depFlight,
+            depSeatsReserved: state.isDep ? chosenSeats : state.otherFightSeats,
+            id: state.id,
+            noSeats: chosenSeats.length,
+            editFlight: state.editFlight,
           }}
         >
           Reserve{" "}
         </Link>)}
       </Button>
-      {chosenSeats.length !== state.FlightsUserDetails.SeatsReserved.length  ? (
+      {chosenSeats.length !== state.FlightsUserDetails.SeatsReserved.length ? (
         <div style={{ marginLeft: "43%", color: 'red' }}
         >*Please select {state.FlightsUserDetails.SeatsReserved.length} Seats</div>
       ) : null}

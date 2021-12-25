@@ -24,6 +24,7 @@ import EmailIcon from "@mui/icons-material/Email";
 import editFlightIcon from './edit.png';
 
 function Row({
+  rows,
   row,
   index,
   isUser,
@@ -33,6 +34,8 @@ function Row({
   reservation,
   setToBeCanceled,
   setCancelReservationPopupButton,
+  setSendIternaryPopupButton,
+  setToBeMailed,
   FlightsUserDetails,
   state,
   isDep,
@@ -240,7 +243,10 @@ function Row({
                         <IconButton
                           variant="contained"
                           color="primary"
-                          onClick={() => { }}
+                          onClick={() => {
+                            setSendIternaryPopupButton(true);
+                            setToBeMailed(index);
+                          }}
                         >
                           <EmailIcon />
                         </IconButton>
@@ -284,6 +290,7 @@ function Row({
                               rows: row,
                               id: state.id,
                               editFlight: false,
+                              newClass:FlightsUserDetails[index].ChosenCabin
                             }}
                           >
                             <EditIcon />
@@ -291,19 +298,34 @@ function Row({
                         </IconButton>
                       </TableCell>
                       </Tooltip>
+
+                      
                       <Tooltip title="Edit Flight" placement="top">
-                      <TableCell> <Link
+                      <TableCell> 
+                      <IconButton
+                          variant="contained"
+                          color="primary"
+                          onClick={() => {}}
+                        >
+                          <Link
                             to="/editDeparture"
-                            style={{ textDecoration: "none" }}
+                            style={{textDecoration : 'none' , color : 'none'} }
                             state={{
                               FlightsUserDetails: FlightsUserDetails[index],
-                              rows: row,
-                              editFlight: true,
+                              AllFlightsUserDetails: FlightsUserDetails,
+                              AllMyFlights:rows,
+                              rows:row,
+                              id : state.id
                             }}
                           >
-                           <img src={editFlightIcon} style={{width:25 , hight:25 ,color :'blue'}} />
-                          </Link></TableCell>
-                          </Tooltip>
+                            <EditIcon />
+                          </Link>                         
+                        </IconButton> 
+                      </TableCell>
+                      </Tooltip>
+
+
+                          
                           <Tooltip title="Delete Reservation" placement="top">
                       <TableCell>
                         <IconButton
@@ -341,7 +363,12 @@ export function CollapsibleTable({
   reservation,
   setCancelReservationPopupButton,
   setToBeCanceled,
+  setSendIternaryPopupButton,
+  setToBeMailed,
   FlightsUserDetails,
+  setSelectArPopupButton,
+  setSearchOff,
+  updateArrChoosenRow,
   state,
   isDep,
   selectFlight,
@@ -370,11 +397,16 @@ export function CollapsibleTable({
               isAdmin={isAdmin}
               businessClass={businessClass}
               isUser={isUser}
+              rows={rows}
               economyClass={economyClass}
               firstClass={firstClass}
               reservation={reservation}
               rows={rows}
+              setCancelReservationPopupButton = {setCancelReservationPopupButton}
+              setToBeCanceled = {setToBeCanceled}
               FlightsUserDetails={FlightsUserDetails}
+              setSendIternaryPopupButton = {setSendIternaryPopupButton}
+              setToBeMailed = {setToBeMailed}
               state={state}
               isDep={isDep}
               selectFlight={selectFlight}
