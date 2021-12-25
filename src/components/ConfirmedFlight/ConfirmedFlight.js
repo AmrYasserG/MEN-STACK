@@ -460,7 +460,7 @@ const ConfirmedFlight = () => {
         <Button variant="contained" onClick={()=>{
             localStorage.removeItem("state");
         }}>
-          <Link style={{textDecoration:'none'}} to="/HomePage">
+          <Link style={{textDecoration:'none'}} to="/">
             {" "}
             Return to Home{" "}
           </Link>

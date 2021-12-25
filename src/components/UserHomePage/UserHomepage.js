@@ -127,7 +127,7 @@ const UserHomepage = () => {
 
   return (
     <div>
-      <Button variant="contained" color="success" style={{ marginLeft: "87%" }}>
+      {/* <Button variant="contained" color="success" style={{ marginLeft: "87%" }}>
         <Link
           style={{ textDecoration: "none" }}
           to="/ReservedFlights"
@@ -136,7 +136,7 @@ const UserHomepage = () => {
           {" "}
           View Reservation{" "}
         </Link>
-      </Button>
+      </Button> */}
 
       <div>
         <SearchToReserve onSearch={searchToReserve} d={searchOff} />

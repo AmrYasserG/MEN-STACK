@@ -157,6 +157,7 @@ const ResponsiveAppBar = ({ pages, isUser, isAdmin }) => {
                   <MenuItem key={"Reserve Flight"} onClick={handleCloseNavMenu}>
                     <NavLink
                       to="/ReservedFlights"
+                      state={{ id: user.id }}
                       style={({ isActive }) =>
                         isActive
                           ? {
@@ -233,6 +234,7 @@ const ResponsiveAppBar = ({ pages, isUser, isAdmin }) => {
               >
                 <NavLink
                   to="/ReservedFlights"
+                  state={{ id: user.id }}
                   style={({ isActive }) =>
                     isActive
                       ? {
