@@ -43,6 +43,7 @@ function Row({
   state,
   isDep,
   selectFlight,
+  priceDiff
 }) {
   const [open, setOpen] = React.useState(false);
 
@@ -141,13 +142,15 @@ function Row({
                       <TableCell style={{ fontWeight: "bold" }}>
                         Airport Arrival Terminal
                       </TableCell>
+                      <TableCell style={{ fontWeight: "bold" }}> Trip Duration</TableCell>
                       <TableCell style={{ fontWeight: "bold" }}>
                         Baggage Allowance (kg)
                       </TableCell>
+                      <TableCell style={{ fontWeight: "bold" }}> Price Difference</TableCell>
                       <TableCell style={{ fontWeight: "bold" }}>
                         Select
                       </TableCell>
-                      <TableCell></TableCell>
+                      
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -193,7 +196,21 @@ function Row({
                       }
                       <TableCell>{row.AirportDepartureTerminal}</TableCell>
                       <TableCell>{row.AirportArrivalTerminal}</TableCell>
+                      <TableCell>{row.TripDuration}</TableCell>
                       <TableCell>{row.BaggageAllowance}</TableCell>
+                      <TableCell>
+                      {(firstClass === true
+                              ? row.FirstClassPrice
+                              : economyClass === true
+                                ? row.EconomyClassPrice
+                                : row.BusinessClassPrice) -
+                              (state.FlightsUserDetails.ChosenCabin === "First"
+                                ? state.rows.FirstClassPrice
+                                : state.FlightsUserDetails.ChosenCabin ===
+                                  "Economy"
+                                  ? state.rows.EconomyClassPrice
+                                  : state.rows.BusinessClassPrice)}
+                      </TableCell>
                       <TableCell>
                         <Checkbox
                           onChange={() => {
@@ -376,6 +393,7 @@ export function CollapsibleTable({
   state,
   isDep,
   selectFlight,
+  priceDiff
 }) {
   return (
     <TableContainer component={Paper}>
@@ -417,6 +435,7 @@ export function CollapsibleTable({
               state={state}
               isDep={isDep}
               selectFlight={selectFlight}
+              priceDiff={priceDiff}
             />
           ))}
         </TableBody>
@@ -424,6 +443,7 @@ export function CollapsibleTable({
     </TableContainer>
   );
 }
+
 
 export function Row2({ row, isAdmin, EditContent, DeleteContent, rownumber }) {
   //   const { row } = props;

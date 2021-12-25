@@ -99,8 +99,8 @@ const App = () => {
             )}
             <Route path="/*" element={<None />} />
             
-              {/* {(user.type && user.type === "user") && <Route path="/planeSeatsAfterEdit" element={<PlaneSeatsAfterEdit/>}/> }
-              {(user.type && user.type === "user") && <Route path="/editDeparture" element={<EditDchoose/>}/> } */}
+              {(user.type && user.type === "user") && <Route path="/planeSeatsAfterEdit" element={<PlaneSeatsAfterEdit/>}/> }
+              {(user.type && user.type === "user") && <Route path="/editDeparture" element={<EditDchoose/>}/> }
             
 
           </Routes>
