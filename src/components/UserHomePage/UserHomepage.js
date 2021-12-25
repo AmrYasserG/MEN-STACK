@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState,useContext } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Button from "@mui/material/Button";
 import ResponsiveAppBar from "../ResponsiveAppBar/ResponsiveAppBar";
 import SearchToReserve from "../SearchToReserve/SearchToReserve.js";
 import { CollapsibleTable } from "../CollapsibleTable/CollapsibleTable";
+import { UserContext } from "../../Context/UserContext";
 
 const UserHomepage = () => {
   const [ReturnRows, setReturnRows] = useState([]);
@@ -22,6 +23,7 @@ const UserHomepage = () => {
 
 
   const [searchOff, setSearchOff] = useState(false);
+  const { user } = useContext(UserContext);
 
   const searchToReserve = (SearchCriteria) => {
     if (SearchCriteria) {
@@ -130,7 +132,7 @@ const UserHomepage = () => {
       <ResponsiveAppBar pages={[]} settings={['profile']} isUser={true} />
 
       <Button variant="contained" color="success" style={{ marginLeft: "87%", marginTop: "1%"}}><Link style={{ textDecoration: 'none' }} to='/ReservedFlights'
-        state={{ id: "617e93641ff94cd5d2055174" }}> View Reservation </Link></Button>
+        state={{ id: user.id }}> View Reservation </Link></Button>
 
       <div>
         <SearchToReserve onSearch={searchToReserve} d={searchOff} />
@@ -170,7 +172,7 @@ const UserHomepage = () => {
             arrFlight: arrSelectedRow,
             cabin: depclassType,
             noSeats: parseInt(numberSeats),
-            id: "617e93641ff94cd5d2055174",
+            id: user.id,
           }}
         >
           {" "}

@@ -18,7 +18,10 @@ import background from "./Images/Background.jpg";
 import backgroundA from "./Images/BackgroundY.jpg";
 import ResponsiveAppBar from "./components/ResponsiveAppBar/ResponsiveAppBar";
 import ForgetPassword from "./components/ForgetPassword/ForgetPassword";
+import Payment from "./components/Payment/Payment";
 import { Login } from "./components/Login/Login";
+import PlaneSeatsAfterEdit from "./components/PlaneSeatsAfterEdit/PlaneSeatsAfterEdit";
+import EditDchoose from "./components/EditDchoose/EditDchoose";
 // window.addEventListener("beforeunload", (ev) => {
 //   localStorage.clear();
 // });
@@ -73,7 +76,7 @@ const App = () => {
                     element={<ConfirmedFlight />}
                   />
                   <Route path="/planeSeats" element={<PlaneSeats />} />
-                  {(user.type && user.type === "user") && <Route path="/ReservedFlights" element={<ReservedFlights />} />}
+                  {(user.type && user.type === "user") &&<> <Route path="/ReservedFlights" element={<ReservedFlights /> } /> <Route path="/Payment" element={<Payment/>}/></>}
                 </>
               )}
               {(user.type == "user" || user.type == "admin") && (
@@ -88,8 +91,9 @@ const App = () => {
               </>
             )}
             <Route path="/*" element={<None />} />
-
-  
+            
+              {/* {(user.type && user.type === "user") && <Route path="/planeSeatsAfterEdit" element={<PlaneSeatsAfterEdit/>}/> }
+              {(user.type && user.type === "user") && <Route path="/editDeparture" element={<EditDchoose/>}/> } */}
             
 
           </Routes>
