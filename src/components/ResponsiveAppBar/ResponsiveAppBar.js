@@ -283,7 +283,7 @@ const ResponsiveAppBar = ({ pages, isUser, isAdmin }) => {
                   <MenuItem
                     key={"profile"}
                     onClick={() => {
-                      navigate("/", { replace: true });
+                      navigate("/UserProfile", { replace: true });
                     }}
                   >
                     <Typography textAlign="center">Profile</Typography>
@@ -293,7 +293,7 @@ const ResponsiveAppBar = ({ pages, isUser, isAdmin }) => {
                     onClick={() => {
                       setUser({});
                       setBeta3(true);
-                      navigate("/", { replace: true });
+                      navigate("/login", { replace: true });
                     }}
                   >
                     <Typography textAlign="center">Log out</Typography>
@@ -317,12 +317,7 @@ const ResponsiveAppBar = ({ pages, isUser, isAdmin }) => {
         </Container>
       </AppBar>
       <Toolbar sx={{ mb: "3%" }} />
-      <main style={{ display: `${beta3 ? "block" : "none"}` }}>
-        <LoginBar setBeta={handleBeat3Change} />
-      </main>
-      <main style={{ display: `${!beta3 ? "block" : "none"}` }}>
-        <Outlet />
-      </main>
+      {beta3 ? <LoginBar setBeta={handleBeat3Change} /> : <Outlet />}
     </>
   );
 };

@@ -18,6 +18,7 @@ import background from "./Images/Background.jpg";
 import backgroundA from "./Images/BackgroundY.jpg";
 import ResponsiveAppBar from "./components/ResponsiveAppBar/ResponsiveAppBar";
 import ForgetPassword from "./components/ForgetPassword/ForgetPassword";
+import { Login } from "./components/Login/Login";
 // window.addEventListener("beforeunload", (ev) => {
 //   localStorage.clear();
 // });
@@ -74,7 +75,7 @@ const App = () => {
                   <Route path="/planeSeats" element={<PlaneSeats />} />
                 </>
               )}
-              {user.token && (
+              {(user.type == "user" || user.type == "admin") && (
                 <Route path="/UserProfile" element={<UserProfile />} />
               )}
             </Route>
@@ -82,6 +83,7 @@ const App = () => {
               <>
                 <Route path="/forget" element={<ForgetPassword />}></Route>
                 <Route path="/signup" element={<SignUp />} />
+                <Route path="/login" element={<Login />} />
               </>
             )}
             <Route path="/*" element={<None />} />
