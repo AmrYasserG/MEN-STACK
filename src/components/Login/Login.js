@@ -35,6 +35,7 @@ function Copyright(props) {
   );
 }
 function Login() {
+  const [sending, setSending] = useState(false);
   const [wrongPassword, setWrongPassword] = useState(false);
   const [wrongEmail, setWrongEmail] = useState(false);
   const [emptyFields, setEmptyFields] = useState(false);
@@ -49,6 +50,7 @@ function Login() {
     if (!data.get("email") || !data.get("password")) {
       setEmptyFields(true);
     } else {
+      setSending(true);
       axios
         .post("http://localhost:3005/auth/login", {
           Email: data.get("email"),
@@ -72,6 +74,7 @@ function Login() {
             setWrongEmail(true);
           }
         });
+      setSending(false);
     }
   };
   const handlechange = (e) => {
@@ -173,6 +176,7 @@ function Login() {
                   onChange={handlechange}
                 />
                 <Button
+                  disabled={sending}
                   type="submit"
                   fullWidth
                   variant="contained"
@@ -202,6 +206,7 @@ function Login() {
   );
 }
 function LoginBar(setBeta) {
+  const [sending, setSending] = useState(false);
   const [wrongPassword, setWrongPassword] = useState(false);
   const [wrongEmail, setWrongEmail] = useState(false);
   const [emptyFields, setEmptyFields] = useState(false);
@@ -215,6 +220,7 @@ function LoginBar(setBeta) {
     if (!data.get("email") || !data.get("password")) {
       setEmptyFields(true);
     } else {
+      setSending(true);
       axios
         .post("http://localhost:3005/auth/login", {
           Email: data.get("email"),
@@ -238,6 +244,7 @@ function LoginBar(setBeta) {
             setWrongEmail(true);
           }
         });
+      setSending(false);
     }
   };
   const handlechange = (e) => {
@@ -339,6 +346,7 @@ function LoginBar(setBeta) {
                   onChange={handlechange}
                 />
                 <Button
+                  disabled={sending}
                   type="submit"
                   fullWidth
                   variant="contained"
@@ -347,6 +355,7 @@ function LoginBar(setBeta) {
                   Sign In
                 </Button>
                 <Button
+                  disabled={sending}
                   color="info"
                   fullWidth
                   variant="contained"
