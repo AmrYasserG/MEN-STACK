@@ -189,7 +189,7 @@ function Login() {
                 <Grid container>
                   <Grid item xs>
                     <Link
-                      to="/forgetPassword"
+                      to="/forget"
                       style={{ textDecoration: "none" }}
                     >
                       Forgot password?

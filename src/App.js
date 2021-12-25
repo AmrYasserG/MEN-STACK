@@ -44,7 +44,7 @@ const App = () => {
             overflow: "auto",
             width: "100%",
             backgroundImage: `url(${
-              user.type && user.type === "admin" ? backgroundA : background
+              user.type && user.type === "admin" ? background : background
             })`,
             backgroundRepeat: "repeat-y",
           }}
@@ -83,7 +83,7 @@ const App = () => {
               )}
               <Route path="/*" element={<None />} />
             </Route>
-            {/* <Route path="/login" element={<Login />} />
+            <Route path="/login" element={<Login />} />
             <Route path="/" element={<AdminHomepage />} />
             <Route path="/CreateFlight" element={<CreateFlight />} />
             <Route path="/AdminHomepage" element={<AdminHomepage />} />
@@ -94,7 +94,7 @@ const App = () => {
             <Route path="/*" element={<None />} />
             <Route path="/SummaryConfirm" element={<SummaryConfirm />} />
             <Route path="/ConfirmedFlight" element={<ConfirmedFlight />} />
-            <Route path="/planeSeats" element={<PlaneSeats />} /> */}
+            <Route path="/planeSeats" element={<PlaneSeats />} />
           </Routes>
         </Box>
       </UserContext.Provider>
