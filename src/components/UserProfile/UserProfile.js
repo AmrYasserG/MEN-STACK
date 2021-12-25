@@ -175,7 +175,7 @@ const UserProfile = ({ onEdit }) => {
         setConfirmNewPassword("");
         setNewPassword("");
         setEditOpenResponse(true);
-        setUserDetails(res.data);
+        //setUserDetails(res.data);
         console.log(res.data);
       })
       .catch((err) => {
