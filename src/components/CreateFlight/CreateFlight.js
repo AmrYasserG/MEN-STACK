@@ -57,9 +57,9 @@ const CreateFlight = () => {
 
   //Validation
   const [validFlightNumber, setValidFlightNumber] = useState(true);
-  const [validUniqueFlightNumber, setValidUniqueFlightNumber] = useState(true);
+  const [validUniqueFlightNumber, setValidUniqueFlightNumber] = useState(false);
   const [validUniqueReturnFlightNumber, setValidUniqueReturnFlightNumber] =
-    useState(true);
+    useState(false);
   const [validDate, setValidDate] = useState(true);
   const [validArrivalDate, setValidArrivalDate] = useState(true);
   const [validReturnArrivalDate, setValidReturnArrivalDate] = useState(true);
@@ -905,12 +905,11 @@ const CreateFlight = () => {
             <Button
               disabled={
                 !(
-                  
+                  validReturnTime &&
                   validDepartureTime &&
-                  
+                  validReturnArrivalDate &&
                   validArrivalDate &&
-                  
-                  validFlightNumber &&
+                  validDate &&
                   EconomyClassPrice > 0 &&
                   EconomyClassSeats > 0 &&
                   BusinessClassPrice > 0 &&
@@ -922,9 +921,6 @@ const CreateFlight = () => {
                   BaggageAllowance > 0 &&
                   (!twoWay ||
                     (ReturnEconomyClassPrice > 0 &&
-                      validReturnTime &&
-                      validDate &&
-                      validReturnArrivalDate &&
                       ReturnEconomyClassSeats > 0 &&
                       ReturnBusinessClassPrice > 0 &&
                       ReturnBusinessClassSeats > 0 &&
