@@ -1,21 +1,6 @@
-import axios from "axios";
 import Grid from "@mui/material/Grid";
-
-import MuiAlert from "@mui/material/Alert";
-import Snackbar from "@mui/material/Snackbar";
-import { useState, useEffect, forwardRef } from "react";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
-import InputAdornment from "@mui/material/InputAdornment";
-import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
-import Divider from "@mui/material/Divider";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Switch from "@mui/material/Switch";
-import FormLabel from "@mui/material/FormLabel";
-import FlightTakeoffRoundedIcon from "@mui/icons-material/FlightTakeoffRounded";
-import FlightLandRoundedIcon from "@mui/icons-material/FlightLandRounded";
-import AirlineSeatReclineNormalIcon from "@mui/icons-material/AirlineSeatReclineNormal";
 
 const Login = () => {
   return (

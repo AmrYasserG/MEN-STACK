@@ -1,22 +1,16 @@
 import Grid from "@mui/material/Grid";
 import "./planeSeats.css";
 import { useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ResponsiveAppBar from "../ResponsiveAppBar/ResponsiveAppBar";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
+import TextField from "@mui/material/TextField";
 
 export default function PlaneSeats() {
   const state = useLocation().state;
-  useEffect(() => {
-    console.log(state);
-    console.log(state.cabin);
 
-    // console.log(depSeatsEco);
-    //console.log(state.depFlight);
-    console.log(Object.keys(state.depFlight.EconomySeats));
-    // console.log(state.depflight.EconomySeats);
-  }, []);
+
   const depSeatsEco = Object.keys(state.depFlight.EconomySeats);
   const depSeatsFirst = Object.keys(state.depFlight.FirstSeats);
   const depSeatsBusiness = Object.keys(state.depFlight.BusinessSeats);
@@ -39,8 +33,6 @@ export default function PlaneSeats() {
   if (state.cabin === "Economy") {
     depBlockedSeats = getBlockedSeats(state.depFlight.EconomySeats);
     retBlockedSeats = getBlockedSeats(state.arrFlight.EconomySeats);
-    console.log(depBlockedSeats);
-    console.log(retBlockedSeats);
   }
 
   const depNumOfSeats = [
@@ -62,10 +54,14 @@ export default function PlaneSeats() {
     retSeatsEco.length,
   ];
 
-  const returnChosenSeats = () => {
-    console.log(depChosenSeats);
-    console.log(retChosenSeats);
-  };
+  // const returnChosenSeats = () => {
+  //   console.log(depChosenSeats);
+  //   console.log(retChosenSeats);
+  // };
+  // useEffect(() => {
+  //   console.log(depBlockedSeats);
+  //   console.log(retBlockedSeats);
+  // }, []);
 
   function getBlockedSeats(obj) {
     const temp = Object.entries(obj);
@@ -123,7 +119,7 @@ export default function PlaneSeats() {
 
   return (
     <>
-      <ResponsiveAppBar pages={[]} isUser={true} settings={['profile']}/>
+      <ResponsiveAppBar pages={[]} isUser={true} settings={['profile']} />
 
       <div className="container3">
         <h2 style={{ textAlign: "center" }}>Select Departure Flight Seats</h2>
@@ -134,7 +130,7 @@ export default function PlaneSeats() {
             {depSeats.splice(0, depNumOfSeats[0]).map((seat) => (
               <Grid item key={seat}>
                 {state.cabin !== "First" ||
-                depBlockedSeats.includes(seat) ? (
+                  depBlockedSeats.includes(seat) ? (
                   <button
                     disabled
                     style={{
@@ -174,7 +170,7 @@ export default function PlaneSeats() {
           {depSeats.splice(0, depNumOfSeats[1]).map((seat) => (
             <Grid item key={seat}>
               {state.cabin !== "Business" ||
-              depBlockedSeats.includes(seat) ? (
+                depBlockedSeats.includes(seat) ? (
                 <button
                   disabled
                   style={{
@@ -214,7 +210,7 @@ export default function PlaneSeats() {
           {depSeats.splice(0, depNumOfSeats[2]).map((seat) => (
             <Grid item key={seat}>
               {state.cabin !== "Economy" ||
-              depBlockedSeats.includes(seat) ? (
+                depBlockedSeats.includes(seat) ? (
                 <button
                   disabled
                   style={{
@@ -257,7 +253,7 @@ export default function PlaneSeats() {
             {retSeats.splice(0, retNumOfSeats[0]).map((seat) => (
               <Grid item key={seat}>
                 {state.cabin !== "First" ||
-                retBlockedSeats.includes(seat) ? (
+                  retBlockedSeats.includes(seat) ? (
                   <button
                     disabled
                     style={{
@@ -297,7 +293,7 @@ export default function PlaneSeats() {
           {retSeats.splice(0, retNumOfSeats[1]).map((seat) => (
             <Grid item key={seat}>
               {state.cabin !== "Business" ||
-              retBlockedSeats.includes(seat) ? (
+                retBlockedSeats.includes(seat) ? (
                 <button
                   disabled
                   style={{
@@ -337,7 +333,7 @@ export default function PlaneSeats() {
           {retSeats.splice(0, retNumOfSeats[2]).map((seat) => (
             <Grid item key={seat}>
               {state.cabin !== "Economy" ||
-              retBlockedSeats.includes(seat) ? (
+                retBlockedSeats.includes(seat) ? (
                 <button
                   disabled
                   style={{
@@ -373,23 +369,24 @@ export default function PlaneSeats() {
         <br />
       </div>
       <br />
-      <dic className='container2'>
       <Button
         disabled={retChosenSeats.length !== state.noSeats || depChosenSeats.length !== state.noSeats}
-        onClick={returnChosenSeats}
+        // onClick={returnChosenSeats}
         variant="contained"
         className="btn"
-        style={{marginLeft:"44%"}}       
+        required
+        helperText="Please select your Prefered Class"
+        style={{ marginLeft: "44%" }}
       >
         <Link
-        style={{textDecoration:'none'}}
+          style={{ textDecoration: 'none' }}
           to="/SummaryConfirm"
           state={{
             depFlight: state.depFlight,
             arrFlight: state.arrFlight,
             cabin: state.cabin,
             noSeats: state.noSeats,
-            id:state.id,
+            id: state.id,
             depSeatsReserved: depChosenSeats,
             arrSeatsReserved: retChosenSeats,
           }}
@@ -398,7 +395,13 @@ export default function PlaneSeats() {
           Reserve{" "}
         </Link>
       </Button>
-      </dic>
+      {retChosenSeats.length !== state.noSeats &&
+        depChosenSeats.length !== state.noSeats ? (
+        <div style={{ marginLeft: "43%", color: 'red' }}
+        >*Please select {state.noSeats} Seats</div>
+      ) : null}
+
+
     </>
   );
 }

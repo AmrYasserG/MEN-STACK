@@ -1,11 +1,8 @@
 import React from "react";
 import { useState, useEffect, forwardRef } from "react";
-import Input from "@mui/material/Input";
 import Button from "@mui/material/Button";
 import InputAdornment from "@mui/material/InputAdornment";
-import OutlinedInput from "@mui/material/OutlinedInput";
 import TextField from "@mui/material/TextField";
-import AvTimerOutlinedIcon from "@mui/icons-material/AvTimerOutlined";
 import Box from "@mui/material/Box";
 import axios from "axios";
 import Snackbar from "@mui/material/Snackbar";
@@ -20,8 +17,6 @@ import EventIcon from '@mui/icons-material/Event';
 import EmailIcon from '@mui/icons-material/Email';
 import BadgeIcon from '@mui/icons-material/Badge';
 import Typography from '@mui/material/Typography';
-import Grid from "@mui/material/Grid";
-import Card from "@mui/material/Card";
 
 const UserProfile = ({ onEdit }) => {
   const [Name, setName] = useState("");
@@ -159,10 +154,10 @@ const UserProfile = ({ onEdit }) => {
         m: "auto","& > :not(style)": { mt: 4, mx: 3 },
         my: "2%",
         width:"30%",
-        "text-align": "center" ,
+        textAlign: "center" ,
         border: "5px solid #eeeeee",
         backgroundColor: "#fbfbfb",
-        "box-shadow": "7px 7px 7px#cccccc",}}
+        boxShadow: "7px 7px 7px#cccccc",}}
       >
         <div>
         <Typography variant="h3">

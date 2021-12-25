@@ -1,13 +1,11 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
-
 import None from "./components/None/None";
 import AdminHomepage from "./components/AdminHomepage/AdminHomepage";
 import UserHomepage from "./components/UserHomePage/UserHomepage";
 import Scratch from "./components/scratch/scratch";
 import CreateFlight from "./components/CreateFlight/CreateFlight";
 import UserProfile from "./components/UserProfile/UserProfile";
-import Login from "./components/Login/Login";
 import ReservedFlights from "./components/ReservedFlights/ReservedFlights";
 import PlaneSeats from "./components/planeSeats/planeSeats";
 import SummaryConfirm from "./components/SummaryConfirm/SummaryConfirm";

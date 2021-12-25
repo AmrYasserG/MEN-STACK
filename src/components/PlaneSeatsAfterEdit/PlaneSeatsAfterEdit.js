@@ -8,123 +8,131 @@ import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
 
 const PlaneSeatsAfterEdit = () => {
-    const state = useLocation().state;
+  const state = useLocation().state;
 
-    useEffect(() => {
-      console.log(state.id);
-    }, []);
-  
-    const seatsEco = Object.keys(state.rows.EconomySeats);
-    const seatsFirst = Object.keys(state.rows.FirstSeats);
-    const seatsBusiness = Object.keys(state.rows.BusinessSeats);
-  
-    const numOfSeats = [
-      seatsFirst.length,
-      seatsBusiness.length,
-      seatsEco.length,
-    ];
-  
-    const seats = seatsFirst.concat(seatsBusiness).concat(seatsEco);
-    const alreadyChosen = state.FlightsUserDetails.SeatsReserved;
-    const [alreadyChosen2, setalreadyChosen2] = useState(alreadyChosen)
-    let [chosenSeats, setChosenSeats] = useState(alreadyChosen2);
-  
-  
-  
-    let blockedSeats = [];
-    const cabin = state.FlightsUserDetails.ChosenCabin;
-    if (cabin === "Business")
-      blockedSeats = getBlockedSeats(state.rows.BusinessSeats);
-  
-    if (cabin === "First")
-      blockedSeats = getBlockedSeats(state.rows.FirstSeats);
-  
-    if (cabin === "Economy")
-      blockedSeats = getBlockedSeats(state.rows.EconomySeats);
-  
-  
-    let editFlight = false ;
-  
-    let temp = [];
-    let found = false
-    for (let i = 0; i < blockedSeats.length; i++) {
-      for (let j = 0; j < blockedSeats.length; j++) {
-        if (blockedSeats[i] === alreadyChosen[j]) {
-          found = true;
-          break;
-        }
+  useEffect(() => {
+    console.log(state);
+  }, []);
+
+  const seatsEco = Object.keys(state.rows.EconomySeats);
+  const seatsFirst = Object.keys(state.rows.FirstSeats);
+  const seatsBusiness = Object.keys(state.rows.BusinessSeats);
+
+  const seats = seatsFirst.concat(seatsBusiness).concat(seatsEco);
+  // const seats=['a1']
+  // const numOfSeats = [
+  //   1
+  // ];
+  const numOfSeats = [
+    seatsFirst.length,
+    seatsBusiness.length,
+    seatsEco.length,
+  ];
+
+  let editFlight = state.editFlight;
+  let alreadyChosen;
+
+  if (editFlight === true)
+    alreadyChosen = [];
+  else
+    alreadyChosen = state.FlightsUserDetails.SeatsReserved;
+
+  const [alreadyChosen2, setalreadyChosen2] = useState(alreadyChosen)
+  let [chosenSeats, setChosenSeats] = useState(alreadyChosen2);
+
+
+
+  let blockedSeats = [];
+  const cabin = state.FlightsUserDetails.ChosenCabin;
+  if (cabin === "Business")
+    blockedSeats = getBlockedSeats(state.rows.BusinessSeats);
+
+  if (cabin === "First")
+    blockedSeats = getBlockedSeats(state.rows.FirstSeats);
+
+  if (cabin === "Economy")
+    blockedSeats = getBlockedSeats(state.rows.EconomySeats);
+
+
+
+
+  let temp = [];
+  let found = false
+  for (let i = 0; i < blockedSeats.length; i++) {
+    for (let j = 0; j < blockedSeats.length; j++) {
+      if (blockedSeats[i] === alreadyChosen[j]) {
+        found = true;
+        break;
       }
-      if (found === false)
-        temp.push(blockedSeats[i])
-      found = false;
     }
-    blockedSeats = temp;
-  
-  
-    const returnChosenSeats = () => {
+    if (found === false)
+      temp.push(blockedSeats[i])
+    found = false;
+  }
+  blockedSeats = temp;
+
+
+  const returnChosenSeats = () => {
+    if (editFlight === true) { }
+    else
       console.log(chosenSeats);
-    };
-  
-    function getBlockedSeats(obj) {
-      const temp = Object.entries(obj);
-      let temp2 = [];
-      for (let i = 0; i < temp.length; i++) {
-        temp2 = temp2.concat(temp[i]);
-      }
-      const result = [];
-      for (let i = 0; i < temp2.length - 1; i++) {
-        if (!temp2[i + 1]) {
-          result.push(temp2[i]);
-        }
-        i++;
-      }
-  
-      return result;
+  };
+
+  function getBlockedSeats(obj) {
+    const temp = Object.entries(obj);
+    let temp2 = [];
+    for (let i = 0; i < temp.length; i++) {
+      temp2 = temp2.concat(temp[i]);
     }
-  
-    function handleAlreadyChosen(e) {
-      let temp = [];
-      for (let i = 0; i < alreadyChosen2.length; i++) {
-        if (e.target.id === alreadyChosen2[i]) {
-          e.target.style.background = "lightblue";
-          setChosenSeats([...chosenSeats, alreadyChosen2[i]])
-        } else {
-          temp.push(alreadyChosen2[i]);
-        }
+    const result = [];
+    for (let i = 0; i < temp2.length - 1; i++) {
+      if (!temp2[i + 1]) {
+        result.push(temp2[i]);
       }
-      setalreadyChosen2(temp)
+      i++;
     }
-  
-    function changeBackground(e) {
-      console.log(e.target.style.background);
-  
-      handleAlreadyChosen(e);
-  
-      if (
-        (e.target.style.background === "white" ||
-          e.target.style.background === "")
-      ) {
+
+    return result;
+  }
+
+  function handleAlreadyChosen(e) {
+    let temp = [];
+    for (let i = 0; i < alreadyChosen2.length; i++) {
+      if (e.target.id === alreadyChosen2[i]) {
         e.target.style.background = "lightblue";
-        setChosenSeats([...chosenSeats, e.target.id]);
+        setChosenSeats([...chosenSeats, alreadyChosen2[i]])
+      } else {
+        temp.push(alreadyChosen2[i]);
       }
-      else {
-        e.target.style.background = "white";
-        let newChosenSeats = [];
-        for (let i = 0; i < chosenSeats.length; i++) {
-          if (chosenSeats[i] !== e.target.id)
-            newChosenSeats.push(chosenSeats[i]);
-        }
-        setChosenSeats(newChosenSeats);
-      }
-      //console.log(alreadyChosen2);
-      //console.log(chosenSeats);
     }
-    return (
-        <>
-      {/* <ResponsiveAppBar pages={[]} isUser={true} settings={['profile']} /> */}
+    setalreadyChosen2(temp)
+  }
+
+  function changeBackground(e) {
+    handleAlreadyChosen(e);
+    if (
+      (e.target.style.background === "white" ||
+        e.target.style.background === "")
+    ) {
+      e.target.style.background = "lightblue";
+      setChosenSeats([...chosenSeats, e.target.id]);
+    }
+    else {
+      e.target.style.background = "white";
+      let newChosenSeats = [];
+      for (let i = 0; i < chosenSeats.length; i++) {
+        if (chosenSeats[i] !== e.target.id)
+          newChosenSeats.push(chosenSeats[i]);
+      }
+      setChosenSeats(newChosenSeats);
+    }
+  }
+  return (
+    <>
+      <ResponsiveAppBar pages={[]} isUser={true} settings={['profile']} />
 
       <div className="container3">
-        <h2 style={{ textAlign: "center" }}>Select New Flight Seats</h2>
+        <h2 style={{ textAlign: "center" }}>Select Flight Seats</h2>
 
         {numOfSeats[0] > 0 ? <h3>First Class Seats</h3> : <></>}
         <div className="container1">
@@ -298,56 +306,68 @@ const PlaneSeatsAfterEdit = () => {
       </div>
 
       <br />
-     
 
-        
-       
+
+
+
       <Button
-          onClick={() => {
-            window.location.href = "/ReservedFlights";
-          }}
-          variant="contained"
-          id="bloc1"
-          style={{marginLeft:"48%" } }    
-        >
-         {editFlight===false?(
-         <Link
+        onClick={() => {
+          window.location.href = "/ReservedFlights";
+        }}
+        variant="contained"
+        id="bloc1"
+        style={{ marginLeft: "42%", width: 100, height: 35 }}
+      >
+        {editFlight === false ? (
+          <Link
+            to="/ReservedFlights"
+            style={{ textDecoration: 'none' , color: 'white' }}
+            state={{
+              id: state.id
+            }}
+          >
+            Back{" "}
+          </Link>
+        ) : (<Link
           to="/ReservedFlights"
-          state={{id:state.id
+          style={{ textDecoration: 'none' ,color: 'white', width: 100, height: 35  }}
+          state={{
+            FlightsUserDetails: state.FlightsUserDetails,
+            rows: state.rows
           }}
         >
-          Back{" "}
-        </Link>
-        ):(<Link
-          to="/ReservedFlights"
-          state={{id:state.id
-          }}
-        >
-          Back{" "}
+          Back
         </Link>)}
-        
-        </Button>
+
+      </Button>
       <Button
-          // disabled={ chosenSeats.length !== state.noSeats}
-          disabled={chosenSeats.length !== alreadyChosen.length}
-          onClick={returnChosenSeats}
-          variant="contained"
-          id="bloc2"
-          style={{marginLeft:"2%"}} 
-        >
-          {editFlight===false?(
-        <div>Reserve</div>
-        ):(<Link
+        // disabled={ chosenSeats.length !== state.noSeats}
+        disabled={chosenSeats.length !== alreadyChosen.length}
+        onClick={returnChosenSeats}
+        variant="contained"
+        id="bloc2"
+        style={{ marginLeft: "2%" }}
+      >
+        {editFlight === false ? (
+
+          <div>Reserve</div>
+        ) : (<Link
           to="/ReservedFlights"
-          state={{id:state.id
+          style={{ textDecoration: 'none' }}
+          state={{
+            id: state.id
           }}
         >
           Reserve{" "}
         </Link>)}
-        </Button>
-       
+      </Button>
+      {chosenSeats.length !== state.FlightsUserDetails.SeatsReserved.length  ? (
+        <div style={{ marginLeft: "43%", color: 'red' }}
+        >*Please select {state.FlightsUserDetails.SeatsReserved.length} Seats</div>
+      ) : null}
+
     </>
-    )
+  )
 }
 
 export default PlaneSeatsAfterEdit

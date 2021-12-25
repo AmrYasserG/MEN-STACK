@@ -121,17 +121,17 @@ const createNewFlight = (req, res) => {
           );
         } else {
           let fmap = new Map();
-          fillMap(fmap, req.body.FirstSeatsNo, ["X", "Y"]);
+          fillMap(fmap, req.body.FirstSeatsNo, ["W","X", "Y","Z"]);
           let bmap = new Map();
-          fillMap(bmap, req.body.BusinessSeatsNo, ["O", "P", "Q", "R"]);
+          fillMap(bmap, req.body.BusinessSeatsNo, ["A", "B", "C", "D","E","F"]);
           let emap = new Map();
           fillMap(emap, req.body.EconomySeatsNo, [
-            "A",
-            "B",
-            "C",
-            "D",
-            "E",
-            "F",
+            "G",
+            "H",
+            "I",
+            "J",
+            "K",
+            "L",
           ]);
 
           const flight = new Flight({

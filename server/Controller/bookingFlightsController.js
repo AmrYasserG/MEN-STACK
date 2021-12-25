@@ -20,6 +20,11 @@ const createReservation = (req, res) => {
     });
 }
 
+const editSeats = (req,res)=>{
+  BookingFlights.findById()
+
+}
+
 const getAllReservations = (req,res) => {
     BookingFlights.find({User_id: req.params.User_id})
     .then((result) => {
@@ -107,4 +112,4 @@ const sendItinerary = (req,res)=>{
         });
 }
 
-module.exports = {createReservation,getAllReservations,cancelReservation,sendItinerary};
+module.exports = {createReservation,getAllReservations,cancelReservation,sendItinerary,editSeats};

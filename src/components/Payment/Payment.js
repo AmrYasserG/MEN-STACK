@@ -28,7 +28,7 @@ export default function Payment() {
   };
 
   return (
-    <div class="paymentBody">
+    <div className="paymentBody">
       {clientSecret && (
         <Elements options={options} stripe={stripePromise}>
           <CheckoutForm />
