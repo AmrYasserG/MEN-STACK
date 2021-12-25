@@ -1,18 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Grid from "@mui/material/Grid";
-import Paper from "@mui/material/Paper";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import axios from "axios";
 import Button from "@mui/material/Button";
 import { useLocation } from "react-router-dom";
 import Box from "@mui/material/Box";
-import Divider from "@mui/material/Divider";
 import ResponsiveAppBar from "../ResponsiveAppBar/ResponsiveAppBar";
 
 const SummaryConfirm = () => {
@@ -29,10 +20,10 @@ const SummaryConfirm = () => {
 
   return (
     <div>
-      <ResponsiveAppBar pages={[]} isUser={true} settings={["profile"]} />
-      <div style={{ textAlign: "center" }}>
-        <h1>Choosen Flights Summary</h1>
-        <br></br>
+      <ResponsiveAppBar pages={[]} isUser={true} settings={['profile']} />
+      <div style={{textAlign:"center"}}>
+      <h1>Choosen Flights Summary</h1>
+      <br></br>
       </div>
 
       <Box
@@ -64,7 +55,7 @@ const SummaryConfirm = () => {
         <br></br>
         <Button variant="contained">
           <Link
-            style={{textDecoration:'none'}}
+            style={{ textDecoration: 'none' }}
             to="/Payment"
             state={{
               id: state.id,
@@ -73,6 +64,7 @@ const SummaryConfirm = () => {
               noSeats: state.noSeats,
               depSeatsReserved: state.depSeatsReserved,
               arrSeatsReserved: state.arrSeatsReserved,
+              editFlight: false
             }}
           >
             {" "}
@@ -93,59 +85,59 @@ const SummaryConfirm = () => {
           "box-shadow": "7px 7px 7px#cccccc",
         }}
       >
-        <Grid container sx={{ textAlign: "left" }}>
-          <Grid item xs={12} md={12}>
-            <h2 style={{ textAlign: "center" }}>Departure Flight</h2>
+        <Grid container sx={{textAlign:"left"}}>
+          <Grid item xs={12} md={12} >
+            <h2 style={{textAlign:"center"}}>Departure Flight</h2>
           </Grid>
           <Grid item xs={1} md={2}></Grid>
           <Grid item xs={5} md={4}>
-            <label>Flight Date:</label>
+            <label >Flight Date:</label>
           </Grid>
-          <Grid sx={{ textAlign: "right" }} item xs={5} md={4}>
+          <Grid sx={{textAlign:"right"}}item xs={5} md={4}>
             <label>{state.depFlight.Date}</label>
           </Grid>
           <Grid item xs={1} md={2}></Grid>
 
           <Grid item xs={1} md={2}></Grid>
-          <Grid sx={{ marginTop: "2%" }} item xs={5} md={4}>
+          <Grid sx={{marginTop:"2%"}} item xs={5} md={4}>
             <label>Departure Time:</label>{" "}
           </Grid>
 
-          <Grid sx={{ marginTop: "2%", textAlign: "right" }} item xs={5} md={4}>
+          <Grid sx={{marginTop:"2%", textAlign:"right"}} item xs={5} md={4}>
             <label>{state.depFlight.DepTime}</label>{" "}
           </Grid>
           <Grid item xs={1} md={2}></Grid>
 
           <Grid item xs={1} md={2}></Grid>
-          <Grid sx={{ marginTop: "2%" }} item xs={5} md={4}>
+          <Grid sx={{marginTop:"2%"}} item xs={5} md={4}>
             <label>Arrival Time:</label>
           </Grid>
-          <Grid sx={{ marginTop: "2%", textAlign: "right" }} item xs={5} md={4}>
+          <Grid sx={{marginTop:"2%", textAlign:"right"}} item xs={5} md={4}>
             <label>{state.depFlight.ArrTime}</label>
           </Grid>
           <Grid item xs={1} md={2}></Grid>
           <Grid item xs={1} md={2}></Grid>
 
-          <Grid sx={{ marginTop: "2%" }} item xs={5} md={4}>
+          <Grid sx={{marginTop:"2%"}}item xs={5} md={4}>
             <label>Price per Seat:</label>
           </Grid>
-          <Grid sx={{ marginTop: "2%", textAlign: "right" }} item xs={5} md={4}>
+          <Grid sx={{marginTop:"2%",textAlign:"right"}}item xs={5} md={4}>
             <label>{state.depFlight.Price}</label>
           </Grid>
           <Grid item xs={1} md={2}></Grid>
           <Grid item xs={1} md={2}></Grid>
-          <Grid sx={{ marginTop: "2%" }} item xs={5} md={4}>
+          <Grid sx={{marginTop:"2%"}} item xs={5} md={4}>
             <label>Cabin Class :</label>
           </Grid>
-          <Grid sx={{ marginTop: "2%", textAlign: "right" }} item xs={5} md={4}>
+          <Grid sx={{marginTop:"2%",textAlign:"right"}} item xs={5} md={4}>
             <label>{state.cabin}</label>
           </Grid>
           <Grid item xs={1} md={2}></Grid>
           <Grid item xs={1} md={2}></Grid>
-          <Grid sx={{ marginTop: "2%" }} item xs={5} md={4}>
+          <Grid sx={{marginTop:"2%"}} item xs={5} md={4}>
             <label>Choosen Seats :</label>
           </Grid>
-          <Grid sx={{ marginTop: "2%", textAlign: "right" }} item xs={5} md={4}>
+          <Grid sx={{marginTop:"2%",textAlign:"right"}} item xs={5} md={4}>
             <label>
               {state.depSeatsReserved.map((SeatNumber) => {
                 return <span key={SeatNumber}>{SeatNumber} </span>;
@@ -169,14 +161,14 @@ const SummaryConfirm = () => {
         }}
       >
         <Grid container sx={{ textAlign: "left" }}>
-          <Grid item xs={12} md={12}>
-            <h2 style={{ textAlign: "center" }}>Return Flight</h2>
+          <Grid item xs={12} md={12} >
+            <h2 style={{textAlign:"center"}}>Return Flight</h2>
           </Grid>
           <Grid item xs={1} md={2} marginTop={"2%"}></Grid>
           <Grid item xs={5} md={4} marginTop={"2%"}>
             <label>Flight Date:</label>{" "}
           </Grid>
-          <Grid item xs={5} md={4} sx={{ marginTop: "2%", textAlign: "right" }}>
+          <Grid item xs={5} md={4}  sx={{marginTop:"2%", textAlign:"right"}}>
             <label>{state.arrFlight.Date}</label>{" "}
           </Grid>
           <Grid item xs={1} md={2} marginTop={"2%"}></Grid>
@@ -184,7 +176,7 @@ const SummaryConfirm = () => {
           <Grid item xs={5} md={4} marginTop={"2%"}>
             <label>Departure Time:</label>{" "}
           </Grid>
-          <Grid item xs={5} md={4} sx={{ marginTop: "2%", textAlign: "right" }}>
+          <Grid item xs={5} md={4} sx={{marginTop:"2%", textAlign:"right"}}>
             <label>{state.arrFlight.DepTime}</label>{" "}
           </Grid>
           <br></br> <Grid item xs={1} md={2} marginTop={"2%"}></Grid>
@@ -192,7 +184,7 @@ const SummaryConfirm = () => {
           <Grid item xs={5} md={4} marginTop={"2%"}>
             <label>Arrival Time:</label>{" "}
           </Grid>
-          <Grid item xs={5} md={4} sx={{ marginTop: "2%", textAlign: "right" }}>
+          <Grid item xs={5} md={4} sx={{marginTop:"2%", textAlign:"right"}}>
             <label>{state.arrFlight.ArrTime}</label>{" "}
           </Grid>
           <Grid item xs={1} md={2} marginTop={"2%"}></Grid>
@@ -200,7 +192,7 @@ const SummaryConfirm = () => {
           <Grid item xs={5} md={4} marginTop={"2%"}>
             <label>Price per Seat:</label>{" "}
           </Grid>
-          <Grid item xs={5} md={4} sx={{ marginTop: "2%", textAlign: "right" }}>
+          <Grid item xs={5} md={4} sx={{marginTop:"2%", textAlign:"right"}}>
             <label>{state.arrFlight.Price}</label>
           </Grid>
           <Grid item xs={1} md={2} marginTop={"2%"}></Grid>
@@ -208,7 +200,7 @@ const SummaryConfirm = () => {
           <Grid item xs={5} md={4} marginTop={"2%"}>
             <label>Cabin Class :</label>{" "}
           </Grid>
-          <Grid item xs={5} md={4} sx={{ marginTop: "2%", textAlign: "right" }}>
+          <Grid item xs={5} md={4} sx={{marginTop:"2%", textAlign:"right"}}>
             <label>{state.cabin}</label>{" "}
           </Grid>
           <Grid item xs={1} md={2} marginTop={"2%"}></Grid>
@@ -216,7 +208,7 @@ const SummaryConfirm = () => {
           <Grid item xs={5} md={4} marginTop={"2%"}>
             <label>Choosen Seats :</label>{" "}
           </Grid>
-          <Grid item xs={5} md={4} sx={{ marginTop: "2%", textAlign: "right" }}>
+          <Grid item xs={5} md={4} sx={{marginTop:"2%", textAlign:"right"}}>
             <label>
               {state.arrSeatsReserved.map((SeatNumber) => {
                 return <span key={SeatNumber}>{SeatNumber} </span>;

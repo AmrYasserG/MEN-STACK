@@ -13,64 +13,69 @@ import Button from "@mui/material/Button";
 import ResponsiveAppBar from "../ResponsiveAppBar/ResponsiveAppBar";
 import UpdateOver from "../UpdateOver/UpdateOver";
 import "./EditDchoose.css";
+import { CollapsibleTable } from "../CollapsibleTable/CollapsibleTable";
 
 import EditSearchFlight from "../EditSearchFlight/EditSearchFlight.js";
 
 const EditDchoose = () => {
-    const [DepartureRows, setDepartureRows] = useState([]);
+  const [DepartureRows, setDepartureRows] = useState([]);
 
-    const [depSelectedRow, updateDepSelectedRow] = useState("");
-    const [depChoosenRow, updateDepChoosenRow] = useState("");
+  const [depSelectedRow, updateDepSelectedRow] = useState("");
+  const [depChoosenRow, updateDepChoosenRow] = useState("");
 
-    const [selectPopupButton, setSelectPopupButton] = useState(false);
-    const [depclassType, depsetClassType] = useState("");
-    const [searchOff, setSearchOff] = useState(false);
+  const [selectPopupButton, setSelectPopupButton] = useState(false);
+  const [depclassType, depsetClassType] = useState("");
+  const [searchOff, setSearchOff] = useState(false);
 
-    const state = useLocation().state;
+  const state = useLocation().state;
+  console.log(state);
+  console.log(state.FlightsUserDetails.Type);
+  const idOther=getID();
+  function getID() {
+    const other = state.FlightsUserDetails.Otherflight;
+    for (let i = 0; i < state.AllMyFlights.length; i++) {
+      if (state.AllMyFlights[i].FlightNumber === other) {
+        console.log(i);
+        return i;
+      }
+    }
+  }
 
-    const searchToReserve = (SearchCriteria) => {
-        if (SearchCriteria) {
-          searchDepatureReserve(SearchCriteria);
-          depsetClassType(SearchCriteria.SeatClass);
-        
-        } else {
-          
-          setDepartureRows([]);
-        }
-      };
+  const searchToReserve = (SearchCriteria) => {
+    if (SearchCriteria) {
+      searchDepatureReserve(SearchCriteria);
+      depsetClassType(SearchCriteria.SeatClass);
+    } else {
+      setDepartureRows([]);
+    }
+  };
 
-    const searchDepatureReserve = async (SearchCriteria) => {
-        await axios
-          .post("http://localhost:3005/flights/searchFlightsToReserve", {
-            From: state.rows.From,
-            To: state.rows.To,
-            Class: SearchCriteria.SeatClass,
-            SeatNo: state.rows.SeatsNo,
-            Date: SearchCriteria.DepartureDate,
-          })
-          .then((result) => {
-            console.log(result.data);
-            setDepartureRows(result.data);
-          });
-      };
+  const searchDepatureReserve = async (SearchCriteria) => {
+    await axios
+      .post("http://localhost:3005/flights/searchFlightsToReserve", {
+        From: state.rows.From,
+        To: state.rows.To,
+        Class: SearchCriteria.SeatClass,
+        SeatNo: state.rows.SeatsNo,
+        Date: SearchCriteria.DepartureDate,
+      })
+      .then((result) => {
+        console.log(result.data);
+        setDepartureRows(result.data);
+      });
+  };
 
-    const departureColumns = [
-        { id: "FlightNumber", label: "Flight Number", width: 60 },
-        { id: "DepartureTime", label: "Departure Time", width: 60 },
-        { id: "ArrivalTime", label: "Arrival Time", width: 60 },
-        { id: "TripDuration", label: "Trip Duration ", width: 110 },
-        { id: "PriceDifference", label: "Price Difference ", width: 60 },
-        
-      ];
+  const departureColumns = [
+    { id: "FlightNumber", label: "Flight Number", width: 60 },
+    { id: "DepartureTime", label: "Departure Time", width: 60 },
+    { id: "ArrivalTime", label: "Arrival Time", width: 60 },
+    { id: "TripDuration", label: "Trip Duration ", width: 110 },
+    { id: "PriceDifference", label: "Price Difference ", width: 60 },
+  ];
 
-      return (
-      <div>
-      <ResponsiveAppBar pages={[]} settings={['profile']} isUser={true} />
-
-      <Button variant="contained" color="success" style={{marginLeft:"87%", marginTop:"1%"}}><Link to = '/ReservedFlights'
-      state = {{id : "617e93641ff94cd5d2055174"}}> View Reservation </Link></Button>
-      
-      
+  return (
+    <div>
+      <ResponsiveAppBar pages={[]} settings={["profile"]} isUser={true} />
       <UpdateOver trigger={selectPopupButton} setTrigger={setSelectPopupButton}>
         <h1>Flight Details:</h1>
         <br></br>
@@ -109,7 +114,6 @@ const EditDchoose = () => {
           style={{ right: "5%", top: "7%" }}
           onClick={() => {
             setSearchOff(false);
-
             setSelectPopupButton(false);
             updateDepChoosenRow(depSelectedRow);
             console.log(depSelectedRow._id);
@@ -132,10 +136,20 @@ const EditDchoose = () => {
       </UpdateOver>
 
       <div>
-        <EditSearchFlight onSearch={searchToReserve} hide={searchOff} />
+        <EditSearchFlight
+          onSearch={searchToReserve}
+          hide={searchOff}
+          Type={state.FlightsUserDetails.Type}
+          otherflight={state.AllMyFlights[getID()]}
+        />
       </div>
 
-      <h1>Departure Flights</h1>
+      <h1>
+        {state.FlightsUserDetails.Type === "Return Flight"
+          ? "Return Flights"
+          : "Departure Flights"}
+      </h1>
+      <CollapsibleTable isDep rows={DepartureRows} isUser />
       <Paper sx={{ width: "100%", overflow: "hidden", marginTop: "1%" }}>
         <TableContainer sx={{ maxHeight: 500 }}>
           <Table>
@@ -158,7 +172,7 @@ const EditDchoose = () => {
                     onClick={() => {
                       setSearchOff(true);
                       updateDepSelectedRow({
-                        id:row._id,
+                        id: row._id,
                         FlightNumber: row.FlightNumber,
                         From: row.From,
                         To: row.To,
@@ -176,9 +190,9 @@ const EditDchoose = () => {
                         EconomySeats: row.EconomySeats,
                         FirstSeats: row.FirstSeats,
                         BusinessSeats: row.BusinessSeats,
-                        EconomyAvailableSeatsNo : row.EconomyAvailableSeatsNo,
-                        BusinessAvailableSeatsNo : row.BusinessAvailableSeatsNo,
-                        FirstAvailableSeatsNo : row.FirstAvailableSeatsNo
+                        EconomyAvailableSeatsNo: row.EconomyAvailableSeatsNo,
+                        BusinessAvailableSeatsNo: row.BusinessAvailableSeatsNo,
+                        FirstAvailableSeatsNo: row.FirstAvailableSeatsNo,
                       });
                       setSelectPopupButton(true);
                     }}
@@ -201,40 +215,35 @@ const EditDchoose = () => {
                             {depclassType}
                           </TableCell>
                         );
-                      }
-                      else if (column.id==="TripDuration"){
+                      } else if (column.id === "TripDuration") {
                         return (
-                            <TableCell
-                              key={column.id}
-                              sx={{ textAlign: "center" }}
-                            >
-                              PLEASE REMEBER!
-                            </TableCell>
-                          );
-
-                      }
-                      else if (column.id==="PriceDifference"){
+                          <TableCell
+                            key={column.id}
+                            sx={{ textAlign: "center" }}
+                          >
+                            PLEASE REMEBER!
+                          </TableCell>
+                        );
+                      } else if (column.id === "PriceDifference") {
                         return (
-                            <TableCell
-                              key={column.id}
-                              sx={{ textAlign: "center" }}
-                            >
-                              {
-                            
-                            (state.FlightsUserDetails.ChosenCabin === "First"
-                            ? state.rows.FirstClassPrice
-                            : state.FlightsUserDetails.ChosenCabin === "Economy"
-                            ?  state.rows.EconomyClassPrice
-                            :  state.rows.BusinessClassPrice) -(depclassType === "First"
-                            ? row.FirstClassPrice
-                            : depclassType === "Economy"
-                            ? row.EconomyClassPrice
-                            : row.BusinessClassPrice)}
-                            </TableCell>
-                          );
-
-                      }
-                      else {
+                          <TableCell
+                            key={column.id}
+                            sx={{ textAlign: "center" }}
+                          >
+                            {(depclassType === "First"
+                              ? row.FirstClassPrice
+                              : depclassType === "Economy"
+                              ? row.EconomyClassPrice
+                              : row.BusinessClassPrice) -
+                              (state.FlightsUserDetails.ChosenCabin === "First"
+                                ? state.rows.FirstClassPrice
+                                : state.FlightsUserDetails.ChosenCabin ===
+                                  "Economy"
+                                ? state.rows.EconomyClassPrice
+                                : state.rows.BusinessClassPrice)}
+                          </TableCell>
+                        );
+                      } else {
                         return (
                           <TableCell
                             key={column.id}
@@ -255,28 +264,104 @@ const EditDchoose = () => {
         </TableContainer>
       </Paper>
       <br></br>
-   
-      {!searchOff&&<Button
-        disabled={depChoosenRow === "" }
-        variant="contained"
-        style ={{marginLeft:"40%", marginTop:"1%"}}
-      >
-        <Link
-          underline="none"
-          to="/scratch"
-          state={{
-            prevFlight :state.prevFlight,
-            depFlight: depChoosenRow,
-           
-            cabin: depclassType,
-            //noSeats: parseInt(numberSeats),
-            id: "617e93641ff94cd5d2055174",
-          }}
+
+      {!searchOff && (
+        <Button
+          disabled={depChoosenRow === ""}
+          variant="contained"
+          style={{ marginLeft: "40%", marginTop: "1%" }}
         >
-          {" "}
-          Proceed to Seat Selection{" "}
-        </Link>
-      </Button>}
+          <Link
+            underline="none"
+            to="/planeSeatsAfterEdit"
+            style={{ textDecoration: "none" }}
+            state={{
+              FlightsUserDetails: state.FlightsUserDetails,
+              rows: state.rows,
+              oldPrice: (state.FlightsUserDetails.ChosenCabin === "First"
+              ? state.rows.FirstClassPrice
+              : state.FlightsUserDetails.ChosenCabin ===
+                "Economy"
+              ? state.rows.EconomyClassPrice
+              : state.rows.BusinessClassPrice),
+              editFlight: true,
+              newClass: depclassType,
+              id: "617e93641ff94cd5d2055174",
+              
+
+
+
+              arrFlight:state.FlightsUserDetails.Type==="Return Flight"?Object.assign(depChoosenRow,{cabin:depclassType}):{
+                ArrTerminal: state.AllMyFlights[idOther].AirportArrivalTerminal,
+                ArrTime: state.AllMyFlights[idOther].ArrivalTime,
+                BusinessAvailableSeatsNo: state.AllMyFlights[idOther].BusinessAvailableSeatsNo,
+                BusinessSeats: state.AllMyFlights[idOther].BusinessSeats,
+                 Date: state.AllMyFlights[idOther].Date,
+                DepTerminal: state.AllMyFlights[idOther].AirportDepartureTerminal, 
+                DepTime: state.AllMyFlights[idOther].DepartureTime,
+                  EconomyAvailableSeatsNo: state.AllMyFlights[idOther].EconomyAvailableSeatsNo,
+                EconomySeats: state.AllMyFlights[idOther].EconomySeats,
+              FirstAvailableSeatsNo: state.AllMyFlights[idOther].FirstAvailableSeatsNo,
+              FirstSeats: state.AllMyFlights[idOther].FirstSeats,
+              FlightNumber: state.AllMyFlights[idOther].FlightNumber,
+              From: state.AllMyFlights[idOther].From ,
+              Price: state.AllFlightsUserDetails[idOther].ChosenCabin=== "First"
+              ? state.AllMyFlights[idOther].FirstClassPrice
+              : state.AllFlightsUserDetails[idOther] === "Economy"
+              ? state.AllMyFlights[idOther].EconomyClassPrice
+              : state.AllMyFlights[idOther].BusinessClassPrice,
+              To: state.AllMyFlights[idOther].To,
+              id: state.AllMyFlights[idOther]._id,
+              cabin:state.AllFlightsUserDetails[idOther].ChosenCabin
+              },
+
+
+
+
+              depFlight:state.FlightsUserDetails.Type==="Return Flight"?
+              {
+                ArrTerminal: state.AllMyFlights[idOther].AirportArrivalTerminal,
+                ArrTime: state.AllMyFlights[idOther].ArrivalTime,
+                BusinessAvailableSeatsNo: state.AllMyFlights[idOther].BusinessAvailableSeatsNo,
+                BusinessSeats: state.AllMyFlights[idOther].BusinessSeats,
+                 Date: state.AllMyFlights[idOther].Date,
+                DepTerminal: state.AllMyFlights[idOther].AirportDepartureTerminal, 
+                DepTime: state.AllMyFlights[idOther].DepartureTime,
+                  EconomyAvailableSeatsNo: state.AllMyFlights[idOther].EconomyAvailableSeatsNo,
+                EconomySeats: state.AllMyFlights[idOther].EconomySeats,
+              FirstAvailableSeatsNo: state.AllMyFlights[idOther].FirstAvailableSeatsNo,
+              FirstSeats: state.AllMyFlights[idOther].FirstSeats,
+              FlightNumber: state.AllMyFlights[idOther].FlightNumber,
+              From: state.AllMyFlights[idOther].From ,
+              Price: state.AllFlightsUserDetails[idOther].ChosenCabin=== "First"
+              ? state.AllMyFlights[idOther].FirstClassPrice
+              : state.AllFlightsUserDetails[idOther] === "Economy"
+              ? state.AllMyFlights[idOther].EconomyClassPrice
+              : state.AllMyFlights[idOther].BusinessClassPrice,
+              To: state.AllMyFlights[idOther].To,
+              id: state.AllMyFlights[idOther]._id,
+              cabin:state.AllFlightsUserDetails[idOther].ChosenCabin
+              }
+              :Object.assign(depChoosenRow,{cabin:depclassType}),
+
+
+
+
+
+
+              
+              isDep:
+                state.FlightsUserDetails.Type === "Return Flight"
+                  ? false
+                  : true,
+              otherFightSeats:
+                state.AllFlightsUserDetails[getID()].SeatsReserved,
+            }}
+          >
+            Proceed to Seat Selection
+          </Link>
+        </Button>
+      )}
     </div>
   );
 };

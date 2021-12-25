@@ -11,13 +11,27 @@ const stripePromise = loadStripe('pk_test_51K9GgACFXf6lJ84DPhCUsT8a3qoEhsbUfzWQ5
 export default function Payment() {
   const [clientSecret, setClientSecret] = useState("");
   const state = useLocation().state;
-  const items = {TotalAmount: state.arrFlight.Price + state.depFlight.Price};
   useEffect(() => {
+    console.log(state);
+    if(state.editFlight){
+      let items = {};
+      console.log((state.depFlight.Price - state.oldPrice) * state.noSeats);
+      if(state.isDep){
+        items = {TotalAmount: 200};
+      } else{
+        items = {TotalAmount: (state.arrFlight.Price - state.oldPrice) * state.noSeats};
+      }
+      axios.post("http://localhost:3005/payment/payment", items)
+    .then((res)=>{
+      setClientSecret(res.data.clientSecret);
+    }) 
+    }else{
+      const items = {TotalAmount: (state.arrFlight.Price + state.depFlight.Price) * state.noSeats};
     axios.post("http://localhost:3005/payment/payment", items)
     .then((res)=>{
       setClientSecret(res.data.clientSecret);
-    })
-  }, []);
+    })    
+  }}, []);
 
   const appearance = {
     theme: 'stripe',

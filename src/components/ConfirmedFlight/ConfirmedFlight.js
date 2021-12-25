@@ -1,31 +1,40 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import  Grid from "@mui/material/Grid";
-import Paper from "@mui/material/Paper";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
 import axios from "axios";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
-import Divider from "@mui/material/Divider";
+
 import ResponsiveAppBar from "../ResponsiveAppBar/ResponsiveAppBar";
 
 const ConfirmedFlight = () => {
-  const [depChoosen, setDepChoosen] = useState("");
-  const [arrChoosen, setArrChoosen] = useState("");
-  const state = JSON.parse(localStorage.getItem("state"))
-  let resNum = Date.now();
-  useEffect(() => {   
-    createReservation();
+  const state = JSON.parse(localStorage.getItem("state"));
+  console.log(state);
+  let User_Email = "";
+  const [resNum,setresNum] = useState(0);
+  useEffect(() => { 
+    const User_id = state.id;
+    if(state.editFlight){
+      console.log("from edit");
+      setresNum(state.resNum);
+    } 
+    else{
+      setresNum(Date.now());
+      createReservation(User_id);
+    }
   }, []);
 
-  function createReservation() { 
+  function createReservation(User_id) {
+    // console.log(User_Email);
     axios
-      .post("http://localhost:3005/bookingFlights/CreateReservation", {
+      .get(
+        "http://localhost:3005/users/userInfo/" + User_id
+      )
+      .then((res) => {
+        User_Email = res.data.Email;
+        console.log(User_Email); 
+        axios
+        .post("http://localhost:3005/bookingFlights/CreateReservation", {
         User_id: state.id,
         ReservationNumber: resNum,
         FlightNumber: state.depFlight.FlightNumber,
@@ -36,7 +45,7 @@ const ConfirmedFlight = () => {
         Otherflight: state.arrFlight.FlightNumber
       })
       .then((res) => {
-        console.log("created dep flight");
+        // console.log("created dep flight");
         const toBeUpdatedFlight = state.depFlight;
         const toBeUpdatedFlightSeats = state.depSeatsReserved;
         const ChosenCabin = state.depFlight.cabin + "AvailableSeatsNo";
@@ -93,7 +102,7 @@ const ConfirmedFlight = () => {
             updatedAvailableSeats
           )
           .then((res) => {
-            console.log("updated dep flight");
+            // console.log("updated dep flight");
             axios.post(
               "http://localhost:3005/bookingFlights/CreateReservation",
               {
@@ -109,7 +118,7 @@ const ConfirmedFlight = () => {
             );
           })
           .then((res) => {
-            console.log("created ret flight");
+            // console.log("created ret flight");
             const toBeUpdatedFlight = state.arrFlight;
             const toBeUpdatedFlightSeats = state.arrSeatsReserved;
             const ChosenCabin = state.arrFlight.cabin + "AvailableSeatsNo";
@@ -166,13 +175,14 @@ const ConfirmedFlight = () => {
                 updatedAvailableSeats
               )
               .then((res) => {
-                console.log("updated ret flight");
+                axios.post("http://localhost:3005/bookingFlights/sendItinerary/" + User_Email,{state:state,resNum:resNum});
               });
           });
       });
-
-      //send email to user with iternary
-      axios.post("http://localhost:3005/bookingFlights/sendItinerary",{state:state,resNum:resNum});
+    }).catch((err) => {
+      console.log(err);
+    })
+      
   }
 
   return (
@@ -190,11 +200,11 @@ const ConfirmedFlight = () => {
           marginLeft: "5%",
           marginRight: "5%",
           marginTop: "0",
-          "text-align": "center",
+          textAlign: "center",
           width: 3 / 9,
           border: "5px solid #eeeeee",
           backgroundColor: "#fbfbfb",
-          "box-shadow": "7px 7px 7px#cccccc",
+          boxShadow: "7px 7px 7px#cccccc",
           float: "Right",
         }}
       >
@@ -217,11 +227,11 @@ const ConfirmedFlight = () => {
         sx={{
           marginLeft: "5%",
           my: "2%",
-          "text-align": "center",
+          textAlign: "center",
           width: 3 / 9,
           border: "5px solid #eeeeee",
           backgroundColor: "#fbfbfb",
-          "box-shadow": "7px 7px 7px#cccccc",
+          boxShadow: "7px 7px 7px#cccccc",
           
         }}
       >
@@ -295,11 +305,11 @@ const ConfirmedFlight = () => {
         sx={{
           marginLeft: "5%",
           my: "2%",
-          "text-align": "center",
+          textAlign: "center",
           width: 3 / 9,
           border: "5px solid #eeeeee",
           backgroundColor: "#fbfbfb",
-          "box-shadow": "7px 7px 7px#cccccc",
+          boxShadow: "7px 7px 7px#cccccc",
           float:"left"
         }}
       >
@@ -367,11 +377,11 @@ const ConfirmedFlight = () => {
           marginLeft: "5%",
           marginRight: "5%",
           marginTop: "5%",
-          "text-align": "center",
+          textAlign: "center",
           width: 3 / 9,
           border: "5px solid #eeeeee",
           backgroundColor: "#fbfbfb",
-          "box-shadow": "7px 7px 7px#cccccc",
+          boxShadow: "7px 7px 7px#cccccc",
           float:"right"
         }}
       >

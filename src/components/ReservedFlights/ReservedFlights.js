@@ -1,13 +1,5 @@
 import React from "react";
 import { useState, useEffect, forwardRef } from "react";
-import Paper from "@mui/material/Paper";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import TextField from "@mui/material/TextField";
 import axios from "axios";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
@@ -21,8 +13,6 @@ import "./ReservedFlights.css";
 import ResponsiveAppBar from "../ResponsiveAppBar/ResponsiveAppBar";
 import { useLocation } from "react-router-dom";
 import { CollapsibleTable } from "../CollapsibleTable/CollapsibleTable";
-import { collapseClasses } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Edit";
 
 const Alert = forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -30,41 +20,6 @@ const Alert = forwardRef(function Alert(props, ref) {
 
 function ReservedFlights() {
   const state = useLocation().state;
-  // const columns = [
-  //   { id: "ReservationNumber", label: "Reservation Number", width: 80 },
-  //   { id: "FlightNumber", label: "Flight Number", width: 80 },
-  //   { id: "From", label: "From", width: 60 },
-  //   { id: "To", label: "To", width: 60 },
-  //   { id: "Date", label: "Flight Date", width: 100 },
-  //   { id: "DepartureTime", label: "Departure Time", width: 80 },
-  //   { id: "ArrivalTime", label: "Arrival Time", width: 80 },
-  //   {
-  //     id: "AirportDepartureTerminal",
-  //     label: "Airport Departure Terminal",
-  //     width: 120,
-  //   },
-  //   {
-  //     id: "AirportArrivalTerminal",
-  //     label: "Airport Arrival Terminal",
-  //     width: 120,
-  //   },
-  //   {
-  //     id: "ChosenCabin",
-  //     label: "Cabin",
-  //     Width: 60,
-  //   },
-  //   {
-  //     id: "SeatsReserved",
-  //     label: "Reserved Seats",
-  //     Width: 80,
-  //   },
-  //   {
-  //     id: "TotalReservationPrice",
-  //     label: "Total Reservation Price",
-  //     Width: 60,
-  //   },
-  //   { id: "action", label: "Action", Width: 100 },
-  // ];
   const [FlightsReserved, setFlightsReserved] = useState([]);
   const [FlightsUserDetails, setFlightsUserDetails] = useState([]);
   const [toBeCanceled, setToBeCanceled] = useState(0);
@@ -78,8 +33,6 @@ function ReservedFlights() {
 
   useEffect(() => {
     GetAllReservedFlights();
-    console.log(FlightsUserDetails);
-    console.log(FlightsReserved);
   }, []);
 
   function GetAllReservedFlights() {
@@ -99,9 +52,6 @@ function ReservedFlights() {
           }
           setFlightsUserDetails(flight_User_Details);
           GetAllFlights(flight_Details, flight_User_Details);
-          //console.log(res.data);
-          // console.log(FlightsUserDetails);
-          // console.log(FlightsReserved);
         })
         .catch((err) => {
           console.log(err);
@@ -176,7 +126,7 @@ function ReservedFlights() {
         break;
       default:
     }
-    console.log(updatedAvailableSeats);
+    // console.log(updatedAvailableSeats);
     axios
       .put(
         "http://localhost:3005/flights/updateFlightAvailableSeats/" +
@@ -184,15 +134,97 @@ function ReservedFlights() {
         updatedAvailableSeats
       )
       .then((res) => {
-        // console.log("Available Seats Updated successfully");
+        
       })
       .catch((err) => {
         console.log(err);
       });
   }
 
+  function updateFlightAvailableSeats2(FlightsReservedArray, FlightsUserDetailsArray, toBeCanceledReservation) {
+    const toBeUpdatedFlight = FlightsReservedArray[toBeCanceledReservation];
+    const toBeUpdatedFlightSeats = FlightsUserDetailsArray[toBeCanceledReservation];
+    const ChosenCabin = FlightsUserDetailsArray[toBeCanceledReservation].ChosenCabin + "AvailableSeatsNo";
+    let updatedAvailableSeats = {};
+    switch (ChosenCabin) {
+      case "EconomyAvailableSeatsNo":
+        const EconomySeats = new Map(Object.entries(toBeUpdatedFlight.EconomySeats));
+        for (let i = 0; i < toBeUpdatedFlightSeats.SeatsReserved.length; i++) {
+          EconomySeats.set(toBeUpdatedFlightSeats.SeatsReserved[i], true);
+        }
+        updatedAvailableSeats = { EconomyAvailableSeatsNo: toBeUpdatedFlight.EconomyAvailableSeatsNo + toBeUpdatedFlightSeats.SeatsReserved.length, EconomySeats: Object.fromEntries(EconomySeats) };
+        break;
+      case "BusinessAvailableSeatsNo":
+        const BusinessSeats = new Map(Object.entries(toBeUpdatedFlight.BusinessSeats));
+        for (let i = 0; i < toBeUpdatedFlightSeats.SeatsReserved.length; i++) {
+          BusinessSeats.set(toBeUpdatedFlightSeats.SeatsReserved[i], true);
+        }
+        updatedAvailableSeats = { BusinessAvailableSeatsNo: toBeUpdatedFlight.BusinessAvailableSeatsNo + toBeUpdatedFlightSeats.SeatsReserved.length, BusinessSeats: Object.fromEntries(BusinessSeats) };
+        break;
+      case "FirstAvailableSeatsNo":
+        const FirstSeats = new Map(Object.entries(toBeUpdatedFlight.FirstSeats));
+        for (let i = 0; i < toBeUpdatedFlightSeats.SeatsReserved.length; i++) {
+          FirstSeats.set(toBeUpdatedFlightSeats.SeatsReserved[i], true);
+        }
+        updatedAvailableSeats = { FirstAvailableSeatsNo: toBeUpdatedFlight.FirstAvailableSeatsNo + toBeUpdatedFlightSeats.SeatsReserved.length, FirstSeats: Object.fromEntries(FirstSeats) };
+        break;
+      default:
+    }
+    // console.log(updatedAvailableSeats);
+    axios
+      .put(
+        "http://localhost:3005/flights/updateFlightAvailableSeats/" +
+        toBeUpdatedFlight._id,
+        updatedAvailableSeats
+      )
+      .then((res) => {
+        if(FlightsUserDetails[toBeCanceled].Type === "Departure Flight") {
+          FlightsReserved.splice(toBeCanceled, 2)
+          setFlightsReserved(
+            FlightsReserved
+          );
+          // FlightsUserDetails.splice(toBeCanceled, 2)  
+          // setFlightsUserDetails(
+          //   FlightsUserDetails
+          // );
+          
+        } else{
+          FlightsReserved.splice(toBeCanceled-1, 2)
+          setFlightsReserved(
+            FlightsReserved
+          );
+          // FlightsUserDetails.splice(toBeCanceled-1, 2)
+          // setFlightsUserDetails(
+          //   FlightsUserDetails
+          // );
+        }
+        setFlightsUserDetails(
+          FlightsUserDetails.filter((Flights) => {
+            return Flights._id !== (FlightsUserDetails[toBeCanceled]._id|| Flights._id !== FlightsUserDetails[toBeCanceledReservation]._id)
+          })              
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+
+
+  function editSeats(userArr, flightArr , newSeats){
+    
+  }
+
   function DeleteRow() {
-    let FlightReservedId = FlightsUserDetails[toBeCanceled]._id;
+    const FlightReservedId = FlightsUserDetails[toBeCanceled]._id;
+    const FlightReservedOtherFlight = FlightsUserDetails[toBeCanceled].Otherflight;
+    for(let i=0;i<FlightsUserDetails.length;i++){
+      if(FlightsUserDetails[i].FlightNumber === FlightReservedOtherFlight){
+        toBeCanceled2 = i;
+        break;
+      }
+    }
+    const FlightReservedId2 = FlightsUserDetails[toBeCanceled2]._id;
     axios
       .delete(
         "http://localhost:3005/bookingFlights/cancelReservation/" + FlightReservedId + "/" + User_Email
@@ -200,48 +232,24 @@ function ReservedFlights() {
       .then((res) => {
         updateFlightAvailableSeats(FlightsReserved, FlightsUserDetails, toBeCanceled);
         setDeleteOpenResponse(true);
-        FlightsReserved.splice(toBeCanceled, 1)
-        setFlightsReserved(
-          FlightsReserved
-        );
-        setFlightsUserDetails(
-          FlightsUserDetails.filter((Flights) => {
-            return Flights._id !== FlightReservedId;
-          })
-        );
       })
       .catch((err) => {
         console.log(err);
       });
 
-      for(let i=0;i<FlightsUserDetails.length;i++){
-        if(FlightsUserDetails[i].FlightNumber === FlightsUserDetails[toBeCanceled].Otherflight){
-          toBeCanceled2 = i;
-          break;
-        }
-      }
-
-      FlightReservedId = FlightsUserDetails[toBeCanceled2]._id;
       axios
         .delete(
-          "http://localhost:3005/bookingFlights/cancelReservation/" + FlightReservedId + "/" + User_Email
+          "http://localhost:3005/bookingFlights/cancelReservation/" + FlightReservedId2 + "/" + User_Email
         )
         .then((res) => {
-          updateFlightAvailableSeats(FlightsReserved, FlightsUserDetails, toBeCanceled2);
+          updateFlightAvailableSeats2(FlightsReserved, FlightsUserDetails, toBeCanceled2);
           setDeleteOpenResponse(true);
-          FlightsReserved.splice(toBeCanceled2, 1)
-          setFlightsReserved(
-            FlightsReserved
-          );
-          setFlightsUserDetails(
-            FlightsUserDetails.filter((Flights) => {
-              return Flights._id !== FlightReservedId;
-            })
-          );
         })
         .catch((err) => {
           console.log(err);
         });
+
+
   }
 
   function sendItinerary(){
@@ -453,7 +461,7 @@ function ReservedFlights() {
         />
         <h2>Send Flight Itinerary</h2>
         <p style={{ fontSize: "small" }}>
-          Do you want to send this reservation's Itinerary?
+          Do you want to send this Flight's Itinerary to your email address?
         </p>
         {/* <TextField id="outlined-basic" required label="Email Address" variant="outlined"/> */}
         <Button
@@ -476,105 +484,8 @@ function ReservedFlights() {
         FlightsUserDetails={FlightsUserDetails}
         setToBeCanceled={setToBeCanceled}
         setToBeMailed = {setToBeMailed}
+        state = {state}
         />
-
-      {/* <Paper sx={{ width: "100%", overflow: "hidden", marginTop: "1%" }}>
-        <TableContainer sx={{ maxHeight: 500 }}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                {columns.map((column) => (
-                  <TableCell
-                    key={column.id}
-                    style={{ width: column.width, textAlign: "center" }}
-                  >
-                    {column.label}
-                  </TableCell>
-                ))}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {FlightsReserved.map((row, index) => {
-                return (
-                  <TableRow hover key={FlightsUserDetails[index]._id}>
-                    {columns.map((column) => {
-                      const value = row[column.id];
-                      if (column.id === "action") {
-                        return (
-                          <TableCell
-                            sx={{ textAlign: "center" }}
-                            key={{ key: row._id }}
-                          >
-                            <Button
-                              variant="contained"
-                              color="error"
-                              onClick={() => {
-                                setCancelReservationPopupButton(true);
-                                setToBeCanceled(index);
-                              }}
-                            >
-                              Cancel Reservation
-                            </Button>
-                          </TableCell>
-                        );
-                      } else if (column.id === "ReservationNumber") {
-                        return (
-                          <TableCell
-                            key={column.id}
-                            sx={{ textAlign: "center" }}
-                          >
-                            {FlightsUserDetails[index].ReservationNumber}
-                          </TableCell>
-                        );
-                      } else if (column.id === "ChosenCabin") {
-                        return (
-                          <TableCell
-                            key={column.id}
-                            sx={{ textAlign: "center" }}
-                          >
-                            {FlightsUserDetails[index].ChosenCabin}
-                          </TableCell>
-                        );
-                      } else if (column.id === "SeatsReserved") {
-                        return (
-                          <TableCell
-                            key={column.id}
-                            sx={{ textAlign: "center" }}
-                          >
-                            {FlightsUserDetails[index].SeatsReserved.map(
-                              (SeatNumber) => {
-                                return <span key={SeatNumber}>{SeatNumber} </span>;
-                              }
-                            )}
-                          </TableCell>
-                        );
-                      } else if (column.id === "TotalReservationPrice") {
-                        return (
-                          <TableCell
-                            key={column.id}
-                            sx={{ textAlign: "center" }}
-                          >
-                            {FlightsUserDetails[index].TotalReservationPrice}
-                          </TableCell>
-                        );
-                      } else {
-                        return (
-                          <TableCell
-                            key={column.id}
-                            sx={{ textAlign: "center" }}
-                          >
-                            {value}
-                          </TableCell>
-                        );
-                      }
-                    })}
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Paper> */}
       <p style={{ textAlign: "center", width: "100%" }}>
         {FlightsUserDetails.length === 0 ? "No Reservations" : FlightsReserved.length ===0 ? "No Reservations":"" }
       </p>

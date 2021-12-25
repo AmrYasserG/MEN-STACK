@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useLayoutEffect, useEffect  } from "react";
 import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
 
@@ -13,7 +13,14 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import BackspaceRoundedIcon from "@mui/icons-material/BackspaceRounded";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 
-const EditSearchFlight = ({ onSearch, hide }) => {
+const EditSearchFlight = ({ onSearch, hide,otherflight ,Type}) => {
+
+console.log(otherflight);
+console.log(Type);
+
+
+  const [validDate, setvalidDate] = useState(true);
+
   const [DepartureDate, setDepartureDate] = useState("");
   const [SeatClass, setSeatClass] = useState("");
   const seatClasses = [
@@ -31,10 +38,23 @@ const EditSearchFlight = ({ onSearch, hide }) => {
     },
   ];
 
+  useEffect(()=>{
+    let d1=new Date(DepartureDate);
+    let d2=new Date(otherflight.Date);
+    if(Type==="Return Flight")
+    setvalidDate(d2 < d1);
+    else
+    setvalidDate( d1<d2 );
+  },[DepartureDate])
+    
+  
+
   const reset = (e) => {
     setSeatClass("");
     setDepartureDate(new Date());
     onSearch(null);
+
+    setvalidDate(true);
   };
 
   const search = (e) => {
@@ -46,6 +66,7 @@ const EditSearchFlight = ({ onSearch, hide }) => {
   };
   const handleDdate = (e) => {
     setDepartureDate(e.target.value);
+   
   };
   return (
     <Box
@@ -89,9 +110,10 @@ const EditSearchFlight = ({ onSearch, hide }) => {
                 ))}
               </TextField>
               <TextField
-                sx={{ width: "35%", height: "20%", mx: 7, my: 3 }}
+                sx={{ width: "35%", height: "40px", mx: 7, my: 3 }}
+                error={DepartureDate&&!validDate}
                 required
-                label="Departure Date"
+                label={Type==="Departure Flight" ?"Departure Date":"Arrival Date"}
                 id="dDate"
                 InputProps={{
                   startAdornment: (
@@ -102,6 +124,11 @@ const EditSearchFlight = ({ onSearch, hide }) => {
                 variant="outlined"
                 value={DepartureDate}
                 onChange={handleDdate}
+                helperText={
+                  DepartureDate&&!validDate
+                    ? "Departure Date shoud be earlier than  Return Date"
+                    : ""
+                }
               />
               <Button
                 startIcon={<BackspaceRoundedIcon />}

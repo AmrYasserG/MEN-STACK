@@ -20,6 +20,11 @@ const createReservation = (req, res) => {
     });
 }
 
+const editSeats = (req,res)=>{
+  BookingFlights.findById()
+
+}
+
 const getAllReservations = (req,res) => {
     BookingFlights.find({User_id: req.params.User_id})
     .then((result) => {
@@ -42,7 +47,7 @@ const cancelReservation = (req, res) => {
             user: "menstack46@gmail.com", 
             pass: process.env.Password, 
           },
-        });
+        }); 
         let info = transporter.sendMail({
           from: '"MenStack" MenStack46@gmail.com',
           to: req.params.UserEmail,
@@ -108,4 +113,4 @@ const sendItinerary = (req,res)=>{
         res.send("sent");
 }
 
-module.exports = {createReservation,getAllReservations,cancelReservation,sendItinerary};
+module.exports = {createReservation,getAllReservations,cancelReservation,sendItinerary,editSeats};
