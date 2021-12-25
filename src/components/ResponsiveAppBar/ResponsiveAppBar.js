@@ -29,7 +29,7 @@ const ResponsiveAppBar = ({ pages, isUser, isAdmin }) => {
   };
   let inActiveStyle = { textDecoration: "none", color: "#FFFFFF" };
   const { user, setUser } = useContext(UserContext);
-  const [beta3, setBeta3] = useState(!user || user == {});
+  const [beta3, setBeta3] = useState(false);
 
   const navigate = useNavigate();
 
