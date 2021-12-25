@@ -425,7 +425,6 @@ export function CollapsibleTable({
   );
 }
 
-
 export function Row2({ row, isAdmin, EditContent, DeleteContent, rownumber }) {
   //   const { row } = props;
   const [open, setOpen] = React.useState(false);

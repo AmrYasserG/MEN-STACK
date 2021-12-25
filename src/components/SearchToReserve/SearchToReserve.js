@@ -24,6 +24,7 @@ const SearchToReserve = ({ onSearch, d }) => {
   const [SeatsNo, setSeatsNo] = useState(1);
   const [validSeatNo, setvalidSeatNo] = useState(true);
   const [validDate, setvalidDate] = useState(true);
+
   const seatClasses = [
     {
       value: "Business",

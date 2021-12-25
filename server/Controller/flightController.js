@@ -9,7 +9,38 @@ const fillMap = (map, n, c) => {
     map.set(c[i - 1] + (parseInt(n / c.length) + 1), true);
   }
 };
+const getDuration = (y1, t1, y2, t2) => {
+  let departureDate = y1.split("-");
+  let departureTime = t1.split(":");
+  let arrivalDate = y2.split("-");
+  let arrivalTime = t2.split(":");
+  let d1 = new Date(
+    parseInt(departureDate[0]),
+    parseInt(departureDate[1]),
+    parseInt(departureDate[2]),
+    parseInt(departureTime[0]),
+    parseInt(departureTime[1])
+  );
+  let d2 = new Date(
+    parseInt(arrivalDate[0]),
+    parseInt(arrivalDate[1]),
+    parseInt(arrivalDate[2]),
+    parseInt(arrivalTime[0]),
+    parseInt(arrivalTime[1])
+  );
+  let n = (d2 - d1) / 1000 / 60;
+  return `${parseInt(n / 60)} h, ${n % 60} min`;
+};
 const createNewFlight = (req, res) => {
+  console.log(req.body);
+  console.log(
+    getDuration(
+      req.body.Date,
+      req.body.DepartureTime,
+      req.body.ArrivalDate,
+      req.body.ArrivalTime
+    )
+  );
   Flight.exists({ FlightNumber: req.body.FlightNumber })
     .then((result) => {
       if (!result) {
@@ -18,9 +49,16 @@ const createNewFlight = (req, res) => {
             (result) => {
               if (!result) {
                 let fmap = new Map();
-                fillMap(fmap, req.body.FirstSeatsNo, ["X", "Y"]);
+                fillMap(fmap, req.body.FirstSeatsNo, ["W", "X", "Y", "Z"]);
                 let bmap = new Map();
-                fillMap(bmap, req.body.BusinessSeatsNo, ["O", "P", "Q", "R"]);
+                fillMap(bmap, req.body.BusinessSeatsNo, [
+                  "M",
+                  "N",
+                  "O",
+                  "P",
+                  "Q",
+                  "R",
+                ]);
                 let emap = new Map();
                 fillMap(emap, req.body.EconomySeatsNo, [
                   "A",
@@ -36,6 +74,7 @@ const createNewFlight = (req, res) => {
                   From: req.body.From,
                   To: req.body.To,
                   Date: req.body.Date,
+                  ArrivalDate: req.body.ArrivalDate,
                   DepartureTime: req.body.DepartureTime,
                   ArrivalTime: req.body.ArrivalTime,
                   EconomySeatsNo: req.body.EconomySeatsNo,
@@ -53,21 +92,29 @@ const createNewFlight = (req, res) => {
                   FirstClassPrice: req.body.FirstClassPrice,
                   BusinessClassPrice: req.body.BusinessClassPrice,
                   EconomyClassPrice: req.body.EconomyClassPrice,
+                  TripDuration: getDuration(
+                    req.body.Date,
+                    req.body.DepartureTime,
+                    req.body.ArrivalDate,
+                    req.body.ArrivalTime
+                  ),
                 });
                 flight
                   .save()
                   .then((result) => {
                     let frmap = new Map();
-                    fillMap(frmap, req.body.ReturnFirstSeatsNo, ["X", "Y"]);
+                    fillMap(frmap, req.body.FirstSeatsNo, ["W", "X", "Y", "Z"]);
                     let brmap = new Map();
-                    fillMap(brmap, req.body.ReturnBusinessSeatsNo, [
+                    fillMap(brmap, req.body.BusinessSeatsNo, [
+                      "M",
+                      "N",
                       "O",
                       "P",
                       "Q",
                       "R",
                     ]);
                     let ermap = new Map();
-                    fillMap(ermap, req.body.ReturnEconomySeatsNo, [
+                    fillMap(ermap, req.body.EconomySeatsNo, [
                       "A",
                       "B",
                       "C",
@@ -81,7 +128,7 @@ const createNewFlight = (req, res) => {
                       From: req.body.To,
                       To: req.body.From,
                       Date: req.body.ReturnDate,
-
+                      ArrivalDate: req.body.ReturnArrivalDate,
                       DepartureTime: req.body.ReturnDepartureTime,
                       ArrivalTime: req.body.ReturnArrivalTime,
                       EconomySeatsNo: req.body.ReturnEconomySeatsNo,
@@ -101,6 +148,12 @@ const createNewFlight = (req, res) => {
                       FirstClassPrice: req.body.ReturnFirstClassPrice,
                       BusinessClassPrice: req.body.ReturnBusinessClassPrice,
                       EconomyClassPrice: req.body.ReturnEconomyClassPrice,
+                      TripDuration: getDuration(
+                        req.body.ReturnDate,
+                        req.body.ReturnDepartureTime,
+                        req.body.ReturnArrivalDate,
+                        req.body.ReturnArrivalTime
+                      ),
                     });
                     flightReturn
                       .save()
@@ -121,9 +174,16 @@ const createNewFlight = (req, res) => {
           );
         } else {
           let fmap = new Map();
-          fillMap(fmap, req.body.FirstSeatsNo, ["W","X", "Y","Z"]);
+          fillMap(fmap, req.body.FirstSeatsNo, ["W", "X", "Y", "Z"]);
           let bmap = new Map();
-          fillMap(bmap, req.body.BusinessSeatsNo, ["A", "B", "C", "D","E","F"]);
+          fillMap(bmap, req.body.BusinessSeatsNo, [
+            "M",
+            "N",
+            "O",
+            "P",
+            "Q",
+            "R",
+          ]);
           let emap = new Map();
           fillMap(emap, req.body.EconomySeatsNo, [
             "G",
@@ -139,6 +199,7 @@ const createNewFlight = (req, res) => {
             From: req.body.From,
             To: req.body.To,
             Date: req.body.Date,
+            ArrivalDate: req.body.ArrivalDate,
             DepartureTime: req.body.DepartureTime,
             ArrivalTime: req.body.ArrivalTime,
             EconomySeatsNo: req.body.EconomySeatsNo,
@@ -156,6 +217,12 @@ const createNewFlight = (req, res) => {
             FirstClassPrice: req.body.FirstClassPrice,
             BusinessClassPrice: req.body.BusinessClassPrice,
             EconomyClassPrice: req.body.EconomyClassPrice,
+            TripDuration: getDuration(
+              req.body.Date,
+              req.body.DepartureTime,
+              req.body.ArrivalDate,
+              req.body.ArrivalTime
+            ),
           });
           flight
             .save()
@@ -233,6 +300,7 @@ const searchFlights = (req, res) => {
   if (req.body.AirportArrivalTerminal)
     arr = { ...arr, AirportArrivalTerminal: req.body.AirportArrivalTerminal };
   if (req.body.Date) arr = { ...arr, Date: req.body.Date };
+  if (req.body.ArrivalDate) arr = { ...arr, ArrivalDate: req.body.ArrivalDate };
   if (req.body.FirstClassPrice)
     arr = { ...arr, FirstClassPrice: req.body.FirstClassPrice };
   if (req.body.BusinessClassPrice)
@@ -246,7 +314,6 @@ const searchFlights = (req, res) => {
 
   Flight.find(arr)
     .then((result) => {
-      console.log(result);
       res.send(result);
     })
     .catch((err) => {
@@ -286,18 +353,36 @@ const deleteFlight = (req, res) => {
 
 const updateFlightdetails = (req, res) => {
   let id = req.params.id;
-  console.log(req.params.id);
-  Flight.findByIdAndUpdate({ _id: id }, req.body)
+  Flight.findByIdAndUpdate(
+    { _id: id },
+    {
+      ...req.body,
+      TripDuration: getDuration(
+        req.body.Date,
+        req.body.DepartureTime,
+        req.body.ArrivalDate,
+        req.body.ArrivalTime
+      ),
+    }
+  )
     .then((result) => {
       res.send("Updated Successfully");
     })
     .catch((err) => {
-      console.log(err);
+      if (err.code === 11000) {
+        res.status(411);
+        res.send("Duplicate FNO");
+      }
     });
 };
 
 const updateFlightAvailableSeats = (req, res) => {
-  Flight.findByIdAndUpdate({ _id: req.params.id }, { $set: req.body })
+  Flight.findByIdAndUpdate(
+    { _id: req.params.id },
+    {
+      $set: req.body,
+    }
+  )
     .then((result) => {
       res.send("Updated Successfully");
     })

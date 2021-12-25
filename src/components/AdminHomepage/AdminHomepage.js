@@ -1,3 +1,4 @@
+import React from "react";
 import { useState, useEffect, forwardRef } from "react";
 import Grid from "@mui/material/Grid";
 
@@ -19,7 +20,6 @@ import "./AdminHomepage.css";
 import UpdateOver from "../UpdateOver/UpdateOver";
 import SearchFlight from "../SearchFlight/SearchFlight.js";
 import IconButton from "@mui/material/IconButton";
-import ResponsiveAppBar from "../ResponsiveAppBar/ResponsiveAppBar";
 import { Row2 } from "../CollapsibleTable/CollapsibleTable";
 import Box from "@mui/material/Box";
 import { Typography } from "@mui/material";
@@ -51,6 +51,33 @@ const AdminHomepage = () => {
 
   const [validEditFlightN, setValidEditFlightNo] = useState(true);
 
+  const [validDate, setValidDate] = useState(true);
+  const [validTime, setValidTime] = useState(true);
+  const Compare2Dates = (d1, d2) => {
+    return (
+      d1.getFullYear() === d2.getFullYear() &&
+      d1.getDate() === d2.getDate() &&
+      d1.getMonth() === d2.getMonth()
+    );
+  };
+
+  useEffect(() => {
+    setValidDate(new Date(editDate) <= new Date(editArrivalDate));
+  }, [editArrivalDate, editDate]);
+  useEffect(() => {
+    setValidTime(
+      !validDate ||
+        !Compare2Dates(new Date(editArrivalDate), new Date(editDate)) ||
+        editDepartureTime < editArrivalTime
+    );
+  }, [
+    editArrivalDate,
+    editDate,
+    editDepartureTime,
+    editArrivalTime,
+    validDate,
+  ]);
+
   function GetAllFlights() {
     axios
       .get("http://localhost:3005/flights/getAllFlights")
@@ -72,7 +99,6 @@ const AdminHomepage = () => {
         To: editTo,
         ArrivalTime: editArrivalTime,
         DepartureTime: editDepartureTime,
-
         AirportDepartureTerminal: editDepartureTerminal,
         AirportArrivalTerminal: editArrivalTerminal,
         Date: editDate,
@@ -154,11 +180,7 @@ const AdminHomepage = () => {
 
   return (
     <div>
-      <ResponsiveAppBar
-        pages={["Create Flight"]}
-        settings={["profile"]}
-        isAdmin={true}
-      />
+      {/* <ResponsiveAppBar pages={["Create Flight"]} isAdmin={true} /> */}
       <Snackbar
         open={deleteOpenResponse}
         autoHideDuration={6000}
@@ -283,6 +305,7 @@ const AdminHomepage = () => {
           </Grid>
           <Grid item xs={4} sx={{ textAlign: "left" }}>
             <input
+              error={editDate && !validDate}
               style={{ width: "70%" }}
               name="date"
               id="date"
@@ -293,11 +316,21 @@ const AdminHomepage = () => {
               }}
             />
           </Grid>
+          {editDate && !validDate && (
+            <Grid
+              item
+              xs={2}
+              sx={{ textAlign: "left", color: "#FF1004", fontSize: "9px" }}
+            >
+              <label>Departure Date is Later than Arrival Date</label>
+            </Grid>
+          )}
           <Grid item xs={6} sx={{ textAlign: "left" }}>
             <label>Arrival Date:</label>
           </Grid>
           <Grid item xs={4} sx={{ textAlign: "left" }}>
             <input
+              error={editArrivalDate && !validDate}
               style={{ width: "70%" }}
               name="date"
               id="adate"
@@ -308,11 +341,22 @@ const AdminHomepage = () => {
               }}
             />
           </Grid>
+          {editArrivalDate && !validDate && (
+            <Grid
+              item
+              xs={2}
+              sx={{ textAlign: "left", color: "#FF1004", fontSize: "9px" }}
+            >
+              <label>Arrival Date is Earilier than Departure Date</label>
+            </Grid>
+          )}
+
           <Grid item xs={6} sx={{ textAlign: "left" }}>
             <label>Departure Time:</label>
           </Grid>
           <Grid item xs={4} sx={{ textAlign: "left" }}>
             <input
+              error={editDepartureTime && validTime}
               style={{ width: "70%" }}
               name="dep"
               id="dep"
@@ -323,11 +367,22 @@ const AdminHomepage = () => {
               }}
             />
           </Grid>
+          {editDepartureTime && !validTime && (
+            <Grid
+              item
+              xs={2}
+              sx={{ textAlign: "left", color: "#FF1004", fontSize: "9px" }}
+            >
+              <label>Departure Time is Later than Arrival Time</label>
+            </Grid>
+          )}
+
           <Grid item xs={6} sx={{ textAlign: "left" }}>
             <label>Arrival Time:</label>
           </Grid>
           <Grid item xs={4} sx={{ textAlign: "left" }}>
             <input
+              error={editArrivalTime && validTime}
               style={{ width: "70%" }}
               name="arrivet"
               id="arrivet"
@@ -338,6 +393,15 @@ const AdminHomepage = () => {
               }}
             />
           </Grid>
+          {editDepartureTime && !validTime && (
+            <Grid
+              item
+              xs={2}
+              sx={{ textAlign: "left", color: "#FF1004", fontSize: "9px" }}
+            >
+              <label>Arrival Time is Earilier than Departure Time</label>
+            </Grid>
+          )}
           <Grid item xs={6} sx={{ textAlign: "left" }}>
             <label>Airport Departure Terminal:</label>
           </Grid>
@@ -386,6 +450,21 @@ const AdminHomepage = () => {
           </Grid>
           <Grid item xs={12}>
             <Button
+              disabled={
+                !validTime ||
+                !validEditFlightN ||
+                !validDate ||
+                editFlight ||
+                editFrom ||
+                editTo ||
+                editArrivalTime ||
+                editDepartureTime ||
+                editDepartureTerminal ||
+                editArrivalTerminal ||
+                editDate ||
+                editArrivalDate ||
+                editBaggageAllowance
+              }
               variant="contained"
               style={{ right: "5%", top: "7%" }}
               onClick={() => {
@@ -393,7 +472,7 @@ const AdminHomepage = () => {
               }}
             >
               Update
-            </Button>{" "}
+            </Button>
             <Button
               variant="contained"
               color="error"
@@ -423,8 +502,9 @@ const AdminHomepage = () => {
             >
               <TableHead>
                 <TableRow>
-                  {" "}
-                  <TableCell sx={{ color: "#FFFFFF " }}> &#8205; </TableCell>
+                  <TableCell sx={{ color: "#FFFFFF " }}>
+                    <p>&#8205</p>
+                  </TableCell>
                   <TableCell
                     sx={{ textAlign: "center" }}
                     style={{ fontWeight: "bold" }}
@@ -471,14 +551,13 @@ const AdminHomepage = () => {
                     sx={{ textAlign: "center" }}
                     style={{ fontWeight: "bold" }}
                   >
-                    Trip Duration{" "}
+                    Trip Duration
                   </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {rows.map((row, index) => (
                   <Row2
-                    key={index}
                     rownumber={index}
                     row={row}
                     EditContent={
@@ -546,4 +625,4 @@ const AdminHomepage = () => {
     </div>
   );
 };
-export default AdminHomepage;
+export default React.memo(AdminHomepage);
