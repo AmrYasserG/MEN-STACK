@@ -6,35 +6,41 @@ import CheckoutForm from "./CheckoutForm";
 import "./Payment.css";
 import axios from "axios";
 
-const stripePromise = loadStripe('pk_test_51K9GgACFXf6lJ84DPhCUsT8a3qoEhsbUfzWQ5yPPjOhYJHnIv6NQM2bwuhyl4QdzwU92Srg0cyia5kqM4SjFS2Da00lopOxPuH');
+const stripePromise = loadStripe(
+  "pk_test_51K9GgACFXf6lJ84DPhCUsT8a3qoEhsbUfzWQ5yPPjOhYJHnIv6NQM2bwuhyl4QdzwU92Srg0cyia5kqM4SjFS2Da00lopOxPuH"
+);
 
-export default function Payment() {
+const Payment = () => {
   const [clientSecret, setClientSecret] = useState("");
   const state = useLocation().state;
   useEffect(() => {
     console.log(state);
-    if(state.editFlight){
+    if (state.editFlight) {
       let items = {};
       console.log((state.depFlight.Price - state.oldPrice) * state.noSeats);
-      if(state.isDep){
-        items = {TotalAmount: 200};
-      } else{
-        items = {TotalAmount: (state.arrFlight.Price - state.oldPrice) * state.noSeats};
+      if (state.isDep) {
+        items = { TotalAmount: 200 };
+      } else {
+        items = {
+          TotalAmount: (state.arrFlight.Price - state.oldPrice) * state.noSeats,
+        };
       }
-      axios.post("http://localhost:3005/payment/payment", items)
-    .then((res)=>{
-      setClientSecret(res.data.clientSecret);
-    }) 
-    }else{
-      const items = {TotalAmount: (state.arrFlight.Price + state.depFlight.Price) * state.noSeats};
-    axios.post("http://localhost:3005/payment/payment", items)
-    .then((res)=>{
-      setClientSecret(res.data.clientSecret);
-    })    
-  }}, []);
+      axios.post("http://localhost:3005/payment/payment", items).then((res) => {
+        setClientSecret(res.data.clientSecret);
+      });
+    } else {
+      const items = {
+        TotalAmount:
+          (state.arrFlight.Price + state.depFlight.Price) * state.noSeats,
+      };
+      axios.post("http://localhost:3005/payment/payment", items).then((res) => {
+        setClientSecret(res.data.clientSecret);
+      });
+    }
+  }, []);
 
   const appearance = {
-    theme: 'stripe',
+    theme: "stripe",
   };
   const options = {
     clientSecret,
@@ -43,11 +49,12 @@ export default function Payment() {
 
   return (
     <div class="paymentBody">
-      {clientSecret &&(
+      {clientSecret && (
         <Elements options={options} stripe={stripePromise}>
           <CheckoutForm />
         </Elements>
       )}
     </div>
   );
-}
+};
+export default Payment;

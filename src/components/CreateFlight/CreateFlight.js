@@ -57,9 +57,9 @@ const CreateFlight = () => {
 
   //Validation
   const [validFlightNumber, setValidFlightNumber] = useState(true);
-  const [validUniqueFlightNumber, setValidUniqueFlightNumber] = useState(false);
+  const [validUniqueFlightNumber, setValidUniqueFlightNumber] = useState(true);
   const [validUniqueReturnFlightNumber, setValidUniqueReturnFlightNumber] =
-    useState(false);
+    useState(true);
   const [validDate, setValidDate] = useState(true);
   const [validArrivalDate, setValidArrivalDate] = useState(true);
   const [validReturnArrivalDate, setValidReturnArrivalDate] = useState(true);
@@ -243,7 +243,7 @@ const CreateFlight = () => {
           setReturnDepartureTerminal("");
           setReturnArrivalTerminal("");
           setReturnBusinessClassSeats(0);
-          setReturnEconomyClassSeats();
+          setReturnEconomyClassSeats(0);
           setReturnFirstClassSeats(0);
           setReturnBusinessClassPrice(0);
           setReturnEconomyClassPrice(0);
@@ -618,7 +618,7 @@ const CreateFlight = () => {
                   required
                   type="date"
                   label="Departure Date"
-                  id="dDate"
+                  id="rDate"
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start"> </InputAdornment>

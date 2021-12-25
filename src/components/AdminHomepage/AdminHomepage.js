@@ -454,16 +454,16 @@ const AdminHomepage = () => {
                 !validTime ||
                 !validEditFlightN ||
                 !validDate ||
-                editFlight ||
-                editFrom ||
-                editTo ||
-                editArrivalTime ||
-                editDepartureTime ||
-                editDepartureTerminal ||
-                editArrivalTerminal ||
-                editDate ||
-                editArrivalDate ||
-                editBaggageAllowance
+                !editFlight ||
+                !editFrom ||
+                !editTo ||
+                !editArrivalTime ||
+                !editDepartureTime ||
+                !editDepartureTerminal ||
+                !editArrivalTerminal ||
+                !editDate ||
+                !editArrivalDate ||
+                !editBaggageAllowance
               }
               variant="contained"
               style={{ right: "5%", top: "7%" }}

@@ -21,7 +21,6 @@ const UserHomepage = () => {
   const [arrclassType, arrsetClassType] = useState("");
   const [numberSeats, setNumberSeats] = useState(0);
 
-
   const [searchOff, setSearchOff] = useState(false);
   const { user } = useContext(UserContext);
 
@@ -67,7 +66,7 @@ const UserHomepage = () => {
   function selectFlight(row, isDep) {
     if (isDep === true) {
       if (JSON.stringify(row) === JSON.stringify(depChoosenRow))
-        updateDepChoosenRow("")
+        updateDepChoosenRow("");
       else {
         updateDepChoosenRow(row);
         updateDepSelectedRow({
@@ -84,20 +83,19 @@ const UserHomepage = () => {
             depclassType === "First"
               ? row.FirstClassPrice
               : depclassType === "Economy"
-                ? row.EconomyClassPrice
-                : row.BusinessClassPrice,
+              ? row.EconomyClassPrice
+              : row.BusinessClassPrice,
           EconomySeats: row.EconomySeats,
           FirstSeats: row.FirstSeats,
           BusinessSeats: row.BusinessSeats,
           EconomyAvailableSeatsNo: row.EconomyAvailableSeatsNo,
           BusinessAvailableSeatsNo: row.BusinessAvailableSeatsNo,
-          FirstAvailableSeatsNo: row.FirstAvailableSeatsNo
+          FirstAvailableSeatsNo: row.FirstAvailableSeatsNo,
         });
       }
-    }
-    else {
+    } else {
       if (JSON.stringify(row) === JSON.stringify(arrChoosenRow))
-        updateArrChoosenRow("")
+        updateArrChoosenRow("");
       else {
         updateArrChoosenRow(row);
         updateArrSelectedRow({
@@ -114,14 +112,14 @@ const UserHomepage = () => {
             arrclassType === "First"
               ? row.FirstClassPrice
               : arrclassType === "Economy"
-                ? row.EconomyClassPrice
-                : row.BusinessClassPrice,
+              ? row.EconomyClassPrice
+              : row.BusinessClassPrice,
           EconomySeats: row.EconomySeats,
           FirstSeats: row.FirstSeats,
           BusinessSeats: row.BusinessSeats,
           EconomyAvailableSeatsNo: row.EconomyAvailableSeatsNo,
           BusinessAvailableSeatsNo: row.BusinessAvailableSeatsNo,
-          FirstAvailableSeatsNo: row.FirstAvailableSeatsNo
+          FirstAvailableSeatsNo: row.FirstAvailableSeatsNo,
         });
       }
     }
@@ -129,10 +127,16 @@ const UserHomepage = () => {
 
   return (
     <div>
-      <ResponsiveAppBar pages={[]} settings={['profile']} isUser={true} />
-
-      <Button variant="contained" color="success" style={{ marginLeft: "87%", marginTop: "1%"}}><Link style={{ textDecoration: 'none' }} to='/ReservedFlights'
-        state={{ id: user.id }}> View Reservation </Link></Button>
+      <Button variant="contained" color="success" style={{ marginLeft: "87%" }}>
+        <Link
+          style={{ textDecoration: "none" }}
+          to="/ReservedFlights"
+          state={{ id: user.id }}
+        >
+          {" "}
+          View Reservation{" "}
+        </Link>
+      </Button>
 
       <div>
         <SearchToReserve onSearch={searchToReserve} d={searchOff} />
@@ -159,29 +163,29 @@ const UserHomepage = () => {
         economyClass={arrclassType === "Economy" ? true : false}
         businessClass={arrclassType === "Business" ? true : false}
       />
-      {!searchOff && <Button
-        disabled={depChoosenRow === "" || arrChoosenRow === ""}
-        variant="contained"
-        style={{ marginLeft: "40%", marginTop: "1%" }}
-      >
-        <Link
-          style={{ textDecoration: 'none' }}
-          to="/PlaneSeats"
-          state={{
-            depFlight: depSelectedRow,
-            arrFlight: arrSelectedRow,
-            cabin: depclassType,
-            noSeats: parseInt(numberSeats),
-            id: user.id,
-          }}
+      {!searchOff && (
+        <Button
+          disabled={depChoosenRow === "" || arrChoosenRow === ""}
+          variant="contained"
+          style={{ marginLeft: "40%", marginTop: "1%" }}
         >
-          {" "}
-          Proceed to Seat Selection{" "}
-        </Link>
-      </Button>}
-
+          <Link
+            style={{ textDecoration: "none" }}
+            to="/PlaneSeats"
+            state={{
+              depFlight: depSelectedRow,
+              arrFlight: arrSelectedRow,
+              cabin: depclassType,
+              noSeats: parseInt(numberSeats),
+              id: user.id,
+            }}
+          >
+            {" "}
+            Proceed to Seat Selection{" "}
+          </Link>
+        </Button>
+      )}
     </div>
   );
 };
 export default UserHomepage;
-
