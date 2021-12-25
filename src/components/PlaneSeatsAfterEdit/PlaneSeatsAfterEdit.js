@@ -16,8 +16,6 @@ const PlaneSeatsAfterEdit = () => {
 
   useEffect(() => {
     console.log(state);
-    console.log(state.newClass);
-    console.log(state.FlightsUserDetails._id);
   }, []);
 
   const seatsEco = Object.keys(state.rows.EconomySeats);
@@ -86,7 +84,6 @@ const PlaneSeatsAfterEdit = () => {
           EconomySeats.set(toBeUpdatedFlightSeats.SeatsReserved[i], true);
         }
         for (let i = 0; i < chosenSeats.length; i++) {
-          console.log(chosenSeats);
           EconomySeats.set(chosenSeats[i], false);
         }
         updatedAvailableSeats = { EconomyAvailableSeatsNo: toBeUpdatedFlight.EconomyAvailableSeatsNo + toBeUpdatedFlightSeats.SeatsReserved.length, EconomySeats: Object.fromEntries(EconomySeats) };
@@ -97,7 +94,6 @@ const PlaneSeatsAfterEdit = () => {
           BusinessSeats.set(toBeUpdatedFlightSeats.SeatsReserved[i], true);
         }
         for (let i = 0; i < chosenSeats.length; i++) {
-          console.log(chosenSeats);
           BusinessSeats.set(chosenSeats[i], false);
         }
         updatedAvailableSeats = { BusinessAvailableSeatsNo: toBeUpdatedFlight.BusinessAvailableSeatsNo + toBeUpdatedFlightSeats.SeatsReserved.length, BusinessSeats: Object.fromEntries(BusinessSeats) };
@@ -108,14 +104,13 @@ const PlaneSeatsAfterEdit = () => {
           FirstSeats.set(toBeUpdatedFlightSeats.SeatsReserved[i], true);
         }
         for (let i = 0; i < chosenSeats.length; i++) {
-          console.log(chosenSeats);
           FirstSeats.set(chosenSeats[i], false);
         }
         updatedAvailableSeats = { FirstAvailableSeatsNo: toBeUpdatedFlight.FirstAvailableSeatsNo + toBeUpdatedFlightSeats.SeatsReserved.length, FirstSeats: Object.fromEntries(FirstSeats) };
         break;
       default:
     }
-    console.log(updatedAvailableSeats);
+
     axios
       .put(
         "http://localhost:3005/flights/updateFlightAvailableSeats/" +
@@ -137,11 +132,11 @@ const PlaneSeatsAfterEdit = () => {
     })
   }
 
-  const returnChosenSeats = () => {
-    if (editFlight === true) { }
-    else
-      console.log(chosenSeats);
-  };
+  // const returnChosenSeats = () => {
+  //   if (editFlight === true) { }
+  //   else
+  //     console.log(chosenSeats);
+  // };
 
   function getBlockedSeats(obj) {
     const temp = Object.entries(obj);
@@ -369,12 +364,11 @@ const PlaneSeatsAfterEdit = () => {
         </Grid>
         <br />
       </div>
-
       <br />
-
-
-
-
+      {chosenSeats.length !== state.FlightsUserDetails.SeatsReserved.length ? (
+        <div style={{ marginLeft: "43%", color: 'red' }}
+        >*Please select {state.FlightsUserDetails.SeatsReserved.length} Seats</div>
+      ) : null}
       <Button
         onClick={() => {
           window.location.href = "/ReservedFlights";
@@ -416,7 +410,6 @@ const PlaneSeatsAfterEdit = () => {
         style={{ marginLeft: "2%" }}
       >
         {editFlight === false ? (
-
           <div>Reserve</div>
         ) : (<Link
           to="/Payment"
@@ -435,14 +428,9 @@ const PlaneSeatsAfterEdit = () => {
             resNum: state.FlightsUserDetails.ReservationNumber
           }}
         >
-          Reserve{" "}
+          Reserve
         </Link>)}
       </Button>
-      {chosenSeats.length !== state.FlightsUserDetails.SeatsReserved.length ? (
-        <div style={{ marginLeft: "43%", color: 'red' }}
-        >*Please select {state.FlightsUserDetails.SeatsReserved.length} Seats</div>
-      ) : null}
-
     </>
   )
 }

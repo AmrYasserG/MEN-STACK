@@ -14,13 +14,7 @@ import BackspaceRoundedIcon from "@mui/icons-material/BackspaceRounded";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 
 const EditSearchFlight = ({ onSearch, hide,otherflight ,Type}) => {
-
-console.log(otherflight);
-console.log(Type);
-
-
   const [validDate, setvalidDate] = useState(true);
-
   const [DepartureDate, setDepartureDate] = useState("");
   const [SeatClass, setSeatClass] = useState("");
   const seatClasses = [
@@ -58,7 +52,6 @@ console.log(Type);
   };
 
   const search = (e) => {
-    console.log("Clicked");
     onSearch({
       DepartureDate,
       SeatClass,

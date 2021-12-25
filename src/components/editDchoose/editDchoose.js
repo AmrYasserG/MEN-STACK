@@ -18,24 +18,22 @@ import { CollapsibleTable } from "../CollapsibleTable/CollapsibleTable";
 import EditSearchFlight from "../EditSearchFlight/EditSearchFlight.js";
 
 const EditDchoose = () => {
-  const [DepartureRows, setDepartureRows] = useState([]);
+  const [Rows, setDepartureRows] = useState([]);
 
-  const [depSelectedRow, updateDepSelectedRow] = useState("");
-  const [depChoosenRow, updateDepChoosenRow] = useState("");
+  const [selectedRow, updateSelectedRow] = useState("");
+  const [choosenRow, updateChoosenRow] = useState("");
 
   const [selectPopupButton, setSelectPopupButton] = useState(false);
-  const [depclassType, depsetClassType] = useState("");
+  const [classType, setClassType] = useState("");
   const [searchOff, setSearchOff] = useState(false);
 
   const state = useLocation().state;
   console.log(state);
-  console.log(state.FlightsUserDetails.Type);
-  const idOther=getID();
+  const idOther = getID();
   function getID() {
     const other = state.FlightsUserDetails.Otherflight;
     for (let i = 0; i < state.AllMyFlights.length; i++) {
       if (state.AllMyFlights[i].FlightNumber === other) {
-        console.log(i);
         return i;
       }
     }
@@ -44,7 +42,7 @@ const EditDchoose = () => {
   const searchToReserve = (SearchCriteria) => {
     if (SearchCriteria) {
       searchDepatureReserve(SearchCriteria);
-      depsetClassType(SearchCriteria.SeatClass);
+      setClassType(SearchCriteria.SeatClass);
     } else {
       setDepartureRows([]);
     }
@@ -60,10 +58,42 @@ const EditDchoose = () => {
         Date: SearchCriteria.DepartureDate,
       })
       .then((result) => {
-        console.log(result.data);
         setDepartureRows(result.data);
       });
   };
+
+  function selectFlight(row, isDep) {
+    if (isDep === true) {
+      if (JSON.stringify(row) === JSON.stringify(choosenRow))
+        updateChoosenRow("")
+      else {
+        updateChoosenRow(row);
+        updateSelectedRow({
+          id: row._id,
+          FlightNumber: row.FlightNumber,
+          From: row.From,
+          To: row.To,
+          Date: row.Date,
+          DepTime: row.DepartureTime,
+          ArrTime: row.ArrivalTime,
+          DepTerminal: row.AirportDepartureTerminal,
+          ArrTerminal: row.AirportArrivalTerminal,
+          Price:
+            classType === "First"
+              ? row.FirstClassPrice
+              : classType === "Economy"
+                ? row.EconomyClassPrice
+                : row.BusinessClassPrice,
+          EconomySeats: row.EconomySeats,
+          FirstSeats: row.FirstSeats,
+          BusinessSeats: row.BusinessSeats,
+          EconomyAvailableSeatsNo: row.EconomyAvailableSeatsNo,
+          BusinessAvailableSeatsNo: row.BusinessAvailableSeatsNo,
+          FirstAvailableSeatsNo: row.FirstAvailableSeatsNo
+        });
+      }
+    }
+  }
 
   const departureColumns = [
     { id: "FlightNumber", label: "Flight Number", width: 60 },
@@ -76,38 +106,57 @@ const EditDchoose = () => {
   return (
     <div>
       <ResponsiveAppBar pages={[]} settings={["profile"]} isUser={true} />
+      <EditSearchFlight
+        onSearch={searchToReserve}
+        hide={searchOff}
+        Type={state.FlightsUserDetails.Type}
+        otherflight={state.AllMyFlights[getID()]}
+      />
+      <h1>
+        {state.FlightsUserDetails.Type === "Return Flight"
+          ? "Return Flights"
+          : "Departure Flights"}
+      </h1>
+      <CollapsibleTable isDep rows={Rows} isUser
+        firstClass={classType === "First" ? true : false}
+        economyClass={classType === "Economy" ? true : false}
+        businessClass={classType === "Business" ? true : false}
+        selectFlight={selectFlight}
+        setSearchOff={setSearchOff}
+      />
+
       <UpdateOver trigger={selectPopupButton} setTrigger={setSelectPopupButton}>
         <h1>Flight Details:</h1>
         <br></br>
         <label>FlightNumber:</label>
-        <label>{depSelectedRow.FlightNumber}</label>
+        <label>{selectedRow.FlightNumber}</label>
         <br></br>
         <label>From:</label>
-        <label>{depSelectedRow.From}</label>
+        <label>{selectedRow.From}</label>
         <br></br>
         <label>To:</label>
-        <label>{depSelectedRow.To}</label>
+        <label>{selectedRow.To}</label>
         <br></br>
         <label>Flight Date:</label>
-        <label>{depSelectedRow.Date}</label>
+        <label>{selectedRow.Date}</label>
         <br></br>
         <label>Departure Time:</label>
-        <label>{depSelectedRow.DepTime}</label>
+        <label>{selectedRow.DepTime}</label>
         <br></br>
         <label>Arrival Time:</label>
-        <label>{depSelectedRow.ArrTime}</label>
+        <label>{selectedRow.ArrTime}</label>
         <br></br>
         <label>Airport Departure Terminal:</label>
-        <label>{depSelectedRow.DepTerminal}</label>
+        <label>{selectedRow.DepTerminal}</label>
         <br></br>
         <label>Airport Arrival Terminal:</label>
-        <label>{depSelectedRow.ArrTerminal}</label>
+        <label>{selectedRow.ArrTerminal}</label>
         <br></br>
         <label>Class:</label>
-        <label>{depclassType}</label>
+        <label>{classType}</label>
         <br></br>
         <label>Price:</label>
-        <label>{depSelectedRow.Price}</label>
+        <label>{selectedRow.Price}</label>
         <br></br>
         <Button
           variant="contained"
@@ -115,8 +164,7 @@ const EditDchoose = () => {
           onClick={() => {
             setSearchOff(false);
             setSelectPopupButton(false);
-            updateDepChoosenRow(depSelectedRow);
-            console.log(depSelectedRow._id);
+            updateChoosenRow(selectedRow);
           }}
         >
           Select
@@ -135,21 +183,6 @@ const EditDchoose = () => {
         </Button>
       </UpdateOver>
 
-      <div>
-        <EditSearchFlight
-          onSearch={searchToReserve}
-          hide={searchOff}
-          Type={state.FlightsUserDetails.Type}
-          otherflight={state.AllMyFlights[getID()]}
-        />
-      </div>
-
-      <h1>
-        {state.FlightsUserDetails.Type === "Return Flight"
-          ? "Return Flights"
-          : "Departure Flights"}
-      </h1>
-      <CollapsibleTable isDep rows={DepartureRows} isUser />
       <Paper sx={{ width: "100%", overflow: "hidden", marginTop: "1%" }}>
         <TableContainer sx={{ maxHeight: 500 }}>
           <Table>
@@ -166,12 +199,12 @@ const EditDchoose = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {DepartureRows.map((row) => {
+              {Rows.map((row) => {
                 return (
                   <TableRow
                     onClick={() => {
                       setSearchOff(true);
-                      updateDepSelectedRow({
+                      updateSelectedRow({
                         id: row._id,
                         FlightNumber: row.FlightNumber,
                         From: row.From,
@@ -182,9 +215,9 @@ const EditDchoose = () => {
                         DepTerminal: row.AirportDepartureTerminal,
                         ArrTerminal: row.AirportArrivalTerminal,
                         Price:
-                          depclassType === "First"
+                          classType === "First"
                             ? row.FirstClassPrice
-                            : depclassType === "Economy"
+                            : classType === "Economy"
                               ? row.EconomyClassPrice
                               : row.BusinessClassPrice,
                         EconomySeats: row.EconomySeats,
@@ -199,7 +232,7 @@ const EditDchoose = () => {
                     hover
                     key={row._id}
                     className={
-                      depChoosenRow.FlightNumber === row.FlightNumber
+                      choosenRow.FlightNumber === row.FlightNumber
                         ? "tableSelected"
                         : ""
                     }
@@ -212,7 +245,7 @@ const EditDchoose = () => {
                             key={column.id}
                             sx={{ textAlign: "center" }}
                           >
-                            {depclassType}
+                            {classType}
                           </TableCell>
                         );
                       } else if (column.id === "TripDuration") {
@@ -230,17 +263,17 @@ const EditDchoose = () => {
                             key={column.id}
                             sx={{ textAlign: "center" }}
                           >
-                            {(depclassType === "First"
+                            {(classType === "First"
                               ? row.FirstClassPrice
-                              : depclassType === "Economy"
-                              ? row.EconomyClassPrice
-                              : row.BusinessClassPrice) -
+                              : classType === "Economy"
+                                ? row.EconomyClassPrice
+                                : row.BusinessClassPrice) -
                               (state.FlightsUserDetails.ChosenCabin === "First"
                                 ? state.rows.FirstClassPrice
                                 : state.FlightsUserDetails.ChosenCabin ===
                                   "Economy"
-                                ? state.rows.EconomyClassPrice
-                                : state.rows.BusinessClassPrice)}
+                                  ? state.rows.EconomyClassPrice
+                                  : state.rows.BusinessClassPrice)}
                           </TableCell>
                         );
                       } else {
@@ -267,7 +300,7 @@ const EditDchoose = () => {
 
       {!searchOff && (
         <Button
-          disabled={depChoosenRow === ""}
+          disabled={choosenRow === ""}
           variant="contained"
           style={{ marginLeft: "40%", marginTop: "1%" }}
         >
@@ -279,77 +312,62 @@ const EditDchoose = () => {
               FlightsUserDetails: state.FlightsUserDetails,
               rows: state.rows,
               oldPrice: (state.FlightsUserDetails.ChosenCabin === "First"
-              ? state.rows.FirstClassPrice
-              : state.FlightsUserDetails.ChosenCabin ===
-                "Economy"
-              ? state.rows.EconomyClassPrice
-              : state.rows.BusinessClassPrice),
+                ? state.rows.FirstClassPrice
+                : state.FlightsUserDetails.ChosenCabin ===
+                  "Economy"
+                  ? state.rows.EconomyClassPrice
+                  : state.rows.BusinessClassPrice),
               editFlight: true,
-              newClass: depclassType,
+              newClass: classType,
               id: "617e93641ff94cd5d2055174",
-              
-
-
-
-              arrFlight:state.FlightsUserDetails.Type==="Return Flight"?Object.assign(depChoosenRow,{cabin:depclassType}):{
+              arrFlight: state.FlightsUserDetails.Type === "Return Flight" ? Object.assign(choosenRow, { cabin: classType }) : {
                 ArrTerminal: state.AllMyFlights[idOther].AirportArrivalTerminal,
                 ArrTime: state.AllMyFlights[idOther].ArrivalTime,
                 BusinessAvailableSeatsNo: state.AllMyFlights[idOther].BusinessAvailableSeatsNo,
                 BusinessSeats: state.AllMyFlights[idOther].BusinessSeats,
-                 Date: state.AllMyFlights[idOther].Date,
-                DepTerminal: state.AllMyFlights[idOther].AirportDepartureTerminal, 
+                Date: state.AllMyFlights[idOther].Date,
+                DepTerminal: state.AllMyFlights[idOther].AirportDepartureTerminal,
                 DepTime: state.AllMyFlights[idOther].DepartureTime,
-                  EconomyAvailableSeatsNo: state.AllMyFlights[idOther].EconomyAvailableSeatsNo,
+                EconomyAvailableSeatsNo: state.AllMyFlights[idOther].EconomyAvailableSeatsNo,
                 EconomySeats: state.AllMyFlights[idOther].EconomySeats,
-              FirstAvailableSeatsNo: state.AllMyFlights[idOther].FirstAvailableSeatsNo,
-              FirstSeats: state.AllMyFlights[idOther].FirstSeats,
-              FlightNumber: state.AllMyFlights[idOther].FlightNumber,
-              From: state.AllMyFlights[idOther].From ,
-              Price: state.AllFlightsUserDetails[idOther].ChosenCabin=== "First"
-              ? state.AllMyFlights[idOther].FirstClassPrice
-              : state.AllFlightsUserDetails[idOther] === "Economy"
-              ? state.AllMyFlights[idOther].EconomyClassPrice
-              : state.AllMyFlights[idOther].BusinessClassPrice,
-              To: state.AllMyFlights[idOther].To,
-              id: state.AllMyFlights[idOther]._id,
-              cabin:state.AllFlightsUserDetails[idOther].ChosenCabin
+                FirstAvailableSeatsNo: state.AllMyFlights[idOther].FirstAvailableSeatsNo,
+                FirstSeats: state.AllMyFlights[idOther].FirstSeats,
+                FlightNumber: state.AllMyFlights[idOther].FlightNumber,
+                From: state.AllMyFlights[idOther].From,
+                Price: state.AllFlightsUserDetails[idOther].ChosenCabin === "First"
+                  ? state.AllMyFlights[idOther].FirstClassPrice
+                  : state.AllFlightsUserDetails[idOther] === "Economy"
+                    ? state.AllMyFlights[idOther].EconomyClassPrice
+                    : state.AllMyFlights[idOther].BusinessClassPrice,
+                To: state.AllMyFlights[idOther].To,
+                id: state.AllMyFlights[idOther]._id,
+                cabin: state.AllFlightsUserDetails[idOther].ChosenCabin
               },
-
-
-
-
-              depFlight:state.FlightsUserDetails.Type==="Return Flight"?
-              {
-                ArrTerminal: state.AllMyFlights[idOther].AirportArrivalTerminal,
-                ArrTime: state.AllMyFlights[idOther].ArrivalTime,
-                BusinessAvailableSeatsNo: state.AllMyFlights[idOther].BusinessAvailableSeatsNo,
-                BusinessSeats: state.AllMyFlights[idOther].BusinessSeats,
-                 Date: state.AllMyFlights[idOther].Date,
-                DepTerminal: state.AllMyFlights[idOther].AirportDepartureTerminal, 
-                DepTime: state.AllMyFlights[idOther].DepartureTime,
+              depFlight: state.FlightsUserDetails.Type === "Return Flight" ?
+                {
+                  ArrTerminal: state.AllMyFlights[idOther].AirportArrivalTerminal,
+                  ArrTime: state.AllMyFlights[idOther].ArrivalTime,
+                  BusinessAvailableSeatsNo: state.AllMyFlights[idOther].BusinessAvailableSeatsNo,
+                  BusinessSeats: state.AllMyFlights[idOther].BusinessSeats,
+                  Date: state.AllMyFlights[idOther].Date,
+                  DepTerminal: state.AllMyFlights[idOther].AirportDepartureTerminal,
+                  DepTime: state.AllMyFlights[idOther].DepartureTime,
                   EconomyAvailableSeatsNo: state.AllMyFlights[idOther].EconomyAvailableSeatsNo,
-                EconomySeats: state.AllMyFlights[idOther].EconomySeats,
-              FirstAvailableSeatsNo: state.AllMyFlights[idOther].FirstAvailableSeatsNo,
-              FirstSeats: state.AllMyFlights[idOther].FirstSeats,
-              FlightNumber: state.AllMyFlights[idOther].FlightNumber,
-              From: state.AllMyFlights[idOther].From ,
-              Price: state.AllFlightsUserDetails[idOther].ChosenCabin=== "First"
-              ? state.AllMyFlights[idOther].FirstClassPrice
-              : state.AllFlightsUserDetails[idOther] === "Economy"
-              ? state.AllMyFlights[idOther].EconomyClassPrice
-              : state.AllMyFlights[idOther].BusinessClassPrice,
-              To: state.AllMyFlights[idOther].To,
-              id: state.AllMyFlights[idOther]._id,
-              cabin:state.AllFlightsUserDetails[idOther].ChosenCabin
-              }
-              :Object.assign(depChoosenRow,{cabin:depclassType}),
-
-
-
-
-
-
-              
+                  EconomySeats: state.AllMyFlights[idOther].EconomySeats,
+                  FirstAvailableSeatsNo: state.AllMyFlights[idOther].FirstAvailableSeatsNo,
+                  FirstSeats: state.AllMyFlights[idOther].FirstSeats,
+                  FlightNumber: state.AllMyFlights[idOther].FlightNumber,
+                  From: state.AllMyFlights[idOther].From,
+                  Price: state.AllFlightsUserDetails[idOther].ChosenCabin === "First"
+                    ? state.AllMyFlights[idOther].FirstClassPrice
+                    : state.AllFlightsUserDetails[idOther] === "Economy"
+                      ? state.AllMyFlights[idOther].EconomyClassPrice
+                      : state.AllMyFlights[idOther].BusinessClassPrice,
+                  To: state.AllMyFlights[idOther].To,
+                  id: state.AllMyFlights[idOther]._id,
+                  cabin: state.AllFlightsUserDetails[idOther].ChosenCabin
+                }
+                : Object.assign(choosenRow, { cabin: classType }),
               isDep:
                 state.FlightsUserDetails.Type === "Return Flight"
                   ? false

@@ -369,6 +369,11 @@ export default function PlaneSeats() {
         <br />
       </div>
       <br />
+      {retChosenSeats.length !== state.noSeats||
+        depChosenSeats.length !== state.noSeats ? (
+        <div style={{ marginLeft: "43%", color: 'red' }}
+        >*Please select {state.noSeats} Seats</div>
+      ) : null}
       <Button
         disabled={retChosenSeats.length !== state.noSeats || depChosenSeats.length !== state.noSeats}
         // onClick={returnChosenSeats}
@@ -395,11 +400,7 @@ export default function PlaneSeats() {
           Reserve{" "}
         </Link>
       </Button>
-      {retChosenSeats.length !== state.noSeats||
-        depChosenSeats.length !== state.noSeats ? (
-        <div style={{ marginLeft: "43%", color: 'red' }}
-        >*Please select {state.noSeats} Seats</div>
-      ) : null}
+
 
 
     </>
