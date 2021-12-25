@@ -20,7 +20,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import Checkbox from "@mui/material/Checkbox";
 import { Link } from "react-router-dom";
-import EmailIcon from '@mui/icons-material/Email';
+import EmailIcon from "@mui/icons-material/Email";
 
 function Row({
   row,
@@ -55,10 +55,8 @@ function Row({
   setCancelReservationPopupButton,
   FlightsUserDetails,
   state,
-  setSelectArPopupButton,
-
-  setSearchOff,
-  updateArrChoosenRow,
+  isDep,
+  selectFlight,
 }) {
   //   const { row } = props;
   const [open, setOpen] = React.useState(false);
@@ -213,9 +211,8 @@ function Row({
                   </TableBody>
                 </Table>
               </Box>
-            ) : (
-              <></>
-            )}
+            ) : null
+            }
             {isUser === true ? (
               <Box sx={{ margin: 1 }}>
                 <Typography
@@ -235,17 +232,15 @@ function Row({
                             Economy Class Seats
                           </TableCell>
                         </Tooltip>
-                      ) : (
-                        <></>
-                      )}
+                      ) : null
+                      }
                       {economyClass === true ? (
                         <TableCell style={{ fontWeight: "bold" }}>
                           {" "}
                           Economy Class Price $
                         </TableCell>
-                      ) : (
-                        <></>
-                      )}
+                      ) : null
+                      }
                       {businessClass === true ? (
                         <Tooltip
                           title="Available Seats/All Seats"
@@ -255,16 +250,14 @@ function Row({
                             Business Class Seats
                           </TableCell>
                         </Tooltip>
-                      ) : (
-                        <></>
-                      )}
+                      ) : null
+                      }
                       {businessClass === true ? (
                         <TableCell style={{ fontWeight: "bold" }}>
                           Business Class Price $
                         </TableCell>
-                      ) : (
-                        <></>
-                      )}
+                      ) : null
+                      }
                       {firstClass === true ? (
                         <Tooltip
                           title="Available Seats/All Seats"
@@ -274,16 +267,14 @@ function Row({
                             First Class Seats
                           </TableCell>
                         </Tooltip>
-                      ) : (
-                        <></>
-                      )}
+                      ) : null
+                      }
                       {firstClass === true ? (
                         <TableCell style={{ fontWeight: "bold" }}>
                           First Class Price $
                         </TableCell>
-                      ) : (
-                        <></>
-                      )}
+                      ) : null
+                      }
                       <TableCell style={{ fontWeight: "bold" }}>
                         Airport Departure Terminal
                       </TableCell>
@@ -308,14 +299,12 @@ function Row({
                           </div>{" "}
                           <div id="bloc2">{"/" + row.EconomySeatsNo}</div>{" "}
                         </TableCell>
-                      ) : (
-                        <></>
-                      )}
+                      ) : null
+                      }
                       {economyClass === true ? (
                         <TableCell>{row.EconomyClassPrice}</TableCell>
-                      ) : (
-                        <></>
-                      )}
+                      ) : null
+                      }
                       {businessClass === true ? (
                         <TableCell>
                           <div id="bloc1" style={{ color: "blue" }}>
@@ -323,14 +312,12 @@ function Row({
                           </div>{" "}
                           <div id="bloc2">{"/" + row.BusinessSeatsNo}</div>{" "}
                         </TableCell>
-                      ) : (
-                        <></>
-                      )}
+                      ) : null
+                      }
                       {businessClass === true ? (
                         <TableCell>{row.BusinessClassPrice}</TableCell>
-                      ) : (
-                        <></>
-                      )}
+                      ) : null
+                      }
                       {firstClass === true ? (
                         <TableCell>
                           <div id="bloc1" style={{ color: "blue" }}>
@@ -338,22 +325,20 @@ function Row({
                           </div>{" "}
                           <div id="bloc2">{"/" + row.FirstSeatsNo}</div>{" "}
                         </TableCell>
-                      ) : (
-                        <></>
-                      )}
+                      ) : null
+                      }
                       {firstClass === true ? (
                         <TableCell>{row.FirstClassPrice}</TableCell>
-                      ) : (
-                        <></>
-                      )}
+                      ) : null
+                      }
                       <TableCell>{row.AirportDepartureTerminal}</TableCell>
                       <TableCell>{row.AirportArrivalTerminal}</TableCell>
                       <TableCell>{row.BaggageAllowance}</TableCell>
                       <TableCell>
                         <Checkbox
-                          // onChange={() => {
-                          //   updateArrChoosenRow(row);
-                          // }}
+                          onChange={() => {
+                            selectFlight(row, isDep);
+                          }}
                           color="default"
                         />
                       </TableCell>
@@ -361,9 +346,8 @@ function Row({
                   </TableBody>
                 </Table>
               </Box>
-            ) : (
-              <></>
-            )}
+            ) : null
+            }
             {reservation === true ? (
               <Box sx={{ margin: 1 }}>
                 <Typography
@@ -399,29 +383,27 @@ function Row({
                         <IconButton
                           variant="contained"
                           color="primary"
-                          onClick={() => {}}
+                          onClick={() => { }}
                         >
                           <Link
                             to="/planeSeatsAfterEdit"
-                            style={{textDecoration : 'none' , color : 'none'} }
+                            style={{ textDecoration: "none" }}
                             state={{
                               FlightsUserDetails: FlightsUserDetails[index],
-                              rows:row,
-                              id : state.id
+                              rows: row,
+                              id: state.id,
+                              editFlight: false,
                             }}
                           >
                             <EditIcon />
                           </Link>
-                          
                         </IconButton>
                       </TableCell>
                       <TableCell>
                         <IconButton
                           variant="contained"
                           color="primary"
-                          onClick={() => {
-                            
-                          }}
+                          onClick={() => { }}
                         >
                           <EmailIcon />
                         </IconButton>
@@ -461,14 +443,12 @@ function Row({
                           <DeleteIcon />
                         </IconButton>
                       </TableCell>
-                      
                     </TableRow>
                   </TableBody>
                 </Table>
               </Box>
-            ) : (
-              <></>
-            )}
+            ) : null
+            }
           </Collapse>
         </TableCell>
       </TableRow>
@@ -509,16 +489,17 @@ export function CollapsibleTable({
   reservationInfo,
   FlightsUserDetails,
   setSearchOff,
-  setSelectArPopupButton,
   updateArrChoosenRow,
-  state
+  state,
+  isDep,
+  selectFlight,
 }) {
   return (
     <TableContainer component={Paper}>
       <Table aria-label="collapsible table">
         <TableHead>
           <TableRow>
-            {" "}
+            
             <TableCell />
             <TableCell style={{ fontWeight: "bold" }}>Flight Number</TableCell>
             <TableCell style={{ fontWeight: "bold" }}>From</TableCell>
@@ -531,6 +512,7 @@ export function CollapsibleTable({
         <TableBody>
           {rows.map((row, index) => (
             <Row
+              key={index}
               index={index}
               row={row}
               isAdmin={isAdmin}
@@ -565,9 +547,10 @@ export function CollapsibleTable({
               reservationInfo={reservationInfo}
               FlightsUserDetails={FlightsUserDetails}
               setSearchOff={setSearchOff}
-              setSelectArPopupButton={setSelectArPopupButton}
               updateArrChoosenRow={updateArrChoosenRow}
-              state = {state}
+              state={state}
+              isDep={isDep}
+              selectFlight={selectFlight}
             />
           ))}
         </TableBody>
@@ -576,129 +559,6 @@ export function CollapsibleTable({
   );
 }
 
-// export function Row2({ row, isAdmin, EditContent, DeleteContent }) {
-//   //   const { row } = props;
-//   const [open, setOpen] = React.useState(false);
-
-//   //style={{fontWeight : 'bold'}}
-//   return (
-//     <React.Fragment>
-//       <TableRow
-//         style={{ backgroundColor: "#F7F7F7" }}
-//         sx={{ fontWeight: "bold", "& > *": { borderBottom: "unset" } }}
-//       >
-//         <TableCell>
-//           <IconButton
-//             aria-label="expand row"
-//             size="small"
-//             onClick={() => setOpen(!open)}
-//           >
-//             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-//           </IconButton>
-//         </TableCell>
-//         <TableCell component="th" scope="row">
-//           {row.FlightNumber}
-//         </TableCell>
-//         <TableCell>{row.From}</TableCell>
-//         <TableCell>{row.To}</TableCell>
-//         <TableCell>{row.ArrivalTime}</TableCell>
-//         <TableCell>{row.DepartureTime}</TableCell>
-//         <TableCell>{row.Date}</TableCell>
-//       </TableRow>
-//       <TableRow>
-//         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={8}>
-//           <Collapse in={open} timeout="auto" unmountOnExit>
-//             <Box sx={{ margin: 1, float: "left", width: "94%" }}>
-//               <Typography
-//                 variant="h6"
-//                 gutterBottom
-//                 component="div"
-//               ></Typography>
-//               <Table size="small">
-//                 <TableHead>
-//                   <TableRow>
-//                     <Tooltip title="Available Seats/All Seats" placement="top">
-//                       <TableCell style={{ fontWeight: "bold" }}>
-//                         Economy Class Seats
-//                       </TableCell>
-//                     </Tooltip>
-//                     <TableCell style={{ fontWeight: "bold" }}>
-//                       {" "}
-//                       Economy Class Price ($)
-//                     </TableCell>
-//                     <Tooltip title="Available Seats/All Seats" placement="top">
-//                       <TableCell style={{ fontWeight: "bold" }}>
-//                         Business Class Seats
-//                       </TableCell>
-//                     </Tooltip>
-//                     <TableCell style={{ fontWeight: "bold" }}>
-//                       Business Class Price ($)
-//                     </TableCell>
-//                     <Tooltip title="Available Seats/All Seats" placement="top">
-//                       <TableCell style={{ fontWeight: "bold" }}>
-//                         First Class Seats
-//                       </TableCell>
-//                     </Tooltip>
-//                     <TableCell style={{ fontWeight: "bold" }}>
-//                       First Class Price ($)
-//                     </TableCell>
-//                     <TableCell style={{ fontWeight: "bold" }}>
-//                       Airport Departure Terminal
-//                     </TableCell>
-//                     <TableCell style={{ fontWeight: "bold" }}>
-//                       Airport Arrival Terminal
-//                     </TableCell>
-//                     <TableCell style={{ fontWeight: "bold" }}>
-//                       Baggage Allowance (kg)
-//                     </TableCell>
-//                     <TableCell>
-//                       <Tooltip title="Edit" sx={{ m: 1 }}>
-//                         {EditContent}
-//                       </Tooltip>
-//                     </TableCell>
-//                   </TableRow>
-//                 </TableHead>
-//                 <TableBody>
-//                   <TableRow>
-//                     <TableCell>
-//                       <div id="bloc1" style={{ color: "blue" }}>
-//                         {row.EconomyAvailableSeatsNo}
-//                       </div>{" "}
-//                       <div id="bloc2">{"/" + row.EconomySeatsNo}</div>{" "}
-//                     </TableCell>
-//                     <TableCell>{row.EconomyClassPrice}</TableCell>
-//                     <TableCell>
-//                       <div id="bloc1" style={{ color: "blue" }}>
-//                         {row.BusinessAvailableSeatsNo}
-//                       </div>{" "}
-//                       <div id="bloc2">{"/" + row.BusinessSeatsNo}</div>{" "}
-//                     </TableCell>
-//                     <TableCell>{row.BusinessClassPrice}</TableCell>
-//                     <TableCell>
-//                       <div id="bloc1" style={{ color: "blue" }}>
-//                         {row.FirstAvailableSeatsNo}
-//                       </div>{" "}
-//                       <div id="bloc2">{"/" + row.FirstSeatsNo}</div>{" "}
-//                     </TableCell>
-//                     <TableCell>{row.FirstClassPrice}</TableCell>
-//                     <TableCell>{row.AirportDepartureTerminal}</TableCell>
-//                     <TableCell>{row.AirportArrivalTerminal}</TableCell>
-//                     <TableCell>{row.BaggageAllowance}</TableCell>
-//                     <TableCell>
-//                       <Tooltip title="Delete" sx={{ m: 1 }}>
-//                         {DeleteContent}
-//                       </Tooltip>
-//                     </TableCell>
-//                   </TableRow>
-//                 </TableBody>
-//               </Table>
-//             </Box>
-//           </Collapse>
-//         </TableCell>
-//       </TableRow>
-//     </React.Fragment>
-//   );
-// }
 
 export function Row2({ row, isAdmin, EditContent, DeleteContent }) {
   //   const { row } = props;

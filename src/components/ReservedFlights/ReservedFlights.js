@@ -1,12 +1,5 @@
 import React from "react";
 import { useState, useEffect, forwardRef } from "react";
-import Paper from "@mui/material/Paper";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
 import axios from "axios";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
@@ -19,8 +12,6 @@ import "./ReservedFlights.css";
 import ResponsiveAppBar from "../ResponsiveAppBar/ResponsiveAppBar";
 import { useLocation } from "react-router-dom";
 import { CollapsibleTable } from "../CollapsibleTable/CollapsibleTable";
-import { collapseClasses } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Edit";
 
 const Alert = forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -28,41 +19,6 @@ const Alert = forwardRef(function Alert(props, ref) {
 
 function ReservedFlights() {
   const state = useLocation().state;
-  // const columns = [
-  //   { id: "ReservationNumber", label: "Reservation Number", width: 80 },
-  //   { id: "FlightNumber", label: "Flight Number", width: 80 },
-  //   { id: "From", label: "From", width: 60 },
-  //   { id: "To", label: "To", width: 60 },
-  //   { id: "Date", label: "Flight Date", width: 100 },
-  //   { id: "DepartureTime", label: "Departure Time", width: 80 },
-  //   { id: "ArrivalTime", label: "Arrival Time", width: 80 },
-  //   {
-  //     id: "AirportDepartureTerminal",
-  //     label: "Airport Departure Terminal",
-  //     width: 120,
-  //   },
-  //   {
-  //     id: "AirportArrivalTerminal",
-  //     label: "Airport Arrival Terminal",
-  //     width: 120,
-  //   },
-  //   {
-  //     id: "ChosenCabin",
-  //     label: "Cabin",
-  //     Width: 60,
-  //   },
-  //   {
-  //     id: "SeatsReserved",
-  //     label: "Reserved Seats",
-  //     Width: 80,
-  //   },
-  //   {
-  //     id: "TotalReservationPrice",
-  //     label: "Total Reservation Price",
-  //     Width: 60,
-  //   },
-  //   { id: "action", label: "Action", Width: 100 },
-  // ];
   const [FlightsReserved, setFlightsReserved] = useState([]);
   const [FlightsUserDetails, setFlightsUserDetails] = useState([]);
   const [toBeCanceled, setToBeCanceled] = useState(0);
@@ -72,9 +28,6 @@ function ReservedFlights() {
 
   useEffect(() => {
     GetAllReservedFlights();
-    console.log(FlightsUserDetails);
-    console.log(FlightsReserved);
-    console.log(state);
   }, []);
 
   function GetAllReservedFlights() {
@@ -94,9 +47,6 @@ function ReservedFlights() {
           }
           setFlightsUserDetails(flight_User_Details);
           GetAllFlights(flight_Details, flight_User_Details);
-          //console.log(res.data);
-          // console.log(FlightsUserDetails);
-          // console.log(FlightsReserved);
         })
         .catch((err) => {
           console.log(err);
@@ -171,7 +121,7 @@ function ReservedFlights() {
         break;
       default:
     }
-    console.log(updatedAvailableSeats);
+    // console.log(updatedAvailableSeats);
     axios
       .put(
         "http://localhost:3005/flights/updateFlightAvailableSeats/" +
@@ -184,6 +134,9 @@ function ReservedFlights() {
       .catch((err) => {
         console.log(err);
       });
+  }
+  function editSeats(userArr, flightArr , newSeats){
+    
   }
 
   function DeleteRow() {
@@ -272,104 +225,6 @@ function ReservedFlights() {
         FlightsUserDetails={FlightsUserDetails}
         setToBeCanceled={setToBeCanceled} state = {state}
         />
-
-      {/* <Paper sx={{ width: "100%", overflow: "hidden", marginTop: "1%" }}>
-        <TableContainer sx={{ maxHeight: 500 }}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                {columns.map((column) => (
-                  <TableCell
-                    key={column.id}
-                    style={{ width: column.width, textAlign: "center" }}
-                  >
-                    {column.label}
-                  </TableCell>
-                ))}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {FlightsReserved.map((row, index) => {
-                return (
-                  <TableRow hover key={FlightsUserDetails[index]._id}>
-                    {columns.map((column) => {
-                      const value = row[column.id];
-                      if (column.id === "action") {
-                        return (
-                          <TableCell
-                            sx={{ textAlign: "center" }}
-                            key={{ key: row._id }}
-                          >
-                            <Button
-                              variant="contained"
-                              color="error"
-                              onClick={() => {
-                                setCancelReservationPopupButton(true);
-                                setToBeCanceled(index);
-                              }}
-                            >
-                              Cancel Reservation
-                            </Button>
-                          </TableCell>
-                        );
-                      } else if (column.id === "ReservationNumber") {
-                        return (
-                          <TableCell
-                            key={column.id}
-                            sx={{ textAlign: "center" }}
-                          >
-                            {FlightsUserDetails[index].ReservationNumber}
-                          </TableCell>
-                        );
-                      } else if (column.id === "ChosenCabin") {
-                        return (
-                          <TableCell
-                            key={column.id}
-                            sx={{ textAlign: "center" }}
-                          >
-                            {FlightsUserDetails[index].ChosenCabin}
-                          </TableCell>
-                        );
-                      } else if (column.id === "SeatsReserved") {
-                        return (
-                          <TableCell
-                            key={column.id}
-                            sx={{ textAlign: "center" }}
-                          >
-                            {FlightsUserDetails[index].SeatsReserved.map(
-                              (SeatNumber) => {
-                                return <span key={SeatNumber}>{SeatNumber} </span>;
-                              }
-                            )}
-                          </TableCell>
-                        );
-                      } else if (column.id === "TotalReservationPrice") {
-                        return (
-                          <TableCell
-                            key={column.id}
-                            sx={{ textAlign: "center" }}
-                          >
-                            {FlightsUserDetails[index].TotalReservationPrice}
-                          </TableCell>
-                        );
-                      } else {
-                        return (
-                          <TableCell
-                            key={column.id}
-                            sx={{ textAlign: "center" }}
-                          >
-                            {value}
-                          </TableCell>
-                        );
-                      }
-                    })}
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Paper> */}
       <p style={{ textAlign: "center", width: "100%" }}>
         {FlightsUserDetails.length === 0 ? "No Reservations" : ""}
       </p>

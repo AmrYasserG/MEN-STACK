@@ -1,8 +1,7 @@
 .container3 {
     max-width: 385px;
     min-width: 385px;
-    
-    margin-left:40%;
+    margin: auto;
     margin-top: 100px;
     min-height: 300px;
     border: 1px solid steelblue;
@@ -13,8 +12,7 @@
 .container4 {
     max-width: 385px;
     min-width: 385px;
-    
-    margin-left:40%;
+    margin: auto;
     margin-top: 100px;
     min-height: 300px;
     border: 1px solid steelblue;
@@ -52,8 +50,4 @@
 
 h3 {
     text-align: center;
-}
-#bloc1,
-#bloc2 {
-    display: inline;
 }

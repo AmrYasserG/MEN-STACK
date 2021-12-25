@@ -1,28 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Grid from "@mui/material/Grid";
-import Paper from "@mui/material/Paper";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import axios from "axios";
 import Button from "@mui/material/Button";
 import { useLocation } from "react-router-dom";
 import Box from "@mui/material/Box";
-import Divider from "@mui/material/Divider";
 import ResponsiveAppBar from "../ResponsiveAppBar/ResponsiveAppBar";
 
 const SummaryConfirm = () => {
   const state = useLocation().state;
-  const [depChoosen, setDepChoosen] = useState("");
-  const [arrChoosen, setArrChoosen] = useState("");
-  
-  useEffect(() => {
-    console.log(state);
-  }, []);
 
   return (
     <div>
@@ -61,7 +46,7 @@ const SummaryConfirm = () => {
         <br></br>
         <Button variant="contained">
           <Link
-            style={{textDecoration:'none'}}
+            style={{ textDecoration: 'none' }}
             to="/Payment"
             state={{
               id: state.id,

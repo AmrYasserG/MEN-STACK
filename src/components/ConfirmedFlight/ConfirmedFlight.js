@@ -1,22 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import  Grid from "@mui/material/Grid";
-import Paper from "@mui/material/Paper";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
 import axios from "axios";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
-import Divider from "@mui/material/Divider";
+
 import ResponsiveAppBar from "../ResponsiveAppBar/ResponsiveAppBar";
 
 const ConfirmedFlight = () => {
-  const [depChoosen, setDepChoosen] = useState("");
-  const [arrChoosen, setArrChoosen] = useState("");
   const state = JSON.parse(localStorage.getItem("state"))
   let resNum = Date.now();
   useEffect(() => {   
@@ -36,7 +27,7 @@ const ConfirmedFlight = () => {
         Otherflight: state.arrFlight.FlightNumber
       })
       .then((res) => {
-        console.log("created dep flight");
+        // console.log("created dep flight");
         const toBeUpdatedFlight = state.depFlight;
         const toBeUpdatedFlightSeats = state.depSeatsReserved;
         const ChosenCabin = state.cabin + "AvailableSeatsNo";
@@ -93,7 +84,7 @@ const ConfirmedFlight = () => {
             updatedAvailableSeats
           )
           .then((res) => {
-            console.log("updated dep flight");
+            // console.log("updated dep flight");
             axios.post(
               "http://localhost:3005/bookingFlights/CreateReservation",
               {
@@ -109,7 +100,7 @@ const ConfirmedFlight = () => {
             );
           })
           .then((res) => {
-            console.log("created ret flight");
+            // console.log("created ret flight");
             const toBeUpdatedFlight = state.arrFlight;
             const toBeUpdatedFlightSeats = state.arrSeatsReserved;
             const ChosenCabin = state.cabin + "AvailableSeatsNo";
@@ -166,7 +157,7 @@ const ConfirmedFlight = () => {
                 updatedAvailableSeats
               )
               .then((res) => {
-                console.log("updated ret flight");
+                // console.log("updated ret flight");
               });
           });
       });
@@ -190,11 +181,11 @@ const ConfirmedFlight = () => {
           marginLeft: "5%",
           marginRight: "5%",
           marginTop: "0",
-          "text-align": "center",
+          textAlign: "center",
           width: 3 / 9,
           border: "5px solid #eeeeee",
           backgroundColor: "#fbfbfb",
-          "box-shadow": "7px 7px 7px#cccccc",
+          boxShadow: "7px 7px 7px#cccccc",
           float: "Right",
         }}
       >
@@ -217,11 +208,11 @@ const ConfirmedFlight = () => {
         sx={{
           marginLeft: "5%",
           my: "2%",
-          "text-align": "center",
+          textAlign: "center",
           width: 3 / 9,
           border: "5px solid #eeeeee",
           backgroundColor: "#fbfbfb",
-          "box-shadow": "7px 7px 7px#cccccc",
+          boxShadow: "7px 7px 7px#cccccc",
           
         }}
       >
@@ -295,11 +286,11 @@ const ConfirmedFlight = () => {
         sx={{
           marginLeft: "5%",
           my: "2%",
-          "text-align": "center",
+          textAlign: "center",
           width: 3 / 9,
           border: "5px solid #eeeeee",
           backgroundColor: "#fbfbfb",
-          "box-shadow": "7px 7px 7px#cccccc",
+          boxShadow: "7px 7px 7px#cccccc",
           float:"left"
         }}
       >
@@ -367,11 +358,11 @@ const ConfirmedFlight = () => {
           marginLeft: "5%",
           marginRight: "5%",
           marginTop: "5%",
-          "text-align": "center",
+          textAlign: "center",
           width: 3 / 9,
           border: "5px solid #eeeeee",
           backgroundColor: "#fbfbfb",
-          "box-shadow": "7px 7px 7px#cccccc",
+          boxShadow: "7px 7px 7px#cccccc",
           float:"right"
         }}
       >
