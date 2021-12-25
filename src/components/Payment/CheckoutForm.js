@@ -70,9 +70,13 @@ export default function CheckoutForm() {
     }
   };
 
+  function loadButtons(){
+    alert("Image is loaded");
+  }
+
   return (
     <form id="payment-form" onSubmit={handleSubmit}>
-      <PaymentElement id="payment-element" />
+      <PaymentElement id="payment-element"/>
       <div style={{ textAlign: "center" }}>
         <button
           disabled={isLoading || !stripe || !elements}

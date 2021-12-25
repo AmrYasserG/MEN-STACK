@@ -7,11 +7,13 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
+import TextField from "@mui/material/TextField";
 import axios from "axios";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
+import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import Snackbar from "@mui/material/Snackbar";
 import Popup from "../Popup/Popup";
 import MuiAlert from "@mui/material/Alert";
@@ -66,8 +68,12 @@ function ReservedFlights() {
   const [FlightsReserved, setFlightsReserved] = useState([]);
   const [FlightsUserDetails, setFlightsUserDetails] = useState([]);
   const [toBeCanceled, setToBeCanceled] = useState(0);
+  let toBeCanceled2 = 0;
+  const [toBeMailed, setToBeMailed] = useState(0);
   const [CancelReservationPopupButton, setCancelReservationPopupButton] = useState(false);
   const [deleteOpenResponse, setDeleteOpenResponse] = useState(false);
+  const [SendIternaryPopupButton, setSendIternaryPopupButton] = useState(false);
+  const [SendIternaryOpenResponse, setSendIternaryOpenResponse] = useState(false);
   const [User_Email, setUserEmail] = useState("");
 
   useEffect(() => {
@@ -141,10 +147,10 @@ function ReservedFlights() {
     }
   }
 
-  function updateFlightAvailableSeats(FlightsReservedArray, FlightsUserDetailsArray) {
-    const toBeUpdatedFlight = FlightsReservedArray[toBeCanceled];
-    const toBeUpdatedFlightSeats = FlightsUserDetailsArray[toBeCanceled];
-    const ChosenCabin = FlightsUserDetailsArray[toBeCanceled].ChosenCabin + "AvailableSeatsNo";
+  function updateFlightAvailableSeats(FlightsReservedArray, FlightsUserDetailsArray, toBeCanceledReservation) {
+    const toBeUpdatedFlight = FlightsReservedArray[toBeCanceledReservation];
+    const toBeUpdatedFlightSeats = FlightsUserDetailsArray[toBeCanceledReservation];
+    const ChosenCabin = FlightsUserDetailsArray[toBeCanceledReservation].ChosenCabin + "AvailableSeatsNo";
     let updatedAvailableSeats = {};
     switch (ChosenCabin) {
       case "EconomyAvailableSeatsNo":
@@ -186,13 +192,13 @@ function ReservedFlights() {
   }
 
   function DeleteRow() {
-    const FlightReservedId = FlightsUserDetails[toBeCanceled]._id;
+    let FlightReservedId = FlightsUserDetails[toBeCanceled]._id;
     axios
       .delete(
         "http://localhost:3005/bookingFlights/cancelReservation/" + FlightReservedId + "/" + User_Email
       )
       .then((res) => {
-        updateFlightAvailableSeats(FlightsReserved, FlightsUserDetails);
+        updateFlightAvailableSeats(FlightsReserved, FlightsUserDetails, toBeCanceled);
         setDeleteOpenResponse(true);
         FlightsReserved.splice(toBeCanceled, 1)
         setFlightsReserved(
@@ -207,6 +213,149 @@ function ReservedFlights() {
       .catch((err) => {
         console.log(err);
       });
+
+      for(let i=0;i<FlightsUserDetails.length;i++){
+        if(FlightsUserDetails[i].FlightNumber === FlightsUserDetails[toBeCanceled].Otherflight){
+          toBeCanceled2 = i;
+          break;
+        }
+      }
+
+      FlightReservedId = FlightsUserDetails[toBeCanceled2]._id;
+      axios
+        .delete(
+          "http://localhost:3005/bookingFlights/cancelReservation/" + FlightReservedId + "/" + User_Email
+        )
+        .then((res) => {
+          updateFlightAvailableSeats(FlightsReserved, FlightsUserDetails, toBeCanceled2);
+          setDeleteOpenResponse(true);
+          FlightsReserved.splice(toBeCanceled2, 1)
+          setFlightsReserved(
+            FlightsReserved
+          );
+          setFlightsUserDetails(
+            FlightsUserDetails.filter((Flights) => {
+              return Flights._id !== FlightReservedId;
+            })
+          );
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+  }
+
+  function sendItinerary(){
+    let state2 = {}
+    let depFlight = {}
+    let arrFlight = {}
+    let pricePerSeatDep = 0;
+    let pricePerSeatArr = 0;
+    let depSeatsReserved = [];
+    let arrSeatsReserved = [];
+    if(FlightsUserDetails[toBeMailed].Type === 'Departure Flight'){
+      const chosenCabinDep = FlightsUserDetails[toBeMailed].ChosenCabin;
+      switch(chosenCabinDep){
+        case "First":
+        pricePerSeatDep = FlightsReserved[toBeMailed].FirstClassPrice;
+        break;
+        case "Economy":
+        pricePerSeatDep = FlightsReserved[toBeMailed].EconomyClassPrice;
+        break;
+        case "Business":
+        pricePerSeatDep = FlightsReserved[toBeMailed].BusinessClassPrice;
+        break;
+        default:
+      }
+      depFlight = {
+        Date: FlightsReserved[toBeMailed].Date,
+        ArrTime: FlightsReserved[toBeMailed].ArrivalTime,
+        DepTime: FlightsReserved[toBeMailed].DepartureTime,
+        cabin: FlightsUserDetails[toBeMailed].ChosenCabin,
+        Price: pricePerSeatDep,
+      }
+      depSeatsReserved = FlightsUserDetails[toBeMailed].SeatsReserved
+    } else {
+      const chosenCabinArr = FlightsUserDetails[toBeMailed].ChosenCabin;
+      switch(chosenCabinArr){
+        case "First":
+          pricePerSeatArr = FlightsReserved[toBeMailed].FirstClassPrice;
+        break;
+        case "Economy":
+          pricePerSeatArr = FlightsReserved[toBeMailed].EconomyClassPrice;
+        break;
+        case "Business":
+          pricePerSeatArr = FlightsReserved[toBeMailed].BusinessClassPrice;
+        break;
+        default:
+      }
+      arrFlight = {
+        Date: FlightsReserved[toBeMailed].Date,
+        ArrTime: FlightsReserved[toBeMailed].ArrivalTime,
+        DepTime: FlightsReserved[toBeMailed].DepartureTime,
+        cabin: FlightsUserDetails[toBeMailed].ChosenCabin,
+        Price: pricePerSeatArr,
+      }
+      arrSeatsReserved = FlightsUserDetails[toBeMailed].SeatsReserved
+    }
+    let index = 0;
+    for(let i=0; i< FlightsUserDetails.length;i++){
+      if(FlightsUserDetails[toBeMailed].Otherflight === FlightsUserDetails[i].FlightNumber){
+        index = i;
+        break;
+      }
+    }
+    if(FlightsUserDetails[index].Type === 'Departure Flight'){
+      const chosenCabinDep = FlightsUserDetails[index].ChosenCabin;
+      switch(chosenCabinDep){
+        case "First":
+        pricePerSeatDep = FlightsReserved[index].FirstClassPrice;
+        break;
+        case "Economy":
+        pricePerSeatDep = FlightsReserved[index].EconomyClassPrice;
+        break;
+        case "Business":
+        pricePerSeatDep = FlightsReserved[index].BusinessClassPrice;
+        break;
+        default:
+      }
+      depFlight = {
+        Date: FlightsReserved[index].Date,
+        ArrTime: FlightsReserved[index].ArrivalTime,
+        DepTime: FlightsReserved[index].DepartureTime,
+        cabin: FlightsUserDetails[index].ChosenCabin,
+        Price: pricePerSeatDep,
+      }  
+      depSeatsReserved = FlightsUserDetails[index].SeatsReserved
+      state2 = {arrFlight:arrFlight, depFlight:depFlight,depSeatsReserved: depSeatsReserved, arrSeatsReserved: arrSeatsReserved, noSeats:depSeatsReserved.length}
+    } else {
+      const chosenCabinArr = FlightsUserDetails[index].ChosenCabin;
+      switch(chosenCabinArr){
+        case "First":
+          pricePerSeatArr = FlightsReserved[index].FirstClassPrice;
+        break;
+        case "Economy":
+          pricePerSeatArr = FlightsReserved[index].EconomyClassPrice;
+        break;
+        case "Business":
+          pricePerSeatArr = FlightsReserved[index].BusinessClassPrice;
+        break;
+        default:
+      }
+      arrFlight = {
+        Date: FlightsReserved[index].Date,
+        ArrTime: FlightsReserved[index].ArrivalTime,
+        DepTime: FlightsReserved[index].DepartureTime,
+        cabin: FlightsUserDetails[index].ChosenCabin,
+        Price: pricePerSeatArr,
+      }
+      arrSeatsReserved = FlightsUserDetails[index].SeatsReserved
+      state2 = {arrFlight:arrFlight, depFlight:depFlight,depSeatsReserved: depSeatsReserved, arrSeatsReserved: arrSeatsReserved,noSeats:depSeatsReserved.length}
+
+    }
+    axios.post("http://localhost:3005/bookingFlights/sendItinerary/" + User_Email,{state:state2,resNum:FlightsUserDetails[toBeMailed].ReservationNumber})
+    .then((res)=>{
+      setSendIternaryOpenResponse(true);
+    })
   }
 
   const deleteHandleClose = (event, reason) => {
@@ -214,6 +363,13 @@ function ReservedFlights() {
       return;
     }
     setDeleteOpenResponse(false);
+  };
+
+  const SendIternaryHandleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setSendIternaryOpenResponse(false);
   };
 
   return (
@@ -230,6 +386,19 @@ function ReservedFlights() {
           sx={{ width: "100%" }}
         >
           Cancelled Successfully
+        </Alert>
+      </Snackbar>
+      <Snackbar
+        open={SendIternaryOpenResponse}
+        autoHideDuration={3000}
+        onClose={SendIternaryHandleClose}
+      >
+        <Alert
+          onClose={SendIternaryHandleClose}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
+          Sent Successfully
         </Alert>
       </Snackbar>
       <Popup
@@ -266,10 +435,47 @@ function ReservedFlights() {
         </Button>
       </Popup>
 
-      <CollapsibleTable rows={FlightsReserved} reservation
+      <Popup
+        trigger={SendIternaryPopupButton}
+        setTrigger={setSendIternaryPopupButton}
+      >
+        <IconButton
+          style={{ left: "68%", bottom: "30%" }}
+          onClick={() => {
+            setSendIternaryPopupButton(false);
+          }}
+        >
+          <CloseOutlinedIcon />
+        </IconButton>
+        <PriorityHighIcon
+          color="error"
+          style={{ width: "25%", height: "30%", paddingRight: "10%" }}
+        />
+        <h2>Send Flight Itinerary</h2>
+        <p style={{ fontSize: "small" }}>
+          Do you want to send this reservation's Itinerary?
+        </p>
+        {/* <TextField id="outlined-basic" required label="Email Address" variant="outlined"/> */}
+        <Button
+          variant="contained"
+          color="primary"
+          style={{ top: "7%" }}
+          onClick={() => {
+            setSendIternaryPopupButton(false);
+            sendItinerary();
+          }}
+        >
+          Send
+        </Button>
+      </Popup>
+
+      <CollapsibleTable rows={FlightsReserved} 
+        reservation
         setCancelReservationPopupButton={setCancelReservationPopupButton} 
+        setSendIternaryPopupButton={setSendIternaryPopupButton} 
         FlightsUserDetails={FlightsUserDetails}
         setToBeCanceled={setToBeCanceled}
+        setToBeMailed = {setToBeMailed}
         />
 
       {/* <Paper sx={{ width: "100%", overflow: "hidden", marginTop: "1%" }}>
@@ -370,7 +576,7 @@ function ReservedFlights() {
         </TableContainer>
       </Paper> */}
       <p style={{ textAlign: "center", width: "100%" }}>
-        {FlightsUserDetails.length === 0 ? "No Reservations" : ""}
+        {FlightsUserDetails.length === 0 ? "No Reservations" : FlightsReserved.length ===0 ? "No Reservations":"" }
       </p>
       {/* <Button
         

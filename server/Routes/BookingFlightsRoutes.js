@@ -7,6 +7,6 @@ BookingFlightsRouter.use(express.urlencoded({ extended: false }));
 BookingFlightsRouter.post("/createReservation",bookingFlightsController.createReservation);
 BookingFlightsRouter.get("/getAllReservations/:User_id",bookingFlightsController.getAllReservations);
 BookingFlightsRouter.delete("/cancelReservation/:id/:UserEmail", bookingFlightsController.cancelReservation);
-BookingFlightsRouter.post("/sendItinerary", bookingFlightsController.sendItinerary);
+BookingFlightsRouter.post("/sendItinerary/:UserEmail", bookingFlightsController.sendItinerary);
 
 module.exports = BookingFlightsRouter;

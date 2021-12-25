@@ -19,7 +19,10 @@ const SummaryConfirm = () => {
   const state = useLocation().state;
   const [depChoosen, setDepChoosen] = useState("");
   const [arrChoosen, setArrChoosen] = useState("");
-  
+  let depFlight = state.depFlight
+  depFlight.cabin = state.cabin
+  let arrFlight = state.arrFlight
+  arrFlight.cabin = state.cabin
   useEffect(() => {
     console.log(state);
   }, []);
@@ -65,9 +68,8 @@ const SummaryConfirm = () => {
             to="/Payment"
             state={{
               id: state.id,
-              depFlight: state.depFlight,
-              arrFlight: state.arrFlight,
-              cabin: state.cabin,
+              depFlight: depFlight,
+              arrFlight: arrFlight,
               noSeats: state.noSeats,
               depSeatsReserved: state.depSeatsReserved,
               arrSeatsReserved: state.arrSeatsReserved,

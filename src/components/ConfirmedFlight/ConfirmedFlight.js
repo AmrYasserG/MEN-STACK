@@ -29,7 +29,7 @@ const ConfirmedFlight = () => {
         User_id: state.id,
         ReservationNumber: resNum,
         FlightNumber: state.depFlight.FlightNumber,
-        ChosenCabin: state.cabin,
+        ChosenCabin: state.depFlight.cabin,
         SeatsReserved: state.depSeatsReserved,
         TotalReservationPrice: state.depFlight.Price * state.noSeats,
         Type: "Departure Flight",
@@ -39,7 +39,7 @@ const ConfirmedFlight = () => {
         console.log("created dep flight");
         const toBeUpdatedFlight = state.depFlight;
         const toBeUpdatedFlightSeats = state.depSeatsReserved;
-        const ChosenCabin = state.cabin + "AvailableSeatsNo";
+        const ChosenCabin = state.depFlight.cabin + "AvailableSeatsNo";
         let updatedAvailableSeats = {};
         switch (ChosenCabin) {
           case "EconomyAvailableSeatsNo":
@@ -100,7 +100,7 @@ const ConfirmedFlight = () => {
                 User_id: state.id,
                 ReservationNumber: resNum,
                 FlightNumber: state.arrFlight.FlightNumber,
-                ChosenCabin: state.cabin,
+                ChosenCabin: state.arrFlight.cabin,
                 SeatsReserved: state.arrSeatsReserved,
                 TotalReservationPrice: state.arrFlight.Price * state.noSeats,
                 Type: "Return Flight",
@@ -112,7 +112,7 @@ const ConfirmedFlight = () => {
             console.log("created ret flight");
             const toBeUpdatedFlight = state.arrFlight;
             const toBeUpdatedFlightSeats = state.arrSeatsReserved;
-            const ChosenCabin = state.cabin + "AvailableSeatsNo";
+            const ChosenCabin = state.arrFlight.cabin + "AvailableSeatsNo";
             let updatedAvailableSeats = {};
             switch (ChosenCabin) {
               case "EconomyAvailableSeatsNo":
@@ -270,7 +270,7 @@ const ConfirmedFlight = () => {
             <label>Cabin Class :</label>
           </Grid>
           <Grid sx={{marginTop:"2%",textAlign:"right"}} item xs={5} md={4}>
-            <label>{state.cabin}</label>
+            <label>{state.depFlight.cabin}</label>
           </Grid>
           <Grid item xs={1} md={2}></Grid>
           <Grid item xs={1} md={2}></Grid>
@@ -344,7 +344,7 @@ const ConfirmedFlight = () => {
             <label>Cabin Class :</label>{" "}
           </Grid>
           <Grid item xs={5} md={4} sx={{marginTop:"2%", textAlign:"right"}}>
-            <label>{state.cabin}</label>{" "}
+            <label>{state.arrFlight.cabin}</label>{" "}
           </Grid>
           <Grid item xs={1} md={2} marginTop={"2%"}></Grid>
           <Grid item xs={1} md={2} marginTop={"2%"}></Grid>{" "}

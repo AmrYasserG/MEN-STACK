@@ -53,9 +53,10 @@ function Row({
   reservation,
   setToBeCanceled,
   setCancelReservationPopupButton,
+  setSendIternaryPopupButton,
+  setToBeMailed,
   FlightsUserDetails,
   setSelectArPopupButton,
-
   setSearchOff,
   updateArrChoosenRow,
 }) {
@@ -418,7 +419,8 @@ function Row({
                           variant="contained"
                           color="primary"
                           onClick={() => {
-                            
+                            setSendIternaryPopupButton(true);
+                            setToBeMailed(index);
                           }}
                         >
                           <EmailIcon />
@@ -504,6 +506,8 @@ export function CollapsibleTable({
   reservation,
   setCancelReservationPopupButton,
   setToBeCanceled,
+  setSendIternaryPopupButton,
+  setToBeMailed,
   reservationInfo,
   FlightsUserDetails,
   setSearchOff,
@@ -564,6 +568,8 @@ export function CollapsibleTable({
               setSearchOff={setSearchOff}
               setSelectArPopupButton={setSelectArPopupButton}
               updateArrChoosenRow={updateArrChoosenRow}
+              setSendIternaryPopupButton = {setSendIternaryPopupButton}
+              setToBeMailed = {setToBeMailed}
             />
           ))}
         </TableBody>

@@ -45,7 +45,7 @@ const cancelReservation = (req, res) => {
         });
         let info = transporter.sendMail({
           from: '"MenStack" MenStack46@gmail.com',
-          to: 'menstack46@gmail.com',
+          to: req.params.UserEmail,
           subject: "Cancelled Flight Reservation", 
           html: `<h3>Flight Number:</h3>
                  <p>${result.FlightNumber}</p>
@@ -79,7 +79,7 @@ const sendItinerary = (req,res)=>{
         });
         let info = transporter.sendMail({
           from: '"MenStack" MenStack46@gmail.com',
-          to: 'menstack46@gmail.com',
+          to: req.params.UserEmail,
           subject: "Flight Itinerary", 
           html: `<h3>Reservation Number:</h3>
                  <p>${resNum}</p>
@@ -89,7 +89,7 @@ const sendItinerary = (req,res)=>{
                  <p>Departure Time: ${state.depFlight.DepTime}</p>
                  <p>Arrival Time: ${state.depFlight.ArrTime}</p>
                  <p>Price per Seat: ${state.depFlight.Price}</p>
-                 <p>Cabin Class: ${state.cabin}</p>
+                 <p>Cabin Class: ${state.depFlight.cabin}</p>
                  <p>Choosen Seats: ${state.depSeatsReserved}</p> 
                  <hr style="width:50%;text-align:left;margin-left:0">
                  <h3>Return Flight:</h3>
@@ -97,7 +97,7 @@ const sendItinerary = (req,res)=>{
                  <p>Departure Time: ${state.arrFlight.DepTime}</p>
                  <p>Arrival Time: ${state.arrFlight.ArrTime}</p>
                  <p>Price per Seat: ${state.arrFlight.Price}</p>
-                 <p>Cabin Class: ${state.cabin}</p>
+                 <p>Cabin Class: ${state.arrFlight.cabin}</p>
                  <p>Choosen Seats: ${state.arrSeatsReserved}</p>
                  <hr style="width:50%;text-align:left;margin-left:0">
                  <h3>Price:</h3>
@@ -105,6 +105,7 @@ const sendItinerary = (req,res)=>{
                  <p>Return Flight: ${state.arrFlight.Price * state.noSeats}</p>
                  <p>Total Price ${state.depFlight.Price * state.noSeats + state.arrFlight.Price * state.noSeats}</p>`
         });
+        res.send("sent");
 }
 
 module.exports = {createReservation,getAllReservations,cancelReservation,sendItinerary};
