@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const nodemailer = require("nodemailer");
 
 // handle errors
 const handleErrors = (err) => {
@@ -147,6 +148,57 @@ const login_post = (req, res) => {
     });
 };
 
+const forget_Pass = (req, res) => {
+  const { Email } = req.body;
+  User.findOne({ Email })
+    .then((user) => {
+      if (user) {
+        var randomPass = Math.random().toString(36).slice(-8);
+        let id = user.id;
+        bcrypt.genSalt().then((salt) => {
+          bcrypt.hash(randomPass, salt).then((res2) => {
+            User.findByIdAndUpdate(
+              { _id: id },
+              {
+                Password: res2,
+              }
+            )
+              .then((result) => {
+                res.send(req.body);
+                console.log(randomPass);
+                let transporter = nodemailer.createTransport({
+                  service: "Gmail",
+                  port: 465,
+                  secure: true, 
+                  auth: {
+                    user: "MenStack46@gmail.com", 
+                    pass: process.env.Password, 
+                  },
+                });
+                let info = transporter.sendMail({
+                  from: '"MenStack" MenStack46@gmail.com',
+                  to: user.Email,
+                  subject: "Your new Password", 
+                  html: `<p>Your new Password: ${randomPass}</p><p>Go to userprofile and change it</p>`,
+                });
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          });
+        });
+        
+      } else {
+        res.status(477);
+        res.send("Wrong Email");
+      }
+    })
+    .catch((err) => {
+      res.status(401);
+      console.log(err);    
+    });
+};
+
 const createToken = (id) => {
   return jwt.sign({ id }, process.env.ACCESS_TOKEN_SECRET);
 };
@@ -155,4 +207,5 @@ module.exports = {
   signup_post,
   login_post,
   changePassword,
+  forget_Pass,
 };
