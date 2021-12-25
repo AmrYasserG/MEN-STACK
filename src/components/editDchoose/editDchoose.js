@@ -27,9 +27,28 @@ const EditDchoose = () => {
   const [depclassType, depsetClassType] = useState("");
   const [searchOff, setSearchOff] = useState(false);
 
-  const state = useLocation().state;
-  console.log(state);
-  console.log(state.FlightsUserDetails.Type);
+    const state = useLocation().state;
+    console.log(state);
+    console.log(state.FlightsUserDetails.Type);
+
+function getID(){
+  const other=state.FlightsUserDetails.Otherflight;
+  for(let i =0;i<state.AllMyFlights.length;i++){
+    if(state.AllMyFlights[i].FlightNumber===other)
+    
+      {
+        console.log(i);
+        return i;
+      }
+     
+  }
+  
+}
+
+
+
+
+
 
   function getID() {
     const other = state.FlightsUserDetails.Otherflight;
