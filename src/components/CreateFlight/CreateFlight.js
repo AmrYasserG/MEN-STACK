@@ -3,7 +3,7 @@ import axios from "axios";
 import MuiAlert from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
 import "./CreateFlight.css";
-import { useState, useEffect, forwardRef } from "react";
+import { useState, useEffect, forwardRef, memo } from "react";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import InputAdornment from "@mui/material/InputAdornment";
@@ -988,4 +988,4 @@ const CreateFlight = () => {
     </>
   );
 };
-export default CreateFlight;
+export default memo(CreateFlight);

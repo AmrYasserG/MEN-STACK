@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, memo } from "react";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
@@ -616,4 +616,4 @@ const SearchFlight = ({ onSearch, d }) => {
   );
 };
 
-export default SearchFlight;
+export default memo(SearchFlight);

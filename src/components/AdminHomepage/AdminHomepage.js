@@ -1,3 +1,4 @@
+import React from "react";
 import { useState, useEffect, forwardRef } from "react";
 import Grid from "@mui/material/Grid";
 
@@ -154,11 +155,7 @@ const AdminHomepage = () => {
 
   return (
     <div>
-      <ResponsiveAppBar
-        pages={["Create Flight"]}
-        settings={["profile"]}
-        isAdmin={true}
-      />
+      {/* <ResponsiveAppBar pages={["Create Flight"]} isAdmin={true} /> */}
       <Snackbar
         open={deleteOpenResponse}
         autoHideDuration={6000}
@@ -424,7 +421,10 @@ const AdminHomepage = () => {
               <TableHead>
                 <TableRow>
                   {" "}
-                  <TableCell sx={{ color: "#FFFFFF " }}> &#8205; </TableCell>
+                  <TableCell sx={{ color: "#FFFFFF " }}>
+                    {" "}
+                    <p>&#8205</p>{" "}
+                  </TableCell>
                   <TableCell
                     sx={{ textAlign: "center" }}
                     style={{ fontWeight: "bold" }}
@@ -545,4 +545,4 @@ const AdminHomepage = () => {
     </div>
   );
 };
-export default AdminHomepage;
+export default React.memo(AdminHomepage);

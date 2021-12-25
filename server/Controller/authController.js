@@ -76,58 +76,75 @@ const signup_post = (req, res) => {
     });
   });
 };
-const changePassword = (req, res) => { 
+const changePassword = (req, res) => {
   let id = req.params.id;
   User.findById(req.params.id).then((cur) => {
-  
-  let { newPass, oldPass } = req.body;
-  
-  bcrypt.compare(oldPass, cur.Password).then((auth) => {
-    if (auth) {
-      bcrypt.genSalt().then((salt) => {
-        bcrypt.hash(newPass, salt).then((res2) => {
-          User.findByIdAndUpdate({ _id: id },{
-            Password: res2
-          })
-            .then((result) => {
-              res.send(req.body);
-            })
-            .catch((err) => {
-              console.log(err);
+    let { newPass, oldPass } = req.body;
+
+    bcrypt
+      .compare(oldPass, cur.Password)
+      .then((auth) => {
+        if (auth) {
+          bcrypt.genSalt().then((salt) => {
+            bcrypt.hash(newPass, salt).then((res2) => {
+              User.findByIdAndUpdate(
+                { _id: id },
+                {
+                  Password: res2,
+                }
+              )
+                .then((result) => {
+                  res.send(req.body);
+                })
+                .catch((err) => {
+                  console.log(err);
+                });
             });
-        });
+          });
+        } else {
+          res.status(410);
+          res.send("Wrong Password");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
       });
-    } else {
-      res.status(410);
-      res.send("Wrong Password");} 
-  })
-  .catch((err) => {
-    console.log(err)
   });
-});
-  
 };
 
 const login_post = (req, res) => {
   const { Email, Password } = req.body;
-  try {
-    User.findOne({ Email }).then((user) => {
+  User.findOne({ Email })
+    .then((user) => {
       if (user) {
-        bcrypt.compare(Password, user.Password).then((auth) => {
-          if (auth) {
-            const token = createToken(user._id);
+        bcrypt
+          .compare(Password, user.Password)
+          .then((auth) => {
+            if (auth) {
+              const token = createToken(user._id);
 
-            res.send({
-              user: user,
-              authorization: token,
-            });
-          } else res.send("Wrong PassWord");
-        });
-      } else res.send("Wrong Email");
+              res.send({
+                user: user,
+                authorization: token,
+              });
+            } else {
+              res.status(413);
+              res.send("Wrong PassWord");
+            }
+          })
+          .catch((e) => {
+            res.status(413);
+            res.send("Wrong PassWord");
+          });
+      } else {
+        res.status(408);
+        res.send("Wrong Email");
+      }
+    })
+    .catch((err) => {
+      res.status(413);
+      res.send("Wrong PassWord");
     });
-  } catch (err) {
-    res.status(400).json({});
-  }
 };
 
 const createToken = (id) => {
