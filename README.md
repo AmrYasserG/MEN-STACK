@@ -9,15 +9,13 @@ This project is a part of the Advanced Computer Lab (ACL).
 All Done :)
 
 # Code Style #
+Agile coding.
+
+# Framework used #
 MERN Stack (Mongo DB, Express, React, Node js) 
 Model–view–controller is a software design pattern
 Stripe, nodemailor, axios
 mui library
-
-------------------------------------
-# Framework used #
-MERN Stack (Mongo DB, Express, React, Node js) 
-Model–view–controller is a software design pattern
 
 # Screenshots #
 ![image](https://user-images.githubusercontent.com/76870192/147394102-cb452f11-7d19-4aa0-8c3a-cb5af3d5c491.png)
