@@ -3,6 +3,18 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
 
+function authenticateToken(req, res, next) {
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
+  if (token == null) return res.sendStatus(401);
+
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+    console.log(err);
+    if (err) return res.sendStatus(403);
+    req.user = user;
+    next();
+  });
+}
 // handle errors
 const handleErrors = (err) => {
   console.log(err.message, err.code);
@@ -169,16 +181,16 @@ const forget_Pass = (req, res) => {
                 let transporter = nodemailer.createTransport({
                   service: "Gmail",
                   port: 465,
-                  secure: true, 
+                  secure: true,
                   auth: {
-                    user: "MenStack46@gmail.com", 
-                    pass: process.env.Password, 
+                    user: "MenStack46@gmail.com",
+                    pass: process.env.Password,
                   },
                 });
                 let info = transporter.sendMail({
                   from: '"MenStack" MenStack46@gmail.com',
                   to: user.Email,
-                  subject: "Your new Password", 
+                  subject: "Your new Password",
                   html: `<p>Your new Password: ${randomPass}</p><p>Go to userprofile and change it</p>`,
                 });
               })
@@ -187,7 +199,6 @@ const forget_Pass = (req, res) => {
               });
           });
         });
-        
       } else {
         res.status(477);
         res.send("Wrong Email");
@@ -195,7 +206,7 @@ const forget_Pass = (req, res) => {
     })
     .catch((err) => {
       res.status(401);
-      console.log(err);    
+      console.log(err);
     });
 };
 
