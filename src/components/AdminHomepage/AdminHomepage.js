@@ -1,5 +1,4 @@
-import { useState, useEffect, forwardRef, Fragment } from "react";
-import Paper from "@mui/material/Paper";
+import { useState, useEffect, forwardRef } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -10,7 +9,6 @@ import axios from "axios";
 import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import AddIcon from "@mui/icons-material/Add";
 import MuiAlert from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
@@ -20,7 +18,7 @@ import UpdateOver from "../UpdateOver/UpdateOver";
 import SearchFlight from "../SearchFlight/SearchFlight.js";
 import IconButton from "@mui/material/IconButton";
 import ResponsiveAppBar from "../ResponsiveAppBar/ResponsiveAppBar";
-import { CollapsibleTable, Row2 } from "../CollapsibleTable/CollapsibleTable";
+import { Row2 } from "../CollapsibleTable/CollapsibleTable";
 
 const Alert = forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -54,40 +52,6 @@ const AdminHomepage = () => {
   const [editOpenResponse, setEditOpenResponse] = useState(false);
   const [x, setX] = useState(false);
 
-  const columns = [
-    { id: "FlightNumber", label: "Flight Number", width: 60 },
-    { id: "From", label: "From", width: 60 },
-    { id: "To", label: "To", width: 60 },
-    { id: "Date", label: "Flight Date", width: 110 },
-    { id: "DepartureTime", label: "Departure Time", width: 80 },
-    { id: "ArrivalTime", label: "Arrival Time", width: 80 },
-    {
-      id: "AirportDepartureTerminal",
-      label: "Airport Departure Terminal",
-      width: 60,
-    },
-    {
-      id: "AirportArrivalTerminal",
-      label: "Airport Arrival Terminal",
-      width: 60,
-    },
-    {
-      id: "BusinessSeatsNo",
-      label: "Number Of Business Class Seats",
-      Width: 100,
-    },
-    {
-      id: "EconomySeatsNo",
-      label: "Number Of Economy Class Seats",
-      Width: 100,
-    },
-    {
-      id: "FirstSeatsNo",
-      label: "Number Of First Class Seats",
-      Width: 100,
-    },
-    { id: "action", label: "Action", Width: 100 },
-  ];
 
   function GetAllFlights() {
     axios
@@ -189,7 +153,7 @@ const AdminHomepage = () => {
 
   return (
     <div>
-      <ResponsiveAppBar pages={["Create Flight"]} settings ={["profile"]} isAdmin = {true}  />
+      <ResponsiveAppBar pages={["Create Flight"]} settings={["profile"]} isAdmin={true} />
       <Snackbar
         open={deleteOpenResponse}
         autoHideDuration={6000}

@@ -21,6 +21,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import Checkbox from "@mui/material/Checkbox";
 import { Link } from "react-router-dom";
 import EmailIcon from "@mui/icons-material/Email";
+import editFlightIcon from './edit.png';
 
 function Row({
   row,
@@ -58,10 +59,8 @@ function Row({
   isDep,
   selectFlight,
 }) {
-  //   const { row } = props;
   const [open, setOpen] = React.useState(false);
 
-  //style={{fontWeight : 'bold'}}
   return (
     <React.Fragment>
       <TableRow
@@ -379,26 +378,9 @@ function Row({
                       <TableCell style={{ fontWeight: "bold" }}>
                         Total Reservation Price
                       </TableCell>
-                      <TableCell>
-                        <IconButton
-                          variant="contained"
-                          color="primary"
-                          onClick={() => { }}
-                        >
-                          <Link
-                            to="/planeSeatsAfterEdit"
-                            style={{ textDecoration: "none" }}
-                            state={{
-                              FlightsUserDetails: FlightsUserDetails[index],
-                              rows: row,
-                              id: state.id,
-                              editFlight: false,
-                            }}
-                          >
-                            <EditIcon />
-                          </Link>
-                        </IconButton>
-                      </TableCell>
+                      <TableCell style={{ fontWeight: "bold" }}>Edit Seats</TableCell>
+                      <TableCell style={{ fontWeight: "bold" }}>Edit Flight</TableCell>
+                      <Tooltip title="Send Email" placement="top">
                       <TableCell>
                         <IconButton
                           variant="contained"
@@ -408,6 +390,7 @@ function Row({
                           <EmailIcon />
                         </IconButton>
                       </TableCell>
+                      </Tooltip>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -431,6 +414,42 @@ function Row({
                       <TableCell>
                         {FlightsUserDetails[index].TotalReservationPrice}
                       </TableCell>
+                      <Tooltip title="Edit Seats" placement="top">
+                      <TableCell>
+                        <IconButton
+                          variant="contained"
+                          color="primary"
+                          onClick={() => { }}
+                        >
+                          <Link
+                            to="/planeSeatsAfterEdit"
+                            style={{ textDecoration: "none" }}
+                            state={{
+                              FlightsUserDetails: FlightsUserDetails[index],
+                              rows: row,
+                              id: state.id,
+                              editFlight: false,
+                            }}
+                          >
+                            <EditIcon />
+                          </Link>
+                        </IconButton>
+                      </TableCell>
+                      </Tooltip>
+                      <Tooltip title="Edit Flight" placement="top">
+                      <TableCell> <Link
+                            to="/editDeparture"
+                            style={{ textDecoration: "none" }}
+                            state={{
+                              FlightsUserDetails: FlightsUserDetails[index],
+                              rows: row,
+                              editFlight: true,
+                            }}
+                          >
+                           <img src={editFlightIcon} style={{width:25 , hight:25 ,color :'blue'}} />
+                          </Link></TableCell>
+                          </Tooltip>
+                          <Tooltip title="Delete Reservation" placement="top">
                       <TableCell>
                         <IconButton
                           variant="contained"
@@ -443,6 +462,7 @@ function Row({
                           <DeleteIcon />
                         </IconButton>
                       </TableCell>
+                      </Tooltip>
                     </TableRow>
                   </TableBody>
                 </Table>

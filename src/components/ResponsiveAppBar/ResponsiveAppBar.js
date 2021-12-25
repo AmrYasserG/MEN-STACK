@@ -12,12 +12,14 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import logo from "./logo.png";
+import { Link } from "react-router-dom";
 
 //const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 const ResponsiveAppBar = ({ pages, settings, isUser, isAdmin }) => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  let logedIn = true;
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -46,25 +48,23 @@ const ResponsiveAppBar = ({ pages, settings, isUser, isAdmin }) => {
           >
             {" "}
             <Tooltip title=" Home Page" placement="right">
-              <img
+              {isAdmin === true ? (<img
                 src={logo}
                 width="198"
                 height="82"
                 style={{ cursor: "pointer" }}
                 onClick={
-                  isAdmin === true ? (
-                    () => {
-                      window.location.href = "/AdminHomepage";
-                    }
-                  ) : isUser === true ? (
-                    () => {
-                      window.location.href = "../HomePage";
-                    }
-                  ) : (
-                    <></>
-                  )
+                  () => { window.location.href = "../AdminHomepage"; }
                 }
-              />
+              />) : <img
+                src={logo}
+                width="198"
+                height="82"
+                style={{ cursor: "pointer" }}
+                onClick={
+                  () => { window.location.href = "../HomePage"; }
+                }
+              />}
             </Tooltip>
           </Typography>
 
@@ -100,7 +100,19 @@ const ResponsiveAppBar = ({ pages, settings, isUser, isAdmin }) => {
                   }}
                 >
                   {pages.map((page) => (
-                    <MenuItem key={page} onClick={handleCloseNavMenu}>
+                    <MenuItem key={page}
+                      onClick={
+                        page === "Create Flight"
+                          ? () => {
+                            window.location.href = "../createFlight";
+                          }
+                          : page === "Reserved Flights" && isUser === true
+                            ? () => {
+                              window.location.href = "../ReservedFlights";
+                            }
+                            : handleCloseNavMenu
+                      }
+                    >
                       <Typography textAlign="center">{page}</Typography>
                     </MenuItem>
                   ))}
@@ -117,25 +129,25 @@ const ResponsiveAppBar = ({ pages, settings, isUser, isAdmin }) => {
             sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
           >
             <Tooltip title=" Home Page" placement="right">
-              <img
+              {isAdmin === true ? (<img
                 src={logo}
                 width="198"
                 height="82"
                 style={{ cursor: "pointer" }}
                 onClick={
-                  isAdmin === true ? (
-                    () => {
-                      window.location.href = "/AdminHomepage";
-                    }
-                  ) : isUser === true ? (
-                    () => {
-                      window.location.href = "../HomePage";
-                    }
-                  ) : (
-                    <></>
-                  )
+                  () => { window.location.href = "../AdminHomepage"; }
                 }
-              />
+              />) : <img
+                src={logo}
+                width="198"
+                height="82"
+                style={{ cursor: "pointer" }}
+                onClick={
+                  () => { window.location.href = "../HomePage"; }
+                }
+              />}
+
+
             </Tooltip>
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
@@ -145,13 +157,13 @@ const ResponsiveAppBar = ({ pages, settings, isUser, isAdmin }) => {
                 onClick={
                   page === "Create Flight"
                     ? () => {
-                        window.location.href = "../createFlight";
-                      }
+                      window.location.href = "../createFlight";
+                    }
                     : page === "Reserved Flights" && isUser === true
-                    ? () => {
+                      ? () => {
                         window.location.href = "../ReservedFlights";
                       }
-                    : handleCloseNavMenu
+                      : handleCloseNavMenu
                 }
                 sx={{ my: 2, color: "white", display: "block" }}
               >
@@ -161,42 +173,58 @@ const ResponsiveAppBar = ({ pages, settings, isUser, isAdmin }) => {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            
-            {settings.length!== 0 ? (
+
+            {settings.length !== 0 ? (
               <>
-              <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar src={"AccountCircleOutlinedIcon"} />
-              </IconButton>
-            </Tooltip>
-              <Menu
-                sx={{ mt: "45px" }}
-                id="menu-appbar"
-                anchorEl={anchorElUser}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
-              >
-                {settings.map((setting) => (
-                  <MenuItem key={setting}  onClick={
-                    setting === "profile"
-                      ? () => {
-                          window.location.href = "../UserProfile";
+                {logedIn === true ? (<Tooltip title="Open settings">
+                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                    <Avatar src={"AccountCircleOutlinedIcon"} />
+                  </IconButton>
+                </Tooltip>) : null}
+                {logedIn === true ? (<Menu
+                  sx={{ mt: "45px" }}
+                  id="menu-appbar"
+                  anchorEl={anchorElUser}
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  open={Boolean(anchorElUser)}
+                  onClose={handleCloseUserMenu}
+                >
+                  {settings.map((setting) => (
+                    setting === "profile" ? (
+                      <MenuItem key={setting}
+                        onClick={
+                          () => {
+                            window.location.href = "../UserProfile";
+                          }
+
                         }
-                      : handleCloseNavMenu
-                  }>
-                    <Typography textAlign="center">{setting}</Typography>
-                  </MenuItem>
-                ))}
-              </Menu>
+                      >
+                        <Typography textAlign="center">{setting}</Typography>
+                      </MenuItem>
+                    ) : (
+                      <MenuItem key={setting}
+                        onClick={handleCloseNavMenu}
+                      >
+                        <Typography textAlign="center">{setting}</Typography>
+                      </MenuItem>)
+
+                  ))}
+                </Menu>) : <Link
+                  style={{ textDecoration: 'none', color: 'white' }}
+                  to="/UserProfile"
+                >
+                  Log In
+                </Link>}
+
+
               </>
             ) : (
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
