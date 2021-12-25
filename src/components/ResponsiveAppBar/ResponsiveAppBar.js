@@ -80,19 +80,7 @@ const ResponsiveAppBar = ({ pages, isUser, isAdmin }) => {
                   alt="Logo"
                   src={logo}
                   style={{ cursor: "pointer" }}
-                  onClick={
-                    isAdmin === true ? (
-                      () => {
-                        window.location.href = "/AdminHomepage";
-                      }
-                    ) : isUser === true ? (
-                      () => {
-                        window.location.href = "../HomePage";
-                      }
-                    ) : (
-                      <></>
-                    )
-                  }
+                  onClick={() => navigate("/")}
                 />
               </Tooltip>
             </Box>
@@ -198,19 +186,7 @@ const ResponsiveAppBar = ({ pages, isUser, isAdmin }) => {
                   alt="Logo"
                   src={logo}
                   style={{ cursor: "pointer" }}
-                  onClick={
-                    isAdmin === true ? (
-                      () => {
-                        window.location.href = "/AdminHomepage";
-                      }
-                    ) : isUser === true ? (
-                      () => {
-                        window.location.href = "../HomePage";
-                      }
-                    ) : (
-                      <></>
-                    )
-                  }
+                  onClick={() => navigate("/")}
                 />
               </Tooltip>
             </Typography>

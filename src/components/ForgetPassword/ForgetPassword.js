@@ -16,7 +16,7 @@ const ForgetPassword = () => {
     const data = new FormData(event.currentTarget);
     if (data.get("email")) {
       axios
-        .put("http://localhost:3005/auth/signup", {
+        .put("http://localhost:3005/auth/forgetPass", {
           Email: data.get("email"),
         })
         .then((res) => {

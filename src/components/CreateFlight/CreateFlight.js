@@ -621,7 +621,7 @@ const CreateFlight = () => {
               <Box componet={"div"} p={2}>
                 <TextField
                   required
-                  type="date"
+                  type="rdate"
                   label="Departure Date"
                   id="dDate"
                   InputProps={{
@@ -629,11 +629,13 @@ const CreateFlight = () => {
                       <InputAdornment position="start"> </InputAdornment>
                     ),
                   }}
-                  error={!validReturnArrivalDate && ReturnDate}
+                  error={ReturnDate && (!validDate || !validReturnArrivalDate)}
                   helperText={
                     !validReturnArrivalDate && ReturnDate
-                      ? ""
-                      : "Departure Flight must be EARLIER than Return Flight"
+                      ? "Departure Date must NOT be LATER than Arrival Date"
+                      : !validDate && ReturnDate
+                      ? "Departure Flight must be EARLIER than Return Flight"
+                      : ""
                   }
                   value={ReturnDate}
                   onChange={(e) => setReturnDate(e.target.value)}
@@ -648,17 +650,17 @@ const CreateFlight = () => {
                   required
                   type="date"
                   label="Arrival Date"
-                  id="dDate"
+                  id="rdDate"
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start"> </InputAdornment>
                     ),
                   }}
-                  error={!validDate}
+                  error={!validReturnArrivalDate && ReturnArrivalDate}
                   helperText={
-                    validDate
-                      ? ""
-                      : "Departure Flight must be EARLIER than Return Flight"
+                    !validReturnArrivalDate && ReturnArrivalDate
+                      ? "Departure Flight must be EARLIER than Return Flight"
+                      : ""
                   }
                   value={ReturnArrivalDate}
                   onChange={(e) => setReturnArrivalDate(e.target.value)}
@@ -674,7 +676,7 @@ const CreateFlight = () => {
                   type="time"
                   variant="outlined"
                   label="Departure Time"
-                  error={validReturnTime}
+                  error={!validReturnTime && ReturnDepartureTime}
                   value={ReturnDepartureTime}
                   required
                   onChange={(e) => setReturnDepartureTime(e.target.value)}
@@ -694,7 +696,7 @@ const CreateFlight = () => {
                   variant="outlined"
                   type="time"
                   label="Arrival Time"
-                  error={validReturnTime}
+                  error={!validReturnTime && ReturnArrivalTime}
                   value={ReturnArrivalTime}
                   required
                   onChange={(e) => setReturnArrivalTime(e.target.value)}
@@ -709,9 +711,9 @@ const CreateFlight = () => {
                     ),
                   }}
                   helperText={
-                    validReturnTime
-                      ? ""
-                      : "Arrival Should be later than Departure Time"
+                    !validReturnTime && ReturnArrivalTime
+                      ? "Arrival Should be later than Departure Time"
+                      : ""
                   }
                 />
               </Box>{" "}

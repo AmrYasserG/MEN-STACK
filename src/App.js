@@ -57,7 +57,31 @@ const App = () => {
                   <Route path="/CreateFlight" element={<CreateFlight />} />{" "}
                 </>
               )}
-              <Route path="/forget" element={<ForgetPassword />}></Route>
+              {user.type && user.type === "user" && (
+                <>
+                  <Route path="/" element={<UserHomepage />} />
+                  <Route
+                    path="/ReservedFlights"
+                    element={<ReservedFlights />}
+                  />
+                  <Route path="/SummaryConfirm" element={<SummaryConfirm />} />
+                  <Route
+                    path="/ConfirmedFlight"
+                    element={<ConfirmedFlight />}
+                  />
+                  <Route path="/planeSeats" element={<PlaneSeats />} />
+                </>
+              )}
+              {user.token && (
+                <Route path="/UserProfile" element={<UserProfile />} />
+              )}
+              {!user.token && (
+                <>
+                  <Route path="/forget" element={<ForgetPassword />}></Route>
+                  <Route path="/signup" element={<SignUp />} />
+                </>
+              )}
+              <Route path="/*" element={<None />} />
             </Route>
             {/* <Route path="/login" element={<Login />} />
             <Route path="/" element={<AdminHomepage />} />
