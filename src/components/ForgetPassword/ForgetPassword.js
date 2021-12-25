@@ -16,7 +16,7 @@ const ForgetPassword = () => {
     const data = new FormData(event.currentTarget);
     if (data.get("email")) {
       axios
-        .put("http://localhost:3005/auth/signup", {
+        .put("http://localhost:3005/auth/forgetPass", {
           Email: data.get("email"),
         })
         .then((res) => {
@@ -38,16 +38,13 @@ const ForgetPassword = () => {
           sx={{
             "text-align": "center",
             m: "auto",
-            my: "30%",
-            width: ["90%", "50%"],
+            my: "12%",
+            width: ["90%", "40%"],
             border: "1px solid #eeeeee",
             backgroundColor: "#f9f9f9",
-            "box-shadow": "0px 0px 3px 3px #59C8FD",
+            "box-shadow": "0px 0px 20px 14px #0a8fad",
           }}
         >
-          <div>
-            <Typography variant="h4">Your Email:</Typography>
-          </div>
           <Box
             component="form"
             onSubmit={handleSubmit}
@@ -72,7 +69,6 @@ const ForgetPassword = () => {
 
             <Button
               type="submit"
-              fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
@@ -102,7 +98,7 @@ const ForgetPassword = () => {
             <Typography variant="h4">New Password Sent Successfully</Typography>
           </div>
           <div className="form-control">
-            <Button variant="contained" color="primary">
+            <Button variant="contained" color="primary" >
               <Link
                 to="/Login"
                 style={{ textDecoration: "none", color: "#FFFFFF" }}
