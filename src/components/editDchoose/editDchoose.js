@@ -215,16 +215,7 @@ const EditDchoose = () => {
                             {depclassType}
                           </TableCell>
                         );
-                      } else if (column.id === "TripDuration") {
-                        return (
-                          <TableCell
-                            key={column.id}
-                            sx={{ textAlign: "center" }}
-                          >
-                            PLEASE REMEBER!
-                          </TableCell>
-                        );
-                      } else if (column.id === "PriceDifference") {
+                      }  else if (column.id === "PriceDifference") {
                         return (
                           <TableCell
                             key={column.id}

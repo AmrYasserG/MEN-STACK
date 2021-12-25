@@ -905,11 +905,11 @@ const CreateFlight = () => {
             <Button
               disabled={
                 !(
-                  validReturnTime &&
+                  
                   validDepartureTime &&
-                  validReturnArrivalDate &&
+                  
                   validArrivalDate &&
-                  validDate &&
+                  
                   validFlightNumber &&
                   EconomyClassPrice > 0 &&
                   EconomyClassSeats > 0 &&
@@ -922,6 +922,9 @@ const CreateFlight = () => {
                   BaggageAllowance > 0 &&
                   (!twoWay ||
                     (ReturnEconomyClassPrice > 0 &&
+                      validReturnTime &&
+                      validDate &&
+                      validReturnArrivalDate &&
                       ReturnEconomyClassSeats > 0 &&
                       ReturnBusinessClassPrice > 0 &&
                       ReturnBusinessClassSeats > 0 &&
