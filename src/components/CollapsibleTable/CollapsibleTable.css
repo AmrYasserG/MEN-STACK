@@ -2,3 +2,6 @@
 #bloc2 {
     display: inline;
 }
+.tableSelected {
+    background-color: rgb(173 , 216, 230);
+  }

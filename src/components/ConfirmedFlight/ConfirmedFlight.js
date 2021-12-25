@@ -12,6 +12,7 @@ const ConfirmedFlight = () => {
   console.log(state);
   let User_Email = "";
   const [resNum,setresNum] = useState(0);
+  let resNum2 = 0;
   useEffect(() => { 
     const User_id = state.id;
     if(state.editFlight){
@@ -19,7 +20,8 @@ const ConfirmedFlight = () => {
       setresNum(state.resNum);
     } 
     else{
-      setresNum(Date.now());
+      resNum2 = Date.now()
+      setresNum(resNum2);
       createReservation(User_id);
     }
   }, []);
@@ -175,7 +177,7 @@ const ConfirmedFlight = () => {
                 updatedAvailableSeats
               )
               .then((res) => {
-                axios.post("http://localhost:3005/bookingFlights/sendItinerary/" + User_Email,{state:state,resNum:resNum});
+                axios.post("http://localhost:3005/bookingFlights/sendItinerary/" + User_Email,{state:state,resNum:resNum2});
               });
           });
       });

@@ -478,6 +478,7 @@ const AdminHomepage = () => {
               <TableBody>
                 {rows.map((row, index) => (
                   <Row2
+                    key={index}
                     rownumber={index}
                     row={row}
                     EditContent={

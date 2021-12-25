@@ -293,6 +293,7 @@ function Row({
                               rows: row,
                               id: state.id,
                               editFlight: false,
+                              newClass:FlightsUserDetails[index].ChosenCabin
                             }}
                           >
                             <EditIcon />

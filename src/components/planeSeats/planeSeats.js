@@ -376,7 +376,7 @@ export default function PlaneSeats() {
         className="btn"
         required
         helperText="Please select your Prefered Class"
-        style={{ marginLeft: "44%" }}
+        style={{ marginLeft: "46%" }}
       >
         <Link
           style={{ textDecoration: 'none' }}
@@ -395,7 +395,7 @@ export default function PlaneSeats() {
           Reserve{" "}
         </Link>
       </Button>
-      {retChosenSeats.length !== state.noSeats &&
+      {retChosenSeats.length !== state.noSeats||
         depChosenSeats.length !== state.noSeats ? (
         <div style={{ marginLeft: "43%", color: 'red' }}
         >*Please select {state.noSeats} Seats</div>

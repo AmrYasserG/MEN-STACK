@@ -185,8 +185,8 @@ const EditDchoose = () => {
                           depclassType === "First"
                             ? row.FirstClassPrice
                             : depclassType === "Economy"
-                            ? row.EconomyClassPrice
-                            : row.BusinessClassPrice,
+                              ? row.EconomyClassPrice
+                              : row.BusinessClassPrice,
                         EconomySeats: row.EconomySeats,
                         FirstSeats: row.FirstSeats,
                         BusinessSeats: row.BusinessSeats,
