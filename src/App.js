@@ -44,7 +44,7 @@ const App = () => {
             overflow: "auto",
             width: "100%",
             backgroundImage: `url(${
-              user.type && user.type === "admin" ? backgroundA : background
+              user.type && user.type === "admin" ? background : background
             })`,
             backgroundRepeat: "repeat-y",
           }}
