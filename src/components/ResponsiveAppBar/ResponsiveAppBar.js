@@ -340,7 +340,12 @@ const ResponsiveAppBar = ({ pages, isUser, isAdmin }) => {
         </Container>
       </AppBar>
       <Toolbar sx={{ mb: "3%" }} />
-      {beta3 ? <LoginBar setBeta={handleBeat3Change} /> : <Outlet />}
+      <main style={() => !beta3 && { display: "none" }}>
+        <LoginBar setBeta={handleBeat3Change} />
+      </main>
+      <main style={() => beta3 && { display: "none" }}>
+        <Outlet />
+      </main>
     </>
   );
 };

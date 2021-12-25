@@ -50,31 +50,33 @@ function Login() {
     if (!data.get("email") || !data.get("password")) {
       setEmptyFields(true);
     } else {
-      setSending(true);
-      axios
-        .post("http://localhost:3005/auth/login", {
-          Email: data.get("email"),
-          Password: data.get("password"),
-        })
-        .then((res) => {
-          console.log(res);
+      if (!sending) {
+        setSending(true);
+        axios
+          .post("http://localhost:3005/auth/login", {
+            Email: data.get("email"),
+            Password: data.get("password"),
+          })
+          .then((res) => {
+            console.log(res);
 
-          setUser({
-            id: res.data.user._id,
-            token: res.data.authorization,
-            type: res.data.user.Type,
+            setUser({
+              id: res.data.user._id,
+              token: res.data.authorization,
+              type: res.data.user.Type,
+            });
+            navigate("../");
+          })
+          .catch((err) => {
+            if (err.response.status === 413) {
+              setWrongPassword(true);
+            }
+            if (err.response.status === 408) {
+              setWrongEmail(true);
+            }
           });
-          navigate("../");
-        })
-        .catch((err) => {
-          if (err.response.status === 413) {
-            setWrongPassword(true);
-          }
-          if (err.response.status === 408) {
-            setWrongEmail(true);
-          }
-        });
-      setSending(false);
+        setSending(false);
+      }
     }
   };
   const handlechange = (e) => {
@@ -205,7 +207,7 @@ function Login() {
     </Grid>
   );
 }
-function LoginBar(setBeta) {
+function LoginBar({ setBeta }) {
   const [sending, setSending] = useState(false);
   const [wrongPassword, setWrongPassword] = useState(false);
   const [wrongEmail, setWrongEmail] = useState(false);
@@ -220,31 +222,35 @@ function LoginBar(setBeta) {
     if (!data.get("email") || !data.get("password")) {
       setEmptyFields(true);
     } else {
-      setSending(true);
-      axios
-        .post("http://localhost:3005/auth/login", {
-          Email: data.get("email"),
-          Password: data.get("password"),
-        })
-        .then((res) => {
-          console.log(res);
+      if (!sending) {
+        setSending(true);
+        axios
+          .post("http://localhost:3005/auth/login", {
+            Email: data.get("email"),
+            Password: data.get("password"),
+          })
+          .then((res) => {
+            console.log(res);
 
-          setUser({
-            id: res.data.user._id,
-            token: res.data.authorization,
-            type: res.data.user.Type,
-          });
-          setBeta(true);
-        })
-        .catch((err) => {
-          if (err.response.status === 413) {
+            setUser({
+              id: res.data.user._id,
+              token: res.data.authorization,
+              type: res.data.user.Type,
+            });
+            console.log(res.data);
+          })
+          .catch((err) => {
+            if (err.response && err.response.status === 413) {
+              setWrongPassword(true);
+            }
+            if (err.response && err.response.status === 408) {
+              setWrongEmail(true);
+            }
             setWrongPassword(true);
-          }
-          if (err.response.status === 408) {
-            setWrongEmail(true);
-          }
-        });
-      setSending(false);
+          });
+        setSending(false);
+        setBeta(false);
+      }
     }
   };
   const handlechange = (e) => {

@@ -22,7 +22,7 @@ import ResponsiveAppBar from "./components/ResponsiveAppBar/ResponsiveAppBar";
 //   localStorage.clear();
 // });
 const App = () => {
-  const [user, setUser] = useLocalStorage("Authentication", { s: "asd" });
+  const [user, setUser] = useLocalStorage("Authentication", {});
   // const value = useMemo(() => ({ user, setUser }), [user, setUser]);
 
   axios.interceptors.request.use(function (config) {
