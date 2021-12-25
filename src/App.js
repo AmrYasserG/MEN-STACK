@@ -8,7 +8,6 @@ import AdminHomepage from "./components/AdminHomepage/AdminHomepage";
 import UserHomepage from "./components/UserHomePage/UserHomepage";
 import CreateFlight from "./components/CreateFlight/CreateFlight";
 import UserProfile from "./components/UserProfile/UserProfile";
-import { Login } from "./components/Login/Login";
 import ReservedFlights from "./components/ReservedFlights/ReservedFlights";
 import PlaneSeats from "./components/planeSeats/planeSeats";
 import SummaryConfirm from "./components/SummaryConfirm/SummaryConfirm";
@@ -44,7 +43,7 @@ const App = () => {
             overflow: "auto",
             width: "100%",
             backgroundImage: `url(${
-              user.type && user.type === "admin" ? background : background
+              user.type && user.type === "admin" ? backgroundA : background
             })`,
             backgroundRepeat: "repeat-y",
           }}
@@ -57,7 +56,10 @@ const App = () => {
                   <Route path="/CreateFlight" element={<CreateFlight />} />{" "}
                 </>
               )}
-              {user.type && user.type === "user" && (
+              {(!user ||
+                user == {} ||
+                !user.token ||
+                (user.type && user.type === "user")) && (
                 <>
                   <Route path="/" element={<UserHomepage />} />
                   <Route
@@ -75,15 +77,16 @@ const App = () => {
               {user.token && (
                 <Route path="/UserProfile" element={<UserProfile />} />
               )}
-              {!user.token && (
-                <>
-                  <Route path="/forget" element={<ForgetPassword />}></Route>
-                  <Route path="/signup" element={<SignUp />} />
-                </>
-              )}
-              <Route path="/*" element={<None />} />
             </Route>
-            <Route path="/login" element={<Login />} />
+            {(!user || user == {} || !user.token) && (
+              <>
+                <Route path="/forget" element={<ForgetPassword />}></Route>
+                <Route path="/signup" element={<SignUp />} />
+              </>
+            )}
+            <Route path="/*" element={<None />} />
+
+            {/* <Route path="/login" element={<Login />} />
             <Route path="/" element={<AdminHomepage />} />
             <Route path="/CreateFlight" element={<CreateFlight />} />
             <Route path="/AdminHomepage" element={<AdminHomepage />} />
@@ -94,7 +97,7 @@ const App = () => {
             <Route path="/*" element={<None />} />
             <Route path="/SummaryConfirm" element={<SummaryConfirm />} />
             <Route path="/ConfirmedFlight" element={<ConfirmedFlight />} />
-            <Route path="/planeSeats" element={<PlaneSeats />} />
+            <Route path="/planeSeats" element={<PlaneSeats />} /> */}
           </Routes>
         </Box>
       </UserContext.Provider>

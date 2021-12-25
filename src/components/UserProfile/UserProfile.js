@@ -28,8 +28,6 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import IconButton from "@mui/material/IconButton";
 import { UserContext } from "../../Context/UserContext";
-import { set } from "mongoose";
-
 const UserProfile = ({ onEdit }) => {
   const [FirstName, setFirstName] = useState("");
   const [LastName, setLastName] = useState("");
@@ -168,9 +166,9 @@ const UserProfile = ({ onEdit }) => {
     e.preventDefault();
     console.log(user.id);
     axios
-      .put("http://localhost:3005/auth/changePassword/" + user.id,{
+      .put("http://localhost:3005/auth/changePassword/" + user.id, {
         oldPass: OldPassword,
-        newPass: NewPassword
+        newPass: NewPassword,
       })
       .then((res) => {
         setOldPassword("");

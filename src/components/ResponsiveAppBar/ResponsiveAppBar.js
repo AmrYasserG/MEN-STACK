@@ -11,7 +11,7 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import logo from "./logo3.png";
-import { useEffect, useState, useContext } from "react";
+import { useState, useContext } from "react";
 import { UserContext } from "../../Context/UserContext";
 import { useNavigate } from "react-router";
 import { NavLink, Outlet } from "react-router-dom";
@@ -28,8 +28,9 @@ const ResponsiveAppBar = ({ pages, isUser, isAdmin }) => {
     boxShadow: "1px 1px 0px 1px grey",
   };
   let inActiveStyle = { textDecoration: "none", color: "#FFFFFF" };
-  const [beta3, setBeta3] = useState(false);
   const { user, setUser } = useContext(UserContext);
+  const [beta3, setBeta3] = useState(!user || user == {});
+
   const navigate = useNavigate();
 
   const [anchorElNav, setAnchorElNav] = useState(null);
