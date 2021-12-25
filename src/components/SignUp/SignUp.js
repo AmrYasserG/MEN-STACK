@@ -149,19 +149,6 @@ function SignUp() {
 
   return (
     <Box>
-      {/* <Snackbar
-        open={editOpenResponse}
-        autoHideDuration={3000}
-        onClose={editHandleClose}
-      >
-        <Alert
-          onClose={editHandleClose}
-          severity="success"
-          sx={{ width: "100%" }}
-        >
-          Edited Successfully
-        </Alert>
-      </Snackbar> */}
       {sent ? (
         <Box
           sx={{
