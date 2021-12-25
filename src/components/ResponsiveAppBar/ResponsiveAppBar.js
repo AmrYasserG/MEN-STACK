@@ -156,7 +156,7 @@ const ResponsiveAppBar = ({ pages, isUser, isAdmin }) => {
                 >
                   <MenuItem key={"Reserve Flight"} onClick={handleCloseNavMenu}>
                     <NavLink
-                      to="/reserveFlight"
+                      to="/ReservedFlights"
                       style={({ isActive }) =>
                         isActive
                           ? {
@@ -232,7 +232,7 @@ const ResponsiveAppBar = ({ pages, isUser, isAdmin }) => {
                 }}
               >
                 <NavLink
-                  to="/reservesFlight"
+                  to="/ReservedFlights"
                   style={({ isActive }) =>
                     isActive
                       ? {
@@ -316,7 +316,7 @@ const ResponsiveAppBar = ({ pages, isUser, isAdmin }) => {
           </Toolbar>
         </Container>
       </AppBar>
-      <Toolbar sx={{ mb: "3%  " }} />
+      <Toolbar sx={{ mb: "2.5%" }} />
       {beta3 ? <LoginBar setBeta={handleBeat3Change} /> : <Outlet />}
     </>
   );

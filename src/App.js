@@ -28,7 +28,7 @@ const App = () => {
 
   axios.interceptors.request.use(function (config) {
     if (user.token) {
-      const token = user.token;
+      const token = "Bearer " + user.token;
       config.headers.authorization = token;
     }
     return config;
@@ -63,24 +63,30 @@ const App = () => {
                 (user.type && user.type === "user")) && (
                 <>
                   <Route path="/" element={<UserHomepage />} />
-                  <Route
-                    path="/ReservedFlights"
-                    element={<ReservedFlights />}
-                  />
+
                   <Route path="/SummaryConfirm" element={<SummaryConfirm />} />
                   <Route
                     path="/ConfirmedFlight"
                     element={<ConfirmedFlight />}
                   />
                   <Route path="/planeSeats" element={<PlaneSeats />} />
-                  {(user.type && user.type === "user") && <Route path="/ReservedFlights" element={<ReservedFlights />} />}
                 </>
               )}
-              {(user.type == "user" || user.type == "admin") && (
+              {user.type && user.type === "user" && (
+                <>
+                  {" "}
+                  <Route
+                    path="/ReservedFlights"
+                    element={<ReservedFlights />}
+                  />
+                </>
+              )}
+
+              {(user.type === "user" || user.type === "admin") && (
                 <Route path="/UserProfile" element={<UserProfile />} />
               )}
             </Route>
-            {(!user || user == {} || !user.token) && (
+            {(!user || user === {} || !user.token) && (
               <>
                 <Route path="/forget" element={<ForgetPassword />}></Route>
                 <Route path="/signup" element={<SignUp />} />
@@ -88,10 +94,6 @@ const App = () => {
               </>
             )}
             <Route path="/*" element={<None />} />
-
-  
-            
-
           </Routes>
         </Box>
       </UserContext.Provider>

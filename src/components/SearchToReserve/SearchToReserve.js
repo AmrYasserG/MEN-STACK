@@ -85,7 +85,7 @@ const SearchToReserve = ({ onSearch, d }) => {
         p: 2,
         margin: "auto",
         maxWidth: "80%",
-        my: 1,
+        mb: 1,
       }}
     >
       {!d && (
