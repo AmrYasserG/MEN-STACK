@@ -27,6 +27,15 @@ const BookingFlightsSchema = new Schema(
       type: Number,
       required: true,
     },
+    Type:{
+      type: String,
+      required : true,
+    },
+    Otherflight:{
+      type: String,
+      required:true
+    }
+
   },
   { timestamps: true }
 );

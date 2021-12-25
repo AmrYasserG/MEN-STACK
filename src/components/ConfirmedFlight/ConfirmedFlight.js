@@ -1,27 +1,257 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import  Grid from "@mui/material/Grid";
-import Paper from "@mui/material/Paper";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
 import axios from "axios";
 import Button from "@mui/material/Button";
-import { useLocation } from "react-router-dom";
 import Box from "@mui/material/Box";
-import Divider from "@mui/material/Divider";
+
 import ResponsiveAppBar from "../ResponsiveAppBar/ResponsiveAppBar";
 
 const ConfirmedFlight = () => {
-  const state = useLocation().state;
-  const [depChoosen, setDepChoosen] = useState("");
-  const [arrChoosen, setArrChoosen] = useState("");
-  useEffect(() => {
-    // console.log(state);
+  const state = JSON.parse(localStorage.getItem("state"));
+  let User_Email = "";
+  const [resNum,setresNum] = useState(0);
+  let resNum2 = 0;
+  console.log(state);
+  useEffect(() => { 
+    const User_id = state.id;
+    if(state.editFlight){
+      resNum2 = state.resNum
+      setresNum(resNum2);
+      cancelFlight();
+    } 
+    else{
+      resNum2 = Date.now()
+      setresNum(resNum2);
+      createReservation(User_id);
+    }
   }, []);
+
+  function cancelFlight(){
+    axios
+      .delete(
+        "http://localhost:3005/bookingFlights/cancelReservation/" + state.oldBookFlight._id + "/" + "ahmedamr1542@gmail.com"
+      )
+      .then((res) => {
+        axios
+        .delete(
+          "http://localhost:3005/bookingFlights/cancelReservation/" + state.otherOldBookFlight._id + "/" + "ahmedamr1542@gmail.com"
+        )
+        .then((res) => {
+            updateReservationAvailableSeats();
+            createReservation(state.id)
+        })
+      })
+      .catch((err) => {
+        console.log(err);
+      });  
+  }
+
+  function updateReservationAvailableSeats(){
+    const toBeUpdatedFlight = state.rows;
+    const toBeUpdatedFlightSeats = state.rowsSeatsReserved;
+    const ChosenCabin = state.rowsCabin + "AvailableSeatsNo";
+    let updatedAvailableSeats = {};
+    switch (ChosenCabin) {
+      case "EconomyAvailableSeatsNo":
+        const EconomySeats = new Map(Object.entries(toBeUpdatedFlight.EconomySeats));
+        for (let i = 0; i < toBeUpdatedFlightSeats.length; i++) {
+          EconomySeats.set(toBeUpdatedFlightSeats[i], true);
+        }
+        updatedAvailableSeats = { EconomyAvailableSeatsNo: toBeUpdatedFlight.EconomyAvailableSeatsNo + toBeUpdatedFlightSeats.length, EconomySeats: Object.fromEntries(EconomySeats) };
+        break;
+      case "BusinessAvailableSeatsNo":
+        const BusinessSeats = new Map(Object.entries(toBeUpdatedFlight.BusinessSeats));
+        for (let i = 0; i < toBeUpdatedFlightSeats.length; i++) {
+          BusinessSeats.set(toBeUpdatedFlightSeats[i], true);
+        }
+        updatedAvailableSeats = { BusinessAvailableSeatsNo: toBeUpdatedFlight.BusinessAvailableSeatsNo + toBeUpdatedFlightSeats.length, BusinessSeats: Object.fromEntries(BusinessSeats) };
+        break;
+      case "FirstAvailableSeatsNo":
+        const FirstSeats = new Map(Object.entries(toBeUpdatedFlight.FirstSeats));
+        for (let i = 0; i < toBeUpdatedFlightSeats.length; i++) {
+          FirstSeats.set(toBeUpdatedFlightSeats[i], true);
+        }
+        updatedAvailableSeats = { FirstAvailableSeatsNo: toBeUpdatedFlight.FirstAvailableSeatsNo + toBeUpdatedFlightSeats.length, FirstSeats: Object.fromEntries(FirstSeats) };
+        break;
+      default:
+    }
+    // console.log(updatedAvailableSeats);
+    axios
+      .put(
+        "http://localhost:3005/flights/updateFlightAvailableSeats/" +
+        toBeUpdatedFlight._id,
+        updatedAvailableSeats
+      )
+      .then((res) => {
+        
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  function createReservation(User_id) {
+    // console.log(User_Email);
+    axios
+      .get(
+        "http://localhost:3005/users/userInfo/" + User_id
+      )
+      .then((res) => {
+        User_Email = res.data.Email;
+        console.log(User_Email); 
+        axios
+        .post("http://localhost:3005/bookingFlights/CreateReservation", {
+        User_id: state.id,
+        ReservationNumber: resNum2,
+        FlightNumber: state.depFlight.FlightNumber,
+        ChosenCabin: state.depFlight.cabin,
+        SeatsReserved: state.depSeatsReserved,
+        TotalReservationPrice: state.depFlight.Price * state.noSeats,
+        Type: "Departure Flight",
+        Otherflight: state.arrFlight.FlightNumber
+      })
+      .then((res) => {
+        // console.log("created dep flight");
+        const toBeUpdatedFlight = state.depFlight;
+        const toBeUpdatedFlightSeats = state.depSeatsReserved;
+        const ChosenCabin = state.depFlight.cabin + "AvailableSeatsNo";
+        let updatedAvailableSeats = {};
+        switch (ChosenCabin) {
+          case "EconomyAvailableSeatsNo":
+            const EconomySeats = new Map(
+              Object.entries(toBeUpdatedFlight.EconomySeats)
+            );
+            for (let i = 0; i < toBeUpdatedFlightSeats.length; i++) {
+              EconomySeats.set(toBeUpdatedFlightSeats[i], false);
+            }
+            updatedAvailableSeats = {
+              EconomyAvailableSeatsNo:
+                toBeUpdatedFlight.EconomyAvailableSeatsNo -
+                toBeUpdatedFlightSeats.length,
+              EconomySeats: Object.fromEntries(EconomySeats),
+            };
+            break;
+          case "BusinessAvailableSeatsNo":
+            const BusinessSeats = new Map(
+              Object.entries(toBeUpdatedFlight.BusinessSeats)
+            );
+            for (let i = 0; i < toBeUpdatedFlightSeats.length; i++) {
+              BusinessSeats.set(toBeUpdatedFlightSeats[i], false);
+            }
+            updatedAvailableSeats = {
+              BusinessAvailableSeatsNo:
+                toBeUpdatedFlight.BusinessAvailableSeatsNo -
+                toBeUpdatedFlightSeats.length,
+              BusinessSeats: Object.fromEntries(BusinessSeats),
+            };
+            break;
+          case "FirstAvailableSeatsNo":
+            const FirstSeats = new Map(
+              Object.entries(toBeUpdatedFlight.FirstSeats)
+            );
+            for (let i = 0; i < toBeUpdatedFlightSeats.length; i++) {
+              FirstSeats.set(toBeUpdatedFlightSeats[i], false);
+            }
+            updatedAvailableSeats = {
+              FirstAvailableSeatsNo:
+                toBeUpdatedFlight.FirstAvailableSeatsNo -
+                toBeUpdatedFlightSeats.length,
+              FirstSeats: Object.fromEntries(FirstSeats),
+            };
+            break;
+          default:
+        }
+        axios
+          .put(
+            "http://localhost:3005/flights/updateFlightAvailableSeats/" +
+              state.depFlight.id,
+            updatedAvailableSeats
+          )
+          .then((res) => {
+            // console.log("updated dep flight");
+            axios.post(
+              "http://localhost:3005/bookingFlights/CreateReservation",
+              {
+                User_id: state.id,
+                ReservationNumber: resNum2,
+                FlightNumber: state.arrFlight.FlightNumber,
+                ChosenCabin: state.arrFlight.cabin,
+                SeatsReserved: state.arrSeatsReserved,
+                TotalReservationPrice: state.arrFlight.Price * state.noSeats,
+                Type: "Return Flight",
+                Otherflight: state.depFlight.FlightNumber
+              }
+            );
+          })
+          .then((res) => {
+            // console.log("created ret flight");
+            const toBeUpdatedFlight = state.arrFlight;
+            const toBeUpdatedFlightSeats = state.arrSeatsReserved;
+            const ChosenCabin = state.arrFlight.cabin + "AvailableSeatsNo";
+            let updatedAvailableSeats = {};
+            switch (ChosenCabin) {
+              case "EconomyAvailableSeatsNo":
+                const EconomySeats = new Map(
+                  Object.entries(toBeUpdatedFlight.EconomySeats)
+                );
+                for (let i = 0; i < toBeUpdatedFlightSeats.length; i++) {
+                  EconomySeats.set(toBeUpdatedFlightSeats[i], false);
+                }
+                updatedAvailableSeats = {
+                  EconomyAvailableSeatsNo:
+                    toBeUpdatedFlight.EconomyAvailableSeatsNo -
+                    toBeUpdatedFlightSeats.length,
+                  EconomySeats: Object.fromEntries(EconomySeats),
+                };
+                break;
+              case "BusinessAvailableSeatsNo":
+                const BusinessSeats = new Map(
+                  Object.entries(toBeUpdatedFlight.BusinessSeats)
+                );
+                for (let i = 0; i < toBeUpdatedFlightSeats.length; i++) {
+                  BusinessSeats.set(toBeUpdatedFlightSeats[i], false);
+                }
+                updatedAvailableSeats = {
+                  BusinessAvailableSeatsNo:
+                    toBeUpdatedFlight.BusinessAvailableSeatsNo -
+                    toBeUpdatedFlightSeats.length,
+                  BusinessSeats: Object.fromEntries(BusinessSeats),
+                };
+                break;
+              case "FirstAvailableSeatsNo":
+                const FirstSeats = new Map(
+                  Object.entries(toBeUpdatedFlight.FirstSeats)
+                );
+                for (let i = 0; i < toBeUpdatedFlightSeats.length; i++) {
+                  FirstSeats.set(toBeUpdatedFlightSeats[i], false);
+                }
+                updatedAvailableSeats = {
+                  FirstAvailableSeatsNo:
+                    toBeUpdatedFlight.FirstAvailableSeatsNo -
+                    toBeUpdatedFlightSeats.length,
+                  FirstSeats: Object.fromEntries(FirstSeats),
+                };
+                break;
+              default:
+            }
+            axios
+              .put(
+                "http://localhost:3005/flights/updateFlightAvailableSeats/" +
+                  state.arrFlight.id,
+                updatedAvailableSeats
+              )
+              .then((res) => {
+                axios.post("http://localhost:3005/bookingFlights/sendItinerary/" + User_Email,{state:state,resNum:resNum2});
+              });
+          });
+      });
+    }).catch((err) => {
+      console.log(err);
+    })
+      
+  }
+
   return (
     <div>
       <ResponsiveAppBar pages={[]} isUser={true}settings={['profile']}  />
@@ -37,11 +267,11 @@ const ConfirmedFlight = () => {
           marginLeft: "5%",
           marginRight: "5%",
           marginTop: "0",
-          "text-align": "center",
+          textAlign: "center",
           width: 3 / 9,
           border: "5px solid #eeeeee",
           backgroundColor: "#fbfbfb",
-          "box-shadow": "7px 7px 7px#cccccc",
+          boxShadow: "7px 7px 7px#cccccc",
           float: "Right",
         }}
       >
@@ -64,11 +294,11 @@ const ConfirmedFlight = () => {
         sx={{
           marginLeft: "5%",
           my: "2%",
-          "text-align": "center",
+          textAlign: "center",
           width: 3 / 9,
           border: "5px solid #eeeeee",
           backgroundColor: "#fbfbfb",
-          "box-shadow": "7px 7px 7px#cccccc",
+          boxShadow: "7px 7px 7px#cccccc",
           
         }}
       >
@@ -117,7 +347,7 @@ const ConfirmedFlight = () => {
             <label>Cabin Class :</label>
           </Grid>
           <Grid sx={{marginTop:"2%",textAlign:"right"}} item xs={5} md={4}>
-            <label>{state.cabin}</label>
+            <label>{state.depFlight.cabin}</label>
           </Grid>
           <Grid item xs={1} md={2}></Grid>
           <Grid item xs={1} md={2}></Grid>
@@ -142,11 +372,11 @@ const ConfirmedFlight = () => {
         sx={{
           marginLeft: "5%",
           my: "2%",
-          "text-align": "center",
+          textAlign: "center",
           width: 3 / 9,
           border: "5px solid #eeeeee",
           backgroundColor: "#fbfbfb",
-          "box-shadow": "7px 7px 7px#cccccc",
+          boxShadow: "7px 7px 7px#cccccc",
           float:"left"
         }}
       >
@@ -191,7 +421,7 @@ const ConfirmedFlight = () => {
             <label>Cabin Class :</label>{" "}
           </Grid>
           <Grid item xs={5} md={4} sx={{marginTop:"2%", textAlign:"right"}}>
-            <label>{state.cabin}</label>{" "}
+            <label>{state.arrFlight.cabin}</label>{" "}
           </Grid>
           <Grid item xs={1} md={2} marginTop={"2%"}></Grid>
           <Grid item xs={1} md={2} marginTop={"2%"}></Grid>{" "}
@@ -214,21 +444,23 @@ const ConfirmedFlight = () => {
           marginLeft: "5%",
           marginRight: "5%",
           marginTop: "5%",
-          "text-align": "center",
+          textAlign: "center",
           width: 3 / 9,
           border: "5px solid #eeeeee",
           backgroundColor: "#fbfbfb",
-          "box-shadow": "7px 7px 7px#cccccc",
+          boxShadow: "7px 7px 7px#cccccc",
           float:"right"
         }}
       >
         <label>Your Flight is confirmed!</label>
         <br></br>
-        <h1>#{state.ConfirmId}</h1>
+        <h1>#{resNum}</h1>
 
         <br></br>
-        <Button variant="contained">
-          <Link underline="none" to="/HomePage">
+        <Button variant="contained" onClick={()=>{
+            localStorage.removeItem("state");
+        }}>
+          <Link style={{textDecoration:'none'}} to="/HomePage">
             {" "}
             Return to Home{" "}
           </Link>
