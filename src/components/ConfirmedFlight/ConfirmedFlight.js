@@ -9,15 +9,16 @@ import ResponsiveAppBar from "../ResponsiveAppBar/ResponsiveAppBar";
 
 const ConfirmedFlight = () => {
   const state = JSON.parse(localStorage.getItem("state"));
-  console.log(state);
   let User_Email = "";
   const [resNum,setresNum] = useState(0);
   let resNum2 = 0;
+  console.log(state);
   useEffect(() => { 
     const User_id = state.id;
     if(state.editFlight){
-      console.log("from edit");
-      setresNum(state.resNum);
+      resNum2 = state.resNum
+      setresNum(resNum2);
+      cancelFlight();
     } 
     else{
       resNum2 = Date.now()
@@ -25,6 +26,70 @@ const ConfirmedFlight = () => {
       createReservation(User_id);
     }
   }, []);
+
+  function cancelFlight(){
+    axios
+      .delete(
+        "http://localhost:3005/bookingFlights/cancelReservation/" + state.oldBookFlight._id + "/" + "ahmedamr1542@gmail.com"
+      )
+      .then((res) => {
+        axios
+        .delete(
+          "http://localhost:3005/bookingFlights/cancelReservation/" + state.otherOldBookFlight._id + "/" + "ahmedamr1542@gmail.com"
+        )
+        .then((res) => {
+            updateReservationAvailableSeats();
+            createReservation(state.id)
+        })
+      })
+      .catch((err) => {
+        console.log(err);
+      });  
+  }
+
+  function updateReservationAvailableSeats(){
+    const toBeUpdatedFlight = state.rows;
+    const toBeUpdatedFlightSeats = state.rowsSeatsReserved;
+    const ChosenCabin = state.rowsCabin + "AvailableSeatsNo";
+    let updatedAvailableSeats = {};
+    switch (ChosenCabin) {
+      case "EconomyAvailableSeatsNo":
+        const EconomySeats = new Map(Object.entries(toBeUpdatedFlight.EconomySeats));
+        for (let i = 0; i < toBeUpdatedFlightSeats.length; i++) {
+          EconomySeats.set(toBeUpdatedFlightSeats[i], true);
+        }
+        updatedAvailableSeats = { EconomyAvailableSeatsNo: toBeUpdatedFlight.EconomyAvailableSeatsNo + toBeUpdatedFlightSeats.length, EconomySeats: Object.fromEntries(EconomySeats) };
+        break;
+      case "BusinessAvailableSeatsNo":
+        const BusinessSeats = new Map(Object.entries(toBeUpdatedFlight.BusinessSeats));
+        for (let i = 0; i < toBeUpdatedFlightSeats.length; i++) {
+          BusinessSeats.set(toBeUpdatedFlightSeats[i], true);
+        }
+        updatedAvailableSeats = { BusinessAvailableSeatsNo: toBeUpdatedFlight.BusinessAvailableSeatsNo + toBeUpdatedFlightSeats.length, BusinessSeats: Object.fromEntries(BusinessSeats) };
+        break;
+      case "FirstAvailableSeatsNo":
+        const FirstSeats = new Map(Object.entries(toBeUpdatedFlight.FirstSeats));
+        for (let i = 0; i < toBeUpdatedFlightSeats.length; i++) {
+          FirstSeats.set(toBeUpdatedFlightSeats[i], true);
+        }
+        updatedAvailableSeats = { FirstAvailableSeatsNo: toBeUpdatedFlight.FirstAvailableSeatsNo + toBeUpdatedFlightSeats.length, FirstSeats: Object.fromEntries(FirstSeats) };
+        break;
+      default:
+    }
+    // console.log(updatedAvailableSeats);
+    axios
+      .put(
+        "http://localhost:3005/flights/updateFlightAvailableSeats/" +
+        toBeUpdatedFlight._id,
+        updatedAvailableSeats
+      )
+      .then((res) => {
+        
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 
   function createReservation(User_id) {
     // console.log(User_Email);
@@ -38,7 +103,7 @@ const ConfirmedFlight = () => {
         axios
         .post("http://localhost:3005/bookingFlights/CreateReservation", {
         User_id: state.id,
-        ReservationNumber: resNum,
+        ReservationNumber: resNum2,
         FlightNumber: state.depFlight.FlightNumber,
         ChosenCabin: state.depFlight.cabin,
         SeatsReserved: state.depSeatsReserved,
@@ -109,7 +174,7 @@ const ConfirmedFlight = () => {
               "http://localhost:3005/bookingFlights/CreateReservation",
               {
                 User_id: state.id,
-                ReservationNumber: resNum,
+                ReservationNumber: resNum2,
                 FlightNumber: state.arrFlight.FlightNumber,
                 ChosenCabin: state.arrFlight.cabin,
                 SeatsReserved: state.arrSeatsReserved,

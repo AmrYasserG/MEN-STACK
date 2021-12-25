@@ -117,13 +117,13 @@ const EditDchoose = () => {
           ? "Return Flights"
           : "Departure Flights"}
       </h1>
-      <CollapsibleTable isDep rows={Rows} isUser
+      {/* <CollapsibleTable isDep rows={Rows} isUser
         firstClass={classType === "First" ? true : false}
         economyClass={classType === "Economy" ? true : false}
         businessClass={classType === "Business" ? true : false}
         selectFlight={selectFlight}
         setSearchOff={setSearchOff}
-      />
+      /> */}
 
       <UpdateOver trigger={selectPopupButton} setTrigger={setSelectPopupButton}>
         <h1>Flight Details:</h1>
@@ -311,6 +311,7 @@ const EditDchoose = () => {
             state={{
               FlightsUserDetails: state.FlightsUserDetails,
               rows: state.rows,
+              rowsSeatsReserved:state.FlightsUserDetails.SeatsReserved,
               oldPrice: (state.FlightsUserDetails.ChosenCabin === "First"
                 ? state.rows.FirstClassPrice
                 : state.FlightsUserDetails.ChosenCabin ===
@@ -320,7 +321,10 @@ const EditDchoose = () => {
               editFlight: true,
               newClass: classType,
               id: "617e93641ff94cd5d2055174",
-              arrFlight: state.FlightsUserDetails.Type === "Return Flight" ? Object.assign(choosenRow, { cabin: classType }) : {
+              oldBookFlight:state.FlightsUserDetails,
+              otherOldBookFlight: state.AllFlightsUserDetails[idOther],
+              rowsCabin:state.FlightsUserDetails.ChosenCabin,
+              arrFlight:state.FlightsUserDetails.Type==="Return Flight"?Object.assign(choosenRow,{cabin:classType}):{
                 ArrTerminal: state.AllMyFlights[idOther].AirportArrivalTerminal,
                 ArrTime: state.AllMyFlights[idOther].ArrivalTime,
                 BusinessAvailableSeatsNo: state.AllMyFlights[idOther].BusinessAvailableSeatsNo,
@@ -374,6 +378,7 @@ const EditDchoose = () => {
                   : true,
               otherFightSeats:
                 state.AllFlightsUserDetails[getID()].SeatsReserved,
+                
             }}
           >
             Proceed to Seat Selection
