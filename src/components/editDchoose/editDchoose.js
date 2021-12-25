@@ -27,6 +27,27 @@ const EditDchoose = () => {
     const [searchOff, setSearchOff] = useState(false);
 
     const state = useLocation().state;
+    console.log(state);
+    console.log(state.FlightsUserDetails.Type);
+
+function getID(){
+  const other=state.FlightsUserDetails.Otherflight;
+  for(let i =0;i<state.AllMyFlights.length;i++){
+    if(state.AllMyFlights[i].FlightNumber===other)
+    
+      {
+        console.log(i);
+        return i;
+      }
+     
+  }
+  
+}
+
+
+
+
+
 
     const searchToReserve = (SearchCriteria) => {
         if (SearchCriteria) {
@@ -132,10 +153,11 @@ const EditDchoose = () => {
       </UpdateOver>
 
       <div>
-        <EditSearchFlight onSearch={searchToReserve} hide={searchOff}  otherflight={state.otherflight}/>
+
+        <EditSearchFlight onSearch={searchToReserve} hide={searchOff} Type={state.FlightsUserDetails.Type} otherflight={state.AllMyFlights[getID()]}/>
       </div>
 
-      <h1>Departure Flights</h1>
+      <h1>{state.FlightsUserDetails.Type==="Return Flight" ?"Return Flights":"Departure Flights"}</h1>
       <Paper sx={{ width: "100%", overflow: "hidden", marginTop: "1%" }}>
         <TableContainer sx={{ maxHeight: 500 }}>
           <Table>
@@ -263,14 +285,12 @@ const EditDchoose = () => {
       >
         <Link
           underline="none"
-          to="/scratch"
+          to="/planeSeatsAfterEdit"
           state={{
-            prevFlight :state.prevFlight,
-            depFlight: depChoosenRow,
-           
-            cabin: depclassType,
-            //noSeats: parseInt(numberSeats),
-            id: "617e93641ff94cd5d2055174",
+            FlightsUserDetails: state.FlightsUserDetails,
+            rows:state.rows,
+            editFlight:true,
+            id: "617e93641ff94cd5d2055174"
           }}
         >
           {" "}

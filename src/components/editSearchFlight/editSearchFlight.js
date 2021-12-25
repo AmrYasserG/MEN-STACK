@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useLayoutEffect, useEffect  } from "react";
 import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
 
@@ -13,7 +13,11 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import BackspaceRoundedIcon from "@mui/icons-material/BackspaceRounded";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 
-const EditSearchFlight = ({ onSearch, hide,otherflight }) => {
+const EditSearchFlight = ({ onSearch, hide,otherflight ,Type}) => {
+
+console.log(otherflight);
+console.log(Type);
+
 
   const [validDate, setvalidDate] = useState(true);
 
@@ -34,9 +38,16 @@ const EditSearchFlight = ({ onSearch, hide,otherflight }) => {
     },
   ];
 
-  useLayoutEffect(() => {
-    setvalidDate(new Date(DepartureDate) < new Date(otherflight.Date));
-  }, [DepartureDate, otherflight.Date]);
+  useEffect(()=>{
+    let d1=new Date(DepartureDate);
+    let d2=new Date(otherflight.Date);
+    if(Type==="Return Flight")
+    setvalidDate(d2 < d1);
+    else
+    setvalidDate( d1<d2 );
+  },[DepartureDate])
+    
+  
 
   const reset = (e) => {
     setSeatClass("");
@@ -55,6 +66,7 @@ const EditSearchFlight = ({ onSearch, hide,otherflight }) => {
   };
   const handleDdate = (e) => {
     setDepartureDate(e.target.value);
+   
   };
   return (
     <Box
@@ -99,9 +111,9 @@ const EditSearchFlight = ({ onSearch, hide,otherflight }) => {
               </TextField>
               <TextField
                 sx={{ width: "35%", height: "40px", mx: 7, my: 3 }}
-                error={!validDate}
+                error={DepartureDate&&!validDate}
                 required
-                label="Departure Date"
+                label={Type==="Departure Flight" ?"Departure Date":"Arrival Date"}
                 id="dDate"
                 InputProps={{
                   startAdornment: (
@@ -113,9 +125,9 @@ const EditSearchFlight = ({ onSearch, hide,otherflight }) => {
                 value={DepartureDate}
                 onChange={handleDdate}
                 helperText={
-                  validDate
-                    ? ""
-                    : "Return Date shoud be earlier than Departure Date"
+                  DepartureDate&&!validDate
+                    ? "Departure Date shoud be earlier than  Return Date"
+                    : ""
                 }
               />
               <Button

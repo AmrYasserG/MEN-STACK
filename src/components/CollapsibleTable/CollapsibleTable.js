@@ -23,6 +23,7 @@ import { Link } from "react-router-dom";
 import EmailIcon from '@mui/icons-material/Email';
 
 function Row({
+  rows,
   row,
   index,
   isAdmin,
@@ -402,10 +403,12 @@ function Row({
                           onClick={() => {}}
                         >
                           <Link
-                            to="/planeSeatsAfterEdit"
+                            to="/editDeparture"
                             style={{textDecoration : 'none' , color : 'none'} }
                             state={{
                               FlightsUserDetails: FlightsUserDetails[index],
+                              AllFlightsUserDetails: FlightsUserDetails,
+                              AllMyFlights:rows,
                               rows:row,
                               id : state.id
                             }}
@@ -536,6 +539,7 @@ export function CollapsibleTable({
               isAdmin={isAdmin}
               businessClass={businessClass}
               isUser={isUser}
+              rows={rows}
               economyClass={economyClass}
               firstClass={firstClass}
               reservation={reservation}
