@@ -20,7 +20,7 @@ mui library
 # Screenshots #
 ![image](https://user-images.githubusercontent.com/76870192/147394102-cb452f11-7d19-4aa0-8c3a-cb5af3d5c491.png)
 ![image](https://user-images.githubusercontent.com/76870192/147394107-948c8d9f-64e3-4043-a4ef-8b109b660be6.png)
-![image](https://user-images.githubusercontent.com/76870192/147394109-e6a7ba30-ebf6-4a91-a6de-071dc122b462.png)
+![image](https://user-images.githubusercontent.com/76870192/147394299-56ee5edd-c012-40e4-87e4-2f047c458398.png)
 
 
 # Features #
