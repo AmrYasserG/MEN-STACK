@@ -18,6 +18,7 @@ import { Box } from "@mui/material";
 import background from "./Images/Background.jpg";
 import backgroundA from "./Images/BackgroundY.jpg";
 import ResponsiveAppBar from "./components/ResponsiveAppBar/ResponsiveAppBar";
+import ForgetPassword from "./components/ForgetPassword/ForgetPassword";
 // window.addEventListener("beforeunload", (ev) => {
 //   localStorage.clear();
 // });
@@ -50,8 +51,13 @@ const App = () => {
         >
           <Routes>
             <Route element={<ResponsiveAppBar />}>
-              <Route path="/" element={<AdminHomepage />} />
-              <Route path="/CreateFlight" element={<CreateFlight />} />
+              {user.type && user.type === "admin" && (
+                <>
+                  <Route path="/" element={<AdminHomepage />} />
+                  <Route path="/CreateFlight" element={<CreateFlight />} />{" "}
+                </>
+              )}
+              <Route path="/forget" element={<ForgetPassword />}></Route>
             </Route>
             {/* <Route path="/login" element={<Login />} />
             <Route path="/" element={<AdminHomepage />} />

@@ -95,11 +95,14 @@ const CreateFlight = () => {
     setValidFlightNumber(!twoWay || Flight !== ReturnFlight);
   }, [twoWay, Flight, ReturnFlight]);
   useEffect(() => {
+    //Compare Departure Flight
     setValidDate(!twoWay || new Date(FlightArrivalDate) < new Date(ReturnDate));
   }, [twoWay, FlightArrivalDate, ReturnDate]);
+
   useEffect(() => {
     setValidArrivalDate(new Date(FlightDate) <= new Date(FlightArrivalDate));
   }, [FlightArrivalDate, FlightDate]);
+
   useEffect(() => {
     setValidDepartureTime(
       !validArrivalDate ||
@@ -335,7 +338,7 @@ const CreateFlight = () => {
               id="outlined-basic"
               label="Flight Number"
               required
-              error={!validFlightNumber}
+              error={!validFlightNumber && Flight}
               helperText={
                 validFlightNumber ? "" : "Flight Numbers Cant be similar"
               }
@@ -356,11 +359,11 @@ const CreateFlight = () => {
                   <InputAdornment position="start"> </InputAdornment>
                 ),
               }}
-              error={!validArrivalDate}
+              error={!validArrivalDate && FlightDate}
               helperText={
-                validArrivalDate
-                  ? ""
-                  : "Departure Date must NOT be LATER than Arrival Date"
+                !validArrivalDate && FlightDate
+                  ? "Departure Date must NOT be LATER than Arrival Date"
+                  : ""
               }
               value={FlightDate}
               onChange={(e) => setFlightDate(e.target.value)}
@@ -381,13 +384,13 @@ const CreateFlight = () => {
                   <InputAdornment position="start"> </InputAdornment>
                 ),
               }}
-              error={!validDate || !validArrivalDate}
+              error={FlightArrivalDate && (!validDate || !validArrivalDate)}
               helperText={
-                validArrivalDate
-                  ? validDate
-                    ? ""
-                    : "Departure Flight must be EARLIER than Return Flight"
-                  : "Departure Date must NOT be LATER than Arrival Date"
+                FlightArrivalDate && !validArrivalDate
+                  ? "Departure Date must NOT be LATER than Arrival Date"
+                  : FlightArrivalDate && !validDate
+                  ? "Departure Flight must be EARLIER than Return Flight"
+                  : ""
               }
               value={FlightArrivalDate}
               onChange={(e) => setFlightArrivalDate(e.target.value)}
@@ -398,7 +401,7 @@ const CreateFlight = () => {
             <TextField
               type="time"
               variant="outlined"
-              error={!validDepartureTime}
+              error={!validDepartureTime && DepartureTime}
               label="Departure Time"
               value={DepartureTime}
               required
@@ -420,7 +423,7 @@ const CreateFlight = () => {
               type="time"
               label="Arrival Time"
               value={ArrivalTime}
-              error={!validDepartureTime}
+              error={!validDepartureTime && ArrivalTime}
               required
               onChange={(e) => setArrivalTime(e.target.value)}
               sx={{ backgroundColor: "#ffffff", width: ["60%", "30%"], mx: 5 }}
@@ -430,9 +433,9 @@ const CreateFlight = () => {
                 ),
               }}
               helperText={
-                validDepartureTime
-                  ? ""
-                  : "Arrival Should be later than Departure Time"
+                !validDepartureTime && ArrivalTime
+                  ? "Arrival Should be later than Departure Time"
+                  : ""
               }
             />
           </Box>{" "}
@@ -626,9 +629,9 @@ const CreateFlight = () => {
                       <InputAdornment position="start"> </InputAdornment>
                     ),
                   }}
-                  error={!validDate}
+                  error={!validReturnArrivalDate && ReturnDate}
                   helperText={
-                    validDate
+                    !validReturnArrivalDate && ReturnDate
                       ? ""
                       : "Departure Flight must be EARLIER than Return Flight"
                   }

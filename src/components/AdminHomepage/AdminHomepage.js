@@ -472,7 +472,7 @@ const AdminHomepage = () => {
               }}
             >
               Update
-            </Button>{" "}
+            </Button>
             <Button
               variant="contained"
               color="error"
@@ -502,10 +502,8 @@ const AdminHomepage = () => {
             >
               <TableHead>
                 <TableRow>
-                  {" "}
                   <TableCell sx={{ color: "#FFFFFF " }}>
-                    {" "}
-                    <p>&#8205</p>{" "}
+                    <p>&#8205</p>
                   </TableCell>
                   <TableCell
                     sx={{ textAlign: "center" }}
@@ -553,7 +551,7 @@ const AdminHomepage = () => {
                     sx={{ textAlign: "center" }}
                     style={{ fontWeight: "bold" }}
                   >
-                    Trip Duration{" "}
+                    Trip Duration
                   </TableCell>
                 </TableRow>
               </TableHead>

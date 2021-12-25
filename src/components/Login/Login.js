@@ -188,7 +188,10 @@ function Login() {
                 </Button>
                 <Grid container>
                   <Grid item xs>
-                    <Link to="#" variant="body2">
+                    <Link
+                      to="/forgetPassword"
+                      style={{ textDecoration: "none" }}
+                    >
                       Forgot password?
                     </Link>
                   </Grid>
