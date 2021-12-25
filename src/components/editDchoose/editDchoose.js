@@ -278,6 +278,7 @@ const EditDchoose = () => {
             state={{
               FlightsUserDetails: state.FlightsUserDetails,
               rows: state.rows,
+              rowsSeatsReserved:state.FlightsUserDetails.SeatsReserved,
               oldPrice: (state.FlightsUserDetails.ChosenCabin === "First"
               ? state.rows.FirstClassPrice
               : state.FlightsUserDetails.ChosenCabin ===
@@ -287,8 +288,9 @@ const EditDchoose = () => {
               editFlight: true,
               newClass: depclassType,
               id: "617e93641ff94cd5d2055174",
-              
-
+              oldBookFlight:state.FlightsUserDetails,
+              otherOldBookFlight: state.AllFlightsUserDetails[idOther],
+              rowsCabin:state.FlightsUserDetails.ChosenCabin,
 
 
               arrFlight:state.FlightsUserDetails.Type==="Return Flight"?Object.assign(depChoosenRow,{cabin:depclassType}):{
@@ -356,6 +358,7 @@ const EditDchoose = () => {
                   : true,
               otherFightSeats:
                 state.AllFlightsUserDetails[getID()].SeatsReserved,
+                
             }}
           >
             Proceed to Seat Selection

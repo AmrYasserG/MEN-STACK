@@ -432,7 +432,11 @@ const PlaneSeatsAfterEdit = () => {
             rows: state.rows,
             oldPrice: state.oldPrice,
             isDep: state.isDep,
-            resNum: state.FlightsUserDetails.ReservationNumber
+            resNum: state.FlightsUserDetails.ReservationNumber,
+            rowsSeatsReserved: state.rowsSeatsReserved,
+            oldBookFlight:state.oldBookFlight,
+            otherOldBookFlight: state.otherOldBookFlight,
+            rowsCabin:state.rowsCabin,
           }}
         >
           Reserve{" "}
