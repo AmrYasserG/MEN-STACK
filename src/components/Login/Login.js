@@ -186,6 +186,16 @@ function Login() {
                 >
                   Sign In
                 </Button>
+                <Button
+                  disabled={sending}
+                  color="info"
+                  fullWidth
+                  variant="contained"
+                  sx={{ mt: 3, mb: 2 }}
+                  onClick={() => navigate("/")}
+                >
+                  Continue as Guest
+                </Button>
                 <Grid container>
                   <Grid item xs>
                     <Link
