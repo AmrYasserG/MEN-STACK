@@ -127,6 +127,7 @@ const EditDchoose = () => {
         setSearchOff={setSearchOff}
         state = {state}
         priceDiff
+        editFlight = {true}
       />
       <br></br>
       {!searchOff && (
